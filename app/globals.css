@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ⭐⭐ Ye line Pura font Poppins kar deti hai ⭐⭐ */
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
