@@ -14,7 +14,7 @@ export default function NewArrival() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Large Featured Card - Left */}
         <div className="lg:col-span-1 lg:row-span-2">
-          <div className="bg-black rounded-3xl overflow-hidden h-full flex flex-col justify-between p-8 relative">
+          <div className="bg-black rounded-3xl overflow-hidden h-[585px] flex flex-col justify-between p-8 relative">
             {/* Product Image Area */}
             <div className="flex-1 flex items-center justify-center mb-6">
               <Image
@@ -26,7 +26,7 @@ export default function NewArrival() {
 
             {/* Content */}
             <div className="text-white">
-              <h2 className="text-3xl font-bold mb-2">PlayStation 5</h2>
+              <h2 className="text-3xl semi-bold mb-2">PlayStation 5</h2>
               <p className="text-sm text-gray-300 mb-6">
                 Black and White version of the PS5 coming out on sale.
               </p>
@@ -43,7 +43,7 @@ export default function NewArrival() {
           <div className="sm:col-span-2">
             <div className="bg-black rounded-3xl overflow-hidden p-8 flex items-center justify-between gap-8">
               <div className="text-white flex-1">
-                <h3 className="text-2xl font-bold mb-2">New Collections</h3>
+                <h3 className="text-2xl semi-bold mb-2">New Collections</h3>
                 <p className="text-sm text-gray-400 mb-6">
                   Featured woman collections that give you another vibe.
                 </p>
@@ -64,11 +64,11 @@ export default function NewArrival() {
           {/* Speakers Card - Middle */}
           <div>
             <div className="bg-black rounded-3xl overflow-hidden p-8 h-full flex flex-col justify-between">
-              <div className="flex-1 flex items-center justify-center mb-4">
+              <div className="h-40 flex items-center justify-center mb-4">
                 <Image src={Speaker} alt="Speakers" className="h-32 w-auto" />
               </div>
               <div className="text-white">
-                <h3 className="text-2xl font-bold mb-1">Speakers</h3>
+                <h3 className="text-2xl semi-bold mb-1">Speakers</h3>
                 <p className="text-sm text-gray-400 mb-4">
                   Amazon wireless speakers
                 </p>
@@ -86,7 +86,7 @@ export default function NewArrival() {
                 <Image src={LaptopGucci} alt="Laptop" className="h-32 w-auto" />
               </div>
               <div className="text-white">
-                <h3 className="text-2xl font-bold mb-1">Laptop</h3>
+                <h3 className="text-2xl semi-bold mb-1">Laptop</h3>
                 <p className="text-sm text-gray-400 mb-4">
                   GUCCI INTENSE OUD EDP
                 </p>

@@ -12,6 +12,8 @@ import ShopByCategory from "@/components/ShopByCategory";
 import NewArrival from "@/components/newArrival";
 import TestimonialSlider from "@/components/TestimonialSlider";
 import HeroSection from "@/components/HeroSection";
+import PopupContactModal from "@/components/PopupContactModal";
+import OurBrands from "@/components/OurBrands";
 
 const Home = () => {
   return (
@@ -19,9 +21,14 @@ const Home = () => {
       {/* <TopNav /> */}
       {/* <Navbar /> */}
       <HeaderSlider />
+
+      <PopupContactModal />
+      {/* <ContactModal/> */}
       <div className="px-6 md:px-16 lg:px-32 bg-gray-100">
+        <Banner />
         {/* <HeaderSlider /> */}
         <ShopByCategory />
+        <OurBrands />
         <HomeProducts />
         <TestimonialSlider />
         {/* <FeaturedProduct /> */}

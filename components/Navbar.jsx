@@ -3,33 +3,149 @@ import { Search, MapPin, Menu, X, ChevronDown } from "lucide-react";
 import visionTechIcon from "@/assets/visiontechicon.png";
 import Image from "next/image";
 import Link from "next/link";
-
 import { useState } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [appleOpen, setAppleOpen] = useState(false); // Mobile dropdown
-  const [appleDesktopOpen, setAppleDesktopOpen] = useState(false); // Desktop dropdown
-  const [aboutDesktopOpen, setAboutDesktopOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false); // mobile
+  const [mobileDropdown, setMobileDropdown] = useState(null);
+
+  // MEGA MENU + ABOUT US DROPDOWN
+
+  const MegaMenu = ({ title, alignRight, alignLeft }) => {
+    //  ABOUT US CUSTOM SMALL MENU
+
+    if (title === "About Us") {
+      return (
+        <div
+          className={`
+        absolute top-full 
+        w-[950px] max-w-[95vw]
+        bg-[#2B2B2B] text-white 
+        py-10 px-14 z-50 shadow-2xl rounded-b-2xl
+        ${alignLeft ? "left-0" : ""}
+      `}
+        >
+          <div className="grid grid-cols-3 gap-20">
+            <div>
+              <h3 className="font-bold text-lg mb-4">About Us</h3>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link href="/instalment" className="hover:text-red-400">
+                    Instalment
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/return-policy" className="hover:text-red-400">
+                    Return Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about-us" className="hover:text-red-400">
+                    About Us
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      );
+    }
+
+    // MEGA MENU FOR ALL OTHER ITEMS
+    return (
+      <div
+        className={`
+          absolute top-full 
+          w-[950px] max-w-[95vw]
+          bg-[#2B2B2B] text-white 
+          py-10 px-14 z-50 
+          shadow-2xl rounded-b-2xl
+          ${
+            alignRight
+              ? "right-0"
+              : alignLeft
+              ? "left-0"
+              : "left-1/2 -translate-x-1/2"
+          }
+        `}
+      >
+        <div className="grid grid-cols-3 gap-20">
+          <div>
+            <h3 className="font-bold text-lg mb-4">{title}</h3>
+            <ul className="space-y-2 text-sm">
+              {[
+                "Google",
+                "Apple",
+                "Samsung",
+                "Huawei",
+                "OPPO",
+                "Xiaomi",
+                "FitBit",
+                "Haylou",
+                "All Products",
+              ].map((item, idx) => (
+                <li key={idx} className="hover:text-red-400 cursor-pointer">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-bold text-lg mb-4">{title}</h3>
+            <ul className="space-y-2 text-sm">
+              {[
+                "Google",
+                "Apple",
+                "Samsung",
+                "Huawei",
+                "OPPO",
+                "Xiaomi",
+                "FitBit",
+                "Haylou",
+                "All Products",
+              ].map((item, idx) => (
+                <li key={idx} className="hover:text-red-400 cursor-pointer">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div></div>
+        </div>
+      </div>
+    );
+  };
+
+  /* Desktop menu items */
+  const menuItems = [
+    "About Us",
+    "Apple Products",
+    "Gaming Console",
+    "Gaming Laptops",
+    "Windows Laptops",
+    "Accessories",
+  ];
 
   return (
     <header className="absolute top-6 left-1/2 -translate-x-1/2 w-[90%] z-50">
-      <div
-        className="bg-gradient-to-r from-[#001437] via-[#373A47] to-[#4A2C25] 
-      text-white shadow-lg rounded-2xl"
-      >
+      <div className="bg-gradient-to-r from-[#001437] via-[#373A47] to-[#4A2C25] text-white shadow-lg rounded-2xl">
         {/* TOP BAR */}
         <div className="w-full px-4 md:px-6 py-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src={visionTechIcon}
               alt="VisionTech Logo"
-              className="w-30 h-30 object-contain"
+              className="w-30 h-30 object-contain cursor-pointer"
             />
-          </div>
+          </Link>
 
+          {/* Desktop Search */}
           <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-[40%] ml-auto mr-10">
             <Search className="text-gray-500" size={18} />
             <input
@@ -42,181 +158,100 @@ export default function Navbar() {
           {/* Store Locator */}
           <Link
             href="/store-locator"
-            className="hidden md:flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium"
+            className="hidden lg:flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium"
           >
             <MapPin size={18} />
             Store Locator
           </Link>
 
-          {/* Mobile Menu Icon */}
+          {/* Mobile Button */}
           <button
-            className="lg:hidden  text-white"
+            className="lg:hidden text-white"
             onClick={() => setOpen(!open)}
           >
             {open ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
 
-        {/* DESKTOP MENU */}
-        <nav className="hidden lg:flex items-center justify-center gap-10 py-3 text-sm font-medium bg-opacity-10 backdrop-blur">
-          <div className="relative">
-            <button
-              className="flex items-center gap-1 cursor-pointer"
-              onClick={() => setAboutDesktopOpen(!aboutDesktopOpen)}
-            >
-              About <ChevronDown size={14} />
-            </button>
+        {/* DESKTOP NAV */}
+        <nav className="hidden lg:flex items-center justify-center gap-10 py-3 text-sm font-medium">
+          {menuItems.map((menu, i) => (
+            <div key={i} className="relative group">
+              <button className="flex items-center gap-1 cursor-pointer">
+                {menu}
+                <ChevronDown size={14} />
+              </button>
 
-            {aboutDesktopOpen && (
-              <div
-                className="absolute left-0 mt-3 w-52 
-      bg-gradient-to-b from-[#001437] via-[#00204A] to-[#4A2C25] 
-      shadow-lg rounded-xl p-2 z-50"
-              >
-                {[
-                  { title: "About Us", url: "/about-us" },
-                  { title: "Instalment", url: "/instalment" },
-                  { title: "Return Policy", url: "/return-policy" },
-                ].map((item, idx) => (
-                  <div key={idx}>
-                    <Link
-                      href={item.url}
-                      className="block py-2 px-3 hover:bg-white/10 rounded"
-                    >
-                      {item.title}
-                    </Link>
-                    <div className="border-b border-white/10" />
-                  </div>
-                ))}
+              <div className="hidden group-hover:block pointer-events-auto">
+                <MegaMenu
+                  title={menu}
+                  alignLeft={menu === "About Us" || menu === "Apple Products"}
+                  alignRight={menu === "Accessories"}
+                />
               </div>
-            )}
-          </div>
+            </div>
+          ))}
 
-          {/* Apple Dropdown (CLICK BASED) */}
-          <div className="relative">
-            <button
-              className="flex items-center gap-1 cursor-pointer"
-              onClick={() => setAppleDesktopOpen(!appleDesktopOpen)}
-            >
-              Apple Products <ChevronDown size={14} />
-            </button>
-
-            {appleDesktopOpen && (
-              <div
-                className="absolute left-0 mt-3 w-52 
-                bg-gradient-to-b from-[#001437] via-[#00204A] to-[#4A2C25] 
-                shadow-lg rounded-xl p-2 z-50"
-              >
-                {[
-                  "Apple iMac",
-                  "Apple iPad",
-                  "Apple Mac Mini",
-                  "Apple MacBooks",
-                ].map((item, idx) => (
-                  <div key={idx}>
-                    <Link
-                      href="/contact"
-                      className="block py-2 px-3 hover:bg-white/10 rounded"
-                    >
-                      {item}
-                    </Link>
-                    <div className="border-b border-white/10" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <a href="#">Gaming Console</a>
-          <a href="#">Gaming Laptops</a>
-          <a href="#">Windows Laptops</a>
-          <a href="#">Accessories</a>
-          <a href="#">Faq</a>
+          <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
         </nav>
-      </div>
 
-      {/* MOBILE MENU */}
-      {open && (
-        <div className="lg:hidden bg-[#001437]/90 text-white backdrop-blur py-4 px-6 space-y-4 rounded-xl mt-2">
-          {/* Mobile Search */}
-          <div className="flex items-center bg-white rounded-full px-4 py-2">
-            <Search className="text-gray-500" size={18} />
-            <input
-              type="text"
-              placeholder="Search Product"
-              className="w-full px-3 outline-none text-gray-700"
-            />
-          </div>
-          <button className="flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium w-full justify-center">
-            <MapPin size={18} />
-            Store Locator
-          </button>
+        {/* MOBILE MENU */}
+        {open && (
+          <div className="lg:hidden bg-[#001437]/90 text-white py-4 px-6 space-y-4 rounded-xl mt-2">
+            {/* Search */}
+            <div className="flex items-center bg-white rounded-full px-4 py-2">
+              <Search className="text-gray-500" size={18} />
+              <input
+                type="text"
+                placeholder="Search Product"
+                className="w-full px-3 outline-none text-gray-700"
+              />
+            </div>
 
-          <div className="flex flex-col gap-4 text-base border-t border-white/20 pt-4">
-            <button
-              className="flex items-center justify-between"
-              onClick={() => setAboutOpen(!aboutOpen)}
+            {/* Locator */}
+            <Link
+              href="/store-locator"
+              className="flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium w-full justify-center"
             >
-              About <ChevronDown size={18} />
-            </button>
+              <MapPin size={18} />
+              Store Locator
+            </Link>
 
-            {aboutOpen && (
-              <div className="ml-2 bg-[#001437]/80 rounded-md p-2 space-y-2 border border-white/10">
-                {[
-                  { title: "About Us", url: "/about-us" },
-                  { title: "Instalment", url: "/instalment" },
-                  { title: "Return Policy", url: "/return-policy" },
-                ].map((item, idx) => (
-                  <div key={idx}>
-                    <Link href={item.url} className="block py-2">
-                      {item.title}
-                    </Link>
-                    <div className="border-b border-white/20" />
+            {/* Mobile Dropdowns */}
+            {menuItems.map((item, idx) => (
+              <div key={idx}>
+                <button
+                  className="w-full flex justify-between items-center py-3"
+                  onClick={() =>
+                    setMobileDropdown(mobileDropdown === item ? null : item)
+                  }
+                >
+                  {item}
+                  <ChevronDown
+                    size={16}
+                    className={`transition ${
+                      mobileDropdown === item ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {mobileDropdown === item && (
+                  <div className="pl-4 py-2 space-y-1 text-sm opacity-90">
+                    <p>Google</p>
+                    <p>Apple</p>
+                    <p>Samsung</p>
+                    <p>Huawei</p>
                   </div>
-                ))}
+                )}
               </div>
-            )}
+            ))}
 
-            {/* Mobile Apple Dropdown */}
-            <button
-              className="flex items-center justify-between"
-              onClick={() => setAppleOpen(!appleOpen)}
-            >
-              Apple Products <ChevronDown size={18} />
-            </button>
-
-            {appleOpen && (
-              <div className="ml-2 bg-[#001437]/80 rounded-md p-2 space-y-2 border border-white/10">
-                {[
-                  "Apple iMac",
-                  "Apple iPad",
-                  "Apple Mac Mini",
-                  "Apple MacBooks",
-                  "MacBook Air",
-                  "MacBook Pro",
-                  "Mac Mini",
-                  "Apple Accessories",
-                ].map((item, idx) => (
-                  <div key={idx}>
-                    <a href="#" className="block py-2">
-                      {item}
-                    </a>
-                    <div className="border-b border-white/20" />
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <a href="#">Gaming Console</a>
-            <a href="#">Gaming Laptops</a>
-            <a href="#">Windows Laptops</a>
-            <a href="#">Accessories</a>
-            <a href="#">Faq</a>
+            <Link href="/faq">FAQ</Link>
             <Link href="/contact">Contact</Link>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }

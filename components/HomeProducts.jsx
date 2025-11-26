@@ -39,29 +39,33 @@ const HomeProducts = () => {
       <div className="flex items-center justify-between w-full">
         <h2 className="text-2xl font-semibold">Featured Products</h2>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 w-full sm:w-auto sm:ml-auto">
           {/* View All BUTTON */}
           <button
             onClick={() => router.push("/all-products")}
-            className="border border-[#5869F1] px-5 py-1.5 rounded-full text-[#5869F1] hover:bg-[#eef0ff]"
+            className="border border-[#5869F1] text-[#5869F1] rounded-full 
+        w-full px-2 py-1 text-sm hover:bg-[#eef0ff]
+        sm:w-auto sm:px-5 sm:py-1.5 sm:text-base"
           >
             View All
           </button>
 
           {/* ARROWS */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 w-full sm:w-auto">
             <button
               onClick={prevSlide}
-              className="w-9 h-9 flex items-center justify-center text-[#5869F1] text-xl font-bold hover:bg-[#eef0ff]"
-              disabled={startIndex === 0}
+              className="w-full h-8 flex items-center justify-center text-[#5869F1] 
+          text-base font-bold hover:bg-[#eef0ff]
+          sm:w-9 sm:h-9 sm:text-xl"
             >
               ←
             </button>
 
             <button
               onClick={nextSlide}
-              disabled={startIndex + itemsPerPage >= products.length}
-              className="w-9 h-9 flex items-center justify-center text-[#5869F1] text-xl font-bold hover:bg-[#eef0ff]"
+              className="w-full h-8 flex items-center justify-center text-[#5869F1] 
+          text-base font-bold hover:bg-[#eef0ff]
+          sm:w-9 sm:h-9 sm:text-xl"
             >
               →
             </button>

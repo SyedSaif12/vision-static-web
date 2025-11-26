@@ -1,13 +1,15 @@
-import headerimage from "../assets/headerimage.png";
+import Image from "next/image";
+import storeLocator from "@/assets/storeslocationimage.png";
 
 export default function StoreLocatorCard() {
   return (
     <div className="max-w-sm rounded-2xl shadow p-4 bg-white">
-      <div className="w-full h-40 overflow-hidden rounded-xl mb-4">
-        <img
-          src="/mnt/data/076d1ca2-1fd3-4bf1-badf-810cadb21f66.png"
+      <div className="w-full h-40 overflow-hidden rounded-xl mb-4 relative">
+        <Image
+          src={storeLocator}
           alt="Store Image"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
       </div>
       <h2 className="text-lg font-semibold">APPLESHOP</h2>

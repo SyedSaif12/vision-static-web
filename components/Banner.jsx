@@ -1,39 +1,56 @@
-// import React from "react";
-// import { assets } from "@/assets/assets";
-// import Image from "next/image";
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import SliderImage from "@/assets/bannerimages.png";
 
-// const Banner = () => {
-//   return (
-//     <div className="flex flex-col md:flex-row items-center justify-between md:pl-20 py-14 md:py-0 bg-[#E6E9F2] my-16 rounded-xl overflow-hidden">
-//       <Image
-//         className="max-w-56"
-//         src={assets.jbl_soundbox_image}
-//         alt="jbl_soundbox_image"
-//       />
-//       <div className="flex flex-col items-center justify-center text-center space-y-2 px-4 md:px-0">
-//         <h2 className="text-2xl md:text-3xl font-semibold max-w-[290px]">
-//           Level Up Your Gaming Experience
-//         </h2>
-//         <p className="max-w-[343px] font-medium text-gray-800/60">
-//           From immersive sound to precise controls—everything you need to win
-//         </p>
-//         <button className="group flex items-center justify-center gap-1 px-12 py-2.5 bg-orange-600 rounded text-white">
-//           Buy now
-//           <Image className="group-hover:translate-x-1 transition" src={assets.arrow_icon_white} alt="arrow_icon_white" />
-//         </button>
-//       </div>
-//       <Image
-//         className="hidden md:block max-w-80"
-//         src={assets.md_controller_image}
-//         alt="md_controller_image"
-//       />
-//       <Image
-//         className="md:hidden"
-//         src={assets.sm_controller_image}
-//         alt="sm_controller_image"
-//       />
-//     </div>
-//   );
-// };
+const images = [
+  { id: 1, img: SliderImage },
+  { id: 2, img: SliderImage },
+  { id: 3, img: SliderImage },
+];
 
-// export default Banner;
+export default function Banner() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="w-full pt-10">
+      <div className="max-w-[1480px] mx-auto relative overflow-hidden rounded-2xl">
+        <div
+          className="flex transition-transform duration-700"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {images.map((item) => (
+            <div key={item.id} className="min-w-full flex justify-center">
+              <Image
+                src={item.img}
+                alt="Slide"
+                width={1480}
+                height={450}
+                className="w-[1480px] max-w-full object-cover rounded-2xl"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center mt-4 space-x-2 pb-3">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`h-2 w-2 rounded-full transition-all ${
+                index === i ? "bg-blue-600 w-3" : "bg-gray-400"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

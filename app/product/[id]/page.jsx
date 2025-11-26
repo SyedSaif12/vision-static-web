@@ -182,15 +182,15 @@ const Product = () => {
         </div>
 
         {/* Center Bargain Button */}
-        <div className="flex justify-end mt-6">
+        {/* <div className="flex justify-end mt-8">
           <button
             onClick={() => setOpenDialog(true)}
-            className="flex items-center gap-2 bg-orange-500 text-white px-12 py-3 rounded-full shadow-md hover:bg-orange-600 transition w-[640px] justify-center"
+            className="flex items-center gap-2 bg-orange-500 text-white px-12 py-3 rounded-full shadow-md hover:bg-orange-600 transition w-[600px] justify-center"
           >
             <Image src={assets.bargain_icon} alt="icon" className="w-5 h-5" />
             Bargain on Price
           </button>
-        </div>
+        </div> */}
 
         <div className="mt-10 pb-6">
           <ProductDescription />

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import ArrowUps from "@/assets/ArrowUp.png";
 import ArrowDowns from "@/assets/ArrowDown.png";
+import whatsAppIcon from "@/assets/whatsappicon.svg";
+import ChatBox from "@/components/ChatBox";
 
 import Image from "next/image";
 import headerimage from "../assets/headerimage.png";
@@ -57,8 +59,17 @@ const HeaderSlider = () => {
     <div className="relative bg-gray-100">
       <Navbar />
 
+      <ChatBox />
+
       {/* Slider container */}
-      <div className="relative overflow-hidden w-full max-w-none h-[550px] md:h-[600px] rounded-b-[50px] md:rounded-b-[80px]">
+      <div
+        className="
+  relative overflow-hidden w-full max-w-none 
+  h-[650px]      
+  sm:h-[600px]   
+  md:h-[650px]    
+  rounded-b-[50px] md:rounded-b-[80px]"
+      >
         <div
           className="flex transition-transform duration-700 ease-in-out h-full"
           style={{
@@ -68,10 +79,10 @@ const HeaderSlider = () => {
           {sliderData.map((slide, index) => (
             <div
               key={slide.id}
-              className="flex flex-col-reverse md:flex-row items-center justify-between bg-[#031057] py-8 md:px-14 px-5 rounded-xl min-w-full h-full relative"
+              className="flex flex-col-reverse md:flex-row items-center justify-between bg-[#031057] py-8 md:px-14 px-5 rounded-b-[50px] md:rounded-b-[80px] min-w-full h-full relative"
             >
               {/* Text Section */}
-              <div className="md:pl-8 mt-10 md:mt-0">
+              <div className="relative md:pl-8 mt-10 md:mt-0">
                 <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold text-white">
                   {slide.title}
                 </h1>
@@ -97,6 +108,15 @@ const HeaderSlider = () => {
                       className="w-4 h-4 hover:scale-110 transition"
                     />
                   </button>
+                </div>
+
+                {/* WhatsApp Icon Below Arrows */}
+                <div className="mt-20">
+                  <Image
+                    src={whatsAppIcon}
+                    alt="WhatsApp"
+                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-45px]"
+                  />
                 </div>
               </div>
 

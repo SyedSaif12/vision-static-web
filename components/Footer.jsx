@@ -24,12 +24,13 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="flex items-center mt-6 md:mt-0">
+        <div className="flex flex-col sm:flex-row items-center gap-2 mt-6 md:mt-0 w-full max-w-xs">
           <input
             type="email"
             placeholder="Your Email"
-            className="bg-transparent border border-gray-400 rounded-md px-4 py-2 w-60 text-sm focus:outline-none focus:border-white text-white placeholder-gray-500"
+            className="bg-transparent border border-gray-400 rounded-md px-4 py-2 w-full text-sm focus:outline-none focus:border-white text-white placeholder-gray-500"
           />
+
           <button className="ml-2 bg-blue-600 hover:bg-blue-700 transition text-white text-sm font-medium px-5 py-2 rounded-full">
             Subscribe
           </button>

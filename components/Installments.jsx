@@ -1,10 +1,17 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import HblBankIcon from "@/assets/hblicon.png";
+import JsBankIcon from "@/assets/jsbankicon.png";
+import { assets } from "@/assets/assets";
+import BargainDialog from "@/components/BargainDialog";
 
 export default function Installments() {
   const [activeBank, setActiveBank] = useState("HBL");
   const [expanded, setExpanded] = useState(true);
+
+  // 🔥 Bargain Dialog State Fix
+  const [openDialog, setOpenDialog] = useState(false);
 
   const banks = [
     { id: "HBL", label: "HBL", logo: "/hbl.png" },
@@ -19,82 +26,99 @@ export default function Installments() {
   ];
 
   return (
-    <div className="w-full md:w-1/2 md:ml-auto bg-[#E8E8E8] p-6 md:p-10 rounded-3xl shadow-sm mt-10">
-      {/* Title */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Installments From:</h2>
+    <>
+      <div className="w-full md:w-1/2 md:ml-auto bg-[#E8E8E8] p-4 md:p-10 rounded-3xl shadow-sm mt-10">
+        {/* Title */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-base md:text-lg font-semibold">
+            Installments From:
+          </h2>
 
-        <div className="flex items-center space-x-4">
-          <Image src="/hbl.png" alt="HBL" width={60} height={30} />
-          <span className="text-black">|</span>
-          <Image src="/jsbank.png" alt="JS Bank" width={90} height={30} />
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <Image src={HblBankIcon} alt="HBL" width={50} height={20} />
+            <span className="text-black">|</span>
+            <Image src={JsBankIcon} alt="JS Bank" width={60} height={20} />
+          </div>
         </div>
-      </div>
 
-      <hr className="my-4 border-black" />
+        <hr className="my-3 md:my-4 border-black" />
 
-      {/* Bullet Points */}
-      <ul className="list-disc ml-6 text-black space-y-1 text-[15px]">
-        <li>
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s
-        </li>
-        <li>
-          Lorem Ipsum has been the industry's standard dummy text ever since the
-          1500s
-        </li>
-      </ul>
+        {/* Bullet Points */}
+        <ul className="list-disc ml-4 md:ml-6 text-black space-y-1 text-[13px] md:text-[15px]">
+          <li>
+            Lorem Ipsum has been the industry's standard dummy text ever since
+            the 1500s
+          </li>
+          <li>
+            Lorem Ipsum has been the industry's standard dummy text ever since
+            the 1500s
+          </li>
+        </ul>
 
-      {/* Bank Tabs */}
-      <div className="bg-white p-2 rounded-full flex items-center w-full max-w-sm mx-auto mt-6">
-        {banks.map((bank) => (
-          <button
-            key={bank.id}
-            onClick={() => setActiveBank(bank.id)}
-            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-sm font-medium transition-all ${
-              activeBank === bank.id
-                ? "bg-orange-500 text-white shadow-md"
-                : "text-black"
-            }`}
-          >
-            <span>{bank.label}</span>
-          </button>
-        ))}
-      </div>
+        {/* Bank Tabs */}
+        <div className="bg-white p-1 md:p-2 rounded-full flex items-center w-full max-w-sm mx-auto mt-4 md:mt-6">
+          {banks.map((bank) => (
+            <button
+              key={bank.id}
+              onClick={() => setActiveBank(bank.id)}
+              className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
+                activeBank === bank.id
+                  ? "bg-orange-500 text-white shadow-md"
+                  : "text-black"
+              }`}
+            >
+              <span>{bank.label}</span>
+            </button>
+          ))}
+        </div>
 
-      {/* Installment Table */}
-      {expanded && (
-        <div className="bg-[#d1d1d1] rounded-3xl p-6 mt-6 shadow-sm">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="text-black border-b">
-                <th className="pb-3">Months</th>
-                <th className="pb-3">Amount</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {installmentData.map((row, i) => (
-                <tr key={i} className="text-black border-b last:border-none">
-                  <td className="py-3">{row.months}</td>
-                  <td className="py-3">{row.amount}</td>
+        {/* Installment Table */}
+        {expanded && (
+          <div className="bg-[#d1d1d1] rounded-3xl p-4 md:p-6 mt-4 md:mt-6 shadow-sm overflow-x-auto">
+            <table className="w-full text-left text-[13px] md:text-sm">
+              <thead>
+                <tr className="text-black border-b">
+                  <th className="pb-2 md:pb-3">Months</th>
+                  <th className="pb-2 md:pb-3">Amount</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
 
-      {/* Show Less */}
-      <div className="mt-4 flex justify-center">
+              <tbody>
+                {installmentData.map((row, i) => (
+                  <tr key={i} className="text-black border-b last:border-none">
+                    <td className="py-2 md:py-3">{row.months}</td>
+                    <td className="py-2 md:py-3">{row.amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Show Less */}
+        <div className="mt-2 md:mt-4 flex justify-center">
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="text-blue-600 text-xs md:text-sm font-medium flex items-center gap-1"
+          >
+            {expanded ? "Show Less" : "Show More"}
+            <span className="text-lg">{expanded ? "▴" : "▾"}</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="flex justify-end mt-8">
         <button
-          onClick={() => setExpanded(!expanded)}
-          className="text-blue-600 text-sm font-medium flex items-center gap-1"
+          onClick={() => setOpenDialog(true)}
+          className="w-full md:w-1/2 md:ml-auto bg-orange-500 text-white px-12 py-3 rounded-full shadow-md hover:bg-orange-600 transition flex items-center gap-2 justify-center"
         >
-          {expanded ? "Show Less" : "Show More"}
-          <span className="text-lg">{expanded ? "▴" : "▾"}</span>
+          {/* <Image src={assets.bargain_icon} alt="icon" className="w-5 h-5" /> */}
+          Bargain on Price
         </button>
       </div>
-    </div>
+
+      {/* Bargain Dialog Render */}
+      <BargainDialog open={openDialog} onClose={() => setOpenDialog(false)} />
+    </>
   );
 }

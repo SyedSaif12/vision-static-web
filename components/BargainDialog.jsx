@@ -5,8 +5,8 @@ const BargainDialog = ({ open, onClose }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 px-4">
-      <div className="bg-white w-full max-w-3xl rounded-2xl shadow-xl p-8 relative">
+    <div className="fixed inset-0 bg-black/40 z-50 px-4 overflow-y-auto flex justify-center items-center">
+      <div className="bg-white w-full max-w-3xl rounded-2xl shadow-xl p-8 relative max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"
@@ -77,12 +77,12 @@ const BargainDialog = ({ open, onClose }) => {
         <div className="flex justify-end gap-4 mt-10">
           <button
             onClick={onClose}
-            className="px-10 py-3 rounded-full border border-blue-500 text-blue-600 font-medium hover:bg-blue-50 transition"
+            className="px-6 py-2 md:px-10 md:py-3 rounded-full border border-blue-500 text-blue-600 font-medium hover:bg-blue-50 transition"
           >
             Cancel
           </button>
 
-          <button className="px-10 py-3 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition">
+          <button className="px-6 py-2 md:px-10 md:py-3 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition">
             Submit
           </button>
         </div>
