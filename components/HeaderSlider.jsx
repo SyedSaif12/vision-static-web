@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import ArrowUps from "@/assets/ArrowUp.png";
 import ArrowDowns from "@/assets/ArrowDown.png";
 import whatsAppIcon from "@/assets/whatsappicon.svg";
-import ChatBox from "@/components/ChatBox";
+// import ChatBox from "@/components/ChatBox";
 
 import Image from "next/image";
 import headerimage from "../assets/headerimage.png";
@@ -37,7 +37,7 @@ const HeaderSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % sliderData.length);
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [sliderData.length]);
@@ -59,7 +59,7 @@ const HeaderSlider = () => {
     <div className="relative bg-gray-100">
       <Navbar />
 
-      <ChatBox />
+      {/* <ChatBox /> */}
 
       {/* Slider container */}
       <div

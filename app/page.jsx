@@ -25,17 +25,18 @@ const Home = () => {
       <PopupContactModal />
       {/* <ContactModal/> */}
       <div className="px-6 md:px-16 lg:px-32 bg-gray-100">
-        <Banner />
-        {/* <HeaderSlider /> */}
         <ShopByCategory />
-        <OurBrands />
+        <Banner />
         <HomeProducts />
+
+        <OurBrands />
+        {/* <HomeProducts /> */}
         <TestimonialSlider />
         {/* <FeaturedProduct /> */}
         <NewArrival />
         {/* <Banner /> */}
         {/* <NewsLetter /> */}
-        <HomeProducts />
+        {/* <HomeProducts /> */}
       </div>
       {/* <NewsLetter /> */}
       {/* <Footer /> */}
