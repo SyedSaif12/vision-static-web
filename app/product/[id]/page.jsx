@@ -16,6 +16,8 @@ import HeroSection from "@/components/HeroSection";
 import BargainDialog from "@/components/BargainDialog";
 
 import React from "react";
+import Navbar from "@/components/Navbar";
+import CartDrawer from "@/components/CartDrawer";
 
 const Product = () => {
   const { id } = useParams();
@@ -26,6 +28,8 @@ const Product = () => {
   const [mainImage, setMainImage] = useState(null);
   const [productData, setProductData] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [count, setcount] = useState(0);
 
   const fetchProductData = async () => {
     const product = products.find((product) => product._id === id);
@@ -33,7 +37,11 @@ const Product = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(productData._id));
+    if (count > 0) {
+      dispatch(addToCart({ itemId: productData._id, quantity: count }));
+      setcount(0);
+      setCartOpen(true);
+    }
   };
 
   useEffect(() => {
@@ -172,6 +180,30 @@ const Product = () => {
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div className="flex gap-8 items-center mt-4">
+              <div className="flex gap-8 bg-white py-2 px-4">
+                <h1
+                  className="text-gray-600 cursor-pointer"
+                  onClick={() => setcount((prev) => Math.max(prev - 1, 0))}
+                >
+                  -
+                </h1>
+                <h1 className="">{count}</h1>
+                <h1
+                  className="text-gray-600 cursor-pointer"
+                  onClick={() => setcount((prev) => prev + 1)}
+                >
+                  +
+                </h1>
+              </div>
+              <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+              <button
+                className="bg-[#000DAF] py-2 px-20 text-white rounded-full"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>

@@ -9,11 +9,24 @@ import FilterIcon from "@/assets/filtericon.png";
 import SortByIcon from "@/assets/sortbyicon.png";
 
 import { useSelector } from "react-redux";
+import Pells from "@/components/Pells";
 
 export default function AllProducts() {
   const products = useSelector((state) => state.products.items);
 
   const [openFilter, setOpenFilter] = useState(false);
+  const [subCategoryData, setSubCategoryData] = useState([
+    {
+      id: 1,
+      name: "Macbook M4 chip",
+      total: 46,
+    },
+    {
+      id: 2,
+      name: "HP Drives",
+      total: 83,
+    },
+  ]);
 
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
@@ -41,9 +54,15 @@ export default function AllProducts() {
   };
 
   return (
-    <>
+    <div className="bg-gray-100">
       <HeroSection />
-
+      {/* <div className="w-11/12 mx-auto flex flex-wrap justify-evenly my-10 gap-6"> */}
+      <div className="w-11/12 mx-auto grid grid-cols-1 place-items-center sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 my-10 gap-6">
+        {!!subCategoryData &&
+          subCategoryData.map((subCategory) => (
+            <Pells key={subCategory.id} data={subCategory} />
+          ))}
+      </div>
       {/* TOP FILTER BAR */}
 
       <div className="px-6 md:px-16 lg:px-32 pt-8 flex items-center gap-4 flex-wrap bg-gray-100">
@@ -137,6 +156,6 @@ export default function AllProducts() {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

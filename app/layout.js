@@ -79,9 +79,8 @@ export default function RootLayout({ children }) {
             <NewsLetter />
             <Footer />
 
-            {/* ✅ Tawk.to Components  */}
             {/* <TawkTo /> */}
-            {/* <ChatBox /> */}
+            <ChatBox />
           </AppContextProvider>
         </Provider>
       </body>

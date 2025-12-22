@@ -40,7 +40,40 @@ const ProductCard = ({ product }) => {
         />
       </div>
 
-      <p className="text-sm font-medium text-center mt-3">{product.name}</p>
+      <p className="text-sm font-semibold w-full my-3">{product.name}</p>
+
+      <div className="w-full">
+        {/* ------------------------------------------------------------------------ */}
+        <div className="flex pl-4 items-center">
+          <span className="text-xl text-gray-400">&bull;</span>
+          <div className="flex items-center">
+            <p className="w-20 text-gray-400 text-sm ml-4">Model</p>
+            <p>Apple M4 chip</p>
+          </div>
+        </div>
+        <div className="flex pl-4 items-center">
+          <span className="text-xl text-gray-400">&bull;</span>
+          <div className="flex items-center">
+            <p className="w-20 text-gray-400 text-sm ml-4">RAM</p>
+            <p>16GB</p>
+          </div>
+        </div>
+        <div className="flex pl-4 items-center">
+          <span className="text-xl text-gray-400">&bull;</span>
+          <div className="flex items-center">
+            <p className="w-20 text-gray-400 text-sm ml-4">Dispaly</p>
+            <p>13.6 inches retina</p>
+          </div>
+        </div>
+        <div className="flex pl-4 items-center">
+          <span className="text-xl text-gray-400">&bull;</span>
+          <div className="flex items-center">
+            <p className="w-20 text-gray-400 text-sm ml-4">Version</p>
+            <p>Mac OS </p>
+          </div>
+        </div>
+        {/* ------------------------------------------------------------------------- */}
+      </div>
 
       <div className="flex items-center justify-center gap-2 mt-2">
         <p className="text-gray-400 line-through text-sm">

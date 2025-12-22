@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import HeaderSlider from "@/components/HeaderSlider";
 import HomeProducts from "@/components/HomeProducts";
@@ -14,6 +13,7 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 import HeroSection from "@/components/HeroSection";
 import PopupContactModal from "@/components/PopupContactModal";
 import OurBrands from "@/components/OurBrands";
+import PromotionVideo from "@/components/PromotionVideo";
 
 const Home = () => {
   return (
@@ -34,6 +34,7 @@ const Home = () => {
         <TestimonialSlider />
         {/* <FeaturedProduct /> */}
         <NewArrival />
+        <PromotionVideo />
         {/* <Banner /> */}
         {/* <NewsLetter /> */}
         {/* <HomeProducts /> */}

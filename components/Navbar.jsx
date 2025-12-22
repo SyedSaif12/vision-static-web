@@ -1,257 +1,551 @@
+// "use client";
+// import { useState } from "react";
+// import Link from "next/link";
+// import Image from "next/image";
+// import {
+//   Menu,
+//   X,
+//   Search,
+//   MapPin,
+//   ChevronDown,
+//   ChevronRight,
+// } from "lucide-react";
+// import visionTechIcon from "@/assets/visiontechicon.png";
+// import { menuData } from "@/components/menuData"; // Ensure path is correct
+
+// export default function Navbar() {
+//   const [openMobile, setOpenMobile] = useState(false);
+//   const [activeDropdown, setActiveDropdown] = useState(null);
+
+//   // Mobile menu mein categories open/close karne ke liye state
+//   const [mobileMenuOpen, setMobileMenuOpen] = useState({});
+
+//   const toggleMobileCategory = (category) => {
+//     setMobileMenuOpen((prev) => ({
+//       ...prev,
+//       [category]: !prev[category],
+//     }));
+//   };
+
+//   const handleMouseEnter = (menu) => setActiveDropdown(menu);
+//   const handleMouseLeave = () => setActiveDropdown(null);
+
+//   return (
+//     // FIX 1: 'absolute' aur 'w-[90%]' hata diya. Ab ye full width aur sticky hai.
+//     <nav className="absolute w-[90%] mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
+//       {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
+//       <div className="bg-gradient-to-r from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
+//         {/* ROW 1: Logo & Search */}
+//         <div className="container mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
+//           {/* Logo Section */}
+//           <div className="flex items-center justify-between w-full lg:w-auto">
+//             <Link href="/">
+//               <Image
+//                 src={visionTechIcon}
+//                 alt="Vision Tech"
+//                 className="w-28 lg:w-40 object-contain brightness-0 invert"
+//               />
+//             </Link>
+
+//             {/* Mobile Toggle Button */}
+//             <button
+//               onClick={() => setOpenMobile(true)}
+//               className="lg:hidden text-white p-1"
+//             >
+//               <Menu size={30} />
+//             </button>
+//           </div>
+
+//           {/* Search Bar */}
+//           <div className="w-full lg:flex-1 max-w-3xl px-0 lg:px-8">
+//             <div className="relative w-full">
+//               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+//                 <Search size={20} />
+//               </div>
+//               <input
+//                 type="text"
+//                 placeholder="Search Product"
+//                 className="w-full bg-white text-gray-800 rounded-full py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+//               />
+//             </div>
+//           </div>
+
+//           {/* Store Locator (Desktop Only) */}
+//           <Link
+//             href="/store-locator"
+//             className="hidden lg:flex items-center gap-2 bg-white text-[#030E40] px-6 py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap"
+//           >
+//             <MapPin size={18} /> Store Locator
+//           </Link>
+//         </div>
+
+//         {/* --- ROW 2: DESKTOP MENU --- */}
+//         <div className="hidden lg:block border-t border-white/10 bg-black/10 relative">
+//           <div className="container mx-auto px-4">
+//             <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide">
+//               {Object.entries(menuData).map(([key, menu]) => (
+//                 <li
+//                   key={key}
+//                   className="group"
+//                   onMouseEnter={() => handleMouseEnter(key)}
+//                   onMouseLeave={handleMouseLeave}
+//                 >
+//                   <Link
+//                     href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
+//                     className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
+//                       activeDropdown === key ? "text-blue-300" : ""
+//                     }`}
+//                   >
+//                     {key}
+//                     <ChevronDown
+//                       size={14}
+//                       className={`transition-transform duration-200 ${
+//                         activeDropdown === key ? "rotate-180" : ""
+//                       }`}
+//                     />
+//                   </Link>
+
+//                   {/* DESKTOP MEGA MENU */}
+//                   {activeDropdown === key && (
+//                     <div className="absolute left-0 top-full w-full bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-50">
+//                       {menu.type === "mega" && (
+//                         <div className="container mx-auto p-8 grid grid-cols-3 gap-10">
+//                           {menu.columns.map((col, colIndex) => (
+//                             <div key={colIndex}>
+//                               <h3 className="text-lg font-bold mb-4 text-white border-b border-gray-600 pb-2">
+//                                 {colIndex === 0 ? key : <span>&nbsp;</span>}
+//                               </h3>
+//                               <ul className="space-y-3">
+//                                 {col.map((item, itemIndex) => (
+//                                   <li key={itemIndex}>
+//                                     <Link
+//                                       href="#"
+//                                       className="text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block text-[15px]"
+//                                     >
+//                                       {item}
+//                                     </Link>
+//                                   </li>
+//                                 ))}
+//                               </ul>
+//                             </div>
+//                           ))}
+//                         </div>
+//                       )}
+//                       {menu.type === "simple" && (
+//                         <div className="container mx-auto p-6">
+//                           <ul className="w-64 space-y-3">
+//                             {menu.items.map((item, i) => (
+//                               <li key={i}>
+//                                 <Link
+//                                   href={item.link}
+//                                   className="block text-gray-300 hover:text-white hover:translate-x-1 transition-transform"
+//                                 >
+//                                   {item.label}
+//                                 </Link>
+//                               </li>
+//                             ))}
+//                           </ul>
+//                         </div>
+//                       )}
+//                     </div>
+//                   )}
+//                 </li>
+//               ))}
+//             </ul>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* --- MOBILE MENU SIDEBAR (Fixed & Clean) --- */}
+//       {openMobile && (
+//         <div className="fixed inset-0 z-[100] flex justify-end">
+//           {/* Dark Overlay */}
+//           <div
+//             className="fixed inset-0 bg-black/60"
+//             onClick={() => setOpenMobile(false)}
+//           />
+
+//           {/* Drawer */}
+//           <div className="relative bg-white w-[85%] max-w-sm h-full shadow-2xl overflow-y-auto flex flex-col">
+//             {/* Drawer Header */}
+//             <div className="p-5 flex justify-between items-center border-b bg-gray-50 sticky top-0 z-10">
+//               <span className="text-xl font-bold text-[#030E40]">Menu</span>
+//               <button
+//                 onClick={() => setOpenMobile(false)}
+//                 className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
+//               >
+//                 <X size={20} className="text-gray-700" />
+//               </button>
+//             </div>
+
+//             {/* Drawer Links */}
+//             <div className="flex-1 p-4 space-y-1">
+//               {Object.entries(menuData).map(([key, menu]) => (
+//                 <div
+//                   key={key}
+//                   className="border-b border-gray-100 last:border-none"
+//                 >
+//                   <button
+//                     onClick={() => toggleMobileCategory(key)}
+//                     className="w-full font-semibold text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
+//                   >
+//                     {key}
+//                     <ChevronDown
+//                       size={18}
+//                       className={`text-gray-400 transition-transform ${
+//                         mobileMenuOpen[key] ? "rotate-180" : ""
+//                       }`}
+//                     />
+//                   </button>
+
+//                   {/* Mobile Accordion Content */}
+//                   {mobileMenuOpen[key] && (
+//                     <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
+//                       {menu.type === "simple"
+//                         ? menu.items.map((i, idx) => (
+//                             <Link
+//                               key={idx}
+//                               href={i.link}
+//                               className="block py-1 hover:text-blue-500"
+//                             >
+//                               {i.label}
+//                             </Link>
+//                           ))
+//                         : // Flatten mega menu columns for mobile
+//                           menu.columns.flat().map((item, idx) => (
+//                             <Link
+//                               key={idx}
+//                               href="#"
+//                               className="block py-1 hover:text-blue-500"
+//                             >
+//                               {item}
+//                             </Link>
+//                           ))}
+//                     </div>
+//                   )}
+//                 </div>
+//               ))}
+//             </div>
+
+//             {/* Bottom Links */}
+//             <div className="p-4 bg-gray-50 border-t space-y-3">
+//               <Link
+//                 href="/faq"
+//                 className="flex items-center gap-3 font-semibold text-gray-700"
+//               >
+//                 <span className="w-2 h-2 rounded-full bg-blue-500"></span> FAQ
+//               </Link>
+//               <Link
+//                 href="/contact"
+//                 className="flex items-center gap-3 font-semibold text-gray-700"
+//               >
+//                 <span className="w-2 h-2 rounded-full bg-blue-500"></span>{" "}
+//                 Contact
+//               </Link>
+//               <Link
+//                 href="/store-locator"
+//                 className="flex items-center gap-3 font-semibold text-[#030E40] mt-4 p-3 bg-white border border-gray-200 rounded-lg justify-center shadow-sm"
+//               >
+//                 <MapPin size={18} /> Store Locator
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </nav>
+//   );
+// }
+
 "use client";
-import { Search, MapPin, Menu, X, ChevronDown } from "lucide-react";
-import visionTechIcon from "@/assets/visiontechicon.png";
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import {
+  Menu,
+  X,
+  Search,
+  MapPin,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
+import visionTechIcon from "@/assets/visiontechicon.png";
+import { menuData } from "@/components/menuData";
+import cart from "../assets/cart.svg";
+import { useSelector } from "react-redux";
+import { getCartCount } from "@/redux/cart/cartSlice";
+import CartDrawer from "./CartDrawer";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [mobileDropdown, setMobileDropdown] = useState(null);
+  const [openMobile, setOpenMobile] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState({});
+  const [cartOpen, setCartOpen] = useState(false);
 
-  // MEGA MENU + ABOUT US DROPDOWN
+  const cartCount = useSelector(getCartCount);
 
-  const MegaMenu = ({ title, alignRight, alignLeft }) => {
-    //  ABOUT US CUSTOM SMALL MENU
-
-    if (title === "About Us") {
-      return (
-        <div
-          className={`
-        absolute top-full 
-        w-[950px] max-w-[95vw]
-        bg-[#2B2B2B] text-white 
-        py-10 px-14 z-50 shadow-2xl rounded-b-2xl
-        ${alignLeft ? "left-0" : ""}
-      `}
-        >
-          <div className="grid grid-cols-3 gap-20">
-            <div>
-              <h3 className="font-bold text-lg mb-4">About Us</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/instalment" className="hover:text-red-400">
-                    Instalment
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/return-policy" className="hover:text-red-400">
-                    Return Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about-us" className="hover:text-red-400">
-                    About Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
-    }
-
-    // MEGA MENU FOR ALL OTHER ITEMS
-    return (
-      <div
-        className={`
-          absolute top-full 
-          w-[950px] max-w-[95vw]
-          bg-[#2B2B2B] text-white 
-          py-10 px-14 z-50 
-          shadow-2xl rounded-b-2xl
-          ${
-            alignRight
-              ? "right-0"
-              : alignLeft
-              ? "left-0"
-              : "left-1/2 -translate-x-1/2"
-          }
-        `}
-      >
-        <div className="grid grid-cols-3 gap-20">
-          <div>
-            <h3 className="font-bold text-lg mb-4">{title}</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                "Google",
-                "Apple",
-                "Samsung",
-                "Huawei",
-                "OPPO",
-                "Xiaomi",
-                "FitBit",
-                "Haylou",
-                "All Products",
-              ].map((item, idx) => (
-                <li key={idx} className="hover:text-red-400 cursor-pointer">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold text-lg mb-4">{title}</h3>
-            <ul className="space-y-2 text-sm">
-              {[
-                "Google",
-                "Apple",
-                "Samsung",
-                "Huawei",
-                "OPPO",
-                "Xiaomi",
-                "FitBit",
-                "Haylou",
-                "All Products",
-              ].map((item, idx) => (
-                <li key={idx} className="hover:text-red-400 cursor-pointer">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div></div>
-        </div>
-      </div>
-    );
+  const toggleMobileCategory = (category) => {
+    setMobileMenuOpen((prev) => ({
+      ...prev,
+      [category]: !prev[category],
+    }));
   };
 
-  /* Desktop menu items */
-  const menuItems = [
-    "About Us",
-    "Apple Products",
-    "Gaming Console",
-    "Gaming Laptops",
-    "Windows Laptops",
-    "Accessories",
-  ];
+  const handleMouseEnter = (menu) => setActiveDropdown(menu);
+  const handleMouseLeave = () => setActiveDropdown(null);
 
   return (
-    <header className="absolute top-6 left-1/2 -translate-x-1/2 w-[90%] z-50">
-      <div className="bg-gradient-to-r from-[#001437] via-[#373A47] to-[#4A2C25] text-white shadow-lg rounded-2xl">
-        {/* TOP BAR */}
-        <div className="w-full px-4 md:px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src={visionTechIcon}
-              alt="VisionTech Logo"
-              className="w-30 h-30 object-contain cursor-pointer"
-            />
-          </Link>
+    <>
+      <nav className="absolute w-[90%] mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
+        {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
+        <div className="bg-gradient-to-r from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
+          {/* ROW 1: Logo & Search */}
+          <div className="container mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
+            {/* Logo Section */}
+            <div className="flex items-center justify-between w-full lg:w-auto">
+              <Link href="/">
+                <Image
+                  src={visionTechIcon}
+                  alt="Vision Tech"
+                  className="w-28 lg:w-40 object-contain brightness-0 invert"
+                />
+              </Link>
 
-          {/* Desktop Search */}
-          <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-[40%] ml-auto mr-10">
-            <Search className="text-gray-500" size={18} />
-            <input
-              type="text"
-              placeholder="Search Product"
-              className="w-full px-3 outline-none text-gray-700"
-            />
-          </div>
-
-          {/* Store Locator */}
-          <Link
-            href="/store-locator"
-            className="hidden lg:flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium"
-          >
-            <MapPin size={18} />
-            Store Locator
-          </Link>
-
-          {/* Mobile Button */}
-          <button
-            className="lg:hidden text-white"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-
-        {/* DESKTOP NAV */}
-        <nav className="hidden lg:flex items-center justify-center gap-10 py-3 text-sm font-medium">
-          {menuItems.map((menu, i) => (
-            <div key={i} className="relative group">
-              <button className="flex items-center gap-1 cursor-pointer">
-                {menu}
-                <ChevronDown size={14} />
+              {/* Mobile Toggle Button */}
+              <button
+                onClick={() => setOpenMobile(true)}
+                className="lg:hidden text-white p-1"
+              >
+                <Menu size={30} />
               </button>
+            </div>
 
-              <div className="hidden group-hover:block pointer-events-auto">
-                <MegaMenu
-                  title={menu}
-                  alignLeft={menu === "About Us" || menu === "Apple Products"}
-                  alignRight={menu === "Accessories"}
+            {/* Search Bar */}
+            <div className="w-full lg:flex-1 max-w-3xl px-0 lg:px-8">
+              <div className="relative w-full">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Search size={20} />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search Product"
+                  className="w-full bg-white text-gray-800 rounded-full py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
                 />
               </div>
             </div>
-          ))}
 
-          <Link href="/faq">FAQ</Link>
-          <Link href="/contact">Contact</Link>
-        </nav>
+            {/* Store Locator (Desktop Only) */}
+            <div className="hidden lg:flex items-center gap-4">
+              {/* Store Locator */}
+              <Link
+                href="/store-locator"
+                className="flex items-center gap-2 bg-white text-[#030E40] px-6 py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap"
+              >
+                <MapPin size={18} /> Store Locator
+              </Link>
 
-        {/* MOBILE MENU */}
-        {open && (
-          <div className="lg:hidden bg-[#001437]/90 text-white py-4 px-6 space-y-4 rounded-xl mt-2">
-            {/* Search */}
-            <div className="flex items-center bg-white rounded-full px-4 py-2">
-              <Search className="text-gray-500" size={18} />
-              <input
-                type="text"
-                placeholder="Search Product"
-                className="w-full px-3 outline-none text-gray-700"
-              />
+              {/* Cart Icon */}
+              <Link href="" className="relative">
+                <Image
+                  src={cart}
+                  alt="Cart"
+                  width={42}
+                  height={42}
+                  className="rounded-full bg-white p-2"
+                  onClick={() => setCartOpen(true)}
+                />
+                <CartDrawer
+                  open={cartOpen}
+                  onClose={() => setCartOpen(false)}
+                />
+
+                {/* Red Dot / Badge */}
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
+
+          {/* --- ROW 2: DESKTOP MENU --- */}
+          <div className="hidden lg:block border-t border-white/10 bg-black/10">
+            <div className="container mx-auto px-4">
+              <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide">
+                {Object.entries(menuData).map(([key, menu]) => (
+                  <li
+                    key={key}
+                    className="group"
+                    onMouseEnter={() => handleMouseEnter(key)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Link
+                      href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
+                      className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
+                        activeDropdown === key ? "text-blue-300" : ""
+                      }`}
+                    >
+                      {key}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-200 ${
+                          activeDropdown === key ? "rotate-180" : ""
+                        }`}
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* DESKTOP MEGA MENU - OUTSIDE NAV, FULL WIDTH */}
+      {activeDropdown && (
+        <div
+          className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block fixed left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
+          style={{ top: "calc(4.5rem + 7.5rem)", zIndex: 50 }}
+          onMouseEnter={() => handleMouseEnter(activeDropdown)}
+          onMouseLeave={handleMouseLeave}
+        >
+          {menuData[activeDropdown]?.type === "mega" && (
+            <div className="container mx-auto p-8 grid grid-cols-3 gap-10">
+              {menuData[activeDropdown].columns.map((col, colIndex) => (
+                <div key={colIndex}>
+                  <h3 className="text-lg font-bold mb-4 text-white border-b border-gray-600 pb-2">
+                    {colIndex === 0 ? activeDropdown : <span>&nbsp;</span>}
+                  </h3>
+                  <ul className="space-y-3">
+                    {col.map((item, itemIndex) => (
+                      <li key={itemIndex}>
+                        <Link
+                          href="#"
+                          className="text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block text-[15px]"
+                        >
+                          {item}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
+          {menuData[activeDropdown]?.type === "simple" && (
+            <div className="container mx-auto p-6">
+              <ul className="w-64 space-y-3">
+                {menuData[activeDropdown].items.map((item, i) => (
+                  <li key={i}>
+                    <Link
+                      href={item.link}
+                      className="block text-gray-300 hover:text-white hover:translate-x-1 transition-transform"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* --- MOBILE MENU SIDEBAR --- */}
+      {openMobile && (
+        <div className="fixed inset-0 z-[100] flex justify-end">
+          {/* Dark Overlay */}
+          <div
+            className="fixed inset-0 bg-black/60"
+            onClick={() => setOpenMobile(false)}
+          />
+
+          {/* Drawer */}
+          <div className="relative bg-white w-[85%] max-w-sm h-full shadow-2xl overflow-y-auto flex flex-col">
+            {/* Drawer Header */}
+            <div className="p-5 flex justify-between items-center border-b bg-gray-50 sticky top-0 z-10">
+              <span className="text-xl font-bold text-[#030E40]">Menu</span>
+              <button
+                onClick={() => setOpenMobile(false)}
+                className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
+              >
+                <X size={20} className="text-gray-700" />
+              </button>
             </div>
 
-            {/* Locator */}
-            <Link
-              href="/store-locator"
-              className="flex items-center gap-2 bg-white text-blue-800 px-4 py-2 rounded-full font-medium w-full justify-center"
-            >
-              <MapPin size={18} />
-              Store Locator
-            </Link>
-
-            {/* Mobile Dropdowns */}
-            {menuItems.map((item, idx) => (
-              <div key={idx}>
-                <button
-                  className="w-full flex justify-between items-center py-3"
-                  onClick={() =>
-                    setMobileDropdown(mobileDropdown === item ? null : item)
-                  }
+            {/* Drawer Links */}
+            <div className="flex-1 p-4 space-y-1">
+              {Object.entries(menuData).map(([key, menu]) => (
+                <div
+                  key={key}
+                  className="border-b border-gray-100 last:border-none"
                 >
-                  {item}
-                  <ChevronDown
-                    size={16}
-                    className={`transition ${
-                      mobileDropdown === item ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
+                  <button
+                    onClick={() => toggleMobileCategory(key)}
+                    className="w-full font-semibold text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
+                  >
+                    {key}
+                    <ChevronDown
+                      size={18}
+                      className={`text-gray-400 transition-transform ${
+                        mobileMenuOpen[key] ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
 
-                {mobileDropdown === item && (
-                  <div className="pl-4 py-2 space-y-1 text-sm opacity-90">
-                    <p>Google</p>
-                    <p>Apple</p>
-                    <p>Samsung</p>
-                    <p>Huawei</p>
-                  </div>
-                )}
-              </div>
-            ))}
+                  {/* Mobile Accordion Content */}
+                  {mobileMenuOpen[key] && (
+                    <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
+                      {menu.type === "simple"
+                        ? menu.items.map((i, idx) => (
+                            <Link
+                              key={idx}
+                              href={i.link}
+                              className="block py-1 hover:text-blue-500"
+                            >
+                              {i.label}
+                            </Link>
+                          ))
+                        : menu.columns.flat().map((item, idx) => (
+                            <Link
+                              key={idx}
+                              href="#"
+                              className="block py-1 hover:text-blue-500"
+                            >
+                              {item}
+                            </Link>
+                          ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
-            <Link href="/faq">FAQ</Link>
-            <Link href="/contact">Contact</Link>
+            {/* Bottom Links */}
+            <div className="p-4 bg-gray-50 border-t space-y-3">
+              <Link
+                href="/faq"
+                className="flex items-center gap-3 font-semibold text-gray-700"
+              >
+                <span className="w-2 h-2 rounded-full bg-blue-500"></span> FAQ
+              </Link>
+              <Link
+                href="/contact"
+                className="flex items-center gap-3 font-semibold text-gray-700"
+              >
+                <span className="w-2 h-2 rounded-full bg-blue-500"></span>{" "}
+                Contact
+              </Link>
+              <Link
+                href="/store-locator"
+                className="flex items-center gap-3 font-semibold text-[#030E40] mt-4 p-3 bg-white border border-gray-200 rounded-lg justify-center shadow-sm"
+              >
+                <MapPin size={18} /> Store Locator
+              </Link>
+            </div>
           </div>
-        )}
-      </div>
-    </header>
+        </div>
+      )}
+    </>
   );
 }
