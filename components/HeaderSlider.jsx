@@ -83,7 +83,7 @@ const HeaderSlider = () => {
             >
               {/* Text Section */}
               <div className="relative md:pl-8 mt-10 md:mt-0">
-                <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold text-white md:mt-24">
+                <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold text-white sm:mt-44">
                   {slide.title}
                 </h1>
 
@@ -115,7 +115,7 @@ const HeaderSlider = () => {
                   <Image
                     src={whatsAppIcon}
                     alt="WhatsApp"
-                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-128px]"
+                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-100px]"
                   />
                 </div>
               </div>
