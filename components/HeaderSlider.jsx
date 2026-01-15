@@ -83,7 +83,7 @@ const HeaderSlider = () => {
             >
               {/* Text Section */}
               <div className="relative md:pl-8 mt-10 md:mt-0">
-                <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold text-white">
+                <h1 className="max-w-lg md:text-[40px] md:leading-[48px] text-2xl font-semibold text-white md:mt-24">
                   {slide.title}
                 </h1>
 
@@ -115,13 +115,13 @@ const HeaderSlider = () => {
                   <Image
                     src={whatsAppIcon}
                     alt="WhatsApp"
-                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-45px]"
+                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-128px]"
                   />
                 </div>
               </div>
 
               {/* Image Section */}
-              <div className="flex items-center flex-1 justify-center h-full mt-20">
+              <div className="flex items-center flex-1 justify-center h-full mt-28">
                 <Image
                   className="w-full max-w-[500px] md:max-w-[650px] h-auto"
                   src={slide.imgSrc}
@@ -129,8 +129,7 @@ const HeaderSlider = () => {
                 />
               </div>
 
-              {/* Pagination Dots */}
-              <div className="absolute bottom-10 left-24 flex items-center justify-start gap-2">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center justify-center gap-2">
                 {sliderData.map((_, dotIndex) => (
                   <div
                     key={dotIndex}

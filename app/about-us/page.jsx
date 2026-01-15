@@ -5,7 +5,7 @@ export default function AboutUs() {
   return (
     <main className="min-h-screen">
       <>
-        <HeroSection />
+        <HeroSection title="About Us" />
         <BaseDescription />
       </>
     </main>

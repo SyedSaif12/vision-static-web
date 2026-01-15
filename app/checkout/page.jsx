@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import HeroSection from "@/components/HeroSection";
 import Image from "next/image";
 import { getCartAmount } from "@/redux/cart/cartSlice";
-import arrow from "../../assets/arrow.png";
+import arrow from "@/assets/arrow.png";
 
 const CheckoutPage = () => {
   const cartItems = useSelector((state) => state.cart.items);
@@ -48,7 +48,7 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection title="Checkout" />
 
       <div className="bg-gray-100 px-4 sm:px-6 md:px-10 lg:px-24 xl:px-32 py-8 md:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -186,7 +186,7 @@ const CheckoutPage = () => {
       }`}
               >
                 {formData.payment === "cod" && (
-                  <img src={arrow} alt="checked" className="w-3 h-3" />
+                  <img src={arrow.src} alt="checked" className="w-3 h-3" />
                 )}
               </span>
 
@@ -229,7 +229,7 @@ const CheckoutPage = () => {
       }`}
               >
                 {formData.payment === "bank" && (
-                  <img src="/arrow.png" alt="checked" className="w-3 h-3" />
+                  <img src={arrow.src} alt="checked" className="w-3 h-3" />
                 )}
               </span>
 
@@ -261,7 +261,7 @@ const CheckoutPage = () => {
                 </div>
               </div>
             )}
-            <div className="flex gap-6">
+            <div className="md:flex gap-6">
               <button
                 onClick={placeOrder}
                 className="w-full bg-white text-[#000DAF] py-3 rounded-full mt-6 border-2 border-[#000DAF]"

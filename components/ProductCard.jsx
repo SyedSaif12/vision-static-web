@@ -1,28 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "@/assets/assets";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/cart/cartSlice";
+import CartDrawer from "./CartDrawer";
 
 const ProductCard = ({ product }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "RS";
+  const [productData, setProductData] = useState(null);
+  const [count, setcount] = useState(1);
+  const products = useSelector((state) => state.products.items);
+  const [cartOpen, setCartOpen] = useState(false);
 
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-    dispatch(addToCart(product._id));
+  const { id } = useParams();
+
+  const fetchProductData = async () => {
+    const product = products.find((product) => product._id === id);
+    setProductData(product);
   };
 
+  const handleAddToCart = (e) => {
+    dispatch(addToCart({ itemId: product._id, quantity: 1 }));
+    setCartOpen(true);
+  };
+
+  useEffect(() => {
+    fetchProductData();
+  }, [id, products.length]);
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "RS";
+
   return (
-    <div
-      onClick={() => {
-        router.push("/product/" + product._id);
-        scrollTo(0, 0);
-      }}
-      className="w-[full] h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center cursor-pointer border border-gray-100"
-    >
+    <div className="w-[full] h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
       <div className="w-full h-[449px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
         <div className="absolute top-2 right-2">
@@ -86,12 +96,27 @@ const ProductCard = ({ product }) => {
         </p>
       </div>
 
-      <button
-        onClick={handleAddToCart}
-        className="mt-3 w-full border border-blue-500 text-blue-600 text-sm font-medium py-2 rounded-full hover:bg-blue-50 transition"
-      >
-        View Details
-      </button>
+      <div className="flex gap-4">
+        <button
+          onClick={() => {
+            router.push("/product/" + product._id);
+            scrollTo(0, 0);
+          }}
+          className="mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm font-medium px-2 rounded-full hover:bg-blue-50 transition"
+        >
+          View Details
+        </button>
+        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+
+        <button
+          onClick={(e) => {
+            handleAddToCart();
+          }}
+          className="mt-3 w-full border border-[#000DAF] text-white text-sm font-medium px-2 rounded-full bg-[#000DAF]"
+        >
+          Add to cart
+        </button>
+      </div>
     </div>
   );
 };

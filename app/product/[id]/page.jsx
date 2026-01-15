@@ -14,10 +14,11 @@ import Installments from "@/components/Installments";
 import ProductDescription from "@/components/ProductDescription";
 import HeroSection from "@/components/HeroSection";
 import BargainDialog from "@/components/BargainDialog";
-
+import handmoney from "@/assets/handmoney.png";
 import React from "react";
-import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
+import Seocontent from "@/components/Seo-content";
+import PromotionVideo from "@/components/PromotionVideo";
 
 const Product = () => {
   const { id } = useParams();
@@ -50,11 +51,11 @@ const Product = () => {
 
   return productData ? (
     <>
-      <HeroSection />
+      <HeroSection title={productData.category} />
       {/* <Navbar /> */}
-      <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-2 bg-gray-100">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-          <div className="px-5 lg:px-16 xl:px-20">
+      <div className="pt-14 space-y-2 bg-gray-100">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 px-4 sm:px-6 md:px-10 lg:px-24">
+          <div className="px-0 sm:px-6 lg:px-12">
             <div className="rounded-lg overflow-hidden bg-white/10 border-2 mb-4">
               <Image
                 src={mainImage || productData.image[0]}
@@ -126,61 +127,52 @@ const Product = () => {
               </span>
             </p> */}
             <hr className="bg-gray-600 my-6" />
-            <div className="overflow-x-auto">
-              <table className="table-auto border-collapse w-full max-w-72">
-                <tbody>
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Price
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">PKR 45000</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Brand
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">Generic</td>
-                  </tr>
+            <div className="flex flex-col lg:flex-row gap-8">
+              <div className="w-full max-w-72 space-y-5">
+                {/* Price */}
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-600 font-medium">Price</p>
+                  <p className="text-gray-600 font-medium">PKR 45000</p>
+                </div>
 
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Color
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">Multi</td>
-                  </tr>
+                {/* Brand */}
+                <div className="flex justify-between">
+                  <p className="text-gray-600 font-medium">Brand</p>
+                  <p className="text-[#000DAF] font-semibold">Generic</p>
+                </div>
 
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Availebility
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">yes</td>
-                  </tr>
+                {/* Stock */}
+                <div className="flex justify-between">
+                  <p className="text-gray-600 font-medium">In-Stock</p>
+                  <p className="text-[#2EAE6F] font-semibold">In stock</p>
+                </div>
 
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      In-Stock
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">instock</td>
-                  </tr>
+                {/* Delivery Time */}
+                <div className="flex justify-between">
+                  <p className="text-gray-600 font-medium">Delivery Time</p>
+                  <p className="text-gray-800 font-semibold">4-5 Days</p>
+                </div>
 
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Delvery Time
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">4-5</td>
-                  </tr>
-
-                  <tr>
-                    <td className="text-gray-600 font-medium px-4 py-2">
-                      Category
-                    </td>
-                    <td className="text-gray-800/50 px-4 py-2">
-                      {productData.category}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                {/* Category */}
+                <div className="flex justify-between">
+                  <p className="text-gray-600 font-medium">Category</p>
+                  <p className="text-gray-800/50">{productData.category}</p>
+                </div>
+              </div>
+              <div className="button">
+                {/* Bargain Button */}
+                <div className="flex">
+                  <button
+                    onClick={() => setOpenDialog(true)}
+                    className="w-full sm:w-auto md:px-2 md:text-xs sm:py-2 lg:py-2 bg-orange-500 text-white py-2 text-sm px-6 rounded-full shadow-md hover:bg-orange-600 transition flex items-center justify-center gap-2"
+                  >
+                    <Image src={handmoney} alt="icon" className="w-5 h-5" />
+                    Bargain on Price
+                  </button>
+                </div>
+              </div>
             </div>
+
             <div className="flex gap-8 items-center mt-4">
               <div className="flex gap-8 bg-white py-2 px-4">
                 <h1
@@ -199,7 +191,7 @@ const Product = () => {
               </div>
               <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
               <button
-                className="bg-[#000DAF] py-2 px-20 text-white rounded-full"
+                className="bg-[#000DAF] sm:py-2 sm:px-20 md:px-10 px-3 py-2  text-white rounded-full"
                 onClick={handleAddToCart}
               >
                 Add to Cart
@@ -209,23 +201,20 @@ const Product = () => {
         </div>
 
         {/* Add Installments Component Here */}
-        <div className="-mt-8">
+        <div className="mt-2 px-6 md:px-16 lg:px-32">
           <Installments />
         </div>
 
-        {/* Center Bargain Button */}
-        {/* <div className="flex justify-end mt-8">
-          <button
-            onClick={() => setOpenDialog(true)}
-            className="flex items-center gap-2 bg-orange-500 text-white px-12 py-3 rounded-full shadow-md hover:bg-orange-600 transition w-[600px] justify-center"
-          >
-            <Image src={assets.bargain_icon} alt="icon" className="w-5 h-5" />
-            Bargain on Price
-          </button>
-        </div> */}
+        <div className="mt-10 pb-6 ">
+          <ProductDescription />
+        </div>
 
         <div className="mt-10 pb-6">
-          <ProductDescription />
+          <Seocontent />
+        </div>
+
+        <div className="mt-10 pb-6 px-6 md:px-16 lg:px-32">
+          <PromotionVideo />
         </div>
 
         {/* Dialog Box */}

@@ -107,16 +107,6 @@ export default function Installments() {
         </div>
       </div>
 
-      <div className="flex justify-end mt-8">
-        <button
-          onClick={() => setOpenDialog(true)}
-          className="w-full md:w-1/2 md:ml-auto bg-orange-500 text-white px-12 py-3 rounded-full shadow-md hover:bg-orange-600 transition flex items-center gap-2 justify-center"
-        >
-          {/* <Image src={assets.bargain_icon} alt="icon" className="w-5 h-5" /> */}
-          Bargain on Price
-        </button>
-      </div>
-
       {/* Bargain Dialog Render */}
       <BargainDialog open={openDialog} onClose={() => setOpenDialog(false)} />
     </>

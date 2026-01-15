@@ -5,7 +5,7 @@ export default function Instalment() {
   return (
     <main className="min-h-screen">
       <>
-        <HeroSection />
+        <HeroSection title="Installment" />
         <BaseDescription />
       </>
     </main>

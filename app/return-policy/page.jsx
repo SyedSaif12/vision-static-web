@@ -5,7 +5,7 @@ export default function ReturnPolicy() {
   return (
     <main className="min-h-screen">
       <>
-        <HeroSection />
+        <HeroSection title="Return Policy" />
         <BaseDescription />
       </>
     </main>

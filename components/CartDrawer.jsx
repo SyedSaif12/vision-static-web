@@ -111,7 +111,7 @@ export default function CartDrawer({ open, onClose }) {
             className="w-full bg-[#000DAF] text-white py-3 rounded-full font-medium px-2"
             onClick={() => router.push("/checkout")}
           >
-            Checkout (PKR {totalAmount})
+            Proced to Checkout
           </button>
         </div>
       </div>

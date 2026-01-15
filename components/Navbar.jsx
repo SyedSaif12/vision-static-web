@@ -257,7 +257,7 @@
 // }
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -274,11 +274,13 @@ import cart from "../assets/cart.svg";
 import { useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
 import CartDrawer from "./CartDrawer";
+import threelines from "../assets/threelines.svg";
 
 export default function Navbar() {
   const [openMobile, setOpenMobile] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState({});
+  const [openmenu, setopenmenu] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
 
   const cartCount = useSelector(getCartCount);
@@ -289,6 +291,20 @@ export default function Navbar() {
       [category]: !prev[category],
     }));
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (activeDropdown) {
+        setActiveDropdown(null);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [activeDropdown]);
 
   const handleMouseEnter = (menu) => setActiveDropdown(menu);
   const handleMouseLeave = () => setActiveDropdown(null);
@@ -372,6 +388,14 @@ export default function Navbar() {
           <div className="hidden lg:block border-t border-white/10 bg-black/10">
             <div className="container mx-auto px-4">
               <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide">
+                <button
+                  className="flex items-center gap-1 bg-[#FF8415] px-4 py-1 rounded-full"
+                  onClick={() => setopenmenu(true)}
+                >
+                  <img src={threelines.src} alt="" className="w-4 h-4" />
+                  <span>Menu</span>
+                </button>
+
                 {Object.entries(menuData).map(([key, menu]) => (
                   <li
                     key={key}
@@ -395,6 +419,12 @@ export default function Navbar() {
                     </Link>
                   </li>
                 ))}
+                <Link href="/faq">
+                  <h1>Faq</h1>
+                </Link>
+                <Link href="/contact">
+                  <h1>Contact us</h1>
+                </Link>
               </ul>
             </div>
           </div>
@@ -404,8 +434,9 @@ export default function Navbar() {
       {/* DESKTOP MEGA MENU - OUTSIDE NAV, FULL WIDTH */}
       {activeDropdown && (
         <div
-          className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block fixed left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
-          style={{ top: "calc(4.5rem + 7.5rem)", zIndex: 50 }}
+          // className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block fixed left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
+          className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
+          style={{ top: "calc(2rem + 7.5rem)", zIndex: 50 }}
           onMouseEnter={() => handleMouseEnter(activeDropdown)}
           onMouseLeave={handleMouseLeave}
         >
@@ -542,6 +573,88 @@ export default function Navbar() {
               >
                 <MapPin size={18} /> Store Locator
               </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MOBILE MENU SIDEBAR --- */}
+      {openmenu && (
+        <div className="fixed inset-0 z-[100] flex justify-end">
+          {/* Dark Overlay */}
+          <div
+            className="fixed inset-0 bg-black/60"
+            onClick={() => setopenmenu(false)}
+          />
+
+          {/* Drawer */}
+          <div
+            className={`absolute left-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl
+      transform transition-transform duration-300 ease-in-out
+      ${openmenu ? "translate-x-0" : "translate-x-full"}`}
+          >
+            {/* Header */}
+            <div className="bg-[#030E40] text-white p-10 rounded-b-3xl">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-lg font-bold">Menu</h2>
+                  <p className="text-sm opacity-80">12 items</p>
+                </div>
+                <button
+                  onClick={() => setopenmenu(false)}
+                  className="w-10 h-10 rounded-full border border-white flex items-center justify-center"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Drawer Links */}
+            <div className="flex-1 p-4 space-y-1">
+              {Object.entries(menuData).map(([key, menu]) => (
+                <div
+                  key={key}
+                  className="border-b border-gray-100 last:border-none"
+                >
+                  <button
+                    onClick={() => toggleMobileCategory(key)}
+                    className="w-full font-semibold text-black py-3 flex justify-between items-center hover:text-blue-600"
+                  >
+                    {key}
+                    <ChevronDown
+                      size={18}
+                      className={`text-gray-400 transition-transform ${
+                        mobileMenuOpen[key] ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Mobile Accordion Content */}
+                  {mobileMenuOpen[key] && (
+                    <div className="pl-4 pb-3 text-sm text-black space-y-2 bg-gray-50/50 rounded-md mb-2">
+                      {menu.type === "simple"
+                        ? menu.items.map((i, idx) => (
+                            <Link
+                              key={idx}
+                              href={i.link}
+                              className="block py-1 hover:text-blue-500"
+                            >
+                              {i.label}
+                            </Link>
+                          ))
+                        : menu.columns.flat().map((item, idx) => (
+                            <Link
+                              key={idx}
+                              href="#"
+                              className="block py-1 hover:text-blue-500"
+                            >
+                              {item}
+                            </Link>
+                          ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>

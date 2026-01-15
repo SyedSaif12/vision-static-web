@@ -33,7 +33,11 @@ export default function StoreLocatorPage() {
 
   return (
     <>
-      <HeroSection />
+      <HeroSection
+        title="Store Locator"
+        offer="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+      />
+
       <div className="px-6 md:px-16 lg:px-32 bg-gray-100">
         <div className="w-full flex justify-center items-start p-6">
           <div className="w-full max-w-7xl bg-gray-100 p-4 grid grid-cols-1 md:grid-cols-3 gap-4 rounded-2xl">

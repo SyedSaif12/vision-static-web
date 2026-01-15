@@ -152,22 +152,22 @@ export const menuData = {
       ],
     ],
   },
-  Faq: {
-    type: "mega",
-    columns: [
-      [
-        "Smart TVs",
-        "LED TVs",
-        "Android TV Box",
-        "Soundbars",
-        "Home Theater",
-        "Projectors",
-      ],
-    ],
-  },
+  // Faq: {
+  //   type: "mega",
+  //   columns: [
+  //     [
+  //       "Smart TVs",
+  //       "LED TVs",
+  //       "Android TV Box",
+  //       "Soundbars",
+  //       "Home Theater",
+  //       "Projectors",
+  //     ],
+  //   ],
+  // },
 
-  contact: {
-    type: "mega",
-    columns: [["contact us"]],
-  },
+  // contact: {
+  //   type: "mega",
+  //   columns: [["contact us"]],
+  // },
 };
