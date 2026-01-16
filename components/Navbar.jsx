@@ -591,10 +591,11 @@ export default function Navbar() {
           <div
             className={`absolute left-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl
       transform transition-transform duration-300 ease-in-out
-      ${openmenu ? "translate-x-0" : "translate-x-full"}`}
+      ${openmenu ? "translate-x-0" : "translate-x-full"}
+      flex flex-col overflow-y-auto`}
           >
             {/* Header */}
-            <div className="bg-[#030E40] text-white p-10 rounded-b-3xl">
+            <div className="bg-[#030E40] text-white p-10 rounded-b-3xl sticky top-0 z-10">
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-lg font-bold">Menu</h2>

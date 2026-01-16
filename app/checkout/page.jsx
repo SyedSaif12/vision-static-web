@@ -121,7 +121,7 @@ const CheckoutPage = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-lg font-semibold mb-1 mt-4">
-                  First Name
+                  City
                 </label>
                 <input
                   name="City"
