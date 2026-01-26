@@ -30,7 +30,7 @@ const Product = () => {
   const [productData, setProductData] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [count, setcount] = useState(0);
+  const [count, setcount] = useState(1);
 
   const fetchProductData = async () => {
     const product = products.find((product) => product._id === id);
@@ -55,33 +55,37 @@ const Product = () => {
       {/* <Navbar /> */}
       <div className="pt-14 space-y-2 bg-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 px-4 sm:px-6 md:px-10 lg:px-24">
-          <div className="px-0 sm:px-6 lg:px-12">
-            <div className="rounded-lg overflow-hidden bg-white/10 border-2 mb-4">
-              <Image
-                src={mainImage || productData.image[0]}
-                alt="alt"
-                className="w-full h-auto object-cover mix-blend-multiply"
-                width={1280}
-                height={720}
-              />
-            </div>
+          <div className="relative px-0 sm:px-6 lg:px-12">
+            <div className="sticky top-12">
+              {/* Main Image */}
+              <div className="rounded-lg overflow-hidden bg-white border-2 mb-4">
+                <Image
+                  src={mainImage || productData.image[0]}
+                  alt="alt"
+                  className="w-full h-auto object-cover mix-blend-multiply"
+                  width={1280}
+                  height={720}
+                />
+              </div>
 
-            <div className="grid grid-cols-4 gap-4">
-              {productData.image.map((image, index) => (
-                <div
-                  key={index}
-                  onClick={() => setMainImage(image)}
-                  className="cursor-pointer rounded-lg overflow-hidden bg-white/10 border-2 hover:border-orange-500/80"
-                >
-                  <Image
-                    src={image}
-                    alt="alt"
-                    className="w-full h-auto object-cover mix-blend-multiply"
-                    width={1280}
-                    height={720}
-                  />
-                </div>
-              ))}
+              {/* Thumbnails */}
+              <div className="grid grid-cols-4 gap-4">
+                {productData.image.map((image, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setMainImage(image)}
+                    className="cursor-pointer rounded-lg overflow-hidden bg-white border-2 hover:border-orange-500"
+                  >
+                    <Image
+                      src={image}
+                      alt="alt"
+                      className="w-full h-auto object-cover mix-blend-multiply"
+                      width={1280}
+                      height={720}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -197,12 +201,11 @@ const Product = () => {
                 Add to Cart
               </button>
             </div>
+            {/* Add Installments Component Here */}
+            <div className="">
+              <Installments />
+            </div>
           </div>
-        </div>
-
-        {/* Add Installments Component Here */}
-        <div className="mt-2 px-6 md:px-16 lg:px-32">
-          <Installments />
         </div>
 
         <div className="mt-10 pb-6 ">

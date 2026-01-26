@@ -34,7 +34,13 @@ const ProductCard = ({ product }) => {
   return (
     <div className="w-[full] h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
-      <div className="w-full h-[449px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
+      <div
+        className="w-full h-[449px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden"
+        onClick={() => {
+          router.push("/product/" + product._id);
+          scrollTo(0, 0);
+        }}
+      >
         <div className="absolute top-2 right-2">
           <span className="text-xs text-orange-500 border border-orange-300 bg-[#fdf0d7] px-3 py-0.5 rounded-full">
             Premium Delivery
@@ -52,7 +58,13 @@ const ProductCard = ({ product }) => {
 
       <p className="text-sm font-semibold w-full my-3">{product.name}</p>
 
-      <div className="w-full">
+      <div
+        className="w-full"
+        onClick={() => {
+          router.push("/product/" + product._id);
+          scrollTo(0, 0);
+        }}
+      >
         {/* ------------------------------------------------------------------------ */}
         <div className="flex pl-4 items-center">
           <span className="text-xl text-gray-400">&bull;</span>
@@ -85,7 +97,13 @@ const ProductCard = ({ product }) => {
         {/* ------------------------------------------------------------------------- */}
       </div>
 
-      <div className="flex items-center justify-center gap-2 mt-2">
+      <div
+        className="flex items-center justify-center gap-2 mt-2"
+        onClick={() => {
+          router.push("/product/" + product._id);
+          scrollTo(0, 0);
+        }}
+      >
         <p className="text-gray-400 line-through text-sm">
           {currency}
           {product.price}

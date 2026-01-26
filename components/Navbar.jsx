@@ -386,8 +386,9 @@ export default function Navbar() {
 
           {/* --- ROW 2: DESKTOP MENU --- */}
           <div className="hidden lg:block border-t border-white/10 bg-black/10">
-            <div className="container mx-auto px-4">
-              <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide">
+            <div className="container mx-auto  px-4">
+              <div className="flex items-center py-3">
+                {/* LEFT: Menu Button */}
                 <button
                   className="flex items-center gap-1 bg-[#FF8415] px-4 py-1 rounded-full"
                   onClick={() => setopenmenu(true)}
@@ -396,36 +397,36 @@ export default function Navbar() {
                   <span>Menu</span>
                 </button>
 
-                {Object.entries(menuData).map(([key, menu]) => (
-                  <li
-                    key={key}
-                    className="group"
-                    onMouseEnter={() => handleMouseEnter(key)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <Link
-                      href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
-                      className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
-                        activeDropdown === key ? "text-blue-300" : ""
-                      }`}
+                {/* CENTER: Navigation */}
+                <ul className="flex flex-1 justify-center gap-6 text-sm font-medium tracking-wide flex-wrap items-center">
+                  {Object.entries(menuData).map(([key, menu]) => (
+                    <li
+                      key={key}
+                      className="group"
+                      onMouseEnter={() => handleMouseEnter(key)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {key}
-                      <ChevronDown
-                        size={14}
-                        className={`transition-transform duration-200 ${
-                          activeDropdown === key ? "rotate-180" : ""
+                      <Link
+                        href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
+                        className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
+                          activeDropdown === key ? "text-blue-300" : ""
                         }`}
-                      />
-                    </Link>
-                  </li>
-                ))}
-                <Link href="/faq">
-                  <h1>Faq</h1>
-                </Link>
-                <Link href="/contact">
-                  <h1>Contact us</h1>
-                </Link>
-              </ul>
+                      >
+                        {key}
+                        <ChevronDown
+                          size={14}
+                          className={`transition-transform duration-200 ${
+                            activeDropdown === key ? "rotate-180" : ""
+                          }`}
+                        />
+                      </Link>
+                    </li>
+                  ))}
+
+                  <Link href="/faq">Faq</Link>
+                  <Link href="/contact">Contact us</Link>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
