@@ -27,7 +27,7 @@ export default function Installments() {
 
   return (
     <>
-      <div className="w-full bg-[#E8E8E8] p-4 md:p-10 rounded-3xl shadow-sm mt-60">
+      <div className="w-full bg-[#E8E8E8] p-4 md:p-10 rounded-3xl shadow-sm mt-10">
         {/* Title */}
         <div className="flex items-center justify-between">
           <h2 className="text-base md:text-lg font-semibold">
