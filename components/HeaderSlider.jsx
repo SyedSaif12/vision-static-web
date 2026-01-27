@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import ArrowUps from "@/assets/ArrowUp.png";
 import ArrowDowns from "@/assets/ArrowDown.png";
-import whatsAppIcon from "@/assets/whatsappicon.svg";
 // import ChatBox from "@/components/ChatBox";
 
 import Image from "next/image";
@@ -108,15 +107,6 @@ const HeaderSlider = () => {
                       className="w-4 h-4 hover:scale-110 transition"
                     />
                   </button>
-                </div>
-
-                {/* WhatsApp Icon Below Arrows */}
-                <div className="mt-20">
-                  <Image
-                    src={whatsAppIcon}
-                    alt="WhatsApp"
-                    className="w-20 h-20 cursor-pointer hover:scale-110 transition absolute left-0 bottom-[-100px]"
-                  />
                 </div>
               </div>
 

@@ -53,6 +53,7 @@ import NewsLetter from "@/components/NewsLetter";
 import { AppContextProvider } from "@/context/AppContext";
 
 import ChatBox from "@/components/ChatBox"; // ✅ Add this
+import WhatsAppContact from "@/components/WhatsAppContact";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -81,6 +82,7 @@ export default function RootLayout({ children }) {
 
             {/* <TawkTo /> */}
             <ChatBox />
+            <WhatsAppContact />
           </AppContextProvider>
         </Provider>
       </body>
