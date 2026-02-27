@@ -1,42 +1,71 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { formatPrice } from "@/helper/formatPrice";
 
 export default function DrawerFilter({
+  data,
   open,
   onClose,
   selectedFilters,
   setSelectedFilters,
   onApplyFilters,
+  productCount = 0,
 }) {
-  const [openSection, setOpenSection] = useState({
-    products: true,
-    brands: true,
-    colors: true,
-    price: true,
-  });
+  const checked = data && Object.entries(data?.filters);
 
-  const toggle = (key) => {
-    setOpenSection((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const [tempPrice, setTempPrice] = useState(selectedFilters.price);
+  const [openSection, setOpenSection] = useState({});
 
   useEffect(() => {
-    setTempPrice(selectedFilters.price);
-  }, [open]);
+    if (!data?.filters) return;
+
+    const initialState = {};
+    data &&
+      Object.keys(data?.filters).forEach((key) => {
+        initialState[key] = true;
+      });
+
+    setOpenSection(initialState);
+  }, [data]);
+
+  const toggle = (key) => {
+    setOpenSection((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const [tempPrice, setTempPrice] = useState([0, 0]);
+
+  useEffect(() => {
+    if (data?.price?.length === 2) {
+      setTempPrice(data.price);
+    }
+  }, [data]);
+  const priceMin = data?.price?.[0] ?? 700; // fallback
+  const priceMax = data?.price?.[1] ?? 2100;
 
   const handleCheckbox = (type, value) => {
     setSelectedFilters((prev) => {
-      const exists = prev[type].includes(value);
+      const current = prev[type] || [];
+      const exists = current.includes(value);
 
       return {
         ...prev,
         [type]: exists
-          ? prev[type].filter((x) => x !== value)
-          : [...prev[type], value],
+          ? current.filter((x) => x !== value) // uncheck
+          : [...current, value], // check
       };
     });
+  };
+
+  const handlePriceChange = (min, max) => {
+    setSelectedFilters((prev) => ({
+      ...prev,
+      minPrice: min,
+      maxPrice: max,
+      // price: { minPrice: min, maxPrice: max },
+    }));
   };
 
   useEffect(() => {
@@ -46,11 +75,14 @@ export default function DrawerFilter({
   return (
     <>
       {open && (
-        <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose}></div>
+        <div
+          className="fixed inset-0 bg-black/50 z-[999]"
+          onClick={onClose}
+        ></div>
       )}
 
       <div
-        className={`fixed top-0 left-0 h-full w-[80%] sm:w-[360px] bg-[#F3F3F3] z-50 shadow-xl 
+        className={`fixed top-0 left-0 h-full w-[80%] sm:w-[360px] bg-[#F3F3F3] z-[99999] shadow-xl
           transform transition-transform duration-300 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
@@ -58,7 +90,7 @@ export default function DrawerFilter({
           <div className="text-center w-full">
             <p className="font-semibold text-[18px]">Filters</p>
             <p className="text-[12px] opacity-80 -mt-1">
-              53 Products Available
+              {productCount} Products Available
             </p>
           </div>
           <button onClick={onClose} className="absolute right-6 text-xl">
@@ -67,53 +99,27 @@ export default function DrawerFilter({
         </div>
 
         <div className="p-4 overflow-y-auto h-[calc(100%-150px)] space-y-5 pb-20">
-          <FilterSection
-            title="Products"
-            type="categories"
-            open={openSection.products}
-            onToggle={() => toggle("products")}
-            items={[
-              "Laptops",
-              "Airbuds",
-              "Leds",
-              "Mobiles",
-              "Processors",
-              "Tablets",
-              "Computers",
-              "Printers",
-            ]}
-            selected={selectedFilters.categories}
-            onSelect={handleCheckbox}
-          />
-
-          <FilterSection
-            title="Brands"
-            type="categories"
-            open={openSection.brands}
-            onToggle={() => toggle("brands")}
-            items={[
-              "HP",
-              "Samsung",
-              "Dell",
-              "Lenovo",
-              "Apple",
-              "Asus",
-              "Acer",
-              "Sony",
-            ]}
-            selected={selectedFilters.categories}
-            onSelect={handleCheckbox}
-          />
-
-          <FilterSection
-            title="Colors"
-            type="colors"
-            open={openSection.colors}
-            onToggle={() => toggle("colors")}
-            items={["Black", "Silver", "Blue", "Gray", "White"]}
-            selected={selectedFilters.colors}
-            onSelect={handleCheckbox}
-          />
+          {checked
+            ?.filter(
+              (filter) =>
+                filter?.[0] &&
+                Array.isArray(filter?.[1]) &&
+                filter[1].length > 0,
+            )
+            .map((filter, idx) => {
+              return (
+                <FilterSection
+                  key={idx}
+                  title={filter[0]}
+                  type={filter[0]}
+                  open={openSection[filter[0]]}
+                  onToggle={() => toggle(filter[0])}
+                  items={filter[1]}
+                  selectedFilters={selectedFilters}
+                  handleCheckbox={handleCheckbox}
+                />
+              );
+            })}
 
           {/* PRICE */}
           <div className="bg-white rounded-2xl p-4 shadow-sm">
@@ -132,28 +138,42 @@ export default function DrawerFilter({
             {openSection.price && (
               <div className="mt-4">
                 <div className="flex justify-between text-[13px] text-gray-600">
-                  <span>PKR {tempPrice[0]}</span>
-                  <span>PKR {tempPrice[1]}</span>
+                  <span className="font-semibold">
+                    PKR {formatPrice(tempPrice[0])}
+                  </span>
+                  <span className="font-semibold">
+                    PKR {formatPrice(tempPrice[1])}
+                  </span>
                 </div>
 
                 <input
                   type="range"
-                  min="700"
-                  max="2100"
+                  min={priceMin}
+                  max={priceMax}
                   value={tempPrice[0]}
-                  onChange={(e) =>
-                    setTempPrice([Number(e.target.value), tempPrice[1]])
-                  }
+                  onChange={(e) => {
+                    const newMin = Math.min(
+                      Number(e.target.value),
+                      tempPrice[1],
+                    );
+                    setTempPrice([newMin, tempPrice[1]]);
+                    handlePriceChange(newMin, tempPrice[1]);
+                  }}
                   className="w-full mt-3"
                 />
                 <input
                   type="range"
-                  min="700"
-                  max="2100"
+                  min={priceMin}
+                  max={priceMax}
                   value={tempPrice[1]}
-                  onChange={(e) =>
-                    setTempPrice([tempPrice[0], Number(e.target.value)])
-                  }
+                  onChange={(e) => {
+                    const newMax = Math.max(
+                      Number(e.target.value),
+                      tempPrice[0],
+                    );
+                    setTempPrice([tempPrice[0], newMax]);
+                    handlePriceChange(tempPrice[0], newMax);
+                  }}
                   className="w-full"
                 />
               </div>
@@ -164,14 +184,25 @@ export default function DrawerFilter({
         <div className="absolute bottom-0 left-0 w-full p-4 bg-white shadow-inner">
           <button
             onClick={() => {
-              setSelectedFilters((prev) => ({
-                ...prev,
-                price: tempPrice,
-              }));
-              onApplyFilters();
+              onApplyFilters(selectedFilters);
               onClose();
             }}
-            className="w-full bg-[#0A1A54] text-white py-3 rounded-xl font-medium text-[15px]"
+            disabled={
+              !selectedFilters || // selectedFilters empty ya undefined
+              Object.values(selectedFilters).every(
+                (arr) => !arr || (Array.isArray(arr) && arr.length === 0),
+              )
+            }
+            className={`w-full py-3 rounded-xl font-medium text-[15px] 
+    ${
+      !selectedFilters ||
+      Object.values(selectedFilters).every(
+        (arr) => !arr || (Array.isArray(arr) && arr.length === 0),
+      )
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-[#0A1A54] text-white"
+    }
+  `}
           >
             Apply Filters
           </button>
@@ -186,8 +217,8 @@ function FilterSection({
   title,
   items,
   type,
-  selected,
-  onSelect,
+  selectedFilters,
+  handleCheckbox,
   open,
   onToggle,
 }) {
@@ -209,11 +240,11 @@ function FilterSection({
             <label key={i} className="flex gap-3 items-center text-gray-700">
               <input
                 type="checkbox"
-                checked={selected.includes(item)}
-                onChange={() => onSelect(type, item)}
+                checked={selectedFilters[type]?.includes(item.label) || false}
+                onChange={() => handleCheckbox(type, item.label)}
                 className="w-4 h-4 accent-blue-700 rounded"
               />
-              {item}
+              <span className="font-semibold">{item.label}</span>({item.count})
             </label>
           ))}
         </div>

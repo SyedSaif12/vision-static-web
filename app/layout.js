@@ -1,90 +1,37 @@
-// "use client";
-// import { Poppins } from "next/font/google";
-// import TopNav from "@/components/TopNav";
-// import Footer from "@/components/Footer";
-
-// import "./globals.css";
-// import { Toaster } from "react-hot-toast";
-// import { Provider } from "react-redux";
-// import { store } from "@/redux/store";
-// import NewsLetter from "@/components/NewsLetter";
-// import { AppContextProvider } from "@/context/AppContext";
-
-// const poppins = Poppins({
-//   subsets: ["latin"],
-//   weight: ["300", "400", "500", "600", "700"],
-// });
-
-// export default function RootLayout({ children }) {
-//   return (
-//     <html lang="en">
-//       <head>
-//         <title>Vision-Tech</title>
-//         <meta name="description" content="E-Commerce with Next.js" />
-//         <meta charSet="utf-8" />
-//         <meta name="viewport" content="width=device-width, initial-scale=1" />
-//       </head>
-
-//       {/* Poppins here  */}
-//       <body className={`${poppins.className} antialiased text-gray-700`}>
-//         <Provider store={store}>
-//           <AppContextProvider>
-//             <Toaster />
-//             <TopNav />
-//             {children}
-//             <NewsLetter />
-//             <Footer />
-//           </AppContextProvider>
-//         </Provider>
-//       </body>
-//     </html>
-//   );
-// }
-
-"use client";
-import { Poppins } from "next/font/google";
-import TopNav from "@/components/TopNav";
-import Footer from "@/components/Footer";
+import { Poppins, Roboto } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
-import NewsLetter from "@/components/NewsLetter";
-import { AppContextProvider } from "@/context/AppContext";
-
-import ChatBox from "@/components/ChatBox"; // ✅ Add this
+import RootClientLayout from "./(shared_layout)/clientLayout";
 import WhatsAppContact from "@/components/WhatsAppContact";
 
-const poppins = Poppins({
+const poppins = Roboto({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
+
+export const metadata = {
+  title: {
+    default:
+      "Vision Tech Online Shopping in Pakistan | Mobiles, Laptops, Apple products and Electronics",
+    template: "%s | Vision Tech",
+  },
+  description: "Best online selling store in Pakistan",
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <title>Vision-Tech</title>
-        <meta name="description" content="E-Commerce with Next.js" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
 
       {/* Poppins here  */}
-      <body className={`${poppins.className} antialiased text-gray-700`}>
-        <Provider store={store}>
-          <AppContextProvider>
-            <Toaster />
-            <TopNav />
-            {children}
-            <NewsLetter />
-            <Footer />
-
-            {/* <TawkTo /> */}
-            <ChatBox />
-            <WhatsAppContact />
-          </AppContextProvider>
-        </Provider>
+      <body
+        suppressHydrationWarning={true}
+        className={`${poppins.className} antialiased text-gray-700`}
+      >
+        <RootClientLayout>{children}</RootClientLayout>
+        <WhatsAppContact />
       </body>
     </html>
   );

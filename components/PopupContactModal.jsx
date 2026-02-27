@@ -12,7 +12,7 @@ export default function PopupContactModal() {
       setOpen(true);
       sessionStorage.setItem("popup_shown", "true");
     }
-  }, []);
+  }, [open]);
 
   if (!open) return null;
 
@@ -37,7 +37,7 @@ export default function PopupContactModal() {
 
         <div className="flex-grow overflow-y-auto p-6">
           <div className="flex h-full">
-            <PopUpForm />
+            <PopUpForm open={open} setOpen={setOpen} />
           </div>
         </div>
       </div>

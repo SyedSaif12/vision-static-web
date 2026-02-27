@@ -1,12 +1,14 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import HblBankIcon from "@/assets/hblicon.png";
-import JsBankIcon from "@/assets/jsbankicon.png";
+import HblBankIcon from "@/assets/hblicon.svg";
+import HblBankActiveIcon from "@/assets/hblActive.svg";
+import JsBankIcon from "@/assets/jsbankicon.svg";
 import { assets } from "@/assets/assets";
 import BargainDialog from "@/components/BargainDialog";
+import { formatPrice } from "@/helper/formatPrice";
 
-export default function Installments() {
+export default function Installments({ price }) {
   const [activeBank, setActiveBank] = useState("HBL");
   const [expanded, setExpanded] = useState(true);
 
@@ -14,16 +16,34 @@ export default function Installments() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const banks = [
-    { id: "HBL", label: "HBL", logo: "/hbl.png" },
-    { id: "JS", label: "JS BANK", logo: "/jsbank.png" },
+    {
+      id: "HBL",
+      label: "HBL",
+      logo: HblBankIcon,
+      activeLogo: HblBankActiveIcon,
+    },
+    { id: "JS", label: "JS BANK", logo: JsBankIcon, activeLogo: JsBankIcon },
   ];
 
-  const installmentData = [
-    { months: "3 Months", amount: "82,161 Per Month" },
-    { months: "6 Months", amount: "42,190 Per Month" },
-    { months: "12 Months", amount: "22,453 Per Month" },
-    { months: "18 Months", amount: "16,002 Per Month" },
+  const installmentPlan = [
+    {
+      months: 3,
+    },
+    {
+      months: 6,
+    },
+    {
+      months: 12,
+    },
+    {
+      months: 18,
+    },
   ];
+
+  const installmentData = installmentPlan.map((item) => ({
+    months: `${item.months} Months`,
+    amount: `${formatPrice(Math.floor(price / item.months))} Per Month`,
+  }));
 
   return (
     <>
@@ -67,7 +87,12 @@ export default function Installments() {
                   : "text-black"
               }`}
             >
-              <span>{bank.label}</span>
+              {/* <span>{bank.label}</span> */}
+              {activeBank === bank.id ? (
+                <Image src={bank.activeLogo} alt="HBL" width={50} height={20} />
+              ) : (
+                <Image src={bank.logo} alt="HBL" width={50} height={20} />
+              )}
             </button>
           ))}
         </div>

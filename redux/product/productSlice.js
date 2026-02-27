@@ -1,48 +1,37 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { productsService } from "./productService";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseURL } from "../utils";
 
-// Async thunks
-export const fetchProducts = createAsyncThunk(
-  "products/fetchProducts",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await productsService.getProducts();
-      console.log("📦 Fetched Products Response:", response); // <--- Console Log Added
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+export const productSlice = createApi({
+  reducerPath: "productApi",
+  baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
+  endpoints: (builder) => ({
+    getProducts: builder.query({
+      query: (params = {}) => {
+        const defaultParams = { paginate: true };
+        const finalParams = { ...defaultParams, ...params };
+        return {
+          url: "products",
+          params: finalParams,
+        };
+      },
+    }),
 
-const productsSlice = createSlice({
-  name: "products",
-  initialState: {
-    items: [],
-    loading: false,
-    error: null,
-  },
-  reducers: {
-    clearProducts: (state) => {
-      state.items = [];
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchProducts.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.items = action.payload;
-      })
-      .addCase(fetchProducts.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
+    getSingleProduct: builder.query({
+      query: (slug) => `products/${slug}`,
+    }),
+
+    getFilters: builder.mutation({
+      query: (params = {}) => ({
+        url: "products/filters",
+        method: "POST",
+        params,
+      }),
+    }),
+  }),
 });
 
-export const { clearProducts } = productsSlice.actions;
-export default productsSlice.reducer;
+export const {
+  useGetProductsQuery,
+  useGetSingleProductQuery,
+  useGetFiltersMutation,
+} = productSlice;

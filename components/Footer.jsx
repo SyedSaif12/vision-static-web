@@ -1,14 +1,16 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import paypalIcon from "@/assets/paypalicon.png";
-import visaIcon from "@/assets/visa.png";
-import mastercardIcon from "@/assets/mastercardicon.png";
-import discoverIcon from "@/assets/discovericon.png";
-import amexIcon from "@/assets/amexicon.png";
+import paypalIcon from "@/assets/paypalicon.svg";
+import visaIcon from "@/assets/visa.svg";
+import mastercardIcon from "@/assets/mastercardicon.svg";
+import discoverIcon from "@/assets/discovericon.svg";
+import amexIcon from "@/assets/amexicon.svg";
 
 // Social icons direct import
-import facebookIcon from "@/assets/facebookicon.png";
-import instaIcon from "../assets/instaicon.png";
+import facebookIcon from "@/assets/facebookicon.svg";
+import instaIcon from "../assets/instaicon.svg";
 
 const Footer = () => {
   return (
@@ -92,9 +94,13 @@ const Footer = () => {
             Address: Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near
             Sohny Sweets, Karachi, Pakistan.
           </p>
-          <p className="text-sm mt-3">
-            Phones: <span className="text-blue-400">(00) 1234 5678</span>
-          </p>
+          <div className="text-sm mt-3 flex flex-col">
+            <p>Phones:</p>{" "}
+            <p className="flex gap-2">
+              <span className="text-blue-400">03312405800</span>
+              <span className="text-blue-400">03260220581</span>
+            </p>
+          </div>
           <p className="text-sm mt-2">
             We are open: Monday–Saturday: <br />
             9:00 AM – 5:30 PM
@@ -105,7 +111,7 @@ const Footer = () => {
               href="mailto:contact@visiontech.com.pk"
               className="text-blue-400"
             >
-              contact@visiontech.com.pk
+              contact@visiontechpk.com
             </a>
           </p>
         </div>

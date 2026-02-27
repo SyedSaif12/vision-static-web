@@ -15,10 +15,13 @@ import asus from "@/assets/asusicon.png";
 export default function OurBrands() {
   return (
     <div className="w-full py-12 mt-10">
-      <h2 className="text-center text-xl font-bold mb-6">Our Brands</h2>
-
+      <div className="w-full h-full flex items-center">
+        <h2 className="w-full text-2xl sm:text-3xl mb-10 font-semibold">
+          Our Brands
+        </h2>
+      </div>
       <Swiper
-        slidesPerView={6}
+        slidesPerView={2}
         spaceBetween={10}
         loop={true}
         autoplay={{
@@ -28,9 +31,10 @@ export default function OurBrands() {
         modules={[Autoplay]}
         className="mySwiper"
         breakpoints={{
-          320: { slidesPerView: 2, spaceBetween: 20 },
+          430: { slidesPerView: 2, spaceBetween: 20 },
           640: { slidesPerView: 3, spaceBetween: 20 },
-          1024: { slidesPerView: 6, spaceBetween: 30 },
+          1024: { slidesPerView: 4, spaceBetween: 30 },
+          1280: { slidesPerView: 6, spaceBetween: 30 },
         }}
       >
         {[hp, dell, samsung, asus, hp, dell, samsung].map((logo, i) => (

@@ -1,7 +1,8 @@
 import StoreLocatorCard from "@/components/StoreLocatorCard";
 import HeroSection from "@/components/HeroSection";
-import HomeProducts from "@/components/HomeProducts";
 import headerimage from "@/assets/headerimage.png";
+import ShowAllSubCategories from "@/components/ShowAllSubCategories";
+import Footer from "@/components/Footer";
 
 export default function StoreLocatorPage() {
   const stores = [
@@ -62,8 +63,9 @@ export default function StoreLocatorPage() {
           </div>
         </div>
 
-        <HomeProducts />
+        <ShowAllSubCategories />
       </div>
+      <Footer />
     </>
   );
 }

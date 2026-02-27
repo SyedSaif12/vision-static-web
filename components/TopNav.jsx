@@ -1,11 +1,11 @@
 "use client";
-import InstaBlue from "@/assets/instabluecion.png";
-import FbBlue from "@/assets/fbblueicon.png";
+import InstaBlue from "@/assets/instabluecion.svg";
+import FbBlue from "@/assets/fbblueicon.svg";
 import Image from "next/image";
 import React, { useState } from "react";
 
 const TopNav = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <div className="text-white py-3 px-4 text-sm relative">
@@ -29,12 +29,9 @@ const TopNav = () => {
           </div>
 
           {/* MOBILE HAMBURGER ONLY */}
-          <button
-            className="lg:hidden text-black font-bold text-xl"
-            onClick={() => setOpen(!open)}
-          >
-            ☰
-          </button>
+          <span className="w-full lg:hidden text-black font-bold text-xs text-center">
+            Visit our showroom in Street Address City Address, 1234
+          </span>
 
           {/* CENTER TEXT — DESKTOP ONLY */}
           <div className="hidden lg:flex flex-row items-center gap-2 text-center absolute left-1/2 -translate-x-1/2">
@@ -53,9 +50,9 @@ const TopNav = () => {
         </div>
 
         {/* MOBILE DROPDOWN */}
-        {open && (
+        {/* {open && (
           <div className="mt-3 lg:hidden flex flex-col bg-gray-100 p-4 rounded text-black text-center gap-3">
-            {/* MOBILE PHONE NUMBER */}
+            // MOBILE PHONE NUMBER
             <div className="flex justify-center items-center gap-2">
               <span className="font-medium">callus:</span>
               <a
@@ -66,7 +63,7 @@ const TopNav = () => {
               </a>
             </div>
 
-            {/* MOBILE SHOWROOM */}
+            // MOBILE SHOWROOM
             <span>Visit our showroom in</span>
             <span>1234 Street Address City Address, 1234</span>
 
@@ -74,13 +71,13 @@ const TopNav = () => {
               Contact Us
             </a>
 
-            {/* MOBILE ICONS */}
+            // MOBILE ICONS
             <div className="flex justify-center gap-6 mt-2">
               <Image src={InstaBlue} alt="Instagram" className="w-6 h-6" />
               <Image src={FbBlue} alt="Facebook" className="w-6 h-6" />
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

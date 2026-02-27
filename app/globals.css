@@ -11,6 +11,12 @@ body {
   scroll-behavior: smooth;
 }
 
+*,
+*::before,
+*::after {
+  box-shadow: none !important;
+}
+
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

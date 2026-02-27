@@ -1,283 +1,25 @@
-// "use client";
-// import { useState } from "react";
-// import Link from "next/link";
-// import Image from "next/image";
-// import {
-//   Menu,
-//   X,
-//   Search,
-//   MapPin,
-//   ChevronDown,
-//   ChevronRight,
-// } from "lucide-react";
-// import visionTechIcon from "@/assets/visiontechicon.png";
-// import { menuData } from "@/components/menuData"; // Ensure path is correct
-
-// export default function Navbar() {
-//   const [openMobile, setOpenMobile] = useState(false);
-//   const [activeDropdown, setActiveDropdown] = useState(null);
-
-//   // Mobile menu mein categories open/close karne ke liye state
-//   const [mobileMenuOpen, setMobileMenuOpen] = useState({});
-
-//   const toggleMobileCategory = (category) => {
-//     setMobileMenuOpen((prev) => ({
-//       ...prev,
-//       [category]: !prev[category],
-//     }));
-//   };
-
-//   const handleMouseEnter = (menu) => setActiveDropdown(menu);
-//   const handleMouseLeave = () => setActiveDropdown(null);
-
-//   return (
-//     // FIX 1: 'absolute' aur 'w-[90%]' hata diya. Ab ye full width aur sticky hai.
-//     <nav className="absolute w-[90%] mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
-//       {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
-//       <div className="bg-gradient-to-r from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
-//         {/* ROW 1: Logo & Search */}
-//         <div className="container mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
-//           {/* Logo Section */}
-//           <div className="flex items-center justify-between w-full lg:w-auto">
-//             <Link href="/">
-//               <Image
-//                 src={visionTechIcon}
-//                 alt="Vision Tech"
-//                 className="w-28 lg:w-40 object-contain brightness-0 invert"
-//               />
-//             </Link>
-
-//             {/* Mobile Toggle Button */}
-//             <button
-//               onClick={() => setOpenMobile(true)}
-//               className="lg:hidden text-white p-1"
-//             >
-//               <Menu size={30} />
-//             </button>
-//           </div>
-
-//           {/* Search Bar */}
-//           <div className="w-full lg:flex-1 max-w-3xl px-0 lg:px-8">
-//             <div className="relative w-full">
-//               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-//                 <Search size={20} />
-//               </div>
-//               <input
-//                 type="text"
-//                 placeholder="Search Product"
-//                 className="w-full bg-white text-gray-800 rounded-full py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-//               />
-//             </div>
-//           </div>
-
-//           {/* Store Locator (Desktop Only) */}
-//           <Link
-//             href="/store-locator"
-//             className="hidden lg:flex items-center gap-2 bg-white text-[#030E40] px-6 py-2.5 rounded-full font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap"
-//           >
-//             <MapPin size={18} /> Store Locator
-//           </Link>
-//         </div>
-
-//         {/* --- ROW 2: DESKTOP MENU --- */}
-//         <div className="hidden lg:block border-t border-white/10 bg-black/10 relative">
-//           <div className="container mx-auto px-4">
-//             <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide">
-//               {Object.entries(menuData).map(([key, menu]) => (
-//                 <li
-//                   key={key}
-//                   className="group"
-//                   onMouseEnter={() => handleMouseEnter(key)}
-//                   onMouseLeave={handleMouseLeave}
-//                 >
-//                   <Link
-//                     href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
-//                     className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
-//                       activeDropdown === key ? "text-blue-300" : ""
-//                     }`}
-//                   >
-//                     {key}
-//                     <ChevronDown
-//                       size={14}
-//                       className={`transition-transform duration-200 ${
-//                         activeDropdown === key ? "rotate-180" : ""
-//                       }`}
-//                     />
-//                   </Link>
-
-//                   {/* DESKTOP MEGA MENU */}
-//                   {activeDropdown === key && (
-//                     <div className="absolute left-0 top-full w-full bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-50">
-//                       {menu.type === "mega" && (
-//                         <div className="container mx-auto p-8 grid grid-cols-3 gap-10">
-//                           {menu.columns.map((col, colIndex) => (
-//                             <div key={colIndex}>
-//                               <h3 className="text-lg font-bold mb-4 text-white border-b border-gray-600 pb-2">
-//                                 {colIndex === 0 ? key : <span>&nbsp;</span>}
-//                               </h3>
-//                               <ul className="space-y-3">
-//                                 {col.map((item, itemIndex) => (
-//                                   <li key={itemIndex}>
-//                                     <Link
-//                                       href="#"
-//                                       className="text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block text-[15px]"
-//                                     >
-//                                       {item}
-//                                     </Link>
-//                                   </li>
-//                                 ))}
-//                               </ul>
-//                             </div>
-//                           ))}
-//                         </div>
-//                       )}
-//                       {menu.type === "simple" && (
-//                         <div className="container mx-auto p-6">
-//                           <ul className="w-64 space-y-3">
-//                             {menu.items.map((item, i) => (
-//                               <li key={i}>
-//                                 <Link
-//                                   href={item.link}
-//                                   className="block text-gray-300 hover:text-white hover:translate-x-1 transition-transform"
-//                                 >
-//                                   {item.label}
-//                                 </Link>
-//                               </li>
-//                             ))}
-//                           </ul>
-//                         </div>
-//                       )}
-//                     </div>
-//                   )}
-//                 </li>
-//               ))}
-//             </ul>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* --- MOBILE MENU SIDEBAR (Fixed & Clean) --- */}
-//       {openMobile && (
-//         <div className="fixed inset-0 z-[100] flex justify-end">
-//           {/* Dark Overlay */}
-//           <div
-//             className="fixed inset-0 bg-black/60"
-//             onClick={() => setOpenMobile(false)}
-//           />
-
-//           {/* Drawer */}
-//           <div className="relative bg-white w-[85%] max-w-sm h-full shadow-2xl overflow-y-auto flex flex-col">
-//             {/* Drawer Header */}
-//             <div className="p-5 flex justify-between items-center border-b bg-gray-50 sticky top-0 z-10">
-//               <span className="text-xl font-bold text-[#030E40]">Menu</span>
-//               <button
-//                 onClick={() => setOpenMobile(false)}
-//                 className="bg-gray-200 p-2 rounded-full hover:bg-gray-300"
-//               >
-//                 <X size={20} className="text-gray-700" />
-//               </button>
-//             </div>
-
-//             {/* Drawer Links */}
-//             <div className="flex-1 p-4 space-y-1">
-//               {Object.entries(menuData).map(([key, menu]) => (
-//                 <div
-//                   key={key}
-//                   className="border-b border-gray-100 last:border-none"
-//                 >
-//                   <button
-//                     onClick={() => toggleMobileCategory(key)}
-//                     className="w-full font-semibold text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
-//                   >
-//                     {key}
-//                     <ChevronDown
-//                       size={18}
-//                       className={`text-gray-400 transition-transform ${
-//                         mobileMenuOpen[key] ? "rotate-180" : ""
-//                       }`}
-//                     />
-//                   </button>
-
-//                   {/* Mobile Accordion Content */}
-//                   {mobileMenuOpen[key] && (
-//                     <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
-//                       {menu.type === "simple"
-//                         ? menu.items.map((i, idx) => (
-//                             <Link
-//                               key={idx}
-//                               href={i.link}
-//                               className="block py-1 hover:text-blue-500"
-//                             >
-//                               {i.label}
-//                             </Link>
-//                           ))
-//                         : // Flatten mega menu columns for mobile
-//                           menu.columns.flat().map((item, idx) => (
-//                             <Link
-//                               key={idx}
-//                               href="#"
-//                               className="block py-1 hover:text-blue-500"
-//                             >
-//                               {item}
-//                             </Link>
-//                           ))}
-//                     </div>
-//                   )}
-//                 </div>
-//               ))}
-//             </div>
-
-//             {/* Bottom Links */}
-//             <div className="p-4 bg-gray-50 border-t space-y-3">
-//               <Link
-//                 href="/faq"
-//                 className="flex items-center gap-3 font-semibold text-gray-700"
-//               >
-//                 <span className="w-2 h-2 rounded-full bg-blue-500"></span> FAQ
-//               </Link>
-//               <Link
-//                 href="/contact"
-//                 className="flex items-center gap-3 font-semibold text-gray-700"
-//               >
-//                 <span className="w-2 h-2 rounded-full bg-blue-500"></span>{" "}
-//                 Contact
-//               </Link>
-//               <Link
-//                 href="/store-locator"
-//                 className="flex items-center gap-3 font-semibold text-[#030E40] mt-4 p-3 bg-white border border-gray-200 rounded-lg justify-center shadow-sm"
-//               >
-//                 <MapPin size={18} /> Store Locator
-//               </Link>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </nav>
-//   );
-// }
-
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Menu,
-  X,
-  Search,
-  MapPin,
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { Menu, X, MapPin, ChevronDown, ShoppingCart } from "lucide-react";
 import visionTechIcon from "@/assets/visiontechicon.png";
-import { menuData } from "@/components/menuData";
-import cart from "../assets/cart.svg";
+import { useGetCategoriesQuery } from "@/redux/category/categorySlice";
+import Loading from "./Loading";
 import { useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
 import CartDrawer from "./CartDrawer";
 import threelines from "../assets/threelines.svg";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
+  const { isLoading, currentData } = useGetCategoriesQuery({
+    navbar: true,
+  });
+
   const [openMobile, setOpenMobile] = useState(false);
+  const [categoryData, setCategoryData] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState({});
   const [openmenu, setopenmenu] = useState(false);
@@ -285,12 +27,16 @@ export default function Navbar() {
 
   const cartCount = useSelector(getCartCount);
 
-  const toggleMobileCategory = (category) => {
+  const toggleMobileCategory = (categoryId) => {
     setMobileMenuOpen((prev) => ({
       ...prev,
-      [category]: !prev[category],
+      [categoryId]: !prev[categoryId],
     }));
   };
+
+  useEffect(() => {
+    setCategoryData(currentData?.data);
+  }, [currentData?.data]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -306,14 +52,16 @@ export default function Navbar() {
     };
   }, [activeDropdown]);
 
-  const handleMouseEnter = (menu) => setActiveDropdown(menu);
+  const handleMouseEnter = (categoryId) => setActiveDropdown(categoryId);
   const handleMouseLeave = () => setActiveDropdown(null);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
-      <nav className="absolute w-[90%] mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
+      <nav className="absolute w-[90%] border-2 rounded-xl border-white/50 mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
         {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
-        <div className="bg-gradient-to-r from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
+        <div className="bg-gradient-to-r rounded-xl from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
           {/* ROW 1: Logo & Search */}
           <div className="container mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
             {/* Logo Section */}
@@ -327,27 +75,41 @@ export default function Navbar() {
               </Link>
 
               {/* Mobile Toggle Button */}
-              <button
-                onClick={() => setOpenMobile(true)}
-                className="lg:hidden text-white p-1"
-              >
-                <Menu size={30} />
-              </button>
+              <div className="flex gap-2 lg:hidden">
+                <Link href="" className="relative">
+                  <div
+                    onClick={() => setCartOpen(true)}
+                    className="rounded-full bg-white p-2"
+                  >
+                    <ShoppingCart className="size-4 md:size-6 text-black" />
+                  </div>
+                  <CartDrawer
+                    open={cartOpen}
+                    onClose={() => setCartOpen(false)}
+                  />
+
+                  {/* Red Dot / Badge */}
+                  {cartCount > 0 ? (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs size-4 md:size-5 flex items-center justify-center rounded-full">
+                      {cartCount}
+                    </span>
+                  ) : (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs size-4 md:size-5 flex items-center justify-center rounded-full">
+                      {Number(0)}
+                    </span>
+                  )}
+                </Link>
+                <button
+                  onClick={() => setOpenMobile(true)}
+                  className="text-white p-1"
+                >
+                  <Menu className="size-6 md:size-8" />
+                </button>
+              </div>
             </div>
 
             {/* Search Bar */}
-            <div className="w-full lg:flex-1 max-w-3xl px-0 lg:px-8">
-              <div className="relative w-full">
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <Search size={20} />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search Product"
-                  className="w-full bg-white text-gray-800 rounded-full py-2.5 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
-                />
-              </div>
-            </div>
+            <SearchBar />
 
             {/* Store Locator (Desktop Only) */}
             <div className="hidden lg:flex items-center gap-4">
@@ -361,23 +123,25 @@ export default function Navbar() {
 
               {/* Cart Icon */}
               <Link href="" className="relative">
-                <Image
-                  src={cart}
-                  alt="Cart"
-                  width={42}
-                  height={42}
-                  className="rounded-full bg-white p-2"
+                <div
                   onClick={() => setCartOpen(true)}
-                />
+                  className="rounded-full bg-white p-2"
+                >
+                  <ShoppingCart className="size-25 text-black" />
+                </div>
                 <CartDrawer
                   open={cartOpen}
                   onClose={() => setCartOpen(false)}
                 />
 
                 {/* Red Dot / Badge */}
-                {cartCount > 0 && (
+                {cartCount > 0 ? (
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                     {cartCount}
+                  </span>
+                ) : (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {Number(0)}
                   </span>
                 )}
               </Link>
@@ -386,46 +150,63 @@ export default function Navbar() {
 
           {/* --- ROW 2: DESKTOP MENU --- */}
           <div className="hidden lg:block border-t border-white/10 bg-black/10">
-            <div className="container mx-auto  px-4">
-              <div className="flex items-center py-3">
-                {/* LEFT: Menu Button */}
-                <button
-                  className="flex items-center gap-1 bg-[#FF8415] px-4 py-1 rounded-full"
-                  onClick={() => setopenmenu(true)}
-                >
-                  <img src={threelines.src} alt="" className="w-4 h-4" />
-                  <span>Menu</span>
-                </button>
-
-                {/* CENTER: Navigation */}
-                <ul className="flex flex-1 justify-center gap-6 text-sm font-medium tracking-wide flex-wrap items-center">
-                  {Object.entries(menuData).map(([key, menu]) => (
-                    <li
-                      key={key}
-                      className="group"
-                      onMouseEnter={() => handleMouseEnter(key)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <Link
-                        href={`/${key.toLowerCase().replace(/\s+/g, "-")}`}
-                        className={`flex items-center gap-1 py-2 hover:text-blue-300 transition-colors ${
-                          activeDropdown === key ? "text-blue-300" : ""
-                        }`}
-                      >
-                        {key}
-                        <ChevronDown
-                          size={14}
-                          className={`transition-transform duration-200 ${
-                            activeDropdown === key ? "rotate-180" : ""
-                          }`}
-                        />
-                      </Link>
-                    </li>
-                  ))}
-
-                  <Link href="/faq">Faq</Link>
-                  <Link href="/contact">Contact us</Link>
+            <div className="container mx-auto px-4">
+              {/* <ul className="flex flex-wrap items-center justify-center gap-6 py-3 text-sm font-medium tracking-wide"> */}
+              <div className="flex justify-between gap-6 py-3 text-sm font-medium tracking-wide items-center">
+                <div className="flex-1">
+                  <button
+                    className="flex w-28 items-center gap-1 bg-[#FF8415] px-4 py-1 rounded-full"
+                    onClick={() => setopenmenu(true)}
+                  >
+                    <img src={threelines.src} alt="" className="w-4 h-4" />
+                    <span>Menu</span>
+                  </button>
+                </div>
+                <ul className="flex-2 flex text-xs xl:text-base flex-wrap justify-center gap-4 items-center">
+                  {Array.isArray(categoryData) &&
+                    categoryData?.length > 0 &&
+                    categoryData
+                      ?.slice()
+                      ?.reverse()
+                      ?.slice(0, 7)
+                      ?.map((category) => (
+                        <li
+                          key={category?.id}
+                          className="group"
+                          onMouseEnter={() => handleMouseEnter(category?.id)}
+                          onMouseLeave={handleMouseLeave}
+                        >
+                          <Link
+                            href={`/${category?.name}`}
+                            className={`flex items-center capitalize gap-1 py-2 hover:text-blue-300 transition-colors ${
+                              activeDropdown === category?.id
+                                ? "text-blue-300"
+                                : ""
+                            }`}
+                          >
+                            {category?.name?.replace("-", " ")}
+                            {category?.subCategories &&
+                              category?.subCategories.length > 0 && (
+                                <ChevronDown
+                                  size={14}
+                                  className={`transition-transform duration-200 ${
+                                    activeDropdown === category?.id
+                                      ? "rotate-180"
+                                      : ""
+                                  }`}
+                                />
+                              )}
+                          </Link>
+                        </li>
+                      ))}
+                  <li>
+                    <Link href="/faq">Faq</Link>
+                  </li>
+                  <li>
+                    <Link href="/contact">Contact us</Link>
+                  </li>
                 </ul>
+                <div className="flex-1" />
               </div>
             </div>
           </div>
@@ -435,51 +216,72 @@ export default function Navbar() {
       {/* DESKTOP MEGA MENU - OUTSIDE NAV, FULL WIDTH */}
       {activeDropdown && (
         <div
-          // className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block fixed left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
-          className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
+          // className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
+          className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-gradient-to-br from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white shadow-2xl border-t border-gray-700 z-40"
           style={{ top: "calc(2rem + 7.5rem)", zIndex: 50 }}
           onMouseEnter={() => handleMouseEnter(activeDropdown)}
           onMouseLeave={handleMouseLeave}
         >
-          {menuData[activeDropdown]?.type === "mega" && (
-            <div className="container mx-auto p-8 grid grid-cols-3 gap-10">
-              {menuData[activeDropdown].columns.map((col, colIndex) => (
-                <div key={colIndex}>
-                  <h3 className="text-lg font-bold mb-4 text-white border-b border-gray-600 pb-2">
-                    {colIndex === 0 ? activeDropdown : <span>&nbsp;</span>}
-                  </h3>
-                  <ul className="space-y-3">
-                    {col.map((item, itemIndex) => (
-                      <li key={itemIndex}>
-                        <Link
-                          href="#"
-                          className="text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block text-[15px]"
-                        >
-                          {item}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          )}
-          {menuData[activeDropdown]?.type === "simple" && (
-            <div className="container mx-auto p-6">
-              <ul className="w-64 space-y-3">
-                {menuData[activeDropdown].items.map((item, i) => (
-                  <li key={i}>
-                    <Link
-                      href={item.link}
-                      className="block text-gray-300 hover:text-white hover:translate-x-1 transition-transform"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
+          {(() => {
+            const activeCategory = categoryData?.find(
+              (cat) => cat?.id === activeDropdown,
+            );
+
+            if (
+              !activeCategory ||
+              !activeCategory.subCategories ||
+              activeCategory.subCategories.length === 0
+            ) {
+              return null;
+            }
+
+            // Split subcategories into columns (3 columns max)
+            const subCategories = activeCategory.subCategories;
+            const itemsPerColumn = Math.ceil(subCategories.length / 3);
+            const columns = [];
+
+            for (let i = 0; i < 3; i++) {
+              const start = i * itemsPerColumn;
+              const end = start + itemsPerColumn;
+              const columnItems = subCategories.slice(start, end);
+              if (columnItems.length > 0) {
+                columns.push(columnItems);
+              }
+            }
+
+            return (
+              <div className="container mx-auto p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {columns.map((column, colIndex) => (
+                  <div key={colIndex}>
+                    <h3 className="text-lg capitalize font-bold mb-4 text-white border-b border-gray-600 pb-2">
+                      {colIndex === 0 ? (
+                        activeCategory.name
+                      ) : (
+                        <span>&nbsp;</span>
+                      )}
+                    </h3>
+                    <ul className="space-y-3">
+                      {column.map((subCat) => (
+                        <li key={subCat.id}>
+                          <Link
+                            href={`/${activeCategory.name}/${subCat.name}`}
+                            // className="text-gray-300 hover:text-white hover:translate-x-1 transition-all inline-block text-[15px]"
+                            className="relative capitalize text-gray-300 hover:text-white transition-all inline-block text-[15px]
+                            after:content-[''] after:absolute after:bottom-[-3px] after:right-0 
+                            after:w-0 after:h-[2px] after:bg-white 
+                            after:transition-all after:duration-300 
+                            hover:after:w-full hover:after:left-0 hover:after:right-auto"
+                          >
+                            {subCat.name.replace("-", " ")}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ))}
-              </ul>
-            </div>
-          )}
+              </div>
+            );
+          })()}
         </div>
       )}
 
@@ -507,48 +309,44 @@ export default function Navbar() {
 
             {/* Drawer Links */}
             <div className="flex-1 p-4 space-y-1">
-              {Object.entries(menuData).map(([key, menu]) => (
+              {categoryData?.map((category) => (
                 <div
-                  key={key}
+                  key={category.id}
                   className="border-b border-gray-100 last:border-none"
                 >
                   <button
-                    onClick={() => toggleMobileCategory(key)}
-                    className="w-full font-semibold text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
+                    onClick={() => toggleMobileCategory(category.id)}
+                    className="w-full font-semibold capitalize text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
                   >
-                    {key}
-                    <ChevronDown
-                      size={18}
-                      className={`text-gray-400 transition-transform ${
-                        mobileMenuOpen[key] ? "rotate-180" : ""
-                      }`}
-                    />
+                    {category.name.replace("-", " ")}
+                    {category.subCategories &&
+                      category.subCategories.length > 0 && (
+                        <ChevronDown
+                          size={18}
+                          className={`text-gray-400 transition-transform ${
+                            mobileMenuOpen[category.name] ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
                   </button>
 
                   {/* Mobile Accordion Content */}
-                  {mobileMenuOpen[key] && (
-                    <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
-                      {menu.type === "simple"
-                        ? menu.items.map((i, idx) => (
-                            <Link
-                              key={idx}
-                              href={i.link}
-                              className="block py-1 hover:text-blue-500"
-                            >
-                              {i.label}
-                            </Link>
-                          ))
-                        : menu.columns.flat().map((item, idx) => (
-                            <Link
-                              key={idx}
-                              href="#"
-                              className="block py-1 hover:text-blue-500"
-                            >
-                              {item}
-                            </Link>
-                          ))}
-                    </div>
-                  )}
+                  {mobileMenuOpen[category.id] &&
+                    category.subCategories &&
+                    category.subCategories.length > 0 && (
+                      <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
+                        {category.subCategories.map((subCat) => (
+                          <Link
+                            key={subCat.id}
+                            href={`/${category.name}/${subCat.name}`}
+                            className="block py-1 capitalize hover:text-blue-500"
+                            onClick={() => setOpenMobile(false)}
+                          >
+                            {subCat.name.replace("-", " ")}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                 </div>
               ))}
             </div>
@@ -558,12 +356,14 @@ export default function Navbar() {
               <Link
                 href="/faq"
                 className="flex items-center gap-3 font-semibold text-gray-700"
+                onClick={() => setOpenMobile(false)}
               >
                 <span className="w-2 h-2 rounded-full bg-blue-500"></span> FAQ
               </Link>
               <Link
                 href="/contact"
                 className="flex items-center gap-3 font-semibold text-gray-700"
+                onClick={() => setOpenMobile(false)}
               >
                 <span className="w-2 h-2 rounded-full bg-blue-500"></span>{" "}
                 Contact
@@ -571,6 +371,7 @@ export default function Navbar() {
               <Link
                 href="/store-locator"
                 className="flex items-center gap-3 font-semibold text-[#030E40] mt-4 p-3 bg-white border border-gray-200 rounded-lg justify-center shadow-sm"
+                onClick={() => setOpenMobile(false)}
               >
                 <MapPin size={18} /> Store Locator
               </Link>
@@ -592,15 +393,17 @@ export default function Navbar() {
           <div
             className={`absolute left-0 top-0 h-full w-[85%] max-w-sm bg-white shadow-2xl
       transform transition-transform duration-300 ease-in-out
-      ${openmenu ? "translate-x-0" : "translate-x-full"}
-      flex flex-col overflow-y-auto`}
+      flex flex-col overflow-hidden
+      ${openmenu ? "translate-x-0" : "translate-x-full"}`}
           >
             {/* Header */}
-            <div className="bg-[#030E40] text-white p-10 rounded-b-3xl sticky top-0 z-10">
+            <div className="bg-[#030E40] text-white p-10 rounded-b-3xl">
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-lg font-bold">Menu</h2>
-                  <p className="text-sm opacity-80">12 items</p>
+                  <p className="text-sm opacity-80">
+                    {categoryData?.length} items
+                  </p>
                 </div>
                 <button
                   onClick={() => setopenmenu(false)}
@@ -612,49 +415,45 @@ export default function Navbar() {
             </div>
 
             {/* Drawer Links */}
-            <div className="flex-1 p-4 space-y-1">
-              {Object.entries(menuData).map(([key, menu]) => (
+            <div className="flex-1 overflow-y-scroll p-4 space-y-1">
+              {categoryData?.map((category) => (
                 <div
-                  key={key}
+                  key={category.id}
                   className="border-b border-gray-100 last:border-none"
                 >
                   <button
-                    onClick={() => toggleMobileCategory(key)}
-                    className="w-full font-semibold text-black py-3 flex justify-between items-center hover:text-blue-600"
+                    onClick={() => toggleMobileCategory(category.id)}
+                    className="w-full font-semibold capitalize text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
                   >
-                    {key}
-                    <ChevronDown
-                      size={18}
-                      className={`text-gray-400 transition-transform ${
-                        mobileMenuOpen[key] ? "rotate-180" : ""
-                      }`}
-                    />
+                    {category.name.replace("-", " ")}
+                    {category.subCategories &&
+                      category.subCategories.length > 0 && (
+                        <ChevronDown
+                          size={18}
+                          className={`text-gray-400 transition-transform ${
+                            mobileMenuOpen[category.name] ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
                   </button>
 
                   {/* Mobile Accordion Content */}
-                  {mobileMenuOpen[key] && (
-                    <div className="pl-4 pb-3 text-sm text-black space-y-2 bg-gray-50/50 rounded-md mb-2">
-                      {menu.type === "simple"
-                        ? menu.items.map((i, idx) => (
-                            <Link
-                              key={idx}
-                              href={i.link}
-                              className="block py-1 hover:text-blue-500"
-                            >
-                              {i.label}
-                            </Link>
-                          ))
-                        : menu.columns.flat().map((item, idx) => (
-                            <Link
-                              key={idx}
-                              href="#"
-                              className="block py-1 hover:text-blue-500"
-                            >
-                              {item}
-                            </Link>
-                          ))}
-                    </div>
-                  )}
+                  {mobileMenuOpen[category.id] &&
+                    category.subCategories &&
+                    category.subCategories.length > 0 && (
+                      <div className="pl-4 pb-3 text-sm text-gray-600 space-y-2 bg-gray-50/50 rounded-md mb-2">
+                        {category.subCategories.map((subCat) => (
+                          <Link
+                            key={subCat.id}
+                            href={`/${category.name}/${subCat.name}`}
+                            className="block py-1 capitalize hover:text-blue-500"
+                            onClick={() => setOpenMobile(false)}
+                          >
+                            {subCat.name.replace("-", " ")}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                 </div>
               ))}
             </div>

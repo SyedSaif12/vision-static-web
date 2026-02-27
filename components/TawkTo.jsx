@@ -9,8 +9,6 @@
 //     const propertyId = process.env.NEXT_PUBLIC_TAWK_TO_PROPERTY_ID;
 //     const widgetId = process.env.NEXT_PUBLIC_TAWK_TO_WIDGET_ID;
 
-//     console.log("TawkTo: Property ID:", propertyId);
-//     console.log("TawkTo: Widget ID:", widgetId);
 
 //     if (!propertyId || !widgetId) {
 //       console.error("Tawk.to IDs not found");
@@ -22,7 +20,6 @@
 //       return;
 //     }
 
-//     console.log("TawkTo: Loading script...");
 
 //     const script = document.createElement("script");
 //     script.async = true;
@@ -31,7 +28,6 @@
 //     script.setAttribute("crossorigin", "*");
 
 //     script.onload = () => {
-//       console.log("Tawk.to loaded successfully");
 //       setIsLoaded(true);
 //     };
 
