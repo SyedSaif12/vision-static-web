@@ -76,7 +76,7 @@ export default function CartDrawer({ open, onClose }) {
                 </p>
                 <p className="text-blue-700 font-semibold">
                   PKR{" "}
-                  {formatPrice(product.price) || formatPrice(product.oldPrice)}
+                  {formatPrice(product.price)}
                 </p>
                 <div className="flex items-center gap-3 mt-2">
                   <button

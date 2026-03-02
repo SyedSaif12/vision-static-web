@@ -84,7 +84,7 @@ export const getCartAmount = (state) => {
 
   for (const item of Object.values(state.cart.items)) {
     if (item.quantity > 0 && item.product) {
-      const price = item.product.oldPrice || item.product.price || 0;
+      const price = item.product.price || 0;
       totalAmount += price * item.quantity;
     }
   }

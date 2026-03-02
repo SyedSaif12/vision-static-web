@@ -11,9 +11,10 @@ const schema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   city: Yup.string().required("City is required"),
   phoneNo: Yup.string().required("Phone is required"),
+  customerOffer: Yup.number().required("Price is required"),
 });
 
-const BargainDialog = ({ open, onClose, id }) => {
+const BargainDialog = ({ open, onClose, id, productName }) => {  
   const [submitBargain, { isLoading }] = usePostBargainMutation();
 
   const formMethods = useForm({
@@ -71,6 +72,27 @@ const BargainDialog = ({ open, onClose, id }) => {
 
             {/* Form */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Product name */}
+              <div className="flex flex-col">
+                <label className="text-gray-700 text-sm mb-1">Product name</label>
+                <input
+                  type="text"
+                  value={productName}
+                  disabled={true}
+                  className="w-full bg-gray-100 cursor-not-allowed rounded-full px-5 py-3 text-gray-500 outline-none truncate"
+                />
+              </div>
+              {/* Price */}
+              <div className="flex flex-col">
+                <label className="text-gray-700 text-sm mb-1">Your Price</label>
+                <input
+                  type="text"
+                  {...register("customerOffer")}
+                  placeholder="Enter your price"
+                  className="w-full bg-gray-100 rounded-full px-5 py-3 text-gray-500 outline-none"
+                />
+                <p className="text-red-600">{errors.customerOffer?.message}</p>
+              </div>
               {/* Name */}
               <div className="flex flex-col">
                 <label className="text-gray-700 text-sm mb-1">Name</label>

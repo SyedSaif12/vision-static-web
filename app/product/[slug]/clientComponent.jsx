@@ -221,6 +221,7 @@ const ClientProductComponent = ({ product }) => {
       {/* Dialog Box */}
       <BargainDialog
         id={product?.id}
+        productName={product?.productTitle}
         open={openDialog}
         onClose={() => setOpenDialog(false)}
       />

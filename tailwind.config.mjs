@@ -1,7 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 /** @type {import('tailwindcss').Config} */
 import typography from "@tailwindcss/typography";
-import containerQueries from "@tailwindcss/container-queries";
 export default {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -24,5 +23,5 @@ export default {
       },
     },
   },
-  plugins: [typography, containerQueries],
+  plugins: [typography],
 };

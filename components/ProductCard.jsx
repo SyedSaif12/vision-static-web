@@ -46,10 +46,6 @@ const ProductCard = ({ product, openCart }) => {
 
   return (
     <div
-      onClick={() => {
-        router.push(`/product/${product.slug}`);
-        scrollTo(0, 0);
-      }}
       className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100"
     >
       {/* Product Image with Premium Delivery Badge */}
@@ -71,7 +67,12 @@ const ProductCard = ({ product, openCart }) => {
         </div>
       </div>
 
-      <p className="text-sm font-semibold hover:text-blue-500 hover:underline w-11/12 my-3 line-clamp-2">
+      <p
+        onClick={() => {
+          router.push(`/product/${product.slug}`);
+          scrollTo(0, 0);
+        }}
+        className="text-sm font-semibold hover:text-blue-500 hover:underline w-11/12 my-3 line-clamp-2">
         {product.productTitle}
       </p>
 

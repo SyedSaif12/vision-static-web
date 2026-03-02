@@ -133,6 +133,7 @@ const CheckoutPage = () => {
       postalCode: data.postalCode,
       phoneNo: data.phone,
       shipping: calculations.shippingFee,
+      applyCode: calculations.shouldApplyCODFee,
       paymentMethod: data.payment,
       items: cartProducts.map((item) => ({
         variantId: item.id,
