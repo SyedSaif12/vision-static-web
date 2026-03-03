@@ -8,24 +8,8 @@ export default function StoreLocatorPage() {
   const stores = [
     {
       id: 1,
-      name: "APPLESHOP",
-      type: "COMPUTER ACCESSORIES STORE",
-      address:
-        "Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton, Karachi, 75600, Pakistan",
-      imgSrc: headerimage,
-    },
-    {
-      id: 2,
-      name: "APPLEHUB.PK",
-      type: "COMPUTER ACCESSORIES STORE",
-      address:
-        "Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton, Karachi, 75600, Pakistan",
-      imgSrc: headerimage,
-    },
-    {
-      id: 3,
-      name: "CLIFTON SASSI ARCADE",
-      type: "COMPUTER ACCESSORIES STORE",
+      name: "Sasi Arcade",
+      type: "Computer accessories store",
       address:
         "Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton, Karachi, 75600, Pakistan",
       imgSrc: headerimage,
@@ -45,14 +29,14 @@ export default function StoreLocatorPage() {
             {/* Left Side Store List */}
             <div className="md:col-span-1 flex flex-col gap-4 overflow-y-auto h-[90vh] pr-2">
               {stores.map((store) => (
-                <StoreLocatorCard key={store.id} {...store} />
+                <StoreLocatorCard key={store.id} stores={store} />
               ))}
             </div>
 
             {/* Right Side Map */}
             <div className="md:col-span-2 rounded-2xl overflow-hidden shadow bg-white">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.2831119177623!2d67.02893877523963!3d24.857190745497868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33dfb30ff2a11%3A0xda96e3b9a9e8f365!2sClifton%20Block%207!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d7242.007463295499!2d67.032416!3d24.829546!3m2!1i1024!2i768!4f13.1!2m1!1sShop%2029%20Ground%20Floor%20SASI%20Arcade%20Block%207%20Clifton%20Near%20Sohny%20Sweets%20Karachi%20Pakistan!5e0!3m2!1sen!2s!4v1772445002215!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

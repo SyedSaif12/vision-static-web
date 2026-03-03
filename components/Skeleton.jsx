@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function ProductCardSkeleton() {
   return (
@@ -55,20 +55,25 @@ export function ProductCardSkeleton() {
 }
 
 // Grid Layout ke liye multiple skeletons
-export function ProductGridSkeleton({ count = 2 }) {
+export function ProductGridSkeleton({ counts = 2 }) {
+  const [count, setCount] = useState(counts);
+
   useEffect(() => {
     const updateCount = () => {
       const width = window.innerWidth;
 
-      if (width < 640)
-        count = 2; // mobile
-      else if (width < 1024)
-        count = 4; // tablet
-      else count = 12; // desktop
+      if (width < 640) {
+        setCount(2); // mobile
+      } else if (width < 1024) {
+        setCount(4); // tablet
+      } else {
+        setCount(8); // desktop
+      }
     };
 
-    updateCount(); // initial
+    updateCount(); // initial call
     window.addEventListener("resize", updateCount);
+
     return () => window.removeEventListener("resize", updateCount);
   }, []);
   return (

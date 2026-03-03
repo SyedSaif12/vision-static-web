@@ -1,7 +1,8 @@
 import Image from "next/image";
 import storeLocator from "@/assets/storeslocationimage.png";
 
-export default function StoreLocatorCard() {
+export default function StoreLocatorCard({stores}) {
+  
   return (
     <div className="w-full rounded-2xl shadow p-4 bg-white">
       {/* Top section */}
@@ -19,18 +20,21 @@ export default function StoreLocatorCard() {
         {/* Text */}
         <div className="flex flex-col justify-center">
           <h2 className="text-base md:text-lg font-semibold text-black">
-            APPLESHOP
+            {/* APPLESHOP */}
+            {stores?.name}
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            COMPUTER ACCESSORIES STORE
+            {/* COMPUTER ACCESSORIES STORE */}
+            {stores?.type}
           </p>
         </div>
       </div>
 
       {/* Address */}
       <p className="mt-3 text-sm text-gray-700 leading-relaxed">
-        Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton,
-        Karachi, 75600, Pakistan
+        {/* Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton,
+        Karachi, 75600, Pakistan */}
+        {stores?.address}
       </p>
     </div>
   );

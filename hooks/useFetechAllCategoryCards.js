@@ -23,10 +23,6 @@ const cardsConfig = [
     query: { category: "whoop-band" },
   },
   {
-    title: "Whoop Band",
-    query: { category: "whoop-band" },
-  },
-  {
     title: "iPhones",
     query: { category: "mobiles", subCategory: "apple" },
   },
