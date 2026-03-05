@@ -1,6 +1,7 @@
 import { baseURL } from "@/redux/utils";
 import ClientProductComponent from "./clientComponent";
 import { stripHtml } from "@/helper/htmlConvertToText";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   // set metadata for SEO optimization
@@ -12,18 +13,18 @@ export async function generateMetadata({ params }) {
   const product = data?.data;
 
   return {
-    title: `${product.productTitle} | Buy Online in Pakistan`,
-    description: product.description?.slice(0, 150) ?? "",
+    title: `${product?.productTitle} | Buy Online in Pakistan`,
+    description: product?.description?.slice(0, 150) ?? "",
     keywords: [
       product?.products?.category.name,
       product?.products?.subCategory.name,
       product?.productTitle,
     ],
     openGraph: {
-      title: product.productTitle,
+      title: product?.productTitle,
       description:
         stripHtml(data?.data?.seoContent)?.slice(0, 160)?.trim() ?? "",
-      images: [product.image?.[0]?.fileUrl],
+      images: [product?.image?.[0]?.fileUrl],
     },
   };
 }
@@ -34,6 +35,10 @@ const page = async ({ params }) => {
     next: { revalidate: 60 },
   });
   const data = await response.json();
+
+  if (!data?.data) {
+    return notFound();
+  }
 
   return (
     <>

@@ -16,7 +16,15 @@ import Footer from "@/components/Footer";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/cart/cartSlice";
 import ShowAllSubCategories from "@/components/ShowAllSubCategories";
+
+const stocks = {
+  in_stock: "In Stock",
+  out_stock: "Out Stock",
+  on_order: "On Order",
+};
 const ClientProductComponent = ({ product }) => {
+  console.log(product?.status);
+
   // State for main image, cart drawer, quantity, and bargain dialog
   const [mainImage, setMainImage] = useState(
     product?.image[0]?.fileUrl || null,
@@ -55,7 +63,7 @@ const ClientProductComponent = ({ product }) => {
                 <SafeNextImage
                   priority={true}
                   src={mainImage}
-                  alt={product.productTitle}
+                  alt={product?.productTitle}
                   className="w-full relative h-auto object-cover mix-blend-multiply"
                 />
               </div>
@@ -71,7 +79,7 @@ const ClientProductComponent = ({ product }) => {
                     >
                       <SafeNextImage
                         src={image?.fileUrl}
-                        alt={image?.filename || product.productTitle}
+                        alt={image?.filename || product?.productTitle}
                         className="w-full relative h-auto object-cover object-center mix-blend-multiply"
                       />
                     </div>
@@ -103,15 +111,27 @@ const ClientProductComponent = ({ product }) => {
                 {/* Brand */}
                 <div className="flex justify-between">
                   <p className="text-gray-600 font-medium">Brand</p>
-                  <p className="text-[#000DAF] font-semibold">
+                  <p className="font-semibold">
                     {product?.products?.subCategory?.name}
                   </p>
                 </div>
 
                 {/* Stock */}
                 <div className="flex justify-between">
-                  <p className="text-gray-600 font-medium">In-Stock</p>
-                  <p className="text-[#2EAE6F] font-semibold">In stock</p>
+                  <p className="text-gray-600 font-medium">Stock</p>
+                  {product?.status === "in_stock" ? (
+                    <p className="text-[#2EAE6F] font-semibold">
+                      {stocks[product?.status]}
+                    </p>
+                  ) : product?.status == "on_order" ? (
+                    <p className="text-[#2b4ed9] font-semibold">
+                      {stocks[product?.status]}
+                    </p>
+                  ) : (
+                    <p className="text-[#d92b2b] font-semibold">
+                      {stocks[product?.status]}
+                    </p>
+                  )}
                 </div>
 
                 {/* Delivery Time */}
@@ -123,7 +143,7 @@ const ClientProductComponent = ({ product }) => {
                 {/* Category */}
                 <div className="flex justify-between">
                   <p className="text-gray-600 font-medium">Category</p>
-                  <p className="text-gray-800/50">
+                  <p className="text-gray-600">
                     {product?.products?.category?.name}
                     {/* Laptop */}
                   </p>

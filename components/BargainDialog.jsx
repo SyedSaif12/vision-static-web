@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { trimPayload } from "@/helper/trimPayload";
 import toast from "react-hot-toast";
+import { ChevronDown } from "lucide-react";
 
 const schema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -14,7 +15,7 @@ const schema = Yup.object({
   customerOffer: Yup.number().required("Price is required"),
 });
 
-const BargainDialog = ({ open, onClose, id, productName }) => {  
+const BargainDialog = ({ open, onClose, id, productName }) => {
   const [submitBargain, { isLoading }] = usePostBargainMutation();
 
   const formMethods = useForm({
@@ -74,7 +75,9 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Product name */}
               <div className="flex flex-col">
-                <label className="text-gray-700 text-sm mb-1">Product name</label>
+                <label className="text-gray-700 text-sm mb-1">
+                  Product name
+                </label>
                 <input
                   type="text"
                   value={productName}
@@ -123,16 +126,26 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
               {/* City */}
               <div className="flex flex-col">
                 <label className="text-gray-700 text-sm mb-1">City</label>
-                <select
-                  {...register("city")}
-                  className="w-full bg-gray-100 rounded-full px-5 py-3
+                <div className="w-full relative">
+                  <select
+                    {...register("city")}
+                    className="appearance-none w-full bg-gray-100 rounded-full px-5 py-3
                 text-gray-500 outline-none"
-                >
-                  <option value="">Select city</option>
-                  <option value="Karachi">Karachi</option>
-                  <option value="Lahore">Lahore</option>
-                  <option value="Islamabad">Islamabad</option>
-                </select>
+                  >
+                    <option value="" disabled>
+                      Select city
+                    </option>
+                    <option value="Karachi">Karachi</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Islamabad">Rawalpindi</option>
+                    <option value="Islamabad">Faisalabad</option>
+                  </select>
+                  <ChevronDown
+                    size={18}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                  />
+                </div>
                 <p className="text-red-600">{errors.city?.message}</p>
               </div>
 
@@ -163,7 +176,6 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
 
               <button
                 className="px-6 py-2 md:px-10 md:py-3 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition"
-                isLoading={isLoading}
                 type="submit"
               >
                 {isLoading ? "Submitting..." : "Submit"}

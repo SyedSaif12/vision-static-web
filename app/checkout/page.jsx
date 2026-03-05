@@ -12,7 +12,7 @@ import { usePostCheckoutMutation } from "@/redux/checkout/checkoutSlice";
 import arrow from "@/assets/arrow.png";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { LoaderCircle } from "lucide-react";
+import { ChevronDown, LoaderCircle } from "lucide-react";
 import { formatPrice } from "@/helper/formatPrice";
 
 // Validation Schema
@@ -253,17 +253,23 @@ const CheckoutPage = () => {
                     name="country"
                     control={control}
                     render={({ field }) => (
-                      <select
-                        {...field}
-                        className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                      >
-                        <option value="">Select Country</option>
-                        {COUNTRY.map((country) => (
-                          <option key={country.value} value={country.value}>
-                            {country.label}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="relative w-full">
+                        <select
+                          {...field}
+                          className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                        >
+                          <option value="">Select Country</option>
+                          {COUNTRY.map((country) => (
+                            <option key={country.value} value={country.value}>
+                              {country.label}
+                            </option>
+                          ))}
+                        </select>
+                        <ChevronDown
+                          size={18}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                        />
+                      </div>
                     )}
                   />
                   {errors.country && (
@@ -352,17 +358,23 @@ const CheckoutPage = () => {
                       name="city"
                       control={control}
                       render={({ field }) => (
-                        <select
-                          {...field}
-                          className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                        >
-                          <option value="">Select City</option>
-                          {CITIES.map((city) => (
-                            <option key={city.value} value={city.value}>
-                              {city.label}
-                            </option>
-                          ))}
-                        </select>
+                        <div className="relative w-full">
+                          <select
+                            {...field}
+                            className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                          >
+                            <option value="">Select City</option>
+                            {CITIES.map((city) => (
+                              <option key={city.value} value={city.value}>
+                                {city.label}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown
+                            size={18}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                          />
+                        </div>
                       )}
                     />
                     {errors.city && (

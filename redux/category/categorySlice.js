@@ -6,9 +6,9 @@ export const categorySlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: ({ paginate = false, navbar = false }) => ({
+      query: ({ paginate = false, navbar = false, web = true }) => ({
         url: "category",
-        params: { paginate, navbar },
+        params: { paginate, navbar, web },
       }),
     }),
     getAllCardCategories: builder.mutation({

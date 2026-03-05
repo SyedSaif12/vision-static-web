@@ -2,8 +2,8 @@ import { baseURL } from "@/redux/utils";
 import BaseCardCategory from "./BaseCardCategory";
 
 const ShopByCategory = async () => {
-  const categoryData = await fetch(`${baseURL}category`, {
-    cache: "no-store",
+  const categoryData = await fetch(`${baseURL}category?web=true`, {
+    next: { revalidate: 86400 },
   });
   const responseData = await categoryData.json();
   const categories =

@@ -45,9 +45,7 @@ const ProductCard = ({ product, openCart }) => {
     }));
 
   return (
-    <div
-      className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100"
-    >
+    <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
       <div className="w-full max-h-[449px] min-h-[170px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
         <div className="absolute z-40 top-2 right-2">
@@ -67,14 +65,22 @@ const ProductCard = ({ product, openCart }) => {
         </div>
       </div>
 
-      <p
-        onClick={() => {
-          router.push(`/product/${product.slug}`);
-          scrollTo(0, 0);
-        }}
-        className="text-sm font-semibold hover:text-blue-500 hover:underline w-11/12 my-3 line-clamp-2">
-        {product.productTitle}
-      </p>
+      <div className="w-11/12 my-3 relative group cursor-pointer">
+        <p
+          onClick={() => {
+            router.push(`/product/${product.slug}`);
+            scrollTo(0, 0);
+          }}
+          className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
+        >
+          {product.productTitle}
+        </p>
+
+        {/* Tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal z-50 pointer-events-none">
+          {product.productTitle}
+        </div>
+      </div>
 
       <div className="w-full">
         {!!specification &&

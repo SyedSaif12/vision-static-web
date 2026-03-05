@@ -20,10 +20,12 @@ import GoogleReviewsWidget from "google-reviews-widget";
 import Reviews from "@/components/Reviews";
 import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 
+export const revalidate = 86400; // 1 day
+
 const Home = async () => {
   let loading = true;
   const productQuery = await fetch(`${baseURL}products?isFeatured=true`, {
-    cache: "no-store",
+    next: { revalidate: 86400 },
   });
   const product = await productQuery.json();
 

@@ -2,10 +2,12 @@
 import { useState } from "react";
 
 export default function ProductDescription({ description, title }) {
-  const specifications = Object.entries(description)?.map(([key, value]) => ({
-    label: key.replace(/_/g, " "),
-    value,
-  }));
+  const specifications =
+    description &&
+    Object.entries(description)?.map(([key, value]) => ({
+      label: key.replace(/_/g, " "),
+      value,
+    }));
 
   return (
     <div className="w-full  md:ml-auto bg-[#D9D9D9] p-4 md:p-10 shadow-sm mt-10">
