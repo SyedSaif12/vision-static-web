@@ -9,12 +9,20 @@ import Image from "next/image";
 import closeIcon from "@/assets/close.svg";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/helper/formatPrice";
+import { useEffect, useState } from "react";
 
 export default function CartDrawer({ open, onClose }) {
+  const [isClient, setIsClient] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const totalAmount = useSelector(getCartAmount);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Jab tak client load na ho, loading ya empty div dikhayein
 
   const handleRemove = (id) => {
     dispatch(removeFromCart(id));
@@ -34,6 +42,10 @@ export default function CartDrawer({ open, onClose }) {
       router.push("/checkout");
     }, 0);
   };
+
+  if (!isClient) {
+    return null; // Ya loading spinner
+  }
 
   return (
     <div
@@ -75,8 +87,7 @@ export default function CartDrawer({ open, onClose }) {
                   {product.productTitle}
                 </p>
                 <p className="text-blue-700 font-semibold">
-                  PKR{" "}
-                  {formatPrice(product.price)}
+                  PKR {formatPrice(product.price)}
                 </p>
                 <div className="flex items-center gap-3 mt-2">
                   <button

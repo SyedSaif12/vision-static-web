@@ -382,7 +382,7 @@ export default function Navbar() {
 
       {/* --- MOBILE MENU SIDEBAR --- */}
       {openmenu && (
-        <div className="fixed inset-0 z-[100] flex justify-end">
+        <div className="fixed inset-0 z-[1000000] flex justify-end">
           {/* Dark Overlay */}
           <div
             className="fixed inset-0 bg-black/60"

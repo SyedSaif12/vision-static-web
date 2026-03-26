@@ -3,13 +3,16 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import CallIcon from "@/assets/callicon.png";
 import LocationIcon from "@/assets/locationicon.png";
-import TwitterIcon from "@/assets/twitericon.svg";
-import InstaIcon from "@/assets/instawhiteicon.svg";
-import DiscordIcon from "@/assets/discordicon.svg";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CircleAlert } from "lucide-react";
+import {
+  CircleAlert,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Youtube,
+} from "lucide-react";
 import { usePostPopupMutation } from "@/redux/popup/popupSlice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -161,21 +164,34 @@ export default function ContactForm() {
         </div>
 
         <div className="flex gap-5 mt-10 lg:absolute lg:bottom-10 lg:left-10">
-          <Image
-            src={TwitterIcon}
-            alt="twitter"
-            className="w-6 h-6 cursor-pointer"
-          />
-          <Image
-            src={InstaIcon}
-            alt="instagram"
-            className="w-6 h-6 cursor-pointer"
-          />
-          <Image
-            src={DiscordIcon}
-            alt="discord"
-            className="w-6 h-6 cursor-pointer"
-          />
+          <a
+            href="https://www.instagram.com/visiontech.official.pk/"
+            target="_blank"
+            className="size-8 flex justify-center rounded-full items-center bg-black cursor-pointer"
+          >
+            <Instagram size={16} />
+          </a>
+          <a
+            href="https://www.facebook.com/VisionTech.official.pk"
+            target="_blank"
+            className="size-8 flex justify-center rounded-full items-center bg-black cursor-pointer"
+          >
+            <Facebook fill="white" stroke={0} size={16} />
+          </a>
+          <a
+            href="https://www.youtube.com/@VisionTechPK-w7v"
+            target="_blank"
+            className="size-8 flex justify-center rounded-full items-center bg-black cursor-pointer"
+          >
+            <Youtube size={16} />
+          </a>
+          <a
+            href="https://www.linkedin.com/company/visiontechpk/"
+            target="_blank"
+            className="size-8 flex justify-center rounded-full items-center bg-black cursor-pointer"
+          >
+            <Linkedin fill="white" stroke={0} size={16} />
+          </a>
         </div>
       </div>
 

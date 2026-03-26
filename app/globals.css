@@ -3,6 +3,19 @@
 @tailwind utilities;
 
 /* ⭐⭐ Ye line Pura font Poppins kar deti hai ⭐⭐ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Ensure root div covers everything */
+#__next,
+main {
+  width: 100%;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }

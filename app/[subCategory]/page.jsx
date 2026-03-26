@@ -42,9 +42,9 @@ const page = async ({ params }) => {
     <>
       <div className="bg-gray-100">
         <HeroSection
-          title={`View all ${subCategory}`}
-          offer={`Find all products related to ${subCategory} in one place. `}
-          steps={["home", subCategory]}
+          title={`View all ${subCategory.replace(/-/g, " ")}`}
+          offer={`Find all products related to ${subCategory.replace(/-/g, " ")} in one place. `}
+          steps={["home", subCategory.replace(/-/g, " ")]}
         />
         {/* <div className="max-w-11/12 mx-auto pt-10"> */}
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
@@ -73,7 +73,7 @@ const page = async ({ params }) => {
             {/*  show all featured products using component  */}
             {responseProduct?.data?.list.length > 0 && (
               <ShowAllProducts
-                headTitle={`Featured products ${subCategory.replace("-", " ")}`}
+                headTitle={`Featured products ${subCategory.replace(/-/g, " ")}`}
                 products={responseProduct?.data?.list}
               />
             )}

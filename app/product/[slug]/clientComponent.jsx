@@ -23,8 +23,6 @@ const stocks = {
   on_order: "On Order",
 };
 const ClientProductComponent = ({ product }) => {
-  console.log(product?.status);
-
   // State for main image, cart drawer, quantity, and bargain dialog
   const [mainImage, setMainImage] = useState(
     product?.image[0]?.fileUrl || null,
@@ -54,9 +52,9 @@ const ClientProductComponent = ({ product }) => {
       <HeroSection title={product?.products?.subCategory?.name} />
 
       <div className="px-6 md:px-16 lg:px-32 pt-14 bg-gray-100">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           {/* IMAGE SECTION */}
-          <div className="relative px-0 sm:px-6 lg:px-12">
+          <div className="h-full relative px-0 sm:px-6 lg:px-12">
             <div className="sticky top-12">
               <div className="rounded-lg h-96 relative overflow-hidden bg-white/10 border-2 mb-4">
                 {/* Main product image */}

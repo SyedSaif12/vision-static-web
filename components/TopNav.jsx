@@ -24,14 +24,25 @@ const TopNav = () => {
 
           {/* RIGHT SIDE ICONS (DESKTOP ONLY) */}
           <div className="hidden lg:flex items-center gap-4 text-black pr-14">
-            <Image src={InstaBlue} alt="Instagram" className="w-5 h-5" />
-            <Image src={FbBlue} alt="Facebook" className="w-5 h-5" />
+            <a
+              href="https://www.instagram.com/visiontech.official.pk/"
+              target="_blank"
+            >
+              <Image src={InstaBlue} alt="Instagram" className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.facebook.com/VisionTech.official.pk"
+              target="_blank"
+            >
+              <Image src={FbBlue} alt="Facebook" className="w-5 h-5" />
+            </a>
           </div>
 
           {/* MOBILE HAMBURGER ONLY */}
           <span className="w-full lg:hidden text-black font-bold text-xs text-center">
             {/* Visit our showroom in Street Address City Address, 1234 */}
-            Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near Sohny Sweets, Karachi, Pakistan.
+            Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near Sohny
+            Sweets, Karachi, Pakistan.
           </span>
 
           {/* CENTER TEXT — DESKTOP ONLY */}
@@ -39,7 +50,8 @@ const TopNav = () => {
             <span>Visit our showroom in</span>
             <span className="text-black">
               {/* 1234 Street Address City Address, 1234 */}
-              Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near Sohny Sweets, Karachi, Pakistan.
+              Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near Sohny
+              Sweets, Karachi, Pakistan.
             </span>
           </div>
         </div>

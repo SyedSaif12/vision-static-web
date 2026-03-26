@@ -8,19 +8,19 @@ const cardsConfig = [
   },
   {
     title: "Used Laptop",
-    query: { category: "used-laptop" },
+    query: { category: "used-laptops" },
   },
   {
     title: "Gaming Consoles",
-    query: { category: "gaming-consoles" },
+    query: { category: "play-station" },
   },
   {
     title: "Dyson",
-    query: { category: "Dyson" },
+    query: { category: "hair-straightener", subCategory: "dyson" },
   },
   {
     title: "Whoop Band",
-    query: { category: "whoop-band" },
+    query: { category: "electronics", subCategory: "whoop" },
   },
   {
     title: "iPhones",
@@ -32,7 +32,7 @@ const cardsConfig = [
   },
   {
     title: "Processor",
-    query: { category: "processor" },
+    query: { category: "processors" },
   },
   {
     title: "Monitors",
@@ -60,7 +60,11 @@ const cardsConfig = [
   },
   {
     title: "Apple Pencil",
-    query: { category: "pencil", subCategory: "apple" },
+    query: {
+      category: "accesories",
+      subCategory: "apple",
+      name: "apple pencil",
+    },
   },
   {
     title: "Apple Watch",
@@ -68,7 +72,7 @@ const cardsConfig = [
   },
   {
     title: "Amazon Kindle",
-    query: { category: "laptops", subCategory: "kindle" },
+    query: { category: "tablets", subCategory: "amazon-kindle" },
   },
 ];
 

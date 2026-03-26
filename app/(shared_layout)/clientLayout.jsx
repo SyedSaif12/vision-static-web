@@ -9,7 +9,7 @@ import { AppContextProvider } from "@/context/AppContext";
 import ChatBox from "@/components/ChatBox";
 import { useEffect } from "react";
 
-// client layout component for initialize redux toolkit & RTK query test
+// client layout component for initialize redux toolkit & RTK query
 export default function RootClientLayout({ children }) {
   useEffect(() => {
     window.scrollTo({

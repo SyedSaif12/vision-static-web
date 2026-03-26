@@ -26,12 +26,15 @@ export default function RootLayout({ children }) {
       </head>
 
       {/* Poppins here  */}
+
       <body
         suppressHydrationWarning={true}
         className={`${poppins.className} antialiased text-gray-700`}
       >
-        <RootClientLayout>{children}</RootClientLayout>
-        <WhatsAppContact />
+        <div className="overflow-x-clip w-full">
+          <RootClientLayout>{children}</RootClientLayout>
+          <WhatsAppContact />
+        </div>
       </body>
     </html>
   );

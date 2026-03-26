@@ -35,7 +35,7 @@ export default function Banner() {
     <div className="w-full pt-10">
       <div className="max-w-[1480px] mx-auto">
         {/* SLIDER */}
-        <div className="h-48 sm:h-72 relative overflow-hidden rounded-2xl">
+        <div className="h-20 md:h-32 lg:h-52 xl:h-72 relative overflow-hidden rounded-2xl">
           <div
             className="flex w-full h-full transition-transform duration-700"
             style={{ transform: `translateX(-${index * 100}%)` }}
@@ -45,7 +45,7 @@ export default function Banner() {
                 <SafeNextImage
                   src={item.fileUrl}
                   alt={item.filename}
-                  className="object-cover rounded-2xl"
+                  className="object-contain rounded-2xl"
                 />
               </div>
             ))}

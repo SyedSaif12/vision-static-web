@@ -1,42 +1,89 @@
-export function BaseDescription({ items } = {}) {
-  const defaultItems = [
-    {
-      title: "What is Lorem Ipsum?",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    },
-    {
-      title: "What is Lorem Ipsum?",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    },
-    {
-      title: "What is Lorem Ipsum?",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    },
-    {
-      title: "What is Lorem Ipsum?",
-      content:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    },
-  ];
+"use client";
+import { useState } from "react";
 
-  const displayItems = items || defaultItems;
+export function BaseDescription({ items }) {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  const toggleIndex = (index) => {
+    setOpenIndex(openIndex === index ? -1 : index);
+  };
 
   return (
     <div className="w-full bg-muted/30 py-12 px-4 md:px-8 bg-gray-100">
-      <div className="max-w-4xl mx-auto space-y-8">
-        {displayItems.map((item, index) => (
-          <div key={index} className="space-y-3">
-            <h3 className="text-lg font-semibold text-foreground">
-              {item.title}
-            </h3>
-            <p className="text-base leading-relaxed text-foreground/85">
-              {item.content}
-            </p>
-          </div>
-        ))}
+      <div className="max-w-4xl mx-auto space-y-4">
+        {Array.isArray(items) &&
+          items.length > 0 &&
+          items.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div
+                key={faq?.id}
+                className="space-y-3 border-b border-gray-300 pb-4"
+              >
+                <button
+                  onClick={() => toggleIndex(index)}
+                  className="flex justify-between items-center w-full text-left text-lg font-semibold text-foreground"
+                >
+                  {faq?.question}
+                  <span className="ml-2">
+                    {isOpen ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 transform rotate-180 transition-transform"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 transition-transform"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <div className="text-base leading-relaxed text-foreground/85 mt-2 space-y-2">
+                    <p className="font-medium">{faq?.answer}</p>
+                    {faq?.link && (
+                      <a
+                        href={faq?.link}
+                        target="_blank"
+                        className="text-blue-500 hover:underline inline-block"
+                      >
+                        {faq?.link}
+                      </a>
+                    )}
+                    {Array.isArray(faq?.order) && faq?.order.length > 0 && (
+                      <ol className="list-decimal pl-5 mt-2 space-y-1">
+                        {faq.order.map((item, idx) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ol>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
