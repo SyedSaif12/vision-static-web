@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import Image from "next/image";
-import EnrollNow from "@/assets/enrollnow.png";
+import EnrollNow from "@/assets/open-model-image.svg";
 import * as yup from "yup";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,7 +27,8 @@ const popUpSchema = yup.object({
   phoneNo: yup
     .string()
     .required("Phone number is required")
-    .matches(/^03\d{9}$/, "Phone must be in format 03XXXXXXXXX"),
+    .matches(/^03\d{9}$/, "Phone must be exactly 11 digits starting with 03")
+    .test("is-numeric", "Only numbers are allowed", (val) => /^\d+$/.test(val)),
 
   interestProducts: yup
     .string()
@@ -154,6 +155,10 @@ export default function PopUpForm({ open, setOpen }) {
                 <input
                   {...register("phoneNo")}
                   type="text"
+                  maxLength={11}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.phoneNo && (
@@ -190,6 +195,9 @@ export default function PopUpForm({ open, setOpen }) {
                 <input
                   type="text"
                   {...register("minPrice")}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.minPrice && (
@@ -206,6 +214,9 @@ export default function PopUpForm({ open, setOpen }) {
                 <input
                   type="text"
                   {...register("maxPrice")}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.maxPrice && (

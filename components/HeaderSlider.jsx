@@ -1,10 +1,16 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
 import laptopsImage from "../assets/laptop-bg-images.svg";
 import playstationImage from "../assets/playstation-bg-image.svg";
 import dysonImage from "../assets/dyson-bg-image.svg";
+import { NavSkeleton } from "./skeletons";
+import dynamic from "next/dynamic";
+
+const Navbar = dynamic(() => import("@/components/Navbar"), {
+  loading: () => <NavSkeleton />,
+  ssr: false,
+});
 
 const sliderData = [
   {
@@ -55,7 +61,6 @@ const HeaderSlider = () => {
         "
       >
         <Navbar />
-
         {/* Slider track wrapper */}
         <div
           className="

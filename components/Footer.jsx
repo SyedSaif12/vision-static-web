@@ -107,18 +107,22 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">Categories</h3>
           <ul className="space-y-2 text-sm">
             {Array.isArray(mainCategory) &&
-              mainCategory?.map((category) => {
-                return (
-                  <li key={category?.id}>
-                    <Link
-                      href={category?.route}
-                      className="hover:text-blue-500 capitalize hover:cursor-pointer"
-                    >
-                      {category?.catName}
-                    </Link>
-                  </li>
-                );
-              })}
+              mainCategory
+                ?.slice()
+                ?.reverse()
+                ?.slice(0, 7)
+                ?.map((category) => {
+                  return (
+                    <li key={category?.id}>
+                      <Link
+                        href={category?.route}
+                        className="hover:text-blue-500 capitalize hover:cursor-pointer"
+                      >
+                        {category?.catName}
+                      </Link>
+                    </li>
+                  );
+                })}
           </ul>
         </div>
 

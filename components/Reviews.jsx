@@ -4,11 +4,15 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import googleIcon from "@/assets/googleIcon.svg";
-
 import "swiper/css";
 import { Star } from "lucide-react";
 import { useGetReviewsQuery } from "@/redux/review/reviewSlice";
 import Link from "next/link";
+
+// Day.js imports aur setup
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 function ReviewCard({ review }) {
   const colors = [
@@ -20,12 +24,12 @@ function ReviewCard({ review }) {
     "bg-indigo-500",
   ];
 
-  // Function to pick a color based on string (for consistency)
   const getColor = (name) => {
     if (!name) return colors[0];
-    const charCode = name.charCodeAt(0); // first letter char code
+    const charCode = name.charCodeAt(0);
     return colors[charCode % colors.length];
   };
+
   return (
     <div className="break-inside-avoid rounded-2xl border bg-white p-4 shadow-sm">
       {/* Header */}
@@ -54,7 +58,8 @@ function ReviewCard({ review }) {
             {review?.fullName}
           </p>
           <p className="text-xs text-gray-400">
-            {new Date(review?.date).toLocaleDateString("en-US")}
+            {/* Yahan Day.js use kiya hai */}
+            {dayjs(review?.date).fromNow()}
           </p>
         </div>
         <div className="relative size-6 rounded-full overflow-hidden">
@@ -91,6 +96,10 @@ export default function GoogleReviews() {
   const { currentData } = useGetReviewsQuery();
   const reviews = currentData?.data;
 
+  if (!reviews?.length) {
+    return null;
+  }
+
   return (
     <div className="w-full py-12 mt-10">
       <div className="w-full h-full flex items-center">
@@ -114,9 +123,9 @@ export default function GoogleReviews() {
         }}
       >
         {Array.isArray(reviews) &&
-          reviews?.map((review, i) => (
+          reviews?.map((review) => (
             <SwiperSlide key={review?.id}>
-              <ReviewCard key={review?.id} review={review} />
+              <ReviewCard review={review} />
             </SwiperSlide>
           ))}
       </Swiper>
@@ -124,12 +133,10 @@ export default function GoogleReviews() {
         .thin-scroll::-webkit-scrollbar {
           width: 4px;
         }
-
         .thin-scroll::-webkit-scrollbar-thumb {
           background: rgba(0, 0, 0, 0.3);
           border-radius: 9999px;
         }
-
         .thin-scroll {
           scrollbar-width: thin;
         }

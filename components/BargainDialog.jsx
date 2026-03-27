@@ -11,8 +11,11 @@ const schema = Yup.object({
   name: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   city: Yup.string().required("City is required"),
-  phoneNo: Yup.string().required("Phone is required"),
-  customerOffer: Yup.number().required("Price is required"),
+  phoneNo: Yup.string()
+    .required("Phone number is required")
+    .matches(/^03\d{9}$/, "Phone must be exactly 11 digits starting with 03")
+    .test("is-numeric", "Only numbers are allowed", (val) => /^\d+$/.test(val)),
+  customerOffer: Yup.string().required("Price is required"),
 });
 
 const BargainDialog = ({ open, onClose, id, productName }) => {
@@ -31,6 +34,7 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
   const onSubmit = async (data) => {
     try {
       data.variantsId = id;
+      data.customerOffer = Number(data.customerOffer);
       const res = await submitBargain(trimPayload(data)).unwrap();
       toast.success(res.message || "Bargain created sucessfully", {
         position: "top-right",
@@ -91,6 +95,9 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
                 <input
                   type="text"
                   {...register("customerOffer")}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                   placeholder="Enter your price"
                   className="w-full bg-gray-100 rounded-full px-5 py-3 text-gray-500 outline-none"
                 />
@@ -159,6 +166,10 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
                   placeholder="Enter phone number (Format 0332-2861735)"
                   name="phoneNo"
                   {...register("phoneNo")}
+                  maxLength={11}
+                  onChange={(e) => {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                  }}
                   className="w-full bg-gray-100 rounded-full px-5 py-3 text-gray-500 outline-none"
                 />
                 <p className="text-red-600">{errors.phoneNo?.message}</p>

@@ -197,7 +197,7 @@ const ClientProductComponent = ({ product }) => {
             <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
             {/* Add Installments Component Here */}
             <div className="">
-              <Installments price={product?.price} />
+              {!!product?.price && <Installments price={product?.price} />}
             </div>
           </div>
         </div>

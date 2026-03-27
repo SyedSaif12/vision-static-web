@@ -391,6 +391,10 @@ const CheckoutPage = () => {
                     <input
                       {...register("postalCode")}
                       placeholder="Enter Postal Code"
+                      maxLength={5}
+                      onChange={(e) => {
+                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                      }}
                       className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
                     />
                     {errors.postalCode && (
@@ -409,6 +413,10 @@ const CheckoutPage = () => {
                   <input
                     {...register("phone")}
                     placeholder="03001234567"
+                    maxLength={11}
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
                     className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
                   />
                   {errors.phone && (
@@ -541,10 +549,13 @@ const CheckoutPage = () => {
               </div>
 
               {/* RIGHT – ORDER SUMMARY */}
-              <div className="bg-white p-6 rounded-lg shadow">
+              <div className="bg-white p-6 self-start rounded-lg shadow">
                 <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
                   Order Summary
                 </h2>
+                <p className="my-4">
+                  {Object.entries(cartItems)?.length} items in Cart
+                </p>
 
                 {cartProducts.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">
@@ -566,13 +577,15 @@ const CheckoutPage = () => {
                             height={100}
                             className="rounded-2xl border border-[#FF8415] sm:w-[100px] sm:h-[100px] object-cover"
                           />
-                          <div className="flex-1">
-                            <p className="font-medium">{item.productTitle}</p>
+                          <div className="flex-1 min-w-10 max-w-[200px]">
+                            <p className="font-medium text-sm line-clamp-2 leading-relaxed">
+                              {item.productTitle}
+                            </p>
                             <p className="text-sm text-gray-500">
                               Qty: {item.qty}
                             </p>
                           </div>
-                          <p className="font-semibold sm:text-right">
+                          <p className="font-semibold sm:ml-auto text-right self-end sm:self-center">
                             PKR{" "}
                             {formatPrice(
                               (item.price || item.oldPrice) * item.qty,
@@ -582,7 +595,7 @@ const CheckoutPage = () => {
                       ))}
 
                     <div className="mt-6 space-y-3">
-                      <div className="flex justify-between text-gray-700">
+                      <div className="flex justify-between font-semibold text-gray-700">
                         <span>Subtotal</span>
                         <span>PKR {formatPrice(calculations.subtotal)}</span>
                       </div>
@@ -594,7 +607,7 @@ const CheckoutPage = () => {
                         </div>
                       )}
 
-                      <div className="flex justify-between text-gray-700">
+                      <div className="flex justify-between font-semibold text-gray-700">
                         <span>Shipping</span>
                         <span>PKR {calculations.shippingFee.toFixed(2)}</span>
                       </div>

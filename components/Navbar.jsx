@@ -12,6 +12,7 @@ import { getCartCount } from "@/redux/cart/cartSlice";
 import CartDrawer from "./CartDrawer";
 import threelines from "../assets/threelines.svg";
 import SearchBar from "./SearchBar";
+import { NavSkeleton } from "./skeletons";
 
 export default function Navbar() {
   const { isLoading, currentData } = useGetCategoriesQuery({
@@ -55,7 +56,7 @@ export default function Navbar() {
   const handleMouseEnter = (categoryId) => setActiveDropdown(categoryId);
   const handleMouseLeave = () => setActiveDropdown(null);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <NavSkeleton />;
 
   return (
     <>
@@ -89,13 +90,9 @@ export default function Navbar() {
                   />
 
                   {/* Red Dot / Badge */}
-                  {cartCount > 0 ? (
+                  {!!cartCount && (
                     <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs size-4 md:size-5 flex items-center justify-center rounded-full">
                       {cartCount}
-                    </span>
-                  ) : (
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs size-4 md:size-5 flex items-center justify-center rounded-full">
-                      {Number(0)}
                     </span>
                   )}
                 </Link>
@@ -135,13 +132,9 @@ export default function Navbar() {
                 />
 
                 {/* Red Dot / Badge */}
-                {cartCount > 0 ? (
+                {!!cartCount && (
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                     {cartCount}
-                  </span>
-                ) : (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                    {Number(0)}
                   </span>
                 )}
               </Link>
