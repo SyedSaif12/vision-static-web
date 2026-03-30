@@ -55,7 +55,7 @@ export default function Banner() {
         {/* DOTS (Outside overflow container) */}
         <div className="flex items-center justify-center mt-4 space-x-2">
           {images?.map((_, i) => (
-            <button
+            <span
               key={i}
               onClick={() => setIndex(i)}
               className={`h-2 w-2 rounded-full transition-all ${

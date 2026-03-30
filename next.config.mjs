@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "vision-tech-bucket.s3.eu-north-1.amazonaws.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "**",
+      },
     ],
   },
 };

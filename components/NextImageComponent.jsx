@@ -10,14 +10,15 @@ const SafeNextImage = ({ src, alt, className }, props) => {
     setImgSrc(src);
   }, [src]);
   return (
-      <Image
+    <Image
       {...props}
       src={imgSrc}
       alt={alt}
       fill
       className={className}
-      loading="lazy"
+      priority
       onError={() => setImgSrc(blankImage.src)}
+      fetchPriority="high"
     />
   );
 };

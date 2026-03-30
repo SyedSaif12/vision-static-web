@@ -1,4 +1,4 @@
-import { Poppins, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import RootClientLayout from "./(shared_layout)/clientLayout";
 import WhatsAppContact from "@/components/WhatsAppContact";
