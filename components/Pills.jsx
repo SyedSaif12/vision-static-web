@@ -1,23 +1,12 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-
 export default function Pills({ data, select, setSelect }) {
-  // const isSelected = data?.filter((item) => item.title === select);
+  const isSelected = select;
 
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const titleName = searchParams.get("name");
-  const isSelected = select || titleName;
-
-  const handleClick = (selectedData) => {
-    setSelect(selectedData.name);
-
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("name", selectedData.name);
-    router.push(`?${params.toString()}`);
+  const handleClick = (item) => {
+    setSelect(item);
   };
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 place-items-center">
       {Array.isArray(data) &&
@@ -30,7 +19,7 @@ export default function Pills({ data, select, setSelect }) {
                 : "hover:cursor-pointer"
             } group`}
             disabled={item?.title?.toLowerCase() === isSelected?.toLowerCase()}
-            onClick={() => handleClick({ name: item.title, id: item.id })}
+            onClick={() => handleClick(item)}
           >
             <div
               className={`bg-white group-hover:bg-orange-400 group-hover:border-transparent border-2 sm:border-[3px] ${

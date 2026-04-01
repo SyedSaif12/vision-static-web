@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 import { allApiFetched } from "@/lib/api";
 
-
 export default async function sitemap() {
   const public_url = process.env.NEXT_PUBLIC_URL;
   const newData = new Date().toISOString();
@@ -37,7 +36,7 @@ export default async function sitemap() {
       priority: 0.8,
     },
   ];
-  const { category, product } = await allApiFetched();
+  const { category, product, categoryWithChips } = await allApiFetched();
 
-  return [...staticUrls, ...category, ...product];
+  return [...staticUrls, ...category, ...categoryWithChips, ...product];
 }

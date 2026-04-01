@@ -7,28 +7,31 @@ import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 import { baseURL } from "@/redux/utils";
 
 export async function generateMetadata({ params }) {
-  const { subCategory } = await params;
+  const { mainCategory } = await params;
   return {
-    title: `${subCategory?.replace(/^./, (c) => c.toUpperCase())} | Buy Online in Pakistan`,
+    title: `${mainCategory?.replace(/^./, (c) => c.toUpperCase())} | Buy Online in Pakistan`,
     description:
-      `Buy ${subCategory} online in Pakistan at the best prices. Explore latest collections, trusted brands, and premium quality products with amazing deals.` ??
+      `Buy ${mainCategory} online in Pakistan at the best prices. Explore latest collections, trusted brands, and premium quality products with amazing deals.` ??
       "",
-    keywords: [`best ${subCategory} price in pakistan`],
+    alternates: {
+      canonical: `/${mainCategory}`,
+    },
+    keywords: [`best ${mainCategory} price in pakistan`],
   };
 }
 
 const page = async ({ params }) => {
-  const { subCategory } = await params; // extract category
+  const { mainCategory } = await params; // extract category
   const categoryData = await fetch(
     //fetch all categories form server
-    `${baseURL}subCategory?name=${subCategory}`,
+    `${baseURL}subCategory?name=${mainCategory}`,
     {
       next: { revalidate: 120 },
     },
   );
   const products = await fetch(
     // fetch all featured products
-    `${baseURL}products?category=${subCategory}&isFeatured=true&chip=false`,
+    `${baseURL}products?category=${mainCategory}&isFeatured=true&chip=false`,
     {
       next: { revalidate: 60 },
     },
@@ -42,15 +45,15 @@ const page = async ({ params }) => {
     <>
       <div className="bg-gray-100">
         <HeroSection
-          title={`View all ${subCategory.replace(/-/g, " ")}`}
-          offer={`Find all products related to ${subCategory.replace(/-/g, " ")} in one place. `}
-          steps={["home", subCategory.replace(/-/g, " ")]}
+          title={`View all ${mainCategory.replace(/-/g, " ")}`}
+          offer={`Find all products related to ${mainCategory.replace(/-/g, " ")} in one place. `}
+          steps={["home", mainCategory.replace(/-/g, " ")]}
         />
         {/* <div className="max-w-11/12 mx-auto pt-10"> */}
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
           <h2 className="text-2xl font-semibold">
             Shop by{" "}
-            <span className="capitalize">{subCategory.replace("-", " ")}</span>
+            <span className="capitalize">{mainCategory.replace("-", " ")}</span>
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pt-6">
             {/* passing all category data into category card commpoent */}
@@ -65,7 +68,7 @@ const page = async ({ params }) => {
                   key={category?.id}
                   isCountShow={true}
                   count={category?.products?.length}
-                  url={`/${subCategory}/${category?.name}`}
+                  url={`/${mainCategory}/${category?.name}`}
                 />
               ))}
           </div>
@@ -73,7 +76,7 @@ const page = async ({ params }) => {
             {/*  show all featured products using component  */}
             {responseProduct?.data?.list.length > 0 && (
               <ShowAllProducts
-                headTitle={`Featured products ${subCategory.replace(/-/g, " ")}`}
+                headTitle={`Featured products ${mainCategory.replace(/-/g, " ")}`}
                 products={responseProduct?.data?.list}
               />
             )}

@@ -9,12 +9,17 @@ const poppins = Roboto({
 });
 
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
   title: {
     default:
-      "Vision Tech Online Shopping in Pakistan | Mobiles, Laptops, Apple products and Electronics",
+      "Vision Tech Pakistan – Apple Laptops, Computers, PC Parts & Electronics Store",
     template: "%s | Vision Tech",
   },
-  description: "Best online selling store in Pakistan",
+  description:
+    "Vision Tech – Buy laptops, Apple products, and PC components online in Pakistan at best prices.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({ children }) {

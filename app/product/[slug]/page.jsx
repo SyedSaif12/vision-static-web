@@ -14,12 +14,15 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${product?.productTitle} | Buy Online in Pakistan`,
-    description: product?.description?.slice(0, 150) ?? "",
+    description: product?.description?.slice(0, 95) ?? "",
     keywords: [
       product?.products?.category.name,
       product?.products?.subCategory.name,
       product?.productTitle,
     ],
+    alternates: {
+      canonical: `/product/${slug}`,
+    },
     openGraph: {
       title: product?.productTitle,
       description:

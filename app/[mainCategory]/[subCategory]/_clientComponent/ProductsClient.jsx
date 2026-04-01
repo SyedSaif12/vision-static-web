@@ -3,131 +3,180 @@ import FilterIcon from "@/assets/filtericon.svg";
 import SortByIcon from "@/assets/sortbyicon.svg";
 import DrawerFilter from "@/components/DrawerFilter";
 import HeroSection from "@/components/HeroSection";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Pills from "@/components/Pills";
 import ProductCard from "@/components/ProductCard";
 import { ProductGridSkeleton } from "@/components/Skeleton";
-import { useFetchAllChips, useFetchProducts } from "@/hooks/useFetchProducts";
 import Image from "next/image";
-import { use, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Loading from "@/components/Loading";
 import ProductsNotFound from "@/components/ProductsNotFound";
 import { PillsSkeleton } from "@/components/Pills";
 import SortByDrawer from "@/components/SortByDrawer";
 import CartDrawer from "@/components/CartDrawer";
+import { useGetProductsQuery } from "@/redux/product/productSlice";
 
-//  client component for showing all products while using filters,
-//   category, sub-category and product title
-
-const page = ({ params }) => {
-  const titleParams = useSearchParams();
+const ProductsClient = ({
+  initialData = [],
+  initialTotal = 0,
+  initialChips = [],
+  initialFilters = [],
+  initialSelectedPills = "",
+  category = "",
+  subCategory = "",
+  page: serverPage,
+  limit,
+}) => {
   const router = useRouter();
-  const nameTitle = titleParams.get("name"); //get product title for dynamic routing
+  const pathname = usePathname();
+
+  // ============================================
+  // STATE — All State here
+  // ============================================
+  const [products, setProducts] = useState(initialData); // initial data added
+  const [hasMore, setHasMore] = useState(initialData.length < initialTotal);
+  const [page, setPage] = useState(serverPage);
+  const [filters, setFilters] = useState({});
+  const [select, setSelect] = useState(initialSelectedPills);
   const [selectedFilters, setSelectedFilters] = useState({});
-  const [cartOpen, setCartOpen] = useState(false);
   const [sort, setSort] = useState({ orderBy: "", order: "" });
-  const [openFilter, setOpenFilter] = useState(false); // filter drawer open close model state
-  const [sortOpen, setSortOnClose] = useState(false); // filter drawer for sort by open close model state
+  const [openFilter, setOpenFilter] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
-  const { subCategory, title } = use(params);
-  const {
-    isFetching,
-    isLoading,
-    select,
-    hasMore,
-    products,
-    setFilters,
-    setPage,
-    setSelect,
-    setReset,
-    totalProducts,
-  } = useFetchProducts(subCategory, title); // custom hook for fetch products
-  const { loading, chips, filters } = useFetchAllChips(subCategory, title); // custom hooks for fetch chips as product title and filters
+  //   ===========================================
+  //   FIRST RENDER SKIP if user changed a filter now RTK Query run
+  //   ===========================================
+  const isFirstRender =
+    page === 1 && !select && Object.keys(filters).length === 0;
 
-  const isDataLoading = isLoading || isFetching;
+  const { data, isFetching, isLoading } = useGetProductsQuery(
+    {
+      category,
+      subCategory,
+      ...(select && { name: select }),
+      ...(Object.keys(filters).length > 0 && { ...filters, paginate: false }),
+      page,
+      limit,
+    },
+    {
+      skip: isFirstRender,
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
-  const data = useMemo(() => {
-    return chips?.data.chip
-      ? chips?.data?.chip.map((item) => ({
-          // all chips formated for rendering
+  // if RTK Qurey returns updated data then run this use effect for update products
+  useEffect(() => {
+    if (!data?.data?.list) return;
+
+    if (page === 1) {
+      // if change filter or select then replace it
+      setProducts(data.data.list);
+    } else {
+      // append infinite scroll
+      setProducts((prev) => [...prev, ...data.data.list]);
+    }
+
+    const total = data?.total || 0;
+    setHasMore(products.length + data.data.list.length < total);
+  }, [data]);
+
+  const isDataLoading = (isLoading || isFetching) && !isFirstRender;
+
+  // ============================================
+  // CHIPS - get all chips from server
+  // ============================================
+  const chipsData = useMemo(() => {
+    return Array.isArray(initialChips)
+      ? initialChips.map((item) => ({
           title: item.title,
           id: item.id,
           count: item.count,
         }))
       : [];
-  }, [chips?.data.chip]);
+  }, [initialChips]);
 
-  useEffect(() => {
-    setReset(true);
-    return () => {
-      setReset(true);
-    };
-  }, [subCategory, title]);
+  // ============================================
+  // if select any pill then update URL
+  // ============================================
+  const updateURL = useCallback(
+    (name) => {
+      const params = new URLSearchParams();
+      if (name) params.set("name", name);
+      const query = params.toString();
+      router.push(query ? `${pathname}?${query}` : pathname);
+    },
+    [pathname, router],
+  );
 
-  useEffect(() => {
-    // routes handle
-    setSelect(nameTitle);
-    return () => {
-      setReset(true);
+  // Pill select/deselect
+  const handlePillSelect = useCallback(
+    (pill) => {
+      const newSelect = pill?.title || "";
+      setSelect(newSelect);
       setPage(1);
-    };
-  }, [nameTitle, select]);
+      setProducts([]);
+      setHasMore(true);
+      updateURL(newSelect);
+    },
+    [updateURL],
+  );
 
-  const hasAnyFilterSelected = Object.values(selectedFilters).some((value) => {
-    // if any filter apply then return in boolean
-    if (Array.isArray(value)) {
-      return value.length > 0;
-    }
-    if (typeof value === "number" && value !== null) {
-      return value !== undefined || value !== undefined;
-    }
-    return false;
-  });
-
-  const hasAnyFilterBySort = Boolean(sort.orderBy && sort.order);
-
+  // ============================================
+  // FILTERS & SORT
+  // ============================================
   const handleApplyFilters = (selectedFilter) => {
     setPage(1);
-    // setFilters(selectedFilter);
-    setFilters((filter) => ({ ...filter, ...selectedFilter }));
+    setProducts([]);
+    setFilters((prev) => ({ ...prev, ...selectedFilter }));
   };
 
+  // ============================================
+  // CLEAR FILTERS
+  // ============================================
+  const clearAllFilters = () => {
+    setFilters({});
+    setSelectedFilters({});
+    setSort({ orderBy: "", order: "" });
+    setSelect("");
+    setPage(1);
+    setProducts(initialData);
+    setHasMore(initialData.length < initialTotal);
+    router.push(pathname);
+  };
+
+  // ============================================
+  // INFINITE SCROLL
+  // ============================================
   const loadNextPage = useCallback(() => {
     setPage((prev) => prev + 1);
   }, []);
 
-  const clearAllFilters = () => {
-    // remove all filters and reset
-    setReset(true);
-    setFilters({});
-    setSelectedFilters((prev) => (prev = {}));
-    setSort({ orderBy: "", order: "" });
-    const params = new URLSearchParams(titleParams.toString());
+  // ============================================
+  // HELPER FLAGS
+  // ============================================
+  const hasAnyFilterSelected = Object.values(selectedFilters).some((value) =>
+    Array.isArray(value) ? value.length > 0 : false,
+  );
+  const hasAnyFilterBySort = Boolean(sort.orderBy && sort.order);
 
-    if (params.has("name")) {
-      params.delete("name");
-      const queryString = params.toString();
-      const url = queryString ? `?${queryString}` : window.location.pathname;
-      router.push(url);
-      setSelect("");
-    }
-  };
-
+  // ============================================
+  // RENDER — old page.js JSX as it is
+  // ============================================
   return (
     <>
       <div className=" bg-gray-100">
         <HeroSection
-          title={`View all ${title} ${subCategory}`}
-          offer={`Find all ${title} products related to ${subCategory} in one place. `}
-          steps={["home", subCategory, title, select]}
+          title={`View all ${subCategory} ${category}`}
+          offer={`Find all ${subCategory} products related to ${category} in one place. `}
+          steps={["home", category, subCategory, select]}
         />
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
-          {/* all title pills  */}
-          {loading && <PillsSkeleton />}
-          {!loading && data?.length > 0 && (
-            <Pills data={data} select={select} setSelect={setSelect} />
-          )}
+          <Pills
+            data={chipsData}
+            select={select}
+            setSelect={handlePillSelect}
+          />
 
           {/* filter drawer here  */}
 
@@ -146,7 +195,7 @@ const page = ({ params }) => {
               </button>
               {/* sort filter drawer */}
               <button
-                onClick={() => setSortOnClose(true)}
+                onClick={() => setSortOpen(true)}
                 className={`flex items-center gap-1 md:gap-2 relative hover:cursor-pointer bg-white border ${hasAnyFilterBySort ? "border-orange-400 text-orange-400" : " border-blue-600 text-blue-700"} font-medium px-2 py-1 md:px-6 md:py-3 rounded-full shadow`}
               >
                 <Image
@@ -193,9 +242,9 @@ const page = ({ params }) => {
 
           {/* DRAWER */}
           <DrawerFilter
-            data={filters}
+            data={initialFilters}
             open={openFilter}
-            productCount={totalProducts || products?.length}
+            productCount={initialTotal || products?.length}
             onClose={() => setOpenFilter(false)}
             selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
@@ -204,7 +253,7 @@ const page = ({ params }) => {
           {/* SORT DRAWER */}
           <SortByDrawer
             sortOpen={sortOpen}
-            sortOnClose={() => setSortOnClose(false)}
+            sortOnClose={() => setSortOpen(false)}
             onApplySort={handleApplyFilters}
             sort={sort}
             setSort={setSort}
@@ -261,4 +310,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default ProductsClient;
