@@ -67,7 +67,7 @@ const page = async ({ params }) => {
                   }
                   key={category?.id}
                   isCountShow={true}
-                  count={category?.products?.length}
+                  count={category?.totalVariantsCount}
                   url={`/${mainCategory}/${category?.name}`}
                 />
               ))}
