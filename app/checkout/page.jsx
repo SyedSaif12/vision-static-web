@@ -509,15 +509,15 @@ const CheckoutPage = () => {
                     </div>
                     <div className="text-sm text-gray-700 space-y-1 font-semibold">
                       <p>
-                        <strong>Meezan Bank</strong>
+                        <strong>Bank Alfalah</strong>
                       </p>
-                      <p>Account Title: GYM ARMOUR</p>
-                      <p>Account No: 0105 3673 42</p>
-                      <p>Branch Code: 0216</p>
-                      <p>IBAN: PK48 MEZN 0002 1601 0536 7342</p>
+                      <p>Account Title: VISION TECH</p>
+                      <p>Account No: 00311009188805</p>
+                      <p>Branch Code: 0031</p>
+                      <p>IBAN: PK27ALFH0031001009188805</p>
                       <p className="mt-2">
                         WhatsApp Deposit Slip to{" "}
-                        <strong>092-301-4868585</strong>
+                        <strong>+92 3260220581</strong>
                       </p>
                     </div>
                   </div>

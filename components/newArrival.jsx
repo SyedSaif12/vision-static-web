@@ -11,7 +11,7 @@ export default function NewArrival() {
   return (
     <section className="">
       <div className="w-full h-full flex items-center">
-        <h2 className="w-full text-2xl capitalize sm:text-3xl my-10 font-semibold">
+        <h2 className="w-full text-2xl capitalize sm:text-3xl mb-10 font-semibold">
           New Arrival
         </h2>
       </div>

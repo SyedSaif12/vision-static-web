@@ -114,11 +114,11 @@ export default function OurBrands() {
         {logos.length &&
           logos.map((item, i) => (
             <SwiperSlide content="center" key={item.id + i}>
-              <div className="flex items-center justify-center h-52 w-full">
+              <div className="flex items-center justify-center h-24 w-full">
                 <Image
                   src={item.logo}
                   alt="brand logo"
-                  className="max-w-[220px] max-h-[100px] object-contain mx-auto"
+                  className="max-w-[220px] max-h-[120px] object-contain mx-auto"
                 />
               </div>
             </SwiperSlide>
