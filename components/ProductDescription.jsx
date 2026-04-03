@@ -10,7 +10,7 @@ export default function ProductDescription({ description, title }) {
     }));
 
   return (
-    <div className="w-full  md:ml-auto bg-[#D9D9D9] p-4 md:p-10 shadow-sm mt-10">
+    <div className="w-full  md:ml-auto bg-[#D9D9D9] p-4 md:p-10 shadow-sm">
       <h2 className="text-lg md:text-xl font-semibold mb-3 px-6 md:px-16 lg:px-32">
         Specifications
       </h2>

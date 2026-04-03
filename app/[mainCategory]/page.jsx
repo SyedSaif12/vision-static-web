@@ -51,7 +51,7 @@ const page = async ({ params }) => {
         />
         {/* <div className="max-w-11/12 mx-auto pt-10"> */}
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl sm:text-3xl capitalize font-semibold">
             Shop by{" "}
             <span className="capitalize">{mainCategory.replace("-", " ")}</span>
           </h2>
@@ -76,7 +76,7 @@ const page = async ({ params }) => {
             {/*  show all featured products using component  */}
             {responseProduct?.data?.list.length > 0 && (
               <ShowAllProducts
-                headTitle={`Featured products ${mainCategory.replace(/-/g, " ")}`}
+                headTitle={`Featured ${mainCategory.replace(/-/g, " ")}`}
                 products={responseProduct?.data?.list}
               />
             )}

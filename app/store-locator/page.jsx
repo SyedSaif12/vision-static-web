@@ -8,10 +8,10 @@ export default function StoreLocatorPage() {
   const stores = [
     {
       id: 1,
-      name: "Sasi Arcade",
+      name: "Vision Tech",
       type: "Computer accessories store",
       address:
-        "Plot Bc-05, Khayan-e-Iqbal Road, Block 7 Zone A Block 7 Clifton, Karachi, 75600, Pakistan",
+        "Shop# 29, Ground Floor, SAASI Arcade, 7 Block, near Sohny Sweets, Zone C - Block 7 Zone A Block 7 Clifton, Karachi, 75600",
       imgSrc: headerimage,
     },
   ];
@@ -36,7 +36,7 @@ export default function StoreLocatorPage() {
             {/* Right Side Map */}
             <div className="md:col-span-2 rounded-2xl overflow-hidden shadow bg-white">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d7242.007463295499!2d67.032416!3d24.829546!3m2!1i1024!2i768!4f13.1!2m1!1sShop%2029%20Ground%20Floor%20SASI%20Arcade%20Block%207%20Clifton%20Near%20Sohny%20Sweets%20Karachi%20Pakistan!5e0!3m2!1sen!2s!4v1772445002215!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d338.4292432081471!2d67.03373287073228!3d24.829472196575384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33de8b7301099%3A0x621ef94dece7ba1!2sVision%20Tech!5e1!3m2!1sen!2s!4v1775056947997!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

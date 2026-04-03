@@ -12,7 +12,7 @@ const ShopByCategory = async () => {
   return (
     <>
       <div className="pt-10">
-        <h2 className="text-2xl sm:text-3xl my-3 font-semibold">
+        <h2 className="text-2xl capitalize sm:text-3xl my-3 font-semibold">
           Shop by Category
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pt-6">

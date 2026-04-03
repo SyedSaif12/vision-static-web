@@ -31,7 +31,8 @@ const HomeProducts = ({ products }) => {
       {/* HEADER + VIEW ALL + ARROWS */}
       <div className="flex flex-col sm:flex-row items-center justify-between w-full">
         <div className="w-full h-full flex items-center">
-          <h2 className="w-full text-2xl sm:text-3xl my-4 sm:my-0 sm:mb-0 font-semibold">
+          {/* <h2 className="w-full text-2xl sm:text-3xl my-4 sm:my-0 sm:mb-0 font-semibold"> */}
+          <h2 className="w-full text-2xl capitalize sm:text-3xl my-4 sm:my-0 sm:mb-0 font-semibold">
             Featured Products
           </h2>
         </div>

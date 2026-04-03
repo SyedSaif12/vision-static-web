@@ -65,35 +65,38 @@ const SearchBar = () => {
               {!isFetching &&
                 Array.isArray(data?.data?.list) &&
                 data?.data?.list?.length > 0 &&
-                data?.data?.list?.map((item, idx) => (
-                  <Link
-                    href={`/product/${item?.slug}`}
-                    key={idx}
-                    className="w-full text-black border-b-2 mb-2 px-3 h-14 flex items-center gap-2 hover:bg-[#FF8415] hover:text-white"
-                  >
-                    {/* Image */}
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 relative">
-                      <SafeNextImage
-                        src={item?.image?.[0].fileUrl}
-                        alt={"product-key"}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                data?.data?.list?.map(
+                  (item, idx) =>
+                    item && (
+                      <Link
+                        href={`/product/${item?.slug}`}
+                        key={idx}
+                        className="w-full text-black border-b-2 mb-2 px-3 h-14 flex items-center gap-2 hover:bg-[#FF8415] hover:text-white"
+                      >
+                        {/* Image */}
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 relative">
+                          <SafeNextImage
+                            src={item?.image?.[0]?.fileUrl}
+                            alt={"product-key"}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
 
-                    {/* Title */}
-                    <div className="flex-1 min-w-0">
-                      <h1 className="truncate text-xs sm:text-sm font-semibold">
-                        {item?.productTitle}
-                      </h1>
-                      <span className="flex-1 text-xs font-semibold text-black/50">
-                        price:{" "}
-                        {(item?.newPrice || item?.oldPrice) > 0
-                          ? formatPrice(item?.newPrice || item?.oldPrice)
-                          : "Comming Soon"}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+                        {/* Title */}
+                        <div className="flex-1 min-w-0">
+                          <h1 className="truncate text-xs sm:text-sm font-semibold">
+                            {item?.productTitle}
+                          </h1>
+                          <span className="flex-1 text-xs font-semibold text-black/50">
+                            price:{" "}
+                            {(item?.newPrice || item?.oldPrice) > 0
+                              ? formatPrice(item?.newPrice || item?.oldPrice)
+                              : "Comming Soon"}
+                          </span>
+                        </div>
+                      </Link>
+                    ),
+                )}
               {!isFetching && data?.data?.list?.length === 0 && (
                 <div className="w-full h-full flex items-center justify-center">
                   <h1 className="text-black/30 text-3xl">No Results!</h1>

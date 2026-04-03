@@ -15,6 +15,9 @@ const ShowAllSubCategories = () => {
 
   return (
     <div>
+      <h2 className="w-full text-2xl sm:text-3xl mt-10 md:mt-14 lg:mt-20 font-semibold">
+        Other Categories
+      </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 py-6">
         {!isLoading &&
           cardData?.length > 0 &&

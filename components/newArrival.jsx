@@ -1,16 +1,17 @@
 "use client";
 import React from "react";
 import PlayStation from "@/assets/playstation.png";
-import Speaker from "@/assets/speaker.png";
+import Speaker from "@/assets/dyson-bg-image.webp";
 import NewCollection from "@/assets/newcollection.png";
 import LaptopGucci from "@/assets/laptopgucci.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NewArrival() {
   return (
     <section className="">
       <div className="w-full h-full flex items-center">
-        <h2 className="w-full text-2xl sm:text-3xl my-10 font-semibold">
+        <h2 className="w-full text-2xl capitalize sm:text-3xl my-10 font-semibold">
           New Arrival
         </h2>
       </div>
@@ -34,9 +35,9 @@ export default function NewArrival() {
               <p className="text-xs sm:text-sm md:text-base text-gray-300 mb-1 sm:mb-4">
                 Black and White version of the PS5 coming out on sale.
               </p>
-              <button className="text-white font-semibold hover:underline text-sm sm:text-base">
+              <Link href='/gaming-console/sony' className="text-white font-semibold hover:underline text-sm sm:text-base">
                 Shop Now
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -56,14 +57,14 @@ export default function NewArrival() {
               <div className="absolute inset-0 bg-black/40" />
               <div className="relative text-white max-w-sm p-2 sm:p-4">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-semibold sm:mb-2">
-                  New Collections
+                  Featured Collections
                 </h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 sm:mb-4">
-                  Featured woman collections that give you another vibe.
+                  Featured collections that give you another vibe.
                 </p>
-                <button className="text-white font-semibold hover:underline text-sm sm:text-base">
+                <Link href='/view-featured-products' className="text-white font-semibold hover:underline text-sm sm:text-base">
                   Shop Now
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -75,7 +76,7 @@ export default function NewArrival() {
               <div className="relative bg-black rounded-3xl overflow-hidden h-[200px] sm:h-[220px] md:h-[250px] p-6 flex flex-col justify-end">
                 <Image
                   src={Speaker}
-                  alt="Speakers"
+                  alt="Dyson image"
                   fill
                   className="object-cover md:object-contain object-center opacity-90"
                   priority
@@ -83,14 +84,14 @@ export default function NewArrival() {
                 <div className="absolute inset-0 bg-black/40" />
                 <div className="relative text-white text-start sm:p-4">
                   <h3 className="text-md sm:text-xl md:text-2xl font-semibold sm:mb-1">
-                    Speakers
+                    Dyson
                   </h3>
                   <p className="text-[10px] sm:text-sm md:text-base text-gray-300 sm:mb-2">
-                    Amazon wireless speakers
+                    Dyson all products
                   </p>
-                  <button className="text-white font-semibold hover:underline text-[12px] sm:text-base">
+                  <Link href='/hair-straightener/dyson' className="text-white font-semibold hover:underline text-[12px] sm:text-base">
                     Shop Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -113,9 +114,9 @@ export default function NewArrival() {
                   <p className="text-[10px] sm:text-sm md:text-base text-gray-300 sm:mb-2">
                     Branded Laptops
                   </p>
-                  <button className="text-white font-semibold hover:underline text-[12px] sm:text-base">
+                  <Link href='/laptops' className="text-white font-semibold hover:underline text-[12px] sm:text-base">
                     Shop Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

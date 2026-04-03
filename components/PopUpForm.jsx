@@ -94,7 +94,7 @@ export default function PopUpForm({ open, setOpen }) {
       )}
 
       {/* LEFT IMAGE */}
-      <div className="w-full lg:w-[40%] h-full">
+      <div className="hidden lg:block w-full lg:w-[40%] h-full">
         <Image
           src={EnrollNow}
           alt="popup image"
@@ -105,14 +105,14 @@ export default function PopUpForm({ open, setOpen }) {
       </div>
 
       {/* RIGHT PANEL */}
-      <div className="p-10 w-full lg:w-[55%]">
-        <h2 className="text-3xl font-bold mb-10">
+      <div className="p-4 md:p-8 lg:p-10 w-full lg:w-[55%]">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-10">
           Enroll Now for Latest Update
         </h2>
         <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-8 lg:space-y-10">
             {/* ROW 1 → Name + Email */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-2 gap-6 md:gap-8 lg:gap-10">
               <div>
                 <label className="text-sm font-medium">
                   Name<span className="text-red-500">*</span>
@@ -147,7 +147,7 @@ export default function PopUpForm({ open, setOpen }) {
             </div>
 
             {/* ROW 2 → Phone + Product */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
               <div>
                 <label className="text-sm font-medium">
                   Phone Number<span className="text-red-500">*</span>
@@ -187,7 +187,7 @@ export default function PopUpForm({ open, setOpen }) {
             </div>
 
             {/* ROW 3 → Min + Max Price */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-2 gap-6 md:gap-8 lg:gap-10">
               <div>
                 <label className="text-sm font-medium">
                   Min Price<span className="text-red-500">*</span>

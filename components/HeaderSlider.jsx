@@ -143,7 +143,7 @@ const HeaderSlider = () => {
                       width={slide.imgSrc.width}
                       height={slide.imgSrc.height}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="h-full w-auto md:h-[300px] lg:h-full"
+                      className="h-full w-auto md:h-[300px] lg:h-full object-contain"
                       priority
                     />
                   </div>

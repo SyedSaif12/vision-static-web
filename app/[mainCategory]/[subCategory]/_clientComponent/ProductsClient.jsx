@@ -167,9 +167,9 @@ const ProductsClient = ({
     <>
       <div className=" bg-gray-100">
         <HeroSection
-          title={`View all ${subCategory} ${category}`}
-          offer={`Find all ${subCategory} products related to ${category} in one place. `}
-          steps={["home", category, subCategory, select]}
+          title={`View all ${subCategory.replace(/-/g, " ")} ${category.replace(/-/g, " ")}`}
+          offer={`Find all ${subCategory.replace(/-/g, " ")} products related to ${category.replace(/-/g, " ")} in one place. `}
+          steps={["home", category.replace(/-/g, " "), subCategory.replace(/-/g, " "), select.replace(/-/g, " ")]}
         />
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
           <Pills

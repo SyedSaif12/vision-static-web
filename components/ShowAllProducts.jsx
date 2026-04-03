@@ -9,7 +9,7 @@ const ShowAllProducts = ({ headTitle, products }) => {
   return (
     <>
       <div className="mt-14">
-        <p className="text-xl md:text-3xl font-medium">{headTitle}</p>
+        <h2 className="text-2xl capitalize md:text-3xl font-semibold">{headTitle}</h2>
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-6 mt-6 py-5 md:py-10 w-full">
           {Array.isArray(products) ? (
             products?.map((product, idx) => (

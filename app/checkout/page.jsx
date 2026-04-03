@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ChevronDown, LoaderCircle } from "lucide-react";
 import { formatPrice } from "@/helper/formatPrice";
+import CartDrawer from "@/components/CartDrawer";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -55,6 +56,7 @@ const COUNTRY = [{ value: "pakistan", label: "Pakistan" }];
 
 const CheckoutPage = () => {
   const [loader, setLoader] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const subtotal = useSelector(getCartAmount);
   const dispatch = useDispatch();
@@ -193,31 +195,28 @@ const CheckoutPage = () => {
   Country:${formData.country}
   Name: ${formData.firstName} ${formData.lastName}
   Phone: ${formData.phone}
-  Address: ${formData.address}${
-    formData.apartment ? `, ${formData.apartment}` : ""
-  }
+  Address: ${formData.address}${formData.apartment ? `, ${formData.apartment}` : ""
+      }
   City: ${CITIES.find((c) => c.value === formData.city)?.label || formData.city}
   Postal Code: ${formData.postalCode || "N/A"}
 
   *Order Items:*
   ${cartProducts
-    .map(
-      (item) =>
-        `${item.productTitle} x ${item.qty} = PKR ${
-          (item.price || item.oldPrice) * item.qty
-        }`,
-    )
-    .join("\n")}
+        .map(
+          (item) =>
+            `${item.productTitle} x ${item.qty} = PKR ${(item.price || item.oldPrice) * item.qty
+            }`,
+        )
+        .join("\n")}
 
   *Payment:* ${formData.payment === "cod" ? "Cash on Delivery" : "Bank Deposit"}
 
   *Order Summary:*
   Subtotal: PKR ${calculations.subtotal.toFixed(2)}
-  ${
-    calculations.codFee > 0
-      ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
-      : ""
-  }
+  ${calculations.codFee > 0
+        ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
+        : ""
+      }
   Shipping: PKR ${calculations.shippingFee}
   *Total: PKR ${calculations.total.toFixed(2)}*
       `.trim();
@@ -447,11 +446,10 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "cod"
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "cod"
                         ? "border-blue-600 bg-blue-600"
                         : "border-gray-400 bg-white"
-                    }`}
+                      }`}
                   >
                     {watchPayment === "cod" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -491,11 +489,10 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "banktransfer"
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "banktransfer"
                         ? "border-blue-600 bg-blue-600"
                         : "border-gray-400 bg-white"
-                    }`}
+                      }`}
                   >
                     {watchPayment === "banktransfer" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -551,7 +548,8 @@ const CheckoutPage = () => {
               {/* RIGHT – ORDER SUMMARY */}
               <div className="bg-white p-6 self-start rounded-lg shadow">
                 <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
-                  Order Summary
+                  Order Summary.
+                <button className="ml-2 md:ml-4 font-medium text-blue-500 underline text-sm" onClick={() => setCartOpen(true)}>modify order</button>
                 </h2>
                 <p className="my-4">
                   {Object.entries(cartItems)?.length} items in Cart
@@ -638,6 +636,10 @@ const CheckoutPage = () => {
           </form>
         </FormProvider>
       </div>
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
     </>
   );
 };

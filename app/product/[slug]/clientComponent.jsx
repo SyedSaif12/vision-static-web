@@ -51,7 +51,7 @@ const ClientProductComponent = ({ product }) => {
       {/* Hero Section showing subcategory */}
       <HeroSection title={product?.products?.subCategory?.name} />
 
-      <div className="px-6 md:px-16 lg:px-32 pt-14 bg-gray-100">
+      <div className="px-6 md:px-16 lg:px-32 py-14 bg-gray-100">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           {/* IMAGE SECTION */}
           <div className="h-full relative px-0 sm:px-6 lg:px-12">
@@ -203,16 +203,16 @@ const ClientProductComponent = ({ product }) => {
         </div>
       </div>
 
-      <div className="mt-10 pb-6 w-full ">
+      <div className="w-full bg-[#D9D9D9] h-full py-10">
         <ProductDescription
           description={product?.attributes}
           title={product?.productTitle}
         />
       </div>
 
-      <div className="mt-10 pb-6">
+      <div className="py-6">
         <Seocontent
-          className="w-10/12 mx-auto md:ml-auto bg-white p-4 md:p-10 shadow-sm mt-10"
+          className="w-10/12 mx-auto md:ml-auto bg-white p-4 md:p-10 shadow-sm"
           content={product?.seoContent}
         />
       </div>
