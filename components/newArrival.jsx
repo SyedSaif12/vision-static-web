@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import PlayStation from "@/assets/playstation.png";
-import Speaker from "@/assets/dyson-bg-image.webp";
+import Speaker from "@/assets/dyson-bg-image.png";
 import NewCollection from "@/assets/newcollection.png";
 import LaptopGucci from "@/assets/laptopgucci.png";
 import Image from "next/image";
@@ -35,7 +35,10 @@ export default function NewArrival() {
               <p className="text-xs sm:text-sm md:text-base text-gray-300 mb-1 sm:mb-4">
                 Black and White version of the PS5 coming out on sale.
               </p>
-              <Link href='/gaming-console/sony' className="text-white font-semibold hover:underline text-sm sm:text-base">
+              <Link
+                href="/gaming-console/sony"
+                className="text-white font-semibold hover:underline text-sm sm:text-base"
+              >
                 Shop Now
               </Link>
             </div>
@@ -62,7 +65,10 @@ export default function NewArrival() {
                 <p className="text-xs sm:text-sm md:text-base text-gray-300 sm:mb-4">
                   Featured collections that give you another vibe.
                 </p>
-                <Link href='/view-featured-products' className="text-white font-semibold hover:underline text-sm sm:text-base">
+                <Link
+                  href="/view-featured-products"
+                  className="text-white font-semibold hover:underline text-sm sm:text-base"
+                >
                   Shop Now
                 </Link>
               </div>
@@ -89,7 +95,10 @@ export default function NewArrival() {
                   <p className="text-[10px] sm:text-sm md:text-base text-gray-300 sm:mb-2">
                     Dyson all products
                   </p>
-                  <Link href='/hair-straightener/dyson' className="text-white font-semibold hover:underline text-[12px] sm:text-base">
+                  <Link
+                    href="/hair-straightener/dyson"
+                    className="text-white font-semibold hover:underline text-[12px] sm:text-base"
+                  >
                     Shop Now
                   </Link>
                 </div>
@@ -114,7 +123,10 @@ export default function NewArrival() {
                   <p className="text-[10px] sm:text-sm md:text-base text-gray-300 sm:mb-2">
                     Branded Laptops
                   </p>
-                  <Link href='/laptops' className="text-white font-semibold hover:underline text-[12px] sm:text-base">
+                  <Link
+                    href="/laptops"
+                    className="text-white font-semibold hover:underline text-[12px] sm:text-base"
+                  >
                     Shop Now
                   </Link>
                 </div>

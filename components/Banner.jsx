@@ -6,41 +6,68 @@ import SafeNextImage from "./NextImageComponent";
 
 export default function Banner() {
   const { currentData } = usePromotionsQuery();
-  const imagesData =
-    Array.isArray(currentData?.data) &&
-    currentData?.data?.flatMap((item) => item.image);
-
-  const images = Array.isArray(imagesData)
-    ? imagesData?.map((item, idx) => ({
-        id: idx + 1,
-        fileUrl: item.fileUrl,
-        filename: item.fileName,
-        key: item.key,
-      }))
-    : [];
-
+  const [isMobile, setIsMobile] = useState(false);
   const [index, setIndex] = useState(0);
 
+  const images = Array.isArray(currentData?.data)
+    ? currentData.data.flatMap((item, parentIndex) =>
+        item.image.map((img, idx) => ({
+          id: `${parentIndex}-${idx}`,
+          fileUrl: img?.fileUrl,
+          filename: img?.fileName,
+          key: img?.key,
+        })),
+      )
+    : [];
+
+  const mobileimage = Array.isArray(currentData?.data)
+    ? currentData.data.flatMap((item, parentIndex) =>
+        item.mobileImage.map((img, idx) => ({
+          id: `${parentIndex}-${idx}`,
+          fileUrl: img?.fileUrl,
+          filename: img?.fileName,
+          key: img?.key,
+        })),
+      )
+    : [];
+
+  const finalImages = isMobile
+    ? mobileimage.length > 0
+      ? mobileimage
+      : images // fallback
+    : images;
+
   useEffect(() => {
-    if (!images.length) return;
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
+
+  useEffect(() => {
+    if (!finalImages?.length) return;
     const interval = setInterval(() => {
       setIndex((prev) => {
-        return Number((prev + 1) % images?.length);
+        return Number((prev + 1) % finalImages?.length);
       });
     }, 2000);
     return () => clearInterval(interval);
-  }, [images?.length]);
+  }, [finalImages?.length]);
 
   return (
     <div className="w-full pt-10">
       <div className="max-w-[1480px] mx-auto">
         {/* SLIDER */}
-        <div className="h-20 md:h-32 lg:h-52 xl:h-72 relative overflow-hidden rounded-2xl">
+        <div className="h-44 lg:h-52 xl:h-72 relative overflow-hidden rounded-2xl">
           <div
             className="flex w-full h-full transition-transform duration-700"
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
-            {images?.map((item) => (
+            {finalImages?.map((item) => (
               <div key={item.id} className="min-w-full h-full relative">
                 <SafeNextImage
                   src={item.fileUrl}

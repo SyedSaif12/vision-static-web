@@ -10,10 +10,12 @@ import closeIcon from "@/assets/close.svg";
 import { useRouter } from "next/navigation";
 import { formatPrice } from "@/helper/formatPrice";
 import { useEffect, useState } from "react";
+import blankImage from "@/assets/blank_image.jpg";
 
 export default function CartDrawer({ open, onClose }) {
   const [isClient, setIsClient] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
+  const [imageSrc, setImageSrc] = useState(blankImage);
   const totalAmount = useSelector(getCartAmount);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -76,9 +78,10 @@ export default function CartDrawer({ open, onClose }) {
             <div key={id} className="flex gap-4 items-center border-b pb-4">
               <div className="w-20 h-20 relative">
                 <Image
-                  src={product.image[0]?.fileUrl || "/placeholder.png"}
+                  src={product.image[0]?.fileUrl || imageSrc}
                   alt={product.productTitle || "Product"}
                   fill
+                  onError={() => setImageSrc(blankImage)}
                   className="object-cover rounded-lg"
                 />
               </div>
