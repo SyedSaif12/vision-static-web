@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import laptopsImage from "../assets/laptop-bg-images.webp";
 import playstationImage from "../assets/playstation-bg-image.webp";
-import dysonImage from "../assets/dyson-bg-image.webp";
+import dysonImage from "../assets/dyson-bg-image.svg";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
 
@@ -143,7 +143,7 @@ const HeaderSlider = () => {
                       width={slide.imgSrc.width}
                       height={slide.imgSrc.height}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="h-full w-auto md:h-[300px] lg:h-full object-contain"
+                      className="h-full w-auto md:h-[300px] lg:h-[70%] object-contain"
                       priority
                     />
                   </div>

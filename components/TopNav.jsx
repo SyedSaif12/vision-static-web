@@ -15,7 +15,7 @@ const TopNav = () => {
           <div className="hidden lg:flex items-center gap-2">
             <span className="font-medium">callus:</span>
             <a
-              href="tel:0012345678"
+              href="tel:+923260220581"
               className="text-black font-semibold hover:text-black transition-colors"
             >
               +92 326 022 0581

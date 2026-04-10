@@ -76,10 +76,10 @@ const Page = () => {
             <p className="text-sm text-gray-500">
               Need help? Contact us at{" "}
               <a
-                href="tel:+923014868585"
+                href="tel:+923260220581"
                 className="text-[#000DAF] font-semibold"
               >
-                092-301-4868585
+                +92 326 0220581
               </a>
             </p>
           </div>
