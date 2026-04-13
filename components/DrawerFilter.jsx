@@ -228,7 +228,7 @@ function FilterSection({
         className="flex justify-between items-center cursor-pointer"
         onClick={onToggle}
       >
-        <p className="font-semibold text-gray-700">{title}</p>
+        <p className="font-semibold text-gray-700 capitalize">{title}</p>
         <ChevronDown
           className={`transition-transform ${open ? "rotate-0" : "-rotate-90"}`}
         />

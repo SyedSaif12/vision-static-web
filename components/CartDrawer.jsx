@@ -33,11 +33,13 @@ export default function CartDrawer({ open, onClose }) {
   const handleQuantity = (id, type) => {
     const currentQty = cartItems[id]?.quantity || 0;
     if (type === "inc") {
+      if (currentQty === 5) return
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty + 1 }));
     } else if (type === "dec" && currentQty > 1) {
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty - 1 }));
     }
   };
+
 
   const proceedToCheckOut = () => {
     setTimeout(() => {

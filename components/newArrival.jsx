@@ -1,13 +1,24 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import PlayStation from "@/assets/playstation.png";
 import Speaker from "@/assets/dyson-bg-image.png";
 import NewCollection from "@/assets/newcollection.png";
 import LaptopGucci from "@/assets/laptopgucci.png";
 import Image from "next/image";
+import Loader from "@/components/Loading";
 import Link from "next/link";
 
 export default function NewArrival() {
+  const [load, setLoad] = useState(false);
+
+  if (load) {
+    return (
+      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <section className="">
       <div className="w-full h-full flex items-center">
@@ -36,8 +47,9 @@ export default function NewArrival() {
                 Black and White version of the PS5 coming out on sale.
               </p>
               <Link
+                onClick={() => setLoad(true)}
                 href="/gaming-console/sony"
-                className="text-white font-semibold hover:underline text-sm sm:text-base"
+                className="text-black bg-white py-2 px-2 md:px-3 rounded-full font-semibold text-xs md:text-base"
               >
                 Shop Now
               </Link>
@@ -66,8 +78,9 @@ export default function NewArrival() {
                   Featured collections that give you another vibe.
                 </p>
                 <Link
+                  onClick={() => setLoad(true)}
                   href="/view-featured-products"
-                  className="text-white font-semibold hover:underline text-sm sm:text-base"
+                  className="text-black bg-white py-2 p-2 md:px-3 rounded-full font-semibold text-xs md:text-base"
                 >
                   Shop Now
                 </Link>
@@ -96,8 +109,9 @@ export default function NewArrival() {
                     Dyson all products
                   </p>
                   <Link
+                    onClick={() => setLoad(true)}
                     href="/hair-straightener/dyson"
-                    className="text-white font-semibold hover:underline text-[12px] sm:text-base"
+                    className="text-black bg-white py-2 px-2 md:px-3 rounded-full font-semibold text-xs md:text-base"
                   >
                     Shop Now
                   </Link>
@@ -124,8 +138,9 @@ export default function NewArrival() {
                     Branded Laptops
                   </p>
                   <Link
+                    onClick={() => setLoad(true)}
                     href="/laptops"
-                    className="text-white font-semibold hover:underline text-[12px] sm:text-base"
+                    className="text-black bg-white py-2 px-2 md:px-3 rounded-full font-semibold text-xs md:text-base"
                   >
                     Shop Now
                   </Link>

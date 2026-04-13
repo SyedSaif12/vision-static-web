@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import ProductCard from "./ProductCard";
 import { useRouter } from "next/navigation";
 import CartDrawer from "./CartDrawer";
+import Loader from "@/components/Loading";
 // import { fetchProducts } from "@/redux/product/productSlice";
 
 const HomeProducts = ({ products }) => {
   const router = useRouter();
   const [cartOpen, setCartOpen] = useState(false);
+  const [load, setLoad] = useState(false);
 
   // Index for pagination-based slider
   const [startIndex, setStartIndex] = useState(0);
@@ -26,6 +28,14 @@ const HomeProducts = ({ products }) => {
     }
   };
 
+  if (load) {
+    return (
+      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col pt-14 w-full">
       {/* HEADER + VIEW ALL + ARROWS */}
@@ -40,7 +50,10 @@ const HomeProducts = ({ products }) => {
         <div className="flex items-center justify-between gap-2 w-full sm:w-auto sm:ml-auto">
           {/* View All BUTTON */}
           <button
-            onClick={() => router.push("/view-featured-products")}
+            onClick={() => {
+              setLoad(true);
+              router.push("/view-featured-products");
+            }}
             className="border border-[#5869F1] text-[#5869F1] rounded-full 
             w-28 sm:w-32 px-2 py-1 text-sm hover:bg-[#eef0ff]
             sm:px-5 sm:py-1.5 sm:text-base"

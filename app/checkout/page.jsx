@@ -7,12 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import HeroSection from "@/components/HeroSection";
 import Image from "next/image";
-import { getCartAmount, clearCart } from "@/redux/cart/cartSlice";
+import { getCartAmount, clearCart, removeFromCart, updateCartQuantity } from "@/redux/cart/cartSlice";
 import { usePostCheckoutMutation } from "@/redux/checkout/checkoutSlice";
 import arrow from "@/assets/arrow.png";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { ChevronDown, LoaderCircle } from "lucide-react";
+import { ChevronDown, LoaderCircle, X } from "lucide-react";
 import { formatPrice } from "@/helper/formatPrice";
 import CartDrawer from "@/components/CartDrawer";
 import blankImage from "@/assets/blank_image.jpg";
@@ -163,6 +163,20 @@ const CheckoutPage = () => {
     }
   };
 
+  const handleRemove = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  const handleQuantity = (id, type) => {
+    const currentQty = cartItems[id]?.quantity || 0;
+    if (type === "inc") {
+      if (currentQty === 5) return
+      dispatch(updateCartQuantity({ itemId: id, quantity: currentQty + 1 }));
+    } else if (type === "dec" && currentQty > 1) {
+      dispatch(updateCartQuantity({ itemId: id, quantity: currentQty - 1 }));
+    }
+  };
+
   const handleOrder = () => {
     const formData = watch();
 
@@ -197,31 +211,28 @@ const CheckoutPage = () => {
   Country:${formData.country}
   Name: ${formData.firstName} ${formData.lastName}
   Phone: ${formData.phone}
-  Address: ${formData.address}${
-    formData.apartment ? `, ${formData.apartment}` : ""
-  }
+  Address: ${formData.address}${formData.apartment ? `, ${formData.apartment}` : ""
+      }
   City: ${CITIES.find((c) => c.value === formData.city)?.label || formData.city}
   Postal Code: ${formData.postalCode || "N/A"}
 
   *Order Items:*
   ${cartProducts
-    .map(
-      (item) =>
-        `${item.productTitle} x ${item.qty} = PKR ${
-          (item.price || item.oldPrice) * item.qty
-        }`,
-    )
-    .join("\n")}
+        .map(
+          (item) =>
+            `${item.productTitle} x ${item.qty} = PKR ${(item.price || item.oldPrice) * item.qty
+            }`,
+        )
+        .join("\n")}
 
   *Payment:* ${formData.payment === "cod" ? "Cash on Delivery" : "Bank Deposit"}
 
   *Order Summary:*
   Subtotal: PKR ${calculations.subtotal.toFixed(2)}
-  ${
-    calculations.codFee > 0
-      ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
-      : ""
-  }
+  ${calculations.codFee > 0
+        ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
+        : ""
+      }
   Shipping: PKR ${calculations.shippingFee}
   *Total: PKR ${calculations.total.toFixed(2)}*
       `.trim();
@@ -451,11 +462,10 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "cod"
-                        ? "border-blue-600 bg-blue-600"
-                        : "border-gray-400 bg-white"
-                    }`}
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "cod"
+                      ? "border-blue-600 bg-blue-600"
+                      : "border-gray-400 bg-white"
+                      }`}
                   >
                     {watchPayment === "cod" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -495,11 +505,10 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "banktransfer"
-                        ? "border-blue-600 bg-blue-600"
-                        : "border-gray-400 bg-white"
-                    }`}
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "banktransfer"
+                      ? "border-blue-600 bg-blue-600"
+                      : "border-gray-400 bg-white"
+                      }`}
                   >
                     {watchPayment === "banktransfer" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -552,15 +561,9 @@ const CheckoutPage = () => {
               </div>
 
               {/* RIGHT – ORDER SUMMARY */}
-              <div className="bg-white p-6 self-start rounded-lg shadow">
+              <div className="p-6 self-start rounded-lg shadow">
                 <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
                   Order Summary.
-                  <button
-                    className="ml-2 md:ml-4 font-medium text-blue-500 underline text-sm"
-                    onClick={() => setCartOpen(true)}
-                  >
-                    modify order
-                  </button>
                 </h2>
                 <p className="my-4">
                   {Object.entries(cartItems)?.length} items in Cart
@@ -577,8 +580,13 @@ const CheckoutPage = () => {
                       cartProducts?.map((item) => (
                         <div
                           key={item.id}
-                          className="flex flex-col sm:flex-row gap-4 sm:items-center mb-4 border-b pb-4"
+                          className="relative flex flex-col sm:flex-row gap-4 sm:items-center mb-4 border-b pb-4"
                         >
+                          <span
+                            onClick={() => handleRemove(item.id)}
+                            className="absolute hover:cursor-pointer top-0 right-0">
+                            <X size={18} />
+                          </span>
                           <Image
                             src={item.image[0]?.fileUrl || blankImage}
                             alt={item.productTitle || "Product"}
@@ -591,9 +599,22 @@ const CheckoutPage = () => {
                             <p className="font-medium text-sm line-clamp-2 leading-relaxed">
                               {item.productTitle}
                             </p>
-                            <p className="text-sm text-gray-500">
-                              Qty: {item.qty}
-                            </p>
+                            <div className="text-sm md:text-md flex items-center gap-1 md:gap-2 text-gray-500">
+                              {/* Qty: {item.qty} */}
+                              <button
+                                onClick={() => handleQuantity(item.id, "dec")}
+                                className="px-2 py-1 border rounded text-black"
+                              >
+                                -
+                              </button>
+                              <span className="text-black">{item.qty}</span>
+                              <button
+                                onClick={() => handleQuantity(item.id, "inc")}
+                                className="px-2 py-1 border rounded text-black"
+                              >
+                                +
+                              </button>
+                            </div>
                           </div>
                           <p className="font-semibold sm:ml-auto text-right self-end sm:self-center">
                             PKR{" "}

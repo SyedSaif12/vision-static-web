@@ -3,9 +3,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import laptopsImage from "../assets/laptop-bg-images.webp";
 import playstationImage from "../assets/playstation-bg-image.webp";
-import dysonImage from "../assets/dyson-bg-image.svg";
+import dysonImage from "../assets/dyson-hero-image.png";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const Navbar = dynamic(() => import("@/components/Navbar"), {
   loading: () => <NavSkeleton />,
@@ -18,18 +19,21 @@ const sliderData = [
     offer: "Experience innovation with cutting-edge technology.",
     title: "Discover the Latest in Tech in laptop collections",
     imgSrc: laptopsImage,
+    path: "/laptops/apple",
   },
   {
     id: 2,
     offer: "Experience innovation with cutting-edge technology.",
     title: "Next-Level Gaming Starts Here - Discover PlayStation 5 Today!",
     imgSrc: playstationImage,
+    path: "/gaming-console/sony",
   },
   {
     id: 3,
     offer: "Exclusive Deal 40% Off",
     title: "Power Meets Elegance - Apple MacBook Pro is Here for you!",
     imgSrc: dysonImage,
+    path: "/hair-straightener/dyson",
   },
 ];
 
@@ -55,7 +59,7 @@ const HeaderSlider = () => {
       <div
         className="
           relative bg-[#031057]
-          h-[520px] md:h-[650px]
+          h-[590px] md:h-[650px]
           rounded-b-[50px] md:rounded-b-[80px]
           overflow-hidden
         "
@@ -125,6 +129,12 @@ const HeaderSlider = () => {
                     <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
                       {slide.offer}
                     </p>
+                    <Link
+                      href={slide.path}
+                      className="text-black bg-white font-semibold mt-4 py-1 px-4 rounded-full "
+                    >
+                      Shop Now
+                    </Link>
                   </div>
 
                   {/* Image — always visible (mobile + desktop) */}

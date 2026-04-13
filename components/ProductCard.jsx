@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/cart/cartSlice";
 import { formatPrice } from "@/helper/formatPrice";
 import SafeNextImage from "./NextImageComponent";
+import Loader from "@/components/Loading";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product, openCart }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  const [load, setLoad] = useState(false);
   const router = useRouter();
 
   const handleAddToCart = () => {
@@ -44,6 +46,14 @@ const ProductCard = ({ product, openCart }) => {
       value,
     }));
 
+  if (load) {
+    return (
+      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
@@ -68,8 +78,8 @@ const ProductCard = ({ product, openCart }) => {
       <div className="w-11/12 my-3 relative group cursor-pointer">
         <p
           onClick={() => {
+            setLoad(true);
             router.push(`/product/${product.slug}`);
-            scrollTo(0, 0);
           }}
           className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
         >
@@ -110,22 +120,27 @@ const ProductCard = ({ product, openCart }) => {
       </div>
 
       <div className="flex items-center justify-center gap-2 mt-2">
-        {product.oldPrice > 0 || product.price > 0 ? (
+        {product.price > 0 ? (
           <>
-            <p className="text-gray-400 line-through text-[12px]">
-              {currency} {formatPrice(product.oldPrice)}
-            </p>
+            {/* Old Price sirf tab dikhao jab wo current price se zyada ho */}
+            {product.oldPrice > product.price && (
+              <p className="text-gray-400 line-through text-[12px]">
+                {currency} {formatPrice(product.oldPrice)}
+              </p>
+            )}
+
             <p className="text-black font-semibold text-[14px]">
               {currency} {formatPrice(product.price)}
             </p>
           </>
         ) : (
-          <p className="text-gray-400 text-[13px]">Comming Soon</p>
+          <p className="text-gray-400 text-[13px]">Coming Soon</p>
         )}
       </div>
 
       <div className="w-11/12 flex flex-col sm:flex-row sm:gap-4">
         <Link
+          onClick={() => setLoad(true)}
           className="mt-2 sm:mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm text-center font-medium p-1 sm:p-2 rounded-full hover:bg-blue-50 transition"
           href={`/product/${product.slug}`}
         >

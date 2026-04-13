@@ -1,8 +1,10 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import arrowIcon from "@/assets/arrowicn.svg";
 import SafeNextImage from "./NextImageComponent";
 import blankImage from "@/assets/blank_image.jpg";
+import Loader from "@/components/Loading";
 
 const BaseCardCategory = ({
   tile,
@@ -12,10 +14,21 @@ const BaseCardCategory = ({
   isCountShow = false,
   isHighlight = true,
 }) => {
+  const [load, setLoad] = useState(false);
+
+  if (load) {
+    return (
+      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="w-full mx-auto pt-3 sm:pt-10">
         <Link
+          onClick={() => setLoad(true)}
           href={url}
           className="rounded-2xl h-44 sm:h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer flex flex-col bg-white"
         >
