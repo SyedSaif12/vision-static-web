@@ -1,22 +1,41 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  useGetFiltersMutation,
   useGetProductsQuery,
 } from "@/redux/product/productSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // create custom hook for handling all filtered products
-export function useFetchProducts(category, subCategory) {
+export function useFetchProducts(
+  category,
+  subCategory,
+  initialData = [],
+  initialTotal = 0,
+  selectedPills = '',
+) {
+
   const [filters, setFilters] = useState({});
-  const [select, setSelect] = useState("");
+  const [select, setSelect] = useState(selectedPills);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
-  const [products, setProducts] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [products, setProducts] = useState(initialData);
+  const [hasMore, setHasMore] = useState(initialData.length < initialTotal);
   const [reset, setReset] = useState(false);
+  const [skip, setSkip] = useState(true);
+
+  const isFirstRender = useRef(true);
+
+
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      if (initialData.length === 0 && initialTotal > 0) {
+        setSkip(false);
+      }
+      return;
+    }
     // reset effects
+    setSkip(false);
     setProducts([]);
     setPage(1);
     setHasMore(true);
@@ -34,7 +53,7 @@ export function useFetchProducts(category, subCategory) {
       category,
       subCategory,
       ...(select && { name: select }),
-      ...(Object.entries(filters).length > 0 && {
+      ...(Object.keys(filters).length > 0 && {
         ...filters,
         paginate: false,
       }),
@@ -42,63 +61,35 @@ export function useFetchProducts(category, subCategory) {
       limit,
     },
     {
+      skip: skip,
       refetchOnMountOrArgChange: true,
       pollingInterval: 0,
     },
   );
 
   useEffect(() => {
-    // handle all filters are here.
-    if (data?.data && data?.total !== undefined) {
-      if (Object.entries(filters).length > 0 && page === 1) {
-        setProducts([]);
+    if (data?.data?.list) {
+      if (page === 1) {
+        setProducts(data?.data?.list);
+      } else {
+        setProducts((prev) => [...prev, ...data?.data?.list]);
       }
-      setProducts((prev) => {
-        const updatedProducts = [...prev, ...data?.data?.list];
-
-        if (updatedProducts.length >= data.total) {
-          setHasMore(false);
-        } else {
-          setHasMore(true);
-        }
-
-        return updatedProducts;
-      });
+      setHasMore(products?.length + data?.data?.list?.length < (data?.total || 0));
     }
-  }, [data, reset, filters]);
+  }, [data]);
 
   return {
-    setFilters,
-    totalProducts: data?.total,
-    setPage,
-    setLimit,
-    select,
-    hasMore,
-    setSelect,
+    filters, setFilters,
+    select, setSelect,
+    hasMore, setHasMore,
+    products, setProducts,
+    page, setPage,
+    skip, setSkip,
     isLoading,
     isError,
-    products,
     isFetching,
+    setLimit,
     setReset,
-  };
-}
-
-// create custom hook for fetch all chips as main product title and filter sets
-export function useFetchAllChips(category, subCategory) {
-  const [getFilters, { data: filters }] = useGetFiltersMutation();
-  useEffect(() => {
-    if (category) {
-      getFilters({ category, subCategory });
-    }
-  }, [category, getFilters]);
-  const { isLoading, data } = useGetProductsQuery({
-    category,
-    subCategory,
-  });
-
-  return {
-    loading: isLoading,
-    chips: data,
-    filters,
+    totalProducts: data?.total || initialTotal,
   };
 }

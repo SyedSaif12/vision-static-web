@@ -8,13 +8,12 @@ import Pills from "@/components/Pills";
 import ProductCard from "@/components/ProductCard";
 import { ProductGridSkeleton } from "@/components/Skeleton";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductsNotFound from "@/components/ProductsNotFound";
-import { PillsSkeleton } from "@/components/Pills";
 import SortByDrawer from "@/components/SortByDrawer";
 import CartDrawer from "@/components/CartDrawer";
-import { useGetProductsQuery } from "@/redux/product/productSlice";
+import { useFetchProducts } from "@/hooks/useFetchProducts";
 
 const ProductsClient = ({
   initialData = [],
@@ -29,59 +28,48 @@ const ProductsClient = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-
+  const [isMounted, setIsMounted] = useState(false);
   // ============================================
   // STATE — All State here
   // ============================================
-  const [products, setProducts] = useState(initialData); // initial data added
-  const [hasMore, setHasMore] = useState(initialData.length < initialTotal);
-  const [page, setPage] = useState(serverPage);
-  const [filters, setFilters] = useState({});
-  const [select, setSelect] = useState(initialSelectedPills);
   const [selectedFilters, setSelectedFilters] = useState({});
   const [sort, setSort] = useState({ orderBy: "", order: "" });
   const [openFilter, setOpenFilter] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
 
-  //   ===========================================
-  //   FIRST RENDER SKIP if user changed a filter now RTK Query run
-  //   ===========================================
-  const isFirstRender =
-    page === 1 && !select && Object.keys(filters).length === 0;
-
-  const { data, isFetching, isLoading } = useGetProductsQuery(
-    {
-      category,
-      subCategory,
-      ...(select && { name: select }),
-      ...(Object.keys(filters).length > 0 && { ...filters, paginate: false }),
-      page,
-      limit,
-    },
-    {
-      skip: isFirstRender,
-      refetchOnMountOrArgChange: true,
-    },
+  const {
+    products,
+    setProducts,
+    hasMore,
+    setHasMore,
+    filters,
+    setFilters,
+    select,
+    setSelect,
+    skip,
+    setSkip,
+    page,
+    setPage,
+    isFetching,
+    isLoading,
+    totalProducts,
+    setLimit,
+    setReset,
+  } = useFetchProducts(
+    category,
+    subCategory,
+    initialData,
+    initialTotal,
+    initialSelectedPills,
   );
 
-  // if RTK Qurey returns updated data then run this use effect for update products
   useEffect(() => {
-    if (!data?.data?.list) return;
+    setIsMounted(true);
+  }, []);
 
-    if (page === 1) {
-      // if change filter or select then replace it
-      setProducts(data.data.list);
-    } else {
-      // append infinite scroll
-      setProducts((prev) => [...prev, ...data.data.list]);
-    }
-
-    const total = data?.total || 0;
-    setHasMore(products.length + data.data.list.length < total);
-  }, [data]);
-
-  const isDataLoading = (isLoading || isFetching) && !isFirstRender;
+  const isDataLoading = isLoading || isFetching;
+  const showNotFound = isMounted && !isDataLoading && products.length === 0;
 
   // ============================================
   // CHIPS - get all chips from server
@@ -96,38 +84,25 @@ const ProductsClient = ({
       : [];
   }, [initialChips]);
 
-  // ============================================
-  // if select any pill then update URL
-  // ============================================
-  const updateURL = useCallback(
-    (name) => {
-      const params = new URLSearchParams();
-      if (name) params.set("name", name);
-      const query = params.toString();
-      router.push(query ? `${pathname}?${query}` : pathname);
-    },
-    [pathname, router],
-  );
-
   // Pill select/deselect
-  const handlePillSelect = useCallback(
-    (pill) => {
-      const newSelect = pill?.title || "";
-      setSelect(newSelect);
-      setPage(1);
-      setProducts([]);
-      setHasMore(true);
-      updateURL(newSelect);
-    },
-    [updateURL],
-  );
+  const handlePillSelect = (pill) => {
+    const newSelect = pill?.title || "";
+    setSkip(false);
+    setSelect(newSelect);
+    setPage(1);
+
+    const params = new URLSearchParams();
+    if (newSelect) params.set("name", newSelect);
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   // ============================================
   // FILTERS & SORT
   // ============================================
   const handleApplyFilters = (selectedFilter) => {
+    setSkip(false);
     setPage(1);
-    setProducts([]);
+    // setProducts([]);
     setFilters((prev) => ({ ...prev, ...selectedFilter }));
   };
 
@@ -135,22 +110,22 @@ const ProductsClient = ({
   // CLEAR FILTERS
   // ============================================
   const clearAllFilters = () => {
+    setSkip(false);
     setFilters({});
     setSelectedFilters({});
     setSort({ orderBy: "", order: "" });
     setSelect("");
     setPage(1);
-    setProducts(initialData);
-    setHasMore(initialData.length < initialTotal);
     router.push(pathname);
   };
 
   // ============================================
   // INFINITE SCROLL
   // ============================================
-  const loadNextPage = useCallback(() => {
+  const loadNextPage = () => {
+    setSkip(false);
     setPage((prev) => prev + 1);
-  }, []);
+  };
 
   // ============================================
   // HELPER FLAGS
@@ -163,13 +138,23 @@ const ProductsClient = ({
   // ============================================
   // RENDER — old page.js JSX as it is
   // ============================================
+
+  if (!isMounted) {
+    return;
+  }
+
   return (
     <>
       <div className=" bg-gray-100">
         <HeroSection
           title={`View all ${subCategory.replace(/-/g, " ")} ${category.replace(/-/g, " ")}`}
           offer={`Find all ${subCategory.replace(/-/g, " ")} products related to ${category.replace(/-/g, " ")} in one place. `}
-          steps={["home", category.replace(/-/g, " "), subCategory.replace(/-/g, " "), select.replace(/-/g, " ")]}
+          steps={[
+            "home",
+            category.replace(/-/g, " "),
+            subCategory.replace(/-/g, " "),
+            select.replace(/-/g, " "),
+          ]}
         />
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
           <Pills
@@ -269,7 +254,9 @@ const ProductsClient = ({
 
             {/* all products show  */}
             <div className="w-full">
-              {isDataLoading && <ProductGridSkeleton />}
+              {isDataLoading && products.length === 0 && (
+                <ProductGridSkeleton />
+              )}
               {products && products.length > 0 && (
                 <InfiniteScroll
                   loader={
@@ -289,19 +276,19 @@ const ProductsClient = ({
                   }
                 >
                   <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pt-6">
-                    {products.map((product, idx) => (
-                      <ProductCard
-                        key={product.id + idx}
-                        product={product}
-                        openCart={() => setCartOpen(true)}
-                      />
-                    ))}
+                    {products.map((product, idx) => {
+                      return (
+                        <ProductCard
+                          key={product.id + idx}
+                          product={product}
+                          openCart={() => setCartOpen(true)}
+                        />
+                      );
+                    })}
                   </div>
                 </InfiniteScroll>
               )}
-              {!isDataLoading && products && products?.length === 0 && (
-                <ProductsNotFound />
-              )}
+              {showNotFound && <ProductsNotFound />}
             </div>
           </div>
         </div>

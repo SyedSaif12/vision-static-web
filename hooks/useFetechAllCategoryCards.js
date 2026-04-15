@@ -12,7 +12,7 @@ const cardsConfig = [
   },
   {
     title: "Gaming Consoles",
-    query: { category: "play-station" },
+    query: { category: "gaming-console" },
   },
   {
     title: "Dyson",

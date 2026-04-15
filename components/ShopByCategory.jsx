@@ -6,8 +6,9 @@ const ShopByCategory = async () => {
     next: { revalidate: 86400 },
   });
   const responseData = await categoryData.json();
-  const categories =
-    Array.isArray(responseData.data) && responseData?.data?.map((item) => item);
+  const categories = Array.isArray(responseData.data)
+    ? [...responseData?.data]?.reverse().map((item) => item)
+    : [];
 
   return (
     <>

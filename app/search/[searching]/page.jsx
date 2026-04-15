@@ -4,6 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import { Suspense } from "react";
 import { ProductGridSkeleton } from "@/components/Skeleton";
 import ShowAllSubCategories from "@/components/ShowAllSubCategories";
+import Footer from "@/components/Footer";
 
 const page = async ({ params }) => {
   const { searching } = await params;
@@ -25,13 +26,17 @@ const page = async ({ params }) => {
         />
         <div className="w-full mx-auto">
           <Suspense fallback={<ProductGridSkeleton />}>
-            <SearchClientComponent products={response?.data?.list} total={response?.total} />
+            <SearchClientComponent
+              products={response?.data?.list}
+              total={response?.total}
+            />
             <div className="w-11/12 lg:w-10/12 mx-auto">
               <ShowAllSubCategories />
             </div>
           </Suspense>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

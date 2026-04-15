@@ -88,7 +88,7 @@ const logos = [
 
 export default function OurBrands() {
   return (
-    <div className="w-full py-12 mt-10">
+    <div className="w-full mt-10">
       <div className="w-full h-full flex items-center">
         <h2 className="w-full text-2xl capitalize sm:text-3xl mb-10 font-semibold">
           Our Brands
