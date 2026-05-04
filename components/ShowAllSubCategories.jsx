@@ -15,7 +15,7 @@ const ShowAllSubCategories = () => {
 
   return (
     <div>
-      <h2 className="w-full text-2xl sm:text-3xl mt-10 md:mt-14 lg:mt-20 font-semibold">
+      <h2 className="w-full pt-6 md:pt-8 lg-pt-12 text-2xl sm:text-3xl mt-10 md:mt-14 lg:mt-20 font-semibold">
         Other Categories
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 py-6">

@@ -7,7 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import HeroSection from "@/components/HeroSection";
 import Image from "next/image";
-import { getCartAmount, clearCart, removeFromCart, updateCartQuantity } from "@/redux/cart/cartSlice";
+import {
+  getCartAmount,
+  clearCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "@/redux/cart/cartSlice";
 import { usePostCheckoutMutation } from "@/redux/checkout/checkoutSlice";
 import arrow from "@/assets/arrow.png";
 import { useRouter } from "next/navigation";
@@ -16,6 +21,8 @@ import { ChevronDown, LoaderCircle, X } from "lucide-react";
 import { formatPrice } from "@/helper/formatPrice";
 import CartDrawer from "@/components/CartDrawer";
 import blankImage from "@/assets/blank_image.jpg";
+import Link from "next/link";
+import Loading from "@/components/Loading";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -57,6 +64,7 @@ const COUNTRY = [{ value: "pakistan", label: "Pakistan" }];
 
 const CheckoutPage = () => {
   const [loader, setLoader] = useState(false);
+  const [load, setLoad] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const [imageSrc, setImageSrc] = useState(blankImage);
@@ -69,12 +77,12 @@ const CheckoutPage = () => {
   const formMethods = useForm({
     resolver: yupResolver(checkoutSchema),
     defaultValues: {
-      country: "",
+      country: "pakistan",
       firstName: "",
       lastName: "",
       address: "",
       apartment: "",
-      city: "",
+      city: "karachi",
       postalCode: "",
       phone: "",
       payment: "banktransfer",
@@ -137,6 +145,7 @@ const CheckoutPage = () => {
       postalCode: data.postalCode,
       phoneNo: data.phone,
       shipping: calculations.shippingFee,
+      codFee: calculations.shouldApplyCODFee ?  calculations.codFee : 0,
       applyCode: calculations.shouldApplyCODFee,
       paymentMethod: data.payment,
       items: cartProducts.map((item) => ({
@@ -170,7 +179,7 @@ const CheckoutPage = () => {
   const handleQuantity = (id, type) => {
     const currentQty = cartItems[id]?.quantity || 0;
     if (type === "inc") {
-      if (currentQty === 5) return
+      if (currentQty === 5) return;
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty + 1 }));
     } else if (type === "dec" && currentQty > 1) {
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty - 1 }));
@@ -244,6 +253,10 @@ const CheckoutPage = () => {
       "_blank",
     );
   };
+
+  if (load) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -463,8 +476,8 @@ const CheckoutPage = () => {
                   />
                   <span
                     className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "cod"
-                      ? "border-blue-600 bg-blue-600"
-                      : "border-gray-400 bg-white"
+                        ? "border-blue-600 bg-blue-600"
+                        : "border-gray-400 bg-white"
                       }`}
                   >
                     {watchPayment === "cod" && (
@@ -490,7 +503,7 @@ const CheckoutPage = () => {
                     </div>
                     <p className="text-sm mt-2 text-gray-700 font-semibold">
                       {calculations.shouldApplyCODFee
-                        ? "Pay cash when you receive your parcel. A 4% COD processing fee will be added to your total."
+                        ? "Pay cash when you receive your parcel. A 4% COD processing fee will be added to your total. If you choose bank transfer bank  4% fee will be waived."
                         : "Pay cash when you receive your parcel. No COD fee for Karachi customers!"}
                     </p>
                   </div>
@@ -506,8 +519,8 @@ const CheckoutPage = () => {
                   />
                   <span
                     className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "banktransfer"
-                      ? "border-blue-600 bg-blue-600"
-                      : "border-gray-400 bg-white"
+                        ? "border-blue-600 bg-blue-600"
+                        : "border-gray-400 bg-white"
                       }`}
                   >
                     {watchPayment === "banktransfer" && (
@@ -584,7 +597,8 @@ const CheckoutPage = () => {
                         >
                           <span
                             onClick={() => handleRemove(item.id)}
-                            className="absolute hover:cursor-pointer top-0 right-0">
+                            className="absolute hover:cursor-pointer top-0 right-0"
+                          >
                             <X size={18} />
                           </span>
                           <Image
@@ -596,8 +610,13 @@ const CheckoutPage = () => {
                             className="rounded-2xl border border-[#FF8415] sm:w-[100px] sm:h-[100px] object-cover"
                           />
                           <div className="flex-1 min-w-10 max-w-[200px]">
-                            <p className="font-medium text-sm line-clamp-2 leading-relaxed">
-                              {item.productTitle}
+                            <p className="font-medium hover:text-blue-700 hover:underline text-sm line-clamp-2 leading-relaxed">
+                              <Link
+                                onClick={() => setLoad(true)}
+                                href={`/product/${item?.slug}`}
+                              >
+                                {item.productTitle}
+                              </Link>
                             </p>
                             <div className="text-sm md:text-md flex items-center gap-1 md:gap-2 text-gray-500">
                               {/* Qty: {item.qty} */}
@@ -633,7 +652,12 @@ const CheckoutPage = () => {
 
                       {calculations.codFee > 0 && (
                         <div className="flex justify-between text-red-600">
-                          <span>COD Fee (4%)</span>
+                          <p className="flex flex-col">
+                            <span>COD Fee (4%) </span>
+                            <span className="text-sm">
+                              If you choose bank transfer bank  4% fee will be waived.
+                            </span>
+                          </p>
                           <span>PKR {formatPrice(calculations.codFee)}</span>
                         </div>
                       )}

@@ -1,18 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  useGetProductsQuery,
-} from "@/redux/product/productSlice";
+import { useGetProductsQuery } from "@/redux/product/productSlice";
 import { useEffect, useRef, useState } from "react";
 
 // create custom hook for handling all filtered products
 export function useFetchProducts(
   category,
-  subCategory,
+  subCategory = '',
   initialData = [],
   initialTotal = 0,
-  selectedPills = '',
+  selectedPills = "",
 ) {
-
   const [filters, setFilters] = useState({});
   const [select, setSelect] = useState(selectedPills);
   const [page, setPage] = useState(1);
@@ -23,8 +20,6 @@ export function useFetchProducts(
   const [skip, setSkip] = useState(true);
 
   const isFirstRender = useRef(true);
-
-
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -51,11 +46,11 @@ export function useFetchProducts(
     {
       // required peramerters pass
       category,
-      subCategory,
+      ...(subCategory.length && { subCategory }),
       ...(select && { name: select }),
       ...(Object.keys(filters).length > 0 && {
         ...filters,
-        paginate: false,
+        paginate: true,
       }),
       page,
       limit,
@@ -74,17 +69,25 @@ export function useFetchProducts(
       } else {
         setProducts((prev) => [...prev, ...data?.data?.list]);
       }
-      setHasMore(products?.length + data?.data?.list?.length < (data?.total || 0));
+      setHasMore(
+        products?.length + data?.data?.list?.length < (data?.total || 0),
+      );
     }
   }, [data]);
 
   return {
-    filters, setFilters,
-    select, setSelect,
-    hasMore, setHasMore,
-    products, setProducts,
-    page, setPage,
-    skip, setSkip,
+    filters,
+    setFilters,
+    select,
+    setSelect,
+    hasMore,
+    setHasMore,
+    products,
+    setProducts,
+    page,
+    setPage,
+    skip,
+    setSkip,
     isLoading,
     isError,
     isFetching,

@@ -21,19 +21,20 @@ const ProductCard = ({ product, openCart }) => {
       id: product?.id,
       quantity: count, // Use the count state
       productTitle: product?.productTitle,
+      slug: product?.slug,
       oldPrice: product?.oldPrice,
       price: product?.price,
       image: product?.image, // Fixed typo: was "imgae"
     };
 
-    dispatch(addToCart(addtocartitems))
+    dispatch(addToCart(addtocartitems));
     setTimeout(() => {
-    setClicked(false);
-    openCart();       
-  }, 1000);
+      setClicked(false);
+      openCart();
+    }, 1000);
   };
 
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "RS";
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "PKR";
   const [imgSrc, setImgSrc] = useState(getProductImage(product));
 
   useEffect(() => {
@@ -63,15 +64,13 @@ const ProductCard = ({ product, openCart }) => {
     <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
       <div className="w-full max-h-[449px] min-h-[170px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
-        {
-          product?.isFeatured && (
-            <div className="absolute z-40 top-2 right-2">
-              <span className="text-xs text-orange-500 border border-orange-300 bg-[#fdf0d7] px-3 py-0.5 rounded-full">
-                Featured Product
-              </span>
-            </div>
-          )
-        }
+        {product?.isFeatured && (
+          <div className="absolute z-40 top-2 right-2">
+            <span className="text-xs text-orange-500 border border-orange-300 bg-[#fdf0d7] px-3 py-0.5 rounded-full">
+              Featured Product
+            </span>
+          </div>
+        )}
         <div className="w-full h-full flex-1 relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
           <SafeNextImage
             src={imgSrc}
@@ -91,12 +90,12 @@ const ProductCard = ({ product, openCart }) => {
           }}
           className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
         >
-          {product.productTitle}
+          {product.productTitle?.replaceAll(/-/g, ' ')}
         </p>
 
         {/* Tooltip */}
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal z-50 pointer-events-none">
-          {product.productTitle}
+          {product.productTitle?.replaceAll(/-/g, ' ')}
         </div>
       </div>
 
@@ -145,39 +144,36 @@ const ProductCard = ({ product, openCart }) => {
           <p className="text-gray-400 text-[13px]">Coming Soon</p>
         )}
       </div>
-      {
-        product.price > 0 && (
-          <div className="w-11/12 flex flex-col sm:flex-row sm:gap-4">
-            <Link
-              onClick={() => setLoad(true)}
-              className="mt-2 sm:mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm text-center font-medium p-1 sm:p-2 rounded-full hover:bg-blue-50 transition"
-              href={`/product/${product.slug}`}
-            >
-              View
-            </Link>
+      {product.price > 0 && (
+        <div className="w-11/12 flex flex-col sm:flex-row sm:gap-4">
+          <Link
+            onClick={() => setLoad(true)}
+            className="mt-2 sm:mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm text-center font-medium p-1 sm:p-2 rounded-full hover:bg-blue-50 transition"
+            href={`/product/${product.slug}`}
+          >
+            View
+          </Link>
 
-            <button
+          <button
             disabled={clicked}
-              onClick={(e) => {
-                e.preventDefault()
-                setClicked(true)
-                handleAddToCart();
-              }}
-              className={`mt-2 sm:mt-3 w-full border ${ clicked ? 'border-orange-500' : 'border-blue-700'} text-white text-sm font-medium p-1 sm:p-2 rounded-full transition-colors ${clicked ? 'bg-orange-500' : 'bg-blue-700'}`}
-            >
-              {
-                clicked ? (
-                <span className="flex items-center justify-center gap-2">
+            onClick={(e) => {
+              e.preventDefault();
+              setClicked(true);
+              handleAddToCart();
+            }}
+            className={`mt-2 sm:mt-3 w-full border ${clicked ? "border-orange-500" : "border-blue-700"} text-white text-sm font-medium p-1 sm:p-2 rounded-full transition-colors ${clicked ? "bg-orange-500" : "bg-blue-700"}`}
+          >
+            {clicked ? (
+              <span className="flex items-center justify-center gap-2">
                 Added
                 <Loader2 size={18} className="animate-spin" />
-                </span>
-              ) : ('Add Cart')
-              }
-            </button>
-          </div>
-        )
-      }
-
+              </span>
+            ) : (
+              "Add Cart"
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

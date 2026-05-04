@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import laptopsImage from "../assets/laptop-bg-images.webp";
-import playstationImage from "../assets/playstation-bg-image.webp";
-import dysonImage from "../assets/dyson-hero-image.png";
+import laptopsImage from "../assets/hero-computers.png";
+import playstationImage from "../assets/hero-playstations.png";
+import dysonImage from "../assets/hero-dysons.png";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -17,21 +17,21 @@ const sliderData = [
   {
     id: 1,
     offer: "Experience innovation with cutting-edge technology.",
-    title: "Discover the Latest in Tech in laptop collections",
+    title: "Mercantile Preferred Partner",
     imgSrc: laptopsImage,
     path: "/laptops/apple",
   },
   {
     id: 2,
     offer: "Experience innovation with cutting-edge technology.",
-    title: "Next-Level Gaming Starts Here - Discover PlayStation 5 Today!",
+    title: "Grab Your Gaming Console Today",
     imgSrc: playstationImage,
     path: "/gaming-console/sony",
   },
   {
     id: 3,
     offer: "Exclusive Deal 40% Off",
-    title: "Power Meets Elegance - Apple MacBook Pro is Here for you!",
+    title: "Dyson Technology for Air, Hair, and Home",
     imgSrc: dysonImage,
     path: "/hair-straightener/dyson",
   },
@@ -126,9 +126,9 @@ const HeaderSlider = () => {
                     >
                       {slide.title}
                     </h1>
-                    <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
+                    {/* <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
                       {slide.offer}
-                    </p>
+                    </p> */}
                     <Link
                       href={slide.path}
                       className="text-black bg-white font-semibold mt-4 py-1 px-4 rounded-full "

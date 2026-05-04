@@ -11,9 +11,12 @@ import { useRouter } from "next/navigation";
 import { formatPrice } from "@/helper/formatPrice";
 import { useEffect, useState } from "react";
 import blankImage from "@/assets/blank_image.jpg";
+import Link from "next/link";
+import Loading from "./Loading";
 
 export default function CartDrawer({ open, onClose }) {
   const [isClient, setIsClient] = useState(false);
+  const [load, setLoad] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
   const [imageSrc, setImageSrc] = useState(blankImage);
   const totalAmount = useSelector(getCartAmount);
@@ -33,13 +36,12 @@ export default function CartDrawer({ open, onClose }) {
   const handleQuantity = (id, type) => {
     const currentQty = cartItems[id]?.quantity || 0;
     if (type === "inc") {
-      if (currentQty === 5) return
+      if (currentQty === 5) return;
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty + 1 }));
     } else if (type === "dec" && currentQty > 1) {
       dispatch(updateCartQuantity({ itemId: id, quantity: currentQty - 1 }));
     }
   };
-
 
   const proceedToCheckOut = () => {
     setTimeout(() => {
@@ -49,6 +51,14 @@ export default function CartDrawer({ open, onClose }) {
 
   if (!isClient) {
     return null; // Ya loading spinner
+  }
+
+  if (load) {
+    return (
+      <div className="w-screen h-screen fixed top-0 left-0 right-0 bottom-0">
+        <Loading />;
+      </div>
+    );
   }
 
   return (
@@ -89,7 +99,12 @@ export default function CartDrawer({ open, onClose }) {
               </div>
               <div className="flex-1">
                 <p className="font-medium text-black text-sm">
-                  {product.productTitle}
+                  <Link
+                    className="hover:text-blue-700 hover:underline"
+                    href={`/product/${product?.slug}`}
+                  >
+                    {product.productTitle}
+                  </Link>
                 </p>
                 <p className="text-blue-700 font-semibold">
                   PKR {formatPrice(product.price)}

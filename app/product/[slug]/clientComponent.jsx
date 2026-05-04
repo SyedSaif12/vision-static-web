@@ -90,7 +90,7 @@ const ClientProductComponent = ({ product }) => {
           {/* DETAILS SECTION */}
           <div className="flex flex-col">
             <h1 className="text-2xl track leading-7 sm:text-3xl font-medium text-gray-800 mb-4">
-              {product?.productTitle}
+              {product?.productTitle?.replaceAll(/-/g, ' ')}
             </h1>
             <div>
               <Seocontent content={product?.description} />

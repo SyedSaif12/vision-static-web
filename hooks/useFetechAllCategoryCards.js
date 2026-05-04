@@ -20,7 +20,7 @@ const cardsConfig = [
   },
   {
     title: "Whoop Band",
-    query: { category: "electronics", subCategory: "whoop" },
+    query: { category: "fitness-band", subCategory: "whoop" },
   },
   {
     title: "iPhones",

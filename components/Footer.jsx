@@ -94,6 +94,15 @@ const Footer = () => {
               {" "}
               <Link
                 className="hover:text-blue-500 hover:cursor-pointer"
+                href="/order-process"
+              >
+                Order Process
+              </Link>
+            </li>
+            <li>
+              {" "}
+              <Link
+                className="hover:text-blue-500 hover:cursor-pointer"
                 href="/store-locator"
               >
                 Store Location

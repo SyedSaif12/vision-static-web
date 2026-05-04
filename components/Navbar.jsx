@@ -77,7 +77,7 @@ export default function Navbar() {
 
               {/* Mobile Toggle Button */}
               <div className="flex gap-2 lg:hidden">
-                <Link href="" className="relative">
+                <div className="relative">
                   <div
                     onClick={() => setCartOpen(true)}
                     className="rounded-full bg-white p-2"
@@ -95,7 +95,7 @@ export default function Navbar() {
                       {cartCount}
                     </span>
                   )}
-                </Link>
+                </div>
                 <button
                   onClick={() => setOpenMobile(true)}
                   className="text-white p-1"
@@ -119,7 +119,7 @@ export default function Navbar() {
               </Link>
 
               {/* Cart Icon */}
-              <Link href="" className="relative">
+              <div className="relative">
                 <div
                   onClick={() => setCartOpen(true)}
                   className="rounded-full bg-white p-2"
@@ -137,7 +137,7 @@ export default function Navbar() {
                     {cartCount}
                   </span>
                 )}
-              </Link>
+              </div>
             </div>
           </div>
 

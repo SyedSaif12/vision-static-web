@@ -1,10 +1,11 @@
 import BaseCardCategory from "@/components/BaseCardCategory";
-import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
-import ProductsNotFound from "@/components/ProductsNotFound";
-import ShowAllProducts from "@/components/ShowAllProducts";
-import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 import { baseURL } from "@/redux/utils";
+import MainCategoryProductClient from "./_clientMainCategory/MainCategoryProductClient";
+import {
+  fetchChipsAndFilters,
+  fetchInitialProductOnServerSide,
+} from "@/lib/fetchProducts";
 
 export async function generateMetadata({ params }) {
   const { mainCategory } = await params;
@@ -22,22 +23,20 @@ export async function generateMetadata({ params }) {
 
 const page = async ({ params }) => {
   const { mainCategory } = await params; // extract category
-  const categoryData = await fetch(
-    //fetch all categories form server
-    `${baseURL}subCategory?name=${mainCategory}`,
-    {
+  // fetch category related data
+  const [categoryData, initialData, filterData] = await Promise.all([
+    fetch(`${baseURL}subCategory?name=${mainCategory}`, {
       next: { revalidate: 120 },
-    },
-  );
-  const products = await fetch(
-    // fetch all featured products
-    `${baseURL}products?category=${mainCategory}&isFeatured=true&chip=false`,
-    {
-      next: { revalidate: 60 },
-    },
-  );
-  const responseProduct = await products.json();
+    }),
+    fetchInitialProductOnServerSide({
+      category: mainCategory,
+    }),
+    fetchChipsAndFilters({ category: mainCategory, chip: false }),
+  ]);
+
   const responseData = await categoryData.json();
+  const { response = [] } = initialData;
+  const { filters } = filterData;
 
   const categories =
     Array.isArray(responseData.data) && responseData?.data?.map((item) => item); // normalization categories
@@ -73,18 +72,17 @@ const page = async ({ params }) => {
               ))}
           </div>
           <div>
-            {/*  show all featured products using component  */}
-            {responseProduct?.data?.list.length > 0 && (
-              <ShowAllProducts
-                headTitle={`Featured ${mainCategory.replace(/-/g, " ")}`}
-                products={responseProduct?.data?.list}
-              />
-            )}
-            {responseProduct?.data?.list.length === 0 && <ProductsNotFound />}
-            <ShowAllSubCategories />
+            <MainCategoryProductClient
+              initialData={response?.data?.list}
+              category={mainCategory}
+              initialFilters={filters}
+              total={response?.data?.total}
+              Page={response?.data?.page}
+              limit={response?.data?.limit}
+              totalPage={response?.data?.totalPage}
+            />
           </div>
         </div>
-        <Footer />
       </div>
     </>
   );

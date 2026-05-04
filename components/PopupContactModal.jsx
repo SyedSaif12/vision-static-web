@@ -7,11 +7,15 @@ export default function PopupContactModal() {
 
   useEffect(() => {
     const shown = sessionStorage.getItem("popup_shown");
-
-    if (!shown) {
-      setOpen(true);
-      sessionStorage.setItem("popup_shown", "true");
-    }
+    const timer = setTimeout(() => {
+      if (!shown) {
+        setOpen(true);
+        sessionStorage.setItem("popup_shown", "true");
+      }
+    }, 10000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [open]);
 
   if (!open) return null;
