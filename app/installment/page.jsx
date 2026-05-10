@@ -1,7 +1,16 @@
-import { BaseDescription } from "@/components/BaseDescription";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection"; // FIXED
 import NewsLetter from "@/components/NewsLetter";
+
+export async function generateMetadata() {
+   return {
+    title: `Installment Plan | Vision Tech Pakistan`,
+    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+    alternates: {
+      canonical: `/installment`,
+    },
+  };
+}
 
 export default function Instalment() {
   return (

@@ -3,7 +3,6 @@
 import React from "react";
 import HeroSection from "@/components/HeroSection";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 const Page = () => {
   const router = useRouter();

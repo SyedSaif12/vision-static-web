@@ -8,6 +8,17 @@ import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 import NewsLetter from "@/components/NewsLetter";
 import Footer from "@/components/Footer";
 
+export async function generateMetadata() {
+   return {
+    title: `Featured Product | Vision Tech Pakistan`,
+    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+    alternates: {
+      canonical: `/view-featured-products`,
+    },
+  };
+}
+
+
 const page = async () => {
   const products = await fetch(
     // fetch all featured products

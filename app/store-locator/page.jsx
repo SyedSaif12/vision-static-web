@@ -4,6 +4,17 @@ import headerimage from "@/assets/headerimage.png";
 import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 import Footer from "@/components/Footer";
 
+export async function generateMetadata() {
+   return {
+    title: `Store Locator | Vision Tech Pakistan`,
+    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+    alternates: {
+      canonical: `/store-locator`,
+    },
+  };
+}
+
+
 export default function StoreLocatorPage() {
   const stores = [
     {

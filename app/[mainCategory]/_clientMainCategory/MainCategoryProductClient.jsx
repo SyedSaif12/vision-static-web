@@ -74,6 +74,7 @@ const MainCategoryProductClient = ({
   // INFINITE SCROLL
   // ============================================
   const loadNextPage = () => {
+    if (isFetching || isLoading) return;
     setSkip(false);
     setPage((prev) => prev + 1);
   };

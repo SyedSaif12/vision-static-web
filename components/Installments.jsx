@@ -4,61 +4,55 @@ import Image from "next/image";
 import HblBankIcon from "@/assets/hblicon.svg";
 import HblBankActiveIcon from "@/assets/hblActive.svg";
 import JsBankIcon from "@/assets/jsbankicon.svg";
-import { assets } from "@/assets/assets";
 import BargainDialog from "@/components/BargainDialog";
 import { formatPrice } from "@/helper/formatPrice";
+import { useFetchedRates } from "@/hooks/useFetchedRates";
+
+const BANK_ASSETS = {
+  hbl: {
+    label: 'HBL',
+    logo: HblBankIcon,
+    activeLogo: HblBankActiveIcon
+  },
+  js: {
+    label: 'JS BANK',
+    logo: JsBankIcon,
+    activeLogo: JsBankIcon
+  }
+}
 
 export default function Installments({ price }) {
-  const [activeBank, setActiveBank] = useState("HBL");
-  const [expanded, setExpanded] = useState(true);
 
-  // 🔥 Bargain Dialog State Fix
+  const response = useFetchedRates()
+
+  const [activeBank, setActiveBank] = useState("hbl");
+  const [expanded, setExpanded] = useState(true);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const banks = [
-    {
-      id: "HBL",
-      label: "HBL",
-      logo: HblBankIcon,
-      activeLogo: HblBankActiveIcon,
-    },
-    { id: "JS", label: "JS BANK", logo: JsBankIcon, activeLogo: JsBankIcon },
-  ];
+  const selectedBankData = response && response?.[activeBank] ? Object.values(response[activeBank]) : [];
 
-  const installmentPlan = [
-    {
-      months: 3,
-    },
-    {
-      months: 6,
-    },
-    {
-      months: 12,
-    },
-    {
-      months: 18,
-    },
-  ];
+  // 🔥 Bargain Dialog State Fix
+const installmentData = selectedBankData.map((item) => {
+  // Markup calculate karne ka formula: (Price + (Price * Rate/100)) / Months
+  const totalWithInterest = price + (price * (item.rates / 100));
+  const perMonth = Math.floor(totalWithInterest / item.months);
 
-  const installmentData = installmentPlan.map((item) => ({
+  return {
     months: `${item.months} Months`,
-    amount: `${formatPrice(Math.floor(price / item.months))} Per Month`,
-  }));
+    amount: `${formatPrice(perMonth)}`,
+    interest: item.rates > 0 ? `(${item.rates}% Markup)` : "0% Markup" // Optional
+  };
+});
 
+  
   return (
     <>
       <div className="w-full bg-[#E8E8E8] p-4 md:p-10 rounded-3xl shadow-sm mt-10">
         {/* Title */}
         <div className="flex items-center justify-between">
           <h2 className="text-base md:text-lg font-semibold">
-            Installments From:
+            Installments From
           </h2>
-
-          <div className="flex items-center space-x-2 md:space-x-4">
-            <Image src={HblBankIcon} alt="HBL" width={50} height={20} />
-            <span className="text-black">|</span>
-            <Image src={JsBankIcon} alt="JS Bank" width={60} height={20} />
-          </div>
         </div>
 
         <hr className="my-3 md:my-4 border-black" />
@@ -77,24 +71,25 @@ export default function Installments({ price }) {
 
         {/* Bank Tabs */}
         <div className="bg-white p-1 md:p-2 rounded-full flex items-center w-full max-w-sm mx-auto mt-4 md:mt-6">
-          {banks.map((bank) => (
-            <button
-              key={bank.id}
-              onClick={() => setActiveBank(bank.id)}
-              className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
-                activeBank === bank.id
+          {
+            response && Object.keys(response).map((bankId) => (
+              <button
+                key={bankId}
+                onClick={() => setActiveBank(bankId)}
+                className={`flex-1 flex items-center justify-center gap-1 md:gap-2 py-1 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all ${activeBank === bankId
                   ? "bg-orange-500 text-white shadow-md"
                   : "text-black"
-              }`}
-            >
-              {/* <span>{bank.label}</span> */}
-              {activeBank === bank.id ? (
-                <Image src={bank.activeLogo} alt="HBL" width={50} height={20} />
-              ) : (
-                <Image src={bank.logo} alt="HBL" width={50} height={20} />
-              )}
-            </button>
-          ))}
+                  }`}
+              >
+                {/* <span>{bank.label}</span> */}
+                {activeBank === bankId ? (
+                  <Image src={BANK_ASSETS[bankId].activeLogo} alt="HBL" width={50} height={20} />
+                ) : (
+                  <Image src={BANK_ASSETS[bankId].logo} alt="HBL" width={50} height={20} />
+                )}
+              </button>
+            ))
+          }
         </div>
 
         {/* Installment Table */}
@@ -105,6 +100,7 @@ export default function Installments({ price }) {
                 <tr className="text-black border-b">
                   <th className="pb-2 md:pb-3">Months</th>
                   <th className="pb-2 md:pb-3">Amount</th>
+                  <th className="pb-2 md:pb-3">Markups</th>
                 </tr>
               </thead>
 
@@ -113,6 +109,7 @@ export default function Installments({ price }) {
                   <tr key={i} className="text-black border-b last:border-none">
                     <td className="py-2 md:py-3">{row.months}</td>
                     <td className="py-2 md:py-3">{row.amount}</td>
+                    <td className="py-2 md:py-3">{row.interest}</td>
                   </tr>
                 ))}
               </tbody>

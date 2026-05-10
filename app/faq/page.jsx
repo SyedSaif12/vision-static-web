@@ -3,6 +3,16 @@ import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import NewsLetter from "@/components/NewsLetter";
 
+export async function generateMetadata() {
+   return {
+    title: `FAQ | Vision Tech Pakistan`,
+    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+    alternates: {
+      canonical: `/faq`,
+    },
+  };
+}
+
 const faqStructure = [
   {
     id: 1,

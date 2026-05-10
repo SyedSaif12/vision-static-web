@@ -164,7 +164,7 @@ const Footer = () => {
           </p>
           <div className="text-sm mt-3 flex flex-col">
             <p>Phones:</p>{" "}
-            <p className="flex gap-2">
+            <p className="flex flex-col gap-2">
               <span className="text-blue-400">03312405800</span>
               <span className="text-blue-400">03260220581</span>
             </p>
@@ -179,7 +179,7 @@ const Footer = () => {
               href="mailto:contact@visiontech.com.pk"
               className="text-blue-400"
             >
-              contact@visiontechpk.com
+              contact@visiontech.com.pk
             </a>
           </p>
         </div>
