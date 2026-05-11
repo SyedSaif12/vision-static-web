@@ -16,8 +16,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const MainCategoryProductClient = ({
   initialData = [],
   initialFilters = [],
-  category,
-  total,
+  category = "",
+  total = 0,
   page: serverPage,
   limit,
   totalPage,
@@ -32,6 +32,10 @@ const MainCategoryProductClient = ({
   const [cartOpen, setCartOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const {
     products,
     hasMore,
@@ -40,11 +44,7 @@ const MainCategoryProductClient = ({
     setPage,
     isFetching,
     isLoading,
-  } = useFetchProducts(category, '', initialData, total);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  } = useFetchProducts(category, "", initialData, total);
 
   const isDataLoading = isLoading || isFetching;
   const showNotFound = isMounted && !isDataLoading && products.length === 0;
@@ -74,7 +74,6 @@ const MainCategoryProductClient = ({
   // INFINITE SCROLL
   // ============================================
   const loadNextPage = () => {
-    if (isFetching || isLoading) return;
     setSkip(false);
     setPage((prev) => prev + 1);
   };
@@ -175,12 +174,14 @@ const MainCategoryProductClient = ({
 
         {/* all products show  */}
         <div className="w-full">
-          {isDataLoading && products.length === 0 && <ProductGridSkeleton />}
+          {/* {isDataLoading && products.length === 0 && (
+            <ProductGridSkeleton counts={4} />
+          )} */}
           {products && products.length > 0 && (
             <InfiniteScroll
               loader={
                 <div className="w-full py-8">
-                  <ProductGridSkeleton />
+                  <ProductGridSkeleton counts={4} />
                 </div>
               }
               dataLength={products.length}

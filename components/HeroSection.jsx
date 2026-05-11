@@ -19,9 +19,9 @@ const HeroSection = ({
 
         {/* Bottom content */}
         <div className=" flex-1 flex flex-col justify-center text-center h-1/2 px-5 md:px-10 pb-10">
-          <h1 className="text-3xl md:text-5xl capitalize font-semibold text-white drop-shadow-lg mb-4">
+          <h2 className="text-3xl md:text-5xl capitalize font-semibold text-white drop-shadow-lg mb-4">
             {title?.replace("-", " ")}
-          </h1>
+          </h2>
 
           <div className="flex justify-center text-xs md:text-sm">
             {steps

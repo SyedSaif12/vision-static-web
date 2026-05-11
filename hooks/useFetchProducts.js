@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 // create custom hook for handling all filtered products
 export function useFetchProducts(
   category,
-  subCategory = '',
+  subCategory = "",
   initialData = [],
   initialTotal = 0,
   selectedPills = "",
@@ -64,16 +64,29 @@ export function useFetchProducts(
 
   useEffect(() => {
     if (data?.data?.list) {
-      if (page === 1) {
-        setProducts(data?.data?.list);
-      } else {
-        setProducts((prev) => [...prev, ...data?.data?.list]);
-      }
-      setHasMore(
-        products?.length + data?.data?.list?.length < (data?.total || 0),
-      );
+      const newList = data.data.list;
+
+      setProducts((prev) => {
+        const updated = page === 1 ? newList : [...prev, ...newList];
+        // ✅ updated length se hasMore calculate karo
+        setHasMore(updated.length < (data?.total || 0));
+        return updated;
+      });
     }
   }, [data]);
+
+  // useEffect(() => {
+  //   if (data?.data?.list) {
+  //     if (page === 1) {
+  //       setProducts(data?.data?.list);
+  //     } else {
+  //       setProducts((prev) => [...prev, ...data?.data?.list]);
+  //     }
+  //     setHasMore(
+  //       products?.length + data?.data?.list?.length < (data?.total || 0),
+  //     );
+  //   }
+  // }, [data]);
 
   return {
     filters,

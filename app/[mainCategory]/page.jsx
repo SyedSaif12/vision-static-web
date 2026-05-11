@@ -73,10 +73,10 @@ const page = async ({ params }) => {
           </div>
           <div>
             <MainCategoryProductClient
-              initialData={response?.data?.list}
+              initialData={response?.data?.list || []}
               category={mainCategory}
               initialFilters={filters}
-              total={response?.data?.total}
+              total={response?.total || 0}
               Page={response?.data?.page}
               limit={response?.data?.limit}
               totalPage={response?.data?.totalPage}
