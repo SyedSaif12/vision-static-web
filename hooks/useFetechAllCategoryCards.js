@@ -61,7 +61,7 @@ const cardsConfig = [
   {
     title: "Apple Pencil",
     query: {
-      category: "accesories",
+      category: "accessories",
       subCategory: "apple",
       name: "apple pencil",
     },

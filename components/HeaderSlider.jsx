@@ -16,22 +16,40 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 const sliderData = [
   {
     id: 1,
-    offer: "Experience innovation with cutting-edge technology.",
-    title: "Mercantile Preferred Partner",
+    offer: (
+      <>Shop Now with Confidence, Mercantile Authorised Apple Reseller. </>
+    ),
+    title: (
+      <>
+        Mercantile Preferred <span className="text-[#FF8415]">Partner</span> For
+        <span className="text-[#FF8415]">Apple</span> Products{" "}
+      </>
+    ),
     imgSrc: laptopsImage,
     path: "/laptops/apple",
   },
   {
     id: 2,
-    offer: "Experience innovation with cutting-edge technology.",
-    title: "Grab Your Gaming Console Today",
+    offer: <>Shop now and dominate every session.</>,
+    title: (
+      <>
+        <span className="text-[#FF8415]">Play</span> Harder
+        <br /> <span className="text-[#FF8415]">Win</span> Bigger
+        <br /> <span className="text-[#FF8415]">Game</span> Different.
+      </>
+    ),
     imgSrc: playstationImage,
     path: "/gaming-console/sony",
   },
   {
     id: 3,
-    offer: "Exclusive Deal 40% Off",
-    title: "Dyson Technology for Air, Hair, and Home",
+    offer: <>Discover what better feels like. Shop Now. </>,
+    title: (
+      <>
+        Dyson Technology for <span className="text-[#FF8415]">Smarter</span> Air
+        Healthier <span className="text-[#FF8415]">Hair Better</span> Home.{" "}
+      </>
+    ),
     imgSrc: dysonImage,
     path: "/hair-straightener/dyson",
   },
@@ -126,9 +144,9 @@ const HeaderSlider = () => {
                     >
                       {slide.title}
                     </h1>
-                    {/* <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
+                    <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
                       {slide.offer}
-                    </p> */}
+                    </p>
                     <Link
                       href={slide.path}
                       className="text-black bg-white font-semibold mt-4 py-1 px-4 rounded-full "

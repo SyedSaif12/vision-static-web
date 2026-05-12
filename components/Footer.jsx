@@ -2,12 +2,8 @@
 
 import React from "react";
 import Image from "next/image";
-import paypalIcon from "@/assets/paypalicon.svg";
-import visaIcon from "@/assets/visa.svg";
-import mastercardIcon from "@/assets/mastercardicon.svg";
-import discoverIcon from "@/assets/discovericon.svg";
-import amexIcon from "@/assets/amexicon.svg";
-
+import easypaisa from "@/assets/easypaisa.png";
+import jazzcash from "@/assets/jazzcash.png";
 // Social icons direct import
 import facebookIcon from "@/assets/facebookicon.svg";
 import instaIcon from "../assets/instaicon.svg";
@@ -207,11 +203,20 @@ const Footer = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Image src={paypalIcon} alt="paypal" width={45} height={30} />
-          <Image src={visaIcon} alt="visa" width={45} height={30} />
-          <Image src={mastercardIcon} alt="mastercard" width={45} height={30} />
-          <Image src={amexIcon} alt="amex" width={45} height={30} />
-          <Image src={discoverIcon} alt="discover" width={45} height={30} />
+          <Image
+            src={easypaisa}
+            alt="easypaisa"
+            className="bg-white p-2 rounded-lg"
+            width={65}
+            height={45}
+          />
+          <Image
+            src={jazzcash}
+            alt="jazzcash"
+            className="bg-white p-2 rounded-lg"
+            width={55}
+            height={30}
+          />
         </div>
 
         {/* Copyright */}
