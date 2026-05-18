@@ -259,6 +259,7 @@ const ProductsClient = ({
               )}
               {products && products.length > 0 && (
                 <InfiniteScroll
+                  className="!overflow-x-hidden !overflow-y-visible w-full max-w-full"
                   loader={
                     <div className="w-full py-8">
                       <ProductGridSkeleton />

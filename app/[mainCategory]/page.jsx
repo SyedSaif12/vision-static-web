@@ -71,7 +71,7 @@ const page = async ({ params }) => {
                 />
               ))}
           </div>
-          <div>
+          <div className="w-full">
             <MainCategoryProductClient
               initialData={response?.data?.list || []}
               category={mainCategory}

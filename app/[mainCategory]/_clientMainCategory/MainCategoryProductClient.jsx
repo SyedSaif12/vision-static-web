@@ -174,11 +174,9 @@ const MainCategoryProductClient = ({
 
         {/* all products show  */}
         <div className="w-full">
-          {/* {isDataLoading && products.length === 0 && (
-            <ProductGridSkeleton counts={4} />
-          )} */}
           {products && products.length > 0 && (
             <InfiniteScroll
+              className="!overflow-x-hidden !overflow-y-visible w-full max-w-full"
               loader={
                 <div className="w-full py-8">
                   <ProductGridSkeleton counts={4} />

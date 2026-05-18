@@ -90,12 +90,12 @@ const ProductCard = ({ product, openCart }) => {
           }}
           className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
         >
-          {product.productTitle?.replaceAll(/-/g, ' ')}
+          {product.productTitle?.replaceAll(/-/g, " ")}
         </p>
 
         {/* Tooltip */}
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal z-50 pointer-events-none">
-          {product.productTitle?.replaceAll(/-/g, ' ')}
+          {product.productTitle?.replaceAll(/-/g, " ")}
         </div>
       </div>
 
@@ -126,7 +126,7 @@ const ProductCard = ({ product, openCart }) => {
           ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2 mt-2">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-2 mt-2">
         {product.price > 0 ? (
           <>
             {/* Old Price sirf tab dikhao jab wo current price se zyada ho */}
