@@ -151,7 +151,7 @@ export default function ContactForm() {
 
           <div className="flex items-center gap-4">
             <span className="text-xl">✉️</span>
-            <p>contact@visiontechpk.com</p>
+            <p>contact@wegot.pk</p>
           </div>
 
           <div className="flex items-start gap-4">

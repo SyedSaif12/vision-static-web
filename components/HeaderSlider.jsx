@@ -4,6 +4,7 @@ import Image from "next/image";
 import laptopsImage from "../assets/hero-computers.png";
 import playstationImage from "../assets/hero-playstations.png";
 import dysonImage from "../assets/hero-dysons.png";
+import offerImage from "../assets/hero-offers.png";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -53,6 +54,19 @@ const sliderData = [
     imgSrc: dysonImage,
     path: "/hair-straightener/dyson",
   },
+  {
+    id: 4,
+    offer: <>Call to action instalment page learn more.</>,
+    title: (
+      <>
+        Convert Technology for <span className="text-[#FF8415]">Payment</span>{" "}
+        12 instalment plan with{" "}
+        <span className="text-[#FF8415]">Credit Card</span>.{" "}
+      </>
+    ),
+    imgSrc: offerImage,
+    path: "/view-featured-products",
+  },
 ];
 
 const HeaderSlider = () => {
@@ -77,7 +91,7 @@ const HeaderSlider = () => {
       <div
         className="
           relative bg-[#031057]
-          h-[590px] md:h-[650px]
+          h-[640px] md:h-[650px]
           rounded-b-[50px] md:rounded-b-[80px]
           overflow-hidden
         "
@@ -162,7 +176,7 @@ const HeaderSlider = () => {
                     h-full
                     flex items-center justify-center
                     flex-1
-                    mt-8 lg:mt-24
+                    mt-3 lg:mt-24
                   "
                   >
                     <Image
@@ -171,7 +185,7 @@ const HeaderSlider = () => {
                       width={slide.imgSrc.width}
                       height={slide.imgSrc.height}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="h-full w-auto md:h-[300px] lg:h-[70%] object-contain"
+                      className="h-[270px] w-auto md:h-[300px] lg:h-[70%] object-cover md:object-contain"
                       priority
                     />
                   </div>

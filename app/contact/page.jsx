@@ -4,9 +4,10 @@ import NewsLetter from "@/components/NewsLetter";
 import Footer from "@/components/Footer";
 
 export async function generateMetadata() {
-   return {
-    title: `Contact Us | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `Contact Us | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/contact`,
     },

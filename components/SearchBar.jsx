@@ -1,8 +1,8 @@
 "use client";
 
 import { LoaderCircle, Search as Searching, X } from "lucide-react";
-import Loader from '@/components/Loading'
-import { useState } from "react";
+import Loader from "@/components/Loading";
+import { useEffect, useRef, useState } from "react";
 import SafeNextImage from "./NextImageComponent";
 import { useSearchQuery } from "@/hooks/useSearchQuery";
 import Link from "next/link";
@@ -11,16 +11,36 @@ import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
   const router = useRouter();
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(false);
   const { search, setSearch, isLoading, isFetching, data } = useSearchQuery({
     delay: 500,
   });
   const isDataLoading = isLoading || isFetching;
+  const searchContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+
+      if (
+        searchContainerRef.current && 
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setSearch("");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    // Cleanup function
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setSearch]);
 
   function onhandleEnter(e) {
     if (e.key === "Enter") {
       if (search.trim()) {
-        setLoad(true)
+        setLoad(true);
         const parseUrl = search.replaceAll(/\s+/g, "-");
         router.push(`/search/${parseUrl}`);
       }
@@ -37,7 +57,9 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className="w-full lg:flex-1 relative max-w-3xl px-0 lg:px-8">
+      <div
+      ref={searchContainerRef}
+      className="w-full lg:flex-1 relative max-w-3xl px-0 lg:px-8">
         <div className="relative w-full">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
             <Searching size={20} />
@@ -65,18 +87,18 @@ const SearchBar = () => {
               <div className="flex w-full h-full flex-col py-2">
                 {isDataLoading && (
                   <div className="w-full h-full flex items-center flex-col">
-                    {
-                      Array.from({ length: 6 }).map((_, i) => (
-                        <div key={i + 1} className="w-full px-2 h-20 flex gap-2 items-center justify-between bg-gray-200 border-t border-gray-500 animate-pulse">
-                          <div className="w-10 h-10 rounded-md bg-gray-500 animate-pulse"></div>
-                          <div className="w-full h-full flex flex-col justify-center gap-2">
-                            <div className="w-full h-4 bg-gray-500 animate-pulse rounded-full"></div>
-                            <div className="w-1/2 h-1 bg-gray-500 animate-pulse rounded-full"></div>
-                          </div>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div
+                        key={i + 1}
+                        className="w-full px-2 h-20 flex gap-2 items-center justify-between bg-gray-200 border-t border-gray-500 animate-pulse"
+                      >
+                        <div className="w-10 h-10 rounded-md bg-gray-500 animate-pulse"></div>
+                        <div className="w-full h-full flex flex-col justify-center gap-2">
+                          <div className="w-full h-4 bg-gray-500 animate-pulse rounded-full"></div>
+                          <div className="w-1/2 h-1 bg-gray-500 animate-pulse rounded-full"></div>
                         </div>
-                      ))
-                    }
-
+                      </div>
+                    ))}
                   </div>
                 )}
                 {!isFetching &&
@@ -88,7 +110,7 @@ const SearchBar = () => {
                         <Link
                           href={`/product/${item?.slug}`}
                           key={idx}
-                          className="w-full text-black border-b-2 mb-2 px-3 h-14 flex items-center gap-2 hover:bg-[#FF8415] hover:text-white"
+                          className="w-full text-black border-b-2 mb-2 px-3 h-14 flex items-center gap-2 group hover:bg-[#FF8415]"
                         >
                           {/* Image */}
                           <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 relative">
@@ -101,15 +123,29 @@ const SearchBar = () => {
 
                           {/* Title */}
                           <div className="flex-1 min-w-0">
-                            <h1 className="truncate text-xs sm:text-sm font-semibold">
-                              {item?.productTitle}
+                            <h1 className="truncate group-hover:text-white text-xs sm:text-sm font-semibold">
+                              {item?.productTitle
+                                ?.replaceAll(/-/g, " ")
+                                ?.toLowerCase()
+                                ?.replace(/^./, (char) => char.toUpperCase())}
                             </h1>
-                            <span className="flex-1 text-xs font-semibold text-black/50">
-                              price:{" "}
-                              {(item?.newPrice || item?.oldPrice) > 0
-                                ? formatPrice(item?.newPrice || item?.oldPrice)
-                                : "Comming Soon"}
-                            </span>
+                            <p className="flex-1 text-xs font-semibold">
+                              {item?.price > 0 ? (
+                                <>
+                                  {item?.oldPrice > item?.price && (
+                                    <span className="line-through mr-2 group-hover:text-white/70 text-black/40">
+                                      PKR {formatPrice(item.oldPrice)}
+                                    </span>
+                                  )}
+
+                                  <span className="text-black group-hover:text-white">
+                                    PKR {formatPrice(item.price)}
+                                  </span>
+                                </>
+                              ) : (
+                                "Coming Soon"
+                              )}
+                            </p>
                           </div>
                         </Link>
                       ),
@@ -123,13 +159,16 @@ const SearchBar = () => {
               <div
                 onClick={() => {
                   if (search.trim()) {
-                    setLoad(true)
+                    setLoad(true);
                     const parseUrl = search.replaceAll(/\s+/g, "-");
                     router.push(`/search/${parseUrl}`);
                   }
                 }}
-                className="w-full lg:hidden hover:cursor-pointer absolute bottom-0 bg-gray-300">
-                <p className="py-1 px-4 text-blue-800 underline text-xs font-semibold">View All Results</p>
+                className="w-full lg:hidden hover:cursor-pointer absolute bottom-0 bg-gray-300"
+              >
+                <p className="py-1 px-4 text-blue-800 underline text-xs font-semibold">
+                  View All Results
+                </p>
               </div>
             </div>
           </div>

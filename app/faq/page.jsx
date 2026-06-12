@@ -4,9 +4,10 @@ import HeroSection from "@/components/HeroSection";
 import NewsLetter from "@/components/NewsLetter";
 
 export async function generateMetadata() {
-   return {
-    title: `FAQ | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `FAQ | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/faq`,
     },
@@ -33,7 +34,7 @@ const faqStructure = [
     In such cases:`,
     order: [
       `The warranty is directly backed by the brand itself.`,
-      `If a warranty claim is required, Vision Tech will assist you with the process.`,
+      `If a warranty claim is required, WeGot will assist you with the process.`,
       `We help send the product from Pakistan to the brand’s official service center abroad and arrange its return once repaired or replaced.`,
       `Please note that international warranty cannot be claimed locally in Pakistan.`,
     ],
@@ -64,7 +65,7 @@ const faqStructure = [
       `MacBooks`,
       `Mobile phones`,
       `Other tech devices`,
-      `You can visit our Vision Tech Lab for repair services.`,
+      `You can visit our WeGot Lab for repair services.`,
     ],
   },
   {
@@ -99,7 +100,7 @@ const faqStructure = [
   {
     id: 10,
     question: `Are your products original?`,
-    answer: `Yes. All products sold by Vision Tech are 100% original and authentic.`,
+    answer: `Yes. All products sold by WeGot are 100% original and authentic.`,
   },
   {
     id: 11,
@@ -130,7 +131,7 @@ const faqStructure = [
   },
   {
     id: 15,
-    question: `How can I contact Vision Tech?`,
+    question: `How can I contact WeGot?`,
     answer: `You can contact us through:`,
     order: [
       `WhatsApp`,
@@ -146,7 +147,7 @@ export default function FAQs() {
   return (
     <main className="min-h-screen">
       <>
-        <HeroSection title="Vision Tech – Frequently Asked Questions (FAQ)" />
+        <HeroSection title="WeGot – Frequently Asked Questions (FAQ)" />
         <BaseDescription items={faqStructure} />
         <NewsLetter className="bg-gray-100 pt-14" />
         <Footer />

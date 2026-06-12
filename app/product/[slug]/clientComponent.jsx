@@ -90,7 +90,10 @@ const ClientProductComponent = ({ product }) => {
           {/* DETAILS SECTION */}
           <div className="flex flex-col">
             <h1 className="text-2xl track leading-7 sm:text-3xl font-medium text-gray-800 mb-4">
-              {product?.productTitle?.replaceAll(/-/g, ' ')}
+              {product?.productTitle
+                ?.replaceAll(/-/g, " ")
+                ?.toLowerCase()
+                ?.replace(/^./, (char) => char.toUpperCase())}
             </h1>
             <div>
               <Seocontent content={product?.description} />
@@ -130,8 +133,9 @@ const ClientProductComponent = ({ product }) => {
                       {stocks[product?.status]}
                     </p>
                   ) : (
-                    <p className="text-[#d92b2b] font-semibold">
+                    <p className="text-[#d92b2b] font-semibold relative">
                       {stocks[product?.status]}
+                      <span className="absolute right-0 top-6 w-[180px] sm:w-[220px] text-right whitespace-nowrap text-sm font-normal text-[#d92b2b]">*out of stock dummy text here.</span>
                     </p>
                   )}
                 </div>
@@ -235,11 +239,11 @@ const ClientProductComponent = ({ product }) => {
         </div>
       )}
 
-      <div className="mt-10 pb-6 px-6 md:px-16 lg:px-32">
+      {/* <div className="mt-10 pb-6 px-6 md:px-16 lg:px-32">
         <PromotionVideo
           url={"https://www.youtube.com/embed/Aqzmm0RXslE?si=-w0uA0bVyVdKdfs_"}
         />
-      </div>
+      </div> */}
 
       <div className="bg-gray-100">
         <div className="mt-10 pb-6 px-6 md:px-16 lg:px-32">

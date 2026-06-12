@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Select from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,6 +24,7 @@ import CartDrawer from "@/components/CartDrawer";
 import blankImage from "@/assets/blank_image.jpg";
 import Link from "next/link";
 import Loading from "@/components/Loading";
+import { useFetchCityNameList } from "@/hooks/useFetchedCityNameList";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -52,13 +54,53 @@ const checkoutSchema = yup.object({
     .required("Payment method is required"),
 });
 
-const CITIES = [
-  { value: "karachi", label: "Karachi" },
-  { value: "lahore", label: "Lahore" },
-  { value: "islamabad", label: "Islamabad" },
-  { value: "rawalpindi", label: "Rawalpindi" },
-  { value: "faisalabad", label: "Faisalabad" },
-];
+const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: "rgba(232, 232, 232, 0.61)",
+    borderRadius: "9999px", // rounded-full
+    border: "1px solid #e5e7eb",
+    boxShadow: "none",
+    paddingLeft: "10px",
+    height: "42px",
+    "&:hover": {
+      border: "1px solid #d1d5db",
+    },
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 6px",
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: "0",
+    padding: "0",
+  }),
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    color: "#6b7280",
+    "&:hover": {
+      color: "#374151",
+    },
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#9ca3af",
+    fontSize: "1rem",
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#000",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "12px",
+    zIndex: 50,
+  }),
+};
 
 const COUNTRY = [{ value: "pakistan", label: "Pakistan" }];
 
@@ -73,6 +115,15 @@ const CheckoutPage = () => {
   const router = useRouter();
 
   const [postCheckout] = usePostCheckoutMutation();
+  const { isListLoading, cityNameList } = useFetchCityNameList();
+
+  const CITIES =
+    (cityNameList &&
+      cityNameList.map((cityName) => ({
+        value: cityName,
+        label: cityName,
+      }))) ||
+    [];
 
   const formMethods = useForm({
     resolver: yupResolver(checkoutSchema),
@@ -82,7 +133,7 @@ const CheckoutPage = () => {
       lastName: "",
       address: "",
       apartment: "",
-      city: "karachi",
+      city: "Karachi",
       postalCode: "",
       phone: "",
       payment: "banktransfer",
@@ -113,7 +164,7 @@ const CheckoutPage = () => {
     const SHIPPING_FEE = 200;
 
     // Apply COD fee only if payment is COD and city is NOT Karachi
-    const shouldApplyCODFee = watchPayment === "cod" && watchCity !== "karachi";
+    const shouldApplyCODFee = watchPayment === "cod" && watchCity !== "Karachi";
     const codFee = shouldApplyCODFee ? subtotal * COD_FEE_PERCENTAGE : 0;
     const total = subtotal + codFee + SHIPPING_FEE;
 
@@ -145,7 +196,7 @@ const CheckoutPage = () => {
       postalCode: data.postalCode,
       phoneNo: data.phone,
       shipping: calculations.shippingFee,
-      codFee: calculations.shouldApplyCODFee ?  calculations.codFee : 0,
+      codFee: calculations.shouldApplyCODFee ? calculations.codFee : 0,
       applyCode: calculations.shouldApplyCODFee,
       paymentMethod: data.payment,
       items: cartProducts.map((item) => ({
@@ -220,28 +271,31 @@ const CheckoutPage = () => {
   Country:${formData.country}
   Name: ${formData.firstName} ${formData.lastName}
   Phone: ${formData.phone}
-  Address: ${formData.address}${formData.apartment ? `, ${formData.apartment}` : ""
-      }
+  Address: ${formData.address}${
+    formData.apartment ? `, ${formData.apartment}` : ""
+  }
   City: ${CITIES.find((c) => c.value === formData.city)?.label || formData.city}
   Postal Code: ${formData.postalCode || "N/A"}
 
   *Order Items:*
   ${cartProducts
-        .map(
-          (item) =>
-            `${item.productTitle} x ${item.qty} = PKR ${(item.price || item.oldPrice) * item.qty
-            }`,
-        )
-        .join("\n")}
+    .map(
+      (item) =>
+        `${item.productTitle} x ${item.qty} = PKR ${
+          (item.price || item.oldPrice) * item.qty
+        }`,
+    )
+    .join("\n")}
 
   *Payment:* ${formData.payment === "cod" ? "Cash on Delivery" : "Bank Deposit"}
 
   *Order Summary:*
   Subtotal: PKR ${calculations.subtotal.toFixed(2)}
-  ${calculations.codFee > 0
-        ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
-        : ""
-      }
+  ${
+    calculations.codFee > 0
+      ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
+      : ""
+  }
   Shipping: PKR ${calculations.shippingFee}
   *Total: PKR ${calculations.total.toFixed(2)}*
       `.trim();
@@ -386,23 +440,24 @@ const CheckoutPage = () => {
                       name="city"
                       control={control}
                       render={({ field }) => (
-                        <div className="relative w-full">
-                          <select
-                            {...field}
-                            className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                          >
-                            <option value="">Select City</option>
-                            {CITIES.map((city) => (
-                              <option key={city.value} value={city.value}>
-                                {city.label}
-                              </option>
-                            ))}
-                          </select>
-                          <ChevronDown
-                            size={18}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
-                          />
-                        </div>
+                        <Select
+                          options={CITIES}
+                          isLoading={isListLoading}
+                          instanceId="city-checkout-select"
+                          placeholder="Search City"
+                          value={
+                            CITIES.find(
+                              (option) => option.value === field.value,
+                            ) || null
+                          }
+                          styles={customSelectStyles}
+                          onChange={(selectedOption) =>
+                            field.onChange(selectedOption?.value || "")
+                          }
+                          className="w-full rounded-full"
+                          classNamePrefix="react-select"
+                          // defaultValue={'karachi'}
+                        />
                       )}
                     />
                     {errors.city && (
@@ -475,10 +530,11 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "cod"
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${
+                      watchPayment === "cod"
                         ? "border-blue-600 bg-blue-600"
                         : "border-gray-400 bg-white"
-                      }`}
+                    }`}
                   >
                     {watchPayment === "cod" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -518,10 +574,11 @@ const CheckoutPage = () => {
                     className="hidden"
                   />
                   <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "banktransfer"
+                    className={`w-5 h-5 flex items-center justify-center border rounded ${
+                      watchPayment === "banktransfer"
                         ? "border-blue-600 bg-blue-600"
                         : "border-gray-400 bg-white"
-                      }`}
+                    }`}
                   >
                     {watchPayment === "banktransfer" && (
                       <img src={arrow.src} alt="checked" className="w-3 h-3" />
@@ -540,7 +597,7 @@ const CheckoutPage = () => {
                       <p>
                         <strong>Bank Alfalah</strong>
                       </p>
-                      <p>Account Title: VISION TECH</p>
+                      <p>Account Title: WeGot</p>
                       <p>Account No: 00311009188805</p>
                       <p>Branch Code: 0031</p>
                       <p>IBAN: PK27ALFH0031001009188805</p>
@@ -655,7 +712,8 @@ const CheckoutPage = () => {
                           <p className="flex flex-col">
                             <span>COD Fee (4%) </span>
                             <span className="text-sm">
-                              If you choose bank transfer bank  4% fee will be waived.
+                              If you choose bank transfer bank 4% fee will be
+                              waived.
                             </span>
                           </p>
                           <span>PKR {formatPrice(calculations.codFee)}</span>

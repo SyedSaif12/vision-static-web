@@ -5,21 +5,21 @@ import ShowAllSubCategories from "@/components/ShowAllSubCategories";
 import Footer from "@/components/Footer";
 
 export async function generateMetadata() {
-   return {
-    title: `Store Locator | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `Store Locator | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/store-locator`,
     },
   };
 }
 
-
 export default function StoreLocatorPage() {
   const stores = [
     {
       id: 1,
-      name: "Vision Tech",
+      name: "WeGot",
       type: "Computer accessories store",
       address:
         "Shop# 29, Ground Floor, SAASI Arcade, 7 Block, near Sohny Sweets, Zone C - Block 7 Zone A Block 7 Clifton, Karachi, 75600",

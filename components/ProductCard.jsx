@@ -90,12 +90,18 @@ const ProductCard = ({ product, openCart }) => {
           }}
           className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
         >
-          {product.productTitle?.replaceAll(/-/g, " ")}
+          {product?.productTitle
+            ?.replaceAll(/-/g, " ")
+            ?.toLowerCase()
+            ?.replace(/^./, (char) => char.toUpperCase())}
         </p>
 
         {/* Tooltip */}
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal z-50 pointer-events-none">
-          {product.productTitle?.replaceAll(/-/g, " ")}
+          {product?.productTitle
+            ?.replaceAll(/-/g, " ")
+            ?.toLowerCase()
+            ?.replace(/^./, (char) => char.toUpperCase())}
         </div>
       </div>
 

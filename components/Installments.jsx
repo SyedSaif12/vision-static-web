@@ -14,11 +14,11 @@ const BANK_ASSETS = {
     logo: HblBankIcon,
     activeLogo: HblBankActiveIcon
   },
-  js: {
-    label: 'JS BANK',
-    logo: JsBankIcon,
-    activeLogo: JsBankIcon
-  }
+  // js: {
+  //   label: 'JS BANK',
+  //   logo: JsBankIcon,
+  //   activeLogo: JsBankIcon
+  // }
 }
 
 export default function Installments({ price }) {
@@ -60,12 +60,11 @@ const installmentData = selectedBankData.map((item) => {
         {/* Bullet Points */}
         <ul className="list-disc ml-4 md:ml-6 text-black space-y-1 text-[13px] md:text-[15px]">
           <li>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s
+           Installment options are available on credit card payments through banks, which includes a small premium charged by Banks. You can easily convert your payment into 3, 6, 9, or 12 monthly installments.
           </li>
           <li>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s
+           You can convert your payment into installments by purchasing through a credit card only and then simply calling your bank’s service center. They will automatically convert it into installments.
+
           </li>
         </ul>
 
@@ -83,9 +82,9 @@ const installmentData = selectedBankData.map((item) => {
               >
                 {/* <span>{bank.label}</span> */}
                 {activeBank === bankId ? (
-                  <Image src={BANK_ASSETS[bankId].activeLogo} alt="HBL" width={50} height={20} />
+                  <Image src={BANK_ASSETS?.[bankId]?.activeLogo} alt="HBL" width={50} height={20} />
                 ) : (
-                  <Image src={BANK_ASSETS[bankId].logo} alt="HBL" width={50} height={20} />
+                  <Image src={BANK_ASSETS?.[bankId]?.logo} alt="HBL" width={50} height={20} />
                 )}
               </button>
             ))

@@ -68,11 +68,11 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
 
             {/* Description */}
             <p className="text-gray-600 text-sm leading-relaxed mb-8">
-              At VisionTech we challenge all the websites for the lowest price.
-              We can ensure that we don't just meet the price but beat it for
-              you. So go on right ahead, let us know the details and give us
-              some hours. We'll get you a better rate and great price overall!
-              Happy challenging! Love, VisionTech.
+              At WeGot we challenge all the websites for the lowest price. We
+              can ensure that we don't just meet the price but beat it for you.
+              So go on right ahead, let us know the details and give us some
+              hours. We'll get you a better rate and great price overall! Happy
+              challenging! Love, WeGot.
             </p>
 
             {/* Form */}

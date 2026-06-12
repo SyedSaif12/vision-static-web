@@ -3,9 +3,10 @@ import HeroSection from "@/components/HeroSection"; // FIXED
 import NewsLetter from "@/components/NewsLetter";
 
 export async function generateMetadata() {
-   return {
-    title: `Installment Plan | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `Installment Plan | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/installment`,
     },
@@ -16,15 +17,15 @@ export default function Instalment() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection title="Installment Plans at Vision Tech" />
+        <HeroSection title="Installment Plans at WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
               Making Tech More Affordable
             </h2>
             <p>
-              At Vision Tech, we understand that not everyone wants to pay the
-              full amount upfront. That’s why we offer easy installment options
+              At WeGot, we understand that not everyone wants to pay the full
+              amount upfront. That’s why we offer easy installment options
               through major banks in Pakistan, so you can get the tech you need
               without financial stress. Our goal is simple: make premium
               technology accessible to more people across Pakistan.
@@ -37,7 +38,7 @@ export default function Instalment() {
             </h2>
             <p>Buying on installment is simple and straightforward:</p>
             <ul className="list-decimal pl-5 my-4">
-              <li>Choose the product you want from Vision Tech</li>
+              <li>Choose the product you want from WeGot</li>
               <li>
                 Make the payment using your credit card at checkout or in-store
               </li>
@@ -112,9 +113,9 @@ export default function Instalment() {
             </h2>
             <p>
               All installment charges, markups, and percentages are applied by
-              the bank, not by Vision Tech. Vision Tech only receives the
-              original product price. We do not add any hidden charges,
-              interest, or extra fees on installment purchases
+              the bank, not by WeGot. WeGot only receives the original product
+              price. We do not add any hidden charges, interest, or extra fees
+              on installment purchases
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>

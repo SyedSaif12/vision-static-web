@@ -70,7 +70,7 @@ export default function Navbar() {
               <Link href="/">
                 <Image
                   src={visionTechIcon}
-                  alt="Vision Tech"
+                  alt="WeGot"
                   className="w-28 lg:w-40 object-contain brightness-0 invert"
                 />
               </Link>
@@ -311,7 +311,9 @@ export default function Navbar() {
                     onClick={() => toggleMobileCategory(category.id)}
                     className="w-full font-semibold capitalize text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
                   >
-                    {category.name.replace("-", " ")}
+                    <Link href={category.name}>
+                      {category.name.replace("-", " ")}
+                    </Link>
                     {category.subCategories &&
                       category.subCategories.length > 0 && (
                         <ChevronDown
@@ -418,7 +420,9 @@ export default function Navbar() {
                     onClick={() => toggleMobileCategory(category.id)}
                     className="w-full font-semibold capitalize text-gray-800 py-3 flex justify-between items-center hover:text-blue-600"
                   >
-                    {category.name.replace("-", " ")}
+                    <Link href={category.name}>
+                      {category.name.replace("-", " ")}
+                    </Link>
                     {category.subCategories &&
                       category.subCategories.length > 0 && (
                         <ChevronDown

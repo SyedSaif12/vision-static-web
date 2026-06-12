@@ -12,11 +12,11 @@ export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
   title: {
     default:
-      "Vision Tech Pakistan – Apple Laptops, Computers, PC Parts & Electronics Store",
-    template: "%s | Vision Tech",
+      "WeGot Pakistan – Apple Laptops, Computers, PC Parts & Electronics Store",
+    template: "%s | WeGot",
   },
   description:
-    "Vision Tech – Buy laptops, Apple products, and PC components online in Pakistan at best prices.",
+    "WeGot – Buy laptops, Apple products, and PC components online in Pakistan at best prices.",
   alternates: {
     canonical: "/",
   },

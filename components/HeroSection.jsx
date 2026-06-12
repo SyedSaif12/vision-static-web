@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
 const HeroSection = ({
@@ -24,17 +25,20 @@ const HeroSection = ({
           </h2>
 
           <div className="flex justify-center text-xs md:text-sm">
-            {steps
-              .filter((step) => typeof step === "string" && step.trim() !== "")
-              .map((item, idx, arr) => (
-                <p
-                  key={idx}
-                  className="text-white capitalize my-5 font-semibold"
+            {steps?.map((step, idx) => (
+              <React.Fragment key={idx}>
+                <Link
+                  href={step.path}
+                  className="text-white capitalize my-5 font-semibold hover:text-[#FF8415] transition-colors"
                 >
-                  {item?.replace("-", " ")}{" "}
-                  {idx < arr.length - 1 && <span>&nbsp; &gt; &nbsp;</span>}
-                </p>
-              ))}
+                  {step.label}
+                </Link>
+
+                {idx < steps.length - 1 && (
+                  <span className="text-white my-5 px-2">&gt;</span>
+                )}
+              </React.Fragment>
+            ))}
           </div>
           <p className="text-white text-sm md:text-lg">{offer}</p>
         </div>

@@ -9,15 +9,15 @@ import NewsLetter from "@/components/NewsLetter";
 import Footer from "@/components/Footer";
 
 export async function generateMetadata() {
-   return {
-    title: `Featured Product | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `Featured Product | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/view-featured-products`,
     },
   };
 }
-
 
 const page = async () => {
   const products = await fetch(
@@ -35,7 +35,16 @@ const page = async () => {
         <HeroSection
           title={`View all featured Products`}
           offer={`Find all featured products related to in one place. `}
-          steps={["home", "featured products"]}
+          steps={[
+            {
+              label: "home",
+              path: "/",
+            },
+            {
+              label: "featured products",
+              path: "/view-featured-products",
+            },
+          ]}
         />
       </div>
       <div className="bg-gray-100">

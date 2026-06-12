@@ -3,9 +3,10 @@ import HeroSection from "@/components/HeroSection";
 import NewsLetter from "@/components/NewsLetter";
 
 export async function generateMetadata() {
-   return {
-    title: `Order Process | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `Order Process | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/order-process`,
     },
@@ -16,18 +17,18 @@ export default function Page() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection title="Order Processing Method – Vision Tech" />
+        <HeroSection title="Order Processing Method – WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto bg-gray-100 mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
               Order Process
             </h2>
             <p>
-              At Vision Tech, we know that ordering tech online can feel
-              uncertain. That’s why we’ve built a clear, step-by-step order
-              process focused on transparency, communication, and trust. From
-              the moment you place your order to the time it reaches your
-              doorstep, you stay informed at every stage.
+              At WeGot, we know that ordering tech online can feel uncertain.
+              That’s why we’ve built a clear, step-by-step order process focused
+              on transparency, communication, and trust. From the moment you
+              place your order to the time it reaches your doorstep, you stay
+              informed at every stage.
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>
@@ -36,14 +37,14 @@ export default function Page() {
               What Happens After You Place an Order
             </h2>
             <p>
-              Once you place an order on the Vision Tech website, our process
-              starts immediately.
+              Once you place an order on the WeGot website, our process starts
+              immediately.
             </p>
             <p>
               You will receive a confirmation through email or message so you
               know your order has been received. After that, a member of the
-              Vision Tech team will personally contact you within 24 hours
-              through call or WhatsApp to confirm your order details, answer any
+              WeGot team will personally contact you within 24 hours through
+              call or WhatsApp to confirm your order details, answer any
               questions, and make sure everything is correct before moving
               forward.
             </p>
@@ -58,8 +59,8 @@ export default function Page() {
               Product Verification Before Dispatch
             </h2>
             <p>
-              At Vision Tech, we don’t just pack and ship blindly. We make sure
-              you know exactly what you are receiving. Before dispatching your
+              At WeGot, we don’t just pack and ship blindly. We make sure you
+              know exactly what you are receiving. Before dispatching your
               order:
             </p>
             <ul className="list-disc pl-5 my-4">
@@ -91,7 +92,7 @@ export default function Page() {
             <ul className="list-disc pl-5 my-4">
               <li>We share the dispatch slip and tracking details</li>
               <li>
-                You will continue to receive updates from the Vision Tech team
+                You will continue to receive updates from the WeGot team
                 regarding your order status
               </li>
             </ul>
@@ -102,7 +103,7 @@ export default function Page() {
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
               Delivery Timeline
             </h2>
-            <p>Vision Tech offers fast and reliable delivery options:</p>
+            <p>WeGot offers fast and reliable delivery options:</p>
             <ul className="list-disc pl-5 my-4">
               <li>Karachi: Same-day delivery available</li>
               <li>
@@ -121,24 +122,24 @@ export default function Page() {
               Our Focus on Trust
             </h2>
             <p>
-              Everything we do at Vision Tech is built around one goal: earning
-              your trust. From confirmation calls to product videos and live
-              updates, we make sure you feel confident about your purchase. We
-              understand the concerns people have when ordering tech online in
-              Pakistan, and we’ve designed our process to remove those concerns.
+              Everything we do at WeGot is built around one goal: earning your
+              trust. From confirmation calls to product videos and live updates,
+              we make sure you feel confident about your purchase. We understand
+              the concerns people have when ordering tech online in Pakistan,
+              and we’ve designed our process to remove those concerns.
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
-              Why Vision Tech’s Process is Different
+              Why WeGot’s Process is Different
             </h2>
             <p>
-              At Vision Tech, you’re not just placing an order on a website.
-              You’re dealing with a real team that communicates, verifies, and
-              supports you throughout the journey. Our order processing method
-              is simple, honest, and customer-focused—because for us, trust
-              matters more than anything.
+              At WeGot, you’re not just placing an order on a website. You’re
+              dealing with a real team that communicates, verifies, and supports
+              you throughout the journey. Our order processing method is simple,
+              honest, and customer-focused—because for us, trust matters more
+              than anything.
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>

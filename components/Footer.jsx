@@ -171,11 +171,8 @@ const Footer = () => {
           </p>
           <p className="text-sm mt-2">
             E-mail:{" "}
-            <a
-              href="mailto:contact@visiontech.com.pk"
-              className="text-blue-400"
-            >
-              contact@visiontech.com.pk
+            <a href="mailto:contact@wegot.pk" className="text-blue-400">
+              contact@wegot.pk
             </a>
           </p>
         </div>
@@ -220,7 +217,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <p className="text-xs text-gray-500">Copyright © 2026 vision tech.</p>
+        <p className="text-xs text-gray-500">Copyright © 2026 WeGot.</p>
       </div>
     </footer>
   );

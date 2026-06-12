@@ -4,9 +4,10 @@ import HeroSection from "@/components/HeroSection"; // FIXED
 import NewsLetter from "@/components/NewsLetter";
 
 export async function generateMetadata() {
-   return {
-    title: `About Us | Vision Tech Pakistan`,
-    description: 'Vision Tech is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,',
+  return {
+    title: `About Us | WeGot Pakistan`,
+    description:
+      "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {
       canonical: `/about-us`,
     },
@@ -17,14 +18,14 @@ export default function AboutUs() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection title="About Vision Tech" />
+        <HeroSection title="About WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto bg-gray-100 mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
               Who We Are
             </h2>
             <p>
-              Vision Tech is a Pakistani tech company built for the people of
+              WeGot is a Pakistani tech company built for the people of
               Pakistan. We started with a simple belief: everyone deserves
               access to reliable technology at a fair price, without confusion
               or scams. We understand the local market, the challenges people
@@ -39,12 +40,12 @@ export default function AboutUs() {
               What We Do
             </h2>
             <p>
-              At Vision Tech, we bring together a wide range of technology
-              products under one roof. Whether you're a student, a professional,
-              a gamer, or a business owner, we help you find the right device
-              based on your needs and budget. We don’t just sell products. We
-              guide you, explain things in simple terms, and make sure you
-              understand exactly what you’re buying
+              At WeGot, we bring together a wide range of technology products
+              under one roof. Whether you're a student, a professional, a gamer,
+              or a business owner, we help you find the right device based on
+              your needs and budget. We don’t just sell products. We guide you,
+              explain things in simple terms, and make sure you understand
+              exactly what you’re buying
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>
@@ -99,7 +100,7 @@ export default function AboutUs() {
           </div>
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
-              Why Choose Vision Tech
+              Why Choose WeGot
             </h2>
             <p>We keep things simple and honest.</p>
             <ul className="list-disc pl-5 my-4">
@@ -125,7 +126,7 @@ export default function AboutUs() {
           </div>
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
-              Our Vision for Pakistan
+              Our WeGot for Pakistan
             </h2>
             <p>
               We believe Pakistan has huge potential, and technology can play a
@@ -147,12 +148,11 @@ export default function AboutUs() {
               Giving Back
             </h2>
             <p>
-              Vision Tech is committed to giving back to the community. We
-              dedicate 10% of our earnings towards education and development in
-              Pakistan. This includes supporting schools, promoting skill
-              development, and focusing especially on women’s education. For us,
-              growth is not just about business, it’s about creating
-              opportunities for others.
+              WeGot is committed to giving back to the community. We dedicate
+              10% of our earnings towards education and development in Pakistan.
+              This includes supporting schools, promoting skill development, and
+              focusing especially on women’s education. For us, growth is not
+              just about business, it’s about creating opportunities for others.
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>
@@ -174,11 +174,11 @@ export default function AboutUs() {
               Our Promise
             </h2>
             <p>
-              At Vision Tech, we promise honesty, quality, and support. Whether
-              you’re buying a device, upgrading your system, or repairing
-              something you already own, we’re here to make the process simple
-              and reliable. We are building Vision Tech for Pakistan, and we’re
-              just getting started.
+              At WeGot, we promise honesty, quality, and support. Whether you’re
+              buying a device, upgrading your system, or repairing something you
+              already own, we’re here to make the process simple and reliable.
+              We are building WeGot for Pakistan, and we’re just getting
+              started.
             </p>
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>

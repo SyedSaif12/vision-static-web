@@ -23,7 +23,7 @@ export async function generateMetadata({ params, searchParams }) {
 
   return {
     title: `${subCategoryTitle}${pillTitle} | ${categoryTitle} | price in pakistan`,
-    description: `Shop the latest ${subCategoryTitle} ${pillTitle} in Pakistan at Vision Tech. Explore premium ${categoryTitle} products with official warranty and fast shipping.`,
+    description: `Shop the latest ${subCategoryTitle} ${pillTitle} in Pakistan at WeGot. Explore premium ${categoryTitle} products with official warranty and fast shipping.`,
     alternates: {
       canonical: `/${mainCategory}/${subCategory}${name ? `?name=${name}` : ""}`,
     },

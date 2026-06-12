@@ -55,36 +55,6 @@ const TopNav = () => {
             </span>
           </div>
         </div>
-
-        {/* MOBILE DROPDOWN */}
-        {/* {open && (
-          <div className="mt-3 lg:hidden flex flex-col bg-gray-100 p-4 rounded text-black text-center gap-3">
-            // MOBILE PHONE NUMBER
-            <div className="flex justify-center items-center gap-2">
-              <span className="font-medium">callus:</span>
-              <a
-                href="tel:0012345678"
-                className="text-black font-semibold hover:text-black transition-colors"
-              >
-                (00) 1234 5678
-              </a>
-            </div>
-
-            // MOBILE SHOWROOM
-            <span>Visit our showroom in</span>
-            <span>1234 Street Address City Address, 1234</span>
-
-            <a href="#contact" className="underline">
-              Contact Us
-            </a>
-
-            // MOBILE ICONS
-            <div className="flex justify-center gap-6 mt-2">
-              <Image src={InstaBlue} alt="Instagram" className="w-6 h-6" />
-              <Image src={FbBlue} alt="Facebook" className="w-6 h-6" />
-            </div>
-          </div>
-        )} */}
       </div>
     </div>
   );

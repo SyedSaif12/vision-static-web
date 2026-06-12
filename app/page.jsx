@@ -43,8 +43,8 @@ const Home = async () => {
         <OurBrands />
         <Reviews />
         <NewArrival />
-        <ShowAllSubCategories />
         <PromotionVideo />
+        <ShowAllSubCategories />
       </div>
       <NewsLetter className="bg-gray-100 pt-14" />
       <Footer />

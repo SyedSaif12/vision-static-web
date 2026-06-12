@@ -28,8 +28,11 @@ export default function Pills({ data, select, setSelect }) {
                   : "border-gray-300"
               } flex w-40 md:w-72 justify-between p-2 md:p-4 items-center rounded-full`}
             >
-              <h1 className="text-blue-700 capitalize truncate whitespace-nowrap text-xs md:text-base group-hover:text-white md:font-semibold">
-                {item?.title?.replace(/-/g, " ").toLowerCase()}
+              <h1 className="text-blue-700 truncate whitespace-nowrap text-xs md:text-base group-hover:text-white md:font-semibold">
+                {item?.title
+                  ?.replaceAll(/-/g, " ")
+                  ?.toLowerCase()
+                  ?.replace(/^./, (char) => char.toUpperCase())}
               </h1>
               <div
                 className={`w-10 md:w-16 border-[1px] md:border-2 group-hover:border-white group-hover:text-white ${

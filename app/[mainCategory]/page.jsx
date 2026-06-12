@@ -46,7 +46,16 @@ const page = async ({ params }) => {
         <HeroSection
           title={`View all ${mainCategory.replace(/-/g, " ")}`}
           offer={`Find all products related to ${mainCategory.replace(/-/g, " ")} in one place. `}
-          steps={["home", mainCategory.replace(/-/g, " ")]}
+          steps={[
+            {
+              label: "home",
+              path: "/",
+            },
+            {
+              label: mainCategory.replace(/-/g, " "),
+              path: `/${mainCategory}`,
+            },
+          ]}
         />
         {/* <div className="max-w-11/12 mx-auto pt-10"> */}
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">

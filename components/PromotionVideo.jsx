@@ -14,7 +14,7 @@ export default function PromotionVideo({
   const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
 
   return (
-    <div className="w-full flex justify-center rounded-2xl z-50 overflow-hidden items-center h-64 md:h-96 bg-black relative">
+    <div className="w-full flex justify-center rounded-2xl z-50 mt-16 overflow-hidden items-center h-64 md:h-96 bg-black relative">
       {!loadVideo ? (
         <div
           className="relative w-full h-full cursor-pointer group"

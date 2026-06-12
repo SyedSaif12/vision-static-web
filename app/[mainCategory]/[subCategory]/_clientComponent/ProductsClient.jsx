@@ -150,10 +150,22 @@ const ProductsClient = ({
           title={`View all ${subCategory.replace(/-/g, " ")} ${category.replace(/-/g, " ")}`}
           offer={`Find all ${subCategory.replace(/-/g, " ")} products related to ${category.replace(/-/g, " ")} in one place. `}
           steps={[
-            "home",
-            category.replace(/-/g, " "),
-            subCategory.replace(/-/g, " "),
-            select.replace(/-/g, " "),
+            {
+              label: "home",
+              path: "/",
+            },
+            {
+              label: category.replace(/-/g, " "),
+              path: `/${category}`,
+            },
+            {
+              label: subCategory.replace(/-/g, " "),
+              path: `/${category}/${subCategory}`,
+            },
+            {
+              label: select.replace(/-/g, " "),
+              path: `/${category}/${subCategory}${select ? "?" + select : ''}`,
+            },
           ]}
         />
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
