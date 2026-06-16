@@ -7,14 +7,22 @@ const HeroSection = ({
   title = "Discover the Latest in Tech",
   offer = "Experience innovation with cutting-edge technology.",
   steps = [],
+  singlePage = false,
 }) => {
+
+  const validSteps = steps?.filter(
+    (step) => step && typeof step.label === "string" && step.label.trim() !== ""
+  ) || [];
+
   return (
     <div className="relative bg-gray-100">
       {/*  Navbar placed exactly like */}
       <Navbar />
 
       {/* HERO SECTION */}
-      <div className="w-full bg-[#031057] min-h-[450px] md:min-h-[480px] rounded-b-[50px] md:rounded-b-[80px] flex flex-col items-center">
+      <div
+        className={`w-full bg-[#031057] ${singlePage ? "min-h-[370px] md:min-h-[450px]" : "min-h-[450px] md:min-h-[480px]"} rounded-b-[50px] md:rounded-b-[80px] flex flex-col items-center`}
+      >
         {/* Spacer (flex-grow) */}
         <div className="flex-1 h-full w-full" />
 
@@ -25,7 +33,7 @@ const HeroSection = ({
           </h2>
 
           <div className="flex justify-center text-xs md:text-sm">
-            {steps?.map((step, idx) => (
+            {validSteps?.map((step, idx) => (
               <React.Fragment key={idx}>
                 <Link
                   href={step.path}
@@ -34,7 +42,7 @@ const HeroSection = ({
                   {step.label}
                 </Link>
 
-                {idx < steps.length - 1 && (
+                {idx < validSteps.length - 1 && (
                   <span className="text-white my-5 px-2">&gt;</span>
                 )}
               </React.Fragment>

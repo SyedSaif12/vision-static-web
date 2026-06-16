@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Select from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, Controller, FormProvider } from "react-hook-form";
@@ -25,6 +25,7 @@ import blankImage from "@/assets/blank_image.jpg";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 import { useFetchCityNameList } from "@/hooks/useFetchedCityNameList";
+import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -147,6 +148,13 @@ const CheckoutPage = () => {
     watch,
     formState: { errors },
   } = formMethods;
+
+  useEffect(() => {
+    dispatch(onToggle(true));
+    return () => {
+      dispatch(onToggle(false));
+    };
+  }, []);
 
   const watchPayment = watch("payment");
   const watchCity = watch("city");

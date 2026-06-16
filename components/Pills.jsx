@@ -1,11 +1,25 @@
 "use client";
 
-export default function Pills({ data, select, setSelect }) {
+export default function Pills({ data, select, setSelect, subCategory }) {
   const isSelected = select;
 
   const handleClick = (item) => {
     setSelect(item);
   };
+
+  const formatCleanTitle = (title, subCategory) => {
+    if(!title) return
+    let cleanTitle = title.replaceAll(/-/g, " ").trim();
+    if(subCategory) {
+      const cleanSubCat = subCategory.replaceAll(/-/g, " ").trim();
+
+      const regex = new RegExp(`^${cleanSubCat}\\s*`, "i");
+
+      cleanTitle = cleanTitle.replace(regex, "");
+
+    }
+    return cleanTitle.replace(/^./, (char) => char.toUpperCase());
+  }
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 place-items-center">
@@ -26,13 +40,10 @@ export default function Pills({ data, select, setSelect }) {
                 item?.title?.toLowerCase() === isSelected?.toLowerCase()
                   ? "border-orange-400"
                   : "border-gray-300"
-              } flex w-40 md:w-72 justify-between p-2 md:p-4 items-center rounded-full`}
+              } flex max-w-56 min-w-40 sm:min-w-64 md:min-w-[350px] lg:min-w-72 justify-between p-2 md:p-4 items-center rounded-full`}
             >
               <h1 className="text-blue-700 truncate whitespace-nowrap text-xs md:text-base group-hover:text-white md:font-semibold">
-                {item?.title
-                  ?.replaceAll(/-/g, " ")
-                  ?.toLowerCase()
-                  ?.replace(/^./, (char) => char.toUpperCase())}
+                {formatCleanTitle(item?.title, subCategory)}
               </h1>
               <div
                 className={`w-10 md:w-16 border-[1px] md:border-2 group-hover:border-white group-hover:text-white ${

@@ -7,14 +7,16 @@ import { Menu, X, MapPin, ChevronDown, ShoppingCart } from "lucide-react";
 import visionTechIcon from "@/assets/visiontechicon.png";
 import { useGetCategoriesQuery } from "@/redux/category/categorySlice";
 import Loading from "./Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
 import CartDrawer from "./CartDrawer";
 import threelines from "../assets/threelines.svg";
 import SearchBar from "./SearchBar";
 import { NavSkeleton } from "./skeletons";
+import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
 export default function Navbar() {
+  const dispatch = useDispatch();
   const { isLoading, currentData } = useGetCategoriesQuery({
     navbar: true,
   });
@@ -79,7 +81,10 @@ export default function Navbar() {
               <div className="flex gap-2 lg:hidden">
                 <div className="relative">
                   <div
-                    onClick={() => setCartOpen(true)}
+                    onClick={() => {
+                      dispatch(onToggle(true));
+                      setCartOpen(true);
+                    }}
                     className="rounded-full bg-white p-2"
                   >
                     <ShoppingCart className="size-4 md:size-6 text-black" />
@@ -121,7 +126,10 @@ export default function Navbar() {
               {/* Cart Icon */}
               <div className="relative">
                 <div
-                  onClick={() => setCartOpen(true)}
+                  onClick={() => {
+                    dispatch(onToggle(true));
+                    setCartOpen(true);
+                  }}
                   className="rounded-full bg-white p-2"
                 >
                   <ShoppingCart className="size-25 text-black" />
@@ -280,7 +288,7 @@ export default function Navbar() {
 
       {/* --- MOBILE MENU SIDEBAR --- */}
       {openMobile && (
-        <div className="fixed inset-0 z-[100] flex justify-end">
+        <div className="fixed inset-0 z-[9999999] flex justify-end">
           {/* Dark Overlay */}
           <div
             className="fixed inset-0 bg-black/60"
@@ -377,7 +385,7 @@ export default function Navbar() {
 
       {/* --- MOBILE MENU SIDEBAR --- */}
       {openmenu && (
-        <div className="fixed inset-0 z-[1000000] flex justify-end">
+        <div className="fixed inset-0 z-[9999999] flex justify-end">
           {/* Dark Overlay */}
           <div
             className="fixed inset-0 bg-black/60"

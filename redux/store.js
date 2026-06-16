@@ -9,11 +9,13 @@ import { bargainSlice } from "./bargain/bargainSlice";
 import { checkoutSlice } from "./checkout/checkoutSlice";
 import { popupSlice } from "./popup/popupSlice";
 import { reviewSlice } from "./review/reviewSlice";
+import globalToggleSlice from "./golbal-toggle/globalToggleSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     cart: cartReducer,
+    toggle: globalToggleSlice,
     [categorySlice.reducerPath]: categorySlice.reducer,
     [subCategorySlice.reducerPath]: subCategorySlice.reducer,
     [productSlice.reducerPath]: productSlice.reducer,

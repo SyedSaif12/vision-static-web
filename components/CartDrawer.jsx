@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import blankImage from "@/assets/blank_image.jpg";
 import Link from "next/link";
 import Loading from "./Loading";
+import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
 export default function CartDrawer({ open, onClose }) {
   const [isClient, setIsClient] = useState(false);
@@ -70,7 +71,12 @@ export default function CartDrawer({ open, onClose }) {
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b">
         <h2 className="text-xl text-black font-bold">Shopping Cart</h2>
-        <button onClick={onClose}>
+        <button
+          onClick={() => {
+            dispatch(onToggle(false));
+            onClose();
+          }}
+        >
           <Image src={closeIcon} alt="Close" width={25} height={25} />
         </button>
       </div>

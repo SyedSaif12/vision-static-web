@@ -82,7 +82,7 @@ export default function DrawerFilter({
       )}
 
       <div
-        className={`fixed top-0 left-0 h-full w-[80%] sm:w-[360px] bg-[#F3F3F3] z-[99999] shadow-xl
+        className={`fixed top-0 left-0 h-full w-[80%] sm:w-[360px] bg-[#F3F3F3] z-[9999999] shadow-xl
           transform transition-transform duration-300 ease-in-out
           ${open ? "translate-x-0" : "-translate-x-full"}`}
       >

@@ -38,6 +38,10 @@ body {
   }
 }
 
+#tawk-bubble-container {
+  display: none !important;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

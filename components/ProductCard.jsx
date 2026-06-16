@@ -8,6 +8,13 @@ import Loader from "@/components/Loading";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+
+const mapStock = {
+  in_stock: true,
+  out_stock: false,
+  in_order: true,
+};
 
 const ProductCard = ({ product, openCart }) => {
   const dispatch = useDispatch();
@@ -30,6 +37,7 @@ const ProductCard = ({ product, openCart }) => {
     dispatch(addToCart(addtocartitems));
     setTimeout(() => {
       setClicked(false);
+      dispatch(onToggle(true))
       openCart();
     }, 1000);
   };
@@ -66,8 +74,12 @@ const ProductCard = ({ product, openCart }) => {
       <div className="w-full max-h-[449px] min-h-[170px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
         {product?.isFeatured && (
           <div className="absolute z-40 top-2 right-2">
-            <span className="text-xs text-orange-500 border border-orange-300 bg-[#fdf0d7] px-3 py-0.5 rounded-full">
-              Featured Product
+            <span
+              className={`text-xs ${mapStock[product?.status] ? "text-orange-500 border-orange-300 bg-[#fdf0d7]" : "text-red-500 border-red-500 bg-red-100"} border capitalize px-3 py-0.5 rounded-full`}
+            >
+              {mapStock[product?.status]
+                ? "Featured Product"
+                : product?.status?.replaceAll(/_/g, " ")}
             </span>
           </div>
         )}

@@ -164,7 +164,7 @@ const ProductsClient = ({
             },
             {
               label: select.replace(/-/g, " "),
-              path: `/${category}/${subCategory}${select ? "?" + select : ''}`,
+              path: `/${category}/${subCategory}${select ? "?" + select : ""}`,
             },
           ]}
         />
@@ -173,6 +173,7 @@ const ProductsClient = ({
             data={chipsData}
             select={select}
             setSelect={handlePillSelect}
+            subCategory={subCategory}
           />
 
           {/* filter drawer here  */}

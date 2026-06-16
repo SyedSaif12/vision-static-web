@@ -1,7 +1,7 @@
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import RootClientLayout from "./(shared_layout)/clientLayout";
-import WhatsAppContact from "@/components/WhatsAppContact";
+// import WhatsAppContact from "@/components/WhatsAppContact";
 
 const poppins = Roboto({
   subsets: ["latin"],
@@ -38,7 +38,6 @@ export default function RootLayout({ children }) {
       >
         <div className="overflow-x-clip w-full">
           <RootClientLayout>{children}</RootClientLayout>
-          <WhatsAppContact />
         </div>
       </body>
     </html>

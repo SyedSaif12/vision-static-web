@@ -8,6 +8,7 @@ import { AppContextProvider } from "@/context/AppContext";
 
 import ChatBox from "@/components/ChatBox";
 import { useEffect } from "react";
+import WhatsAppContact from "@/components/WhatsAppContact";
 
 // client layout component for initialize redux toolkit & RTK query
 export default function RootClientLayout({ children }) {
@@ -24,6 +25,7 @@ export default function RootClientLayout({ children }) {
         {children}
         {/* <TawkTo /> */}
         <ChatBox />
+        <WhatsAppContact />
       </AppContextProvider>
     </Provider>
   );

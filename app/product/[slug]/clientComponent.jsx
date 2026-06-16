@@ -10,7 +10,6 @@ import { useState } from "react";
 import Installments from "@/components/Installments";
 import ProductDescription from "@/components/ProductDescription";
 import Seocontent from "@/components/Seo-content";
-import PromotionVideo from "@/components/PromotionVideo";
 import BargainDialog from "@/components/BargainDialog";
 import Footer from "@/components/Footer";
 import { useDispatch } from "react-redux";
@@ -49,7 +48,10 @@ const ClientProductComponent = ({ product }) => {
   return (
     <div>
       {/* Hero Section showing subcategory */}
-      <HeroSection title={product?.products?.subCategory?.name} />
+      <HeroSection
+        singlePage={true}
+        title={product?.products?.subCategory?.name}
+      />
 
       <div className="px-6 md:px-16 lg:px-32 py-14 bg-gray-100">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
@@ -133,9 +135,12 @@ const ClientProductComponent = ({ product }) => {
                       {stocks[product?.status]}
                     </p>
                   ) : (
-                    <p className="text-[#d92b2b] font-semibold relative">
+                    <p className="text-[#d92b2b] mb-7 font-semibold relative">
                       {stocks[product?.status]}
-                      <span className="absolute right-0 top-6 w-[180px] sm:w-[220px] text-right whitespace-nowrap text-sm font-normal text-[#d92b2b]">*out of stock dummy text here.</span>
+                      <span className="absolute right-0 top-6 w-[240px] sm:w-[240px] text-right whitespace-nowrap flex flex-col text-xs sm:text-sm font-normal text-[#d92b2b]">
+                        <span>*Out of stock. Orders including this </span>
+                        <span>may experience delivery delays.</span>
+                      </span>
                     </p>
                   )}
                 </div>
