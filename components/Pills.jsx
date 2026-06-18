@@ -40,7 +40,7 @@ export default function Pills({ data, select, setSelect, subCategory }) {
                 item?.title?.toLowerCase() === isSelected?.toLowerCase()
                   ? "border-orange-400"
                   : "border-gray-300"
-              } flex max-w-56 min-w-40 sm:min-w-64 md:min-w-[350px] lg:min-w-72 justify-between p-2 md:p-4 items-center rounded-full`}
+              } flex max-w-[150px] min-w-[150px] xs:min-w-40 xs:max-w-40 sm:min-w-64 md:min-w-[350px] lg:min-w-72 justify-between p-2 md:p-4 items-center rounded-full`}
             >
               <h1 className="text-blue-700 truncate whitespace-nowrap text-xs md:text-base group-hover:text-white md:font-semibold">
                 {formatCleanTitle(item?.title, subCategory)}

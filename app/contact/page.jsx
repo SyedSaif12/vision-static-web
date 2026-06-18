@@ -17,7 +17,7 @@ export async function generateMetadata() {
 export default function ContactPage() {
   return (
     <>
-      <HeroSection title="Contact" />
+      <HeroSection singlePage={true} title="Contact" />
 
       <div className="min-h-screen w-full bg-gray-100 p-6 flex items-center justify-center">
         <ContactForm />

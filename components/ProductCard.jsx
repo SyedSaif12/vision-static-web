@@ -17,6 +17,7 @@ const mapStock = {
 };
 
 const ProductCard = ({ product, openCart }) => {
+
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [clicked, setClicked] = useState(false);
@@ -31,7 +32,7 @@ const ProductCard = ({ product, openCart }) => {
       slug: product?.slug,
       oldPrice: product?.oldPrice,
       price: product?.price,
-      image: product?.image, // Fixed typo: was "imgae"
+      image: product?.image,
     };
 
     dispatch(addToCart(addtocartitems));
@@ -72,7 +73,7 @@ const ProductCard = ({ product, openCart }) => {
     <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100">
       {/* Product Image with Premium Delivery Badge */}
       <div className="w-full max-h-[449px] min-h-[170px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
-        {product?.isFeatured && (
+        {(product?.isFeatured || !mapStock[product?.status]) && (
           <div className="absolute z-40 top-2 right-2">
             <span
               className={`text-xs ${mapStock[product?.status] ? "text-orange-500 border-orange-300 bg-[#fdf0d7]" : "text-red-500 border-red-500 bg-red-100"} border capitalize px-3 py-0.5 rounded-full`}
@@ -203,7 +204,7 @@ function getProductImage(product) {
   if (Array.isArray(product?.image)) {
     const first = product?.image[0]?.fileUrl;
     if (typeof first === "string" && first.startsWith("http")) {
-      return first;
+      return encodeURI(first);
     }
   }
 

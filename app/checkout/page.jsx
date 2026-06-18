@@ -605,7 +605,7 @@ const CheckoutPage = () => {
                       <p>
                         <strong>Bank Alfalah</strong>
                       </p>
-                      <p>Account Title: WeGot</p>
+                      <p>Account Title: VISION TECH</p>
                       <p>Account No: 00311009188805</p>
                       <p>Branch Code: 0031</p>
                       <p>IBAN: PK27ALFH0031001009188805</p>

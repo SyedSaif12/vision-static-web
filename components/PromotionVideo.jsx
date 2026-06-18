@@ -11,7 +11,7 @@ export default function PromotionVideo({
   const videoId = url.split("embed/")[1]?.split("?")[0] || "54Ej0JdngZI";
 
   // Thumbnail URL (High Quality)
-  const thumbnail = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  const thumbnail = encodeURI(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
 
   return (
     <div className="w-full flex justify-center rounded-2xl z-50 mt-16 overflow-hidden items-center h-64 md:h-96 bg-black relative">

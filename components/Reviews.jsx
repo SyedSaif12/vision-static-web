@@ -12,6 +12,7 @@ import Link from "next/link";
 // Day.js imports aur setup
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import SafeNextImage from "./NextImageComponent";
 dayjs.extend(relativeTime);
 
 function ReviewCard({ review }) {
@@ -29,17 +30,18 @@ function ReviewCard({ review }) {
     const charCode = name.charCodeAt(0);
     return colors[charCode % colors.length];
   };
+console.log(review);
 
+  
   return (
     <div className="break-inside-avoid rounded-2xl border bg-white p-4 shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-3 mb-2">
         <div className="relative w-10 h-10 rounded-full overflow-hidden">
           {review?.image?.length > 0 && review?.image?.[0]?.fileUrl ? (
-            <Image
+            <SafeNextImage
               src={review?.image?.[0]?.fileUrl}
               alt={review?.fullName}
-              fill
               className="object-cover"
             />
           ) : (

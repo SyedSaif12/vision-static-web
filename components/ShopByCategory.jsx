@@ -1,13 +1,14 @@
-import { baseURL } from "@/redux/utils";
-import BaseCardCategory from "./BaseCardCategory";
+'use client'
 
-const ShopByCategory = async () => {
-  const categoryData = await fetch(`${baseURL}category?web=true`, {
-    next: { revalidate: 86400 },
-  });
-  const responseData = await categoryData.json();
-  const categories = Array.isArray(responseData.data)
-    ? [...responseData?.data]?.reverse().map((item) => item)
+import BaseCardCategory from "./BaseCardCategory";
+import CategoryCardSkeleton from "./skeletons/CategoryCardSkeleton";
+import { useCardCategoryWithImage } from "@/hooks/useCardCategoryWithImage";
+
+const ShopByCategory = () => {
+  const { isLoading, data } = useCardCategoryWithImage()
+
+  const categories = Array.isArray(data)
+    ? [...data]?.reverse().map((item) => item)
     : [];
 
   return (
@@ -17,18 +18,26 @@ const ShopByCategory = async () => {
           Shop by Category
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pt-6">
-          {!!categories &&
-            Array.isArray(categories) &&
-            categories.map((category, idx) => (
-              <BaseCardCategory
-                tile={category?.name}
-                imageUrl={
-                  category.products?.[0]?.variants?.[0]?.image?.[0]?.fileUrl
-                }
-                key={category?.id}
-                url={`/${category?.name}`}
-              />
-            ))}
+          {
+            isLoading ? (
+              <CategoryCardSkeleton />
+            ) : (
+              Array.isArray(categories) &&
+                categories.length > 0 ?
+                categories.map((category, idx) => (
+                  <BaseCardCategory
+                    tile={category?.name}
+                    imageUrl={
+                      category.products?.[0]?.variants?.[0]?.image?.[0]?.fileUrl
+                    }
+                    key={category?.id}
+                    url={`/${category?.name}`}
+                  />
+                )) : (
+                  <p className="text-gray-500 col-span-full">No categories found.</p>
+                )
+            )
+          }
         </div>
       </div>
     </>

@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 const SafeNextImage = ({ src = blankImage, alt, className }, props) => {
   const [imgSrc, setImgSrc] = useState(src);
   useEffect(() => {
-    setImgSrc(src);
+    if (typeof src === 'string') {
+      setImgSrc(encodeURI(src?.trim()));
+    } else if (src) {
+      setImgSrc(src);
+    } else {
+      setImgSrc(blankImage);
+    }
   }, [src]);
   return (
     <Image
@@ -17,7 +23,7 @@ const SafeNextImage = ({ src = blankImage, alt, className }, props) => {
       fill
       className={className}
       priority
-      onError={() => setImgSrc(blankImage.src)}
+      onError={() => setImgSrc(blankImage)}
       fetchPriority="high"
     />
   );

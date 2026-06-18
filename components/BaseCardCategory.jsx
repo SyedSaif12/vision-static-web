@@ -87,5 +87,10 @@ const BaseCardCategory = ({
 export default BaseCardCategory;
 
 function getCategoryImage(imageUrl) {
-  return imageUrl || blankImage;
+  if (!imageUrl) return blankImage;
+
+  if (typeof imageUrl === "string") {
+    return encodeURI(imageUrl.trim());
+  }
+  return imageUrl;
 }

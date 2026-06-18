@@ -17,7 +17,7 @@ export default function Instalment() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection title="Installment Plans at WeGot" />
+        <HeroSection singlePage={true} title="Installment Plans at WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">

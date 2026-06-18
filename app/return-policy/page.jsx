@@ -18,7 +18,7 @@ export default function ReturnPolicy() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection title="Return Policy of WeGot" />
+        <HeroSection singlePage={true} title="Return Policy of WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto bg-gray-100 mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">

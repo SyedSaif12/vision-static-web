@@ -30,8 +30,9 @@ export default function StoreLocatorPage() {
   return (
     <>
       <HeroSection
+      singlePage={true}
         title="Store Locator"
-        offer="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        offer="Visit us today — find your nearest experience center for expert guidance and support."
       />
 
       <div className="px-4 md:px-16 lg:px-32 bg-gray-100 py-6">

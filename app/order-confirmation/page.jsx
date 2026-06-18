@@ -9,7 +9,7 @@ const Page = () => {
 
   return (
     <>
-      <HeroSection title="Order Confirmation" />
+      <HeroSection singlePage={true} title="Order Confirmation" />
 
       <div className="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-12">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
