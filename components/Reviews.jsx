@@ -30,7 +30,6 @@ function ReviewCard({ review }) {
     const charCode = name.charCodeAt(0);
     return colors[charCode % colors.length];
   };
-console.log(review);
 
   
   return (

@@ -151,7 +151,10 @@ export default function CartDrawer({ open, onClose }) {
         </div>
         <div className="flex items-center gap-4">
           <button
-            onClick={onClose}
+            onClick={() => {
+              dispatch(onToggle(false));
+              onClose();
+            }}
             className="w-full text-xs sm:text-base border border-[#000DAF] py-3 rounded-full font-medium text-[#000DAF]"
           >
             Continue Shopping

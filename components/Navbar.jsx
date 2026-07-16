@@ -15,8 +15,8 @@ import SearchBar from "./SearchBar";
 import { NavSkeleton } from "./skeletons";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
-export default function Navbar() {
-  const dispatch = useDispatch();
+export default function Navbar({ themeColor = "#030E40" }) {
+  const dispatch = useDispatch()
   const { isLoading, currentData } = useGetCategoriesQuery({
     navbar: true,
   });
@@ -64,7 +64,12 @@ export default function Navbar() {
     <>
       <nav className="absolute w-[90%] border-2 rounded-xl border-white/50 mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
         {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
-        <div className="bg-gradient-to-r rounded-xl from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white">
+        <div
+          className="bg-gradient-to-r rounded-xl text-white"
+          style={{
+            backgroundImage: `linear-gradient(to right, ${themeColor || "#030E40"}, #1a1f50, #5C2D00)`,
+          }}
+        >
           {/* ROW 1: Logo & Search */}
           <div className="container mx-auto px-4 py-3 flex flex-col lg:flex-row items-center justify-between gap-4">
             {/* Logo Section */}

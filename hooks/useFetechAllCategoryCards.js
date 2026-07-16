@@ -16,7 +16,7 @@ const cardsConfig = [
   },
   {
     title: "Dyson",
-    query: { category: "hair-straightener", subCategory: "dyson" },
+    query: { category: "hair-dryer", subCategory: "dyson" },
   },
   {
     title: "Whoop Band",
@@ -61,9 +61,8 @@ const cardsConfig = [
   {
     title: "Apple Pencil",
     query: {
-      category: "accessories",
+      category: "stylus-pencil",
       subCategory: "apple",
-      name: "apple pencil",
     },
   },
   {
@@ -72,7 +71,7 @@ const cardsConfig = [
   },
   {
     title: "Amazon Kindle",
-    query: { category: "tablets", subCategory: "amazon-kindle" },
+    query: { category: "kindles", subCategory: "amazon-kindle" },
   },
 ];
 

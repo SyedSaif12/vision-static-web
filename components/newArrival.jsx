@@ -110,7 +110,7 @@ export default function NewArrival() {
                   </p>
                   <Link
                     onClick={() => setLoad(true)}
-                    href="/hair-straightener/dyson"
+                    href="/air-straightener/dyson"
                     className="text-black bg-white mt-2 md:mt-0 inline-block py-2 px-2 md:px-3 rounded-full font-semibold text-xs md:text-base"
                   >
                     Shop Now

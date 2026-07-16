@@ -73,7 +73,7 @@ export default function PopUpForm({ open, setOpen }) {
 
   useEffect(() => {
     if (isSuccess) {
-      setOpen(false);
+      setOpen(true);
       reset();
       toast.success(
         currentData?.message || "Your details submit successfully.",
@@ -99,8 +99,8 @@ export default function PopUpForm({ open, setOpen }) {
           src={EnrollNow}
           alt="popup image"
           width={600}
-          height={1000}
-          className="w-full h-full object-cover"
+          // height={1000}
+          className="h-full object-cover"
         />
       </div>
 
@@ -110,7 +110,10 @@ export default function PopUpForm({ open, setOpen }) {
           Enroll Now for Latest Update
         </h2>
         <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-8 lg:space-y-10">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4 md:space-y-8 lg:space-y-10"
+          >
             {/* ROW 1 → Name + Email */}
             <div className="grid grid-cols-2 gap-6 md:gap-8 lg:gap-10">
               <div>

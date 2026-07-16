@@ -1,84 +1,37 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import laptopsImage from "../assets/hero-computers.png";
-import playstationImage from "../assets/hero-playstations.png";
-import dysonImage from "../assets/hero-dysons.png";
-import offerImage from "../assets/hero-offers.png";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useFetchedHeroPromotion } from "@/hooks/useFetchedHeroPromotion";
 
 const Navbar = dynamic(() => import("@/components/Navbar"), {
   loading: () => <NavSkeleton />,
   ssr: false,
 });
 
-const sliderData = [
-  {
-    id: 1,
-    offer: (
-      <>Shop Now with Confidence, Mercantile Authorised Apple Reseller. </>
-    ),
-    title: (
-      <>
-        Mercantile Preferred <span className="text-[#FF8415]">Partner</span> For
-        <span className="text-[#FF8415]">Apple</span> Products{" "}
-      </>
-    ),
-    imgSrc: laptopsImage,
-    path: "/laptops/apple",
-  },
-  {
-    id: 2,
-    offer: <>Shop now and dominate every session.</>,
-    title: (
-      <>
-        <span className="text-[#FF8415]">Play</span> Harder
-        <br /> <span className="text-[#FF8415]">Win</span> Bigger
-        <br /> <span className="text-[#FF8415]">Game</span> Different.
-      </>
-    ),
-    imgSrc: playstationImage,
-    path: "/gaming-console/sony",
-  },
-  {
-    id: 3,
-    offer: <>Discover what better feels like. Shop Now. </>,
-    title: (
-      <>
-        Dyson Technology for <span className="text-[#FF8415]">Smarter</span> Air
-        Healthier <span className="text-[#FF8415]">Hair Better</span> Home.{" "}
-      </>
-    ),
-    imgSrc: dysonImage,
-    path: "/hair-straightener/dyson",
-  },
-  {
-    id: 4,
-    offer: <>Call to action instalment page learn more.</>,
-    title: (
-      <>
-        Convert Technology for <span className="text-[#FF8415]">Payment</span>{" "}
-        12 instalment plan with{" "}
-        <span className="text-[#FF8415]">Credit Card</span>.{" "}
-      </>
-    ),
-    imgSrc: offerImage,
-    path: "/view-featured-products",
-  },
-];
-
 const HeaderSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { heroPromotions } = useFetchedHeroPromotion();
+  const activeThemeColor =
+    heroPromotions?.[currentSlide]?.themeColor || "#031057";
+
+  const ActiveTextColor = 
+     heroPromotions?.[currentSlide]?.titleColor || "#f7842a";
+
+  const activeAppliedColorText =
+  heroPromotions?.[currentSlide]?.appliedTitleColor || []
 
   const goNext = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % sliderData.length);
-  }, []);
+    setCurrentSlide((prev) => (prev + 1) % heroPromotions?.length);
+  }, [heroPromotions]);
 
   const goPrev = useCallback(() => {
-    setCurrentSlide((prev) => (prev === 0 ? sliderData.length - 1 : prev - 1));
-  }, []);
+    setCurrentSlide((prev) =>
+      prev === 0 ? heroPromotions?.length - 1 : prev - 1,
+    );
+  }, [heroPromotions]);
 
   useEffect(() => {
     const interval = setInterval(goNext, 5000);
@@ -89,14 +42,15 @@ const HeaderSlider = () => {
     <div className="relative bg-gray-100">
       {/* Dark wrapper includes Navbar + slider — no white gap, clean rounded bottom */}
       <div
+        style={{ background: activeThemeColor || "#031057" }}
         className="
-          relative bg-[#031057]
-          h-[640px] md:h-[650px]
+          relative transition-colors duration-700
+          h-[590px] md:h-[650px]
           rounded-b-[50px] md:rounded-b-[80px]
           overflow-hidden
         "
       >
-        <Navbar />
+        <Navbar themeColor={activeThemeColor || "#031057"} />
         {/* Slider track wrapper */}
         <div
           className="
@@ -109,7 +63,7 @@ const HeaderSlider = () => {
             className="flex h-full transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           >
-            {sliderData.map((slide) => (
+            {heroPromotions?.map((slide) => (
               <div
                 key={slide.id}
                 className="
@@ -146,7 +100,7 @@ const HeaderSlider = () => {
                     z-10
                   "
                   >
-                    <h1
+                    <div
                       className="
                       text-white font-bold
                       text-[22px] leading-[28px]
@@ -156,8 +110,12 @@ const HeaderSlider = () => {
                       max-w-sm lg:max-w-lg
                     "
                     >
-                      {slide.title}
-                    </h1>
+                      <ColoredTitle 
+                      title={heroPromotions?.[currentSlide]?.title || ""}
+                      appliedTitleColor={activeAppliedColorText}
+                      titleColor={ActiveTextColor}
+                      />
+                    </div>
                     <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
                       {slide.offer}
                     </p>
@@ -180,12 +138,11 @@ const HeaderSlider = () => {
                   "
                   >
                     <Image
-                      src={slide.imgSrc}
+                      src={slide?.image?.[0]?.fileUrl}
                       alt={slide.title}
-                      width={slide.imgSrc.width}
-                      height={slide.imgSrc.height}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="h-[270px] w-auto md:h-[300px] lg:h-[70%] object-cover md:object-contain"
+                      width={700}
+                      height={700}
+                      className="h-full w-auto md:h-[300px] lg:h-[70%] object-contain"
                       priority
                     />
                   </div>
@@ -260,3 +217,33 @@ const HeaderSlider = () => {
 };
 
 export default HeaderSlider;
+
+const ColoredTitle = ({ title, appliedTitleColor, titleColor }) => {
+  if (!title) return null;
+
+  const words = title.split(" ");
+
+  const wordsToColor = Array.isArray(appliedTitleColor) ? appliedTitleColor : [];
+  
+ return (
+    <h1>
+      {words.map((word, index) => {
+        const cleanWord = word.trim();
+
+        const shouldColor = wordsToColor.some(
+          (w) => w.toLowerCase() === cleanWord.toLowerCase()
+        );
+
+        return (
+          <span
+            key={index}
+            style={shouldColor ? { color: titleColor } : { color: "#ffffff" }}
+            className="transition-colors duration-500"
+          >
+            {word}{" "}
+          </span>
+        );
+      })}
+    </h1>
+  );
+};

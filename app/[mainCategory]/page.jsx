@@ -61,7 +61,9 @@ const page = async ({ params }) => {
         <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
           <h2 className="text-2xl sm:text-3xl capitalize font-semibold">
             Shop by{" "}
-            <span className="capitalize">{mainCategory.replace("-", " ")}</span>
+            <span className="capitalize">
+              {mainCategory.replaceAll("-", " ")}
+            </span>
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 md:gap-4 lg:gap-6 pt-6">
             {/* passing all category data into category card commpoent */}

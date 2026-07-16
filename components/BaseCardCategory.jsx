@@ -44,7 +44,7 @@ const BaseCardCategory = ({
           {isHighlight ? (
             <div className="bg-[#D3E3FD] py-2 px-2 sm:px-4 flex items-center justify-between rounded-full mx-2 mb-2 sm:mx-3 sm:mb-4">
               <span className="w-[80px] sm:w-full truncate font-semibold capitalize text-blue-900 text-xs md:text-sm xl:text-base">
-                {tile.replace("-", " ")}
+                {tile.replaceAll("-", " ")}
               </span>
               {isCountShow ? (
                 <h1 className="text-[#939495]">({count})</h1>
