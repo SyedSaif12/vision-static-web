@@ -78,7 +78,8 @@ export default function Navbar({ themeColor = "#030E40" }) {
                 <Image
                   src={visionTechIcon}
                   alt="WeGot"
-                  className="w-28 lg:w-40 object-contain brightness-0 invert"
+                  // className="w-28 lg:w-40 object-contain brightness-0 invert"
+                  className="w-28 lg:w-40 object-contain"
                 />
               </Link>
 

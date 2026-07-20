@@ -68,12 +68,16 @@ export default function PopUpForm({ open, setOpen }) {
   } = formMethods;
 
   const onSubmit = async (data) => {
-    postPopup(data).unwrap();
+    try {
+      await postPopup(data).unwrap();
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
   };
 
   useEffect(() => {
     if (isSuccess) {
-      setOpen(true);
+      setOpen(false);
       reset();
       toast.success(
         currentData?.message || "Your details submit successfully.",
@@ -83,7 +87,7 @@ export default function PopUpForm({ open, setOpen }) {
         },
       );
     }
-  }, [isSuccess, currentData, setOpen]);
+  }, [isSuccess, currentData, setOpen, reset]);
 
   return (
     <div className="w-full max-w-6xl bg-white rounded-2xl relative shadow-lg overflow-hidden flex flex-col lg:flex-row">
@@ -156,12 +160,13 @@ export default function PopUpForm({ open, setOpen }) {
                   Phone Number<span className="text-red-500">*</span>
                 </label>
                 <input
-                  {...register("phoneNo")}
+                  {...register("phoneNo", {
+                    onChange: (e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }
+                  })}
                   type="text"
                   maxLength={11}
-                  onChange={(e) => {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.phoneNo && (
@@ -197,10 +202,11 @@ export default function PopUpForm({ open, setOpen }) {
                 </label>
                 <input
                   type="text"
-                  {...register("minPrice")}
-                  onChange={(e) => {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }}
+                  {...register("minPrice", {
+                    onChange: (e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }
+                  })}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.minPrice && (
@@ -216,10 +222,11 @@ export default function PopUpForm({ open, setOpen }) {
                 </label>
                 <input
                   type="text"
-                  {...register("maxPrice")}
-                  onChange={(e) => {
-                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                  }}
+                   {...register("maxPrice", {
+                    onChange: (e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }
+                  })}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
                 {errors.maxPrice && (
