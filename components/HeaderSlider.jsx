@@ -1,10 +1,14 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
 import { NavSkeleton } from "./skeletons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useFetchedHeroPromotion } from "@/hooks/useFetchedHeroPromotion";
+import SafeNextImage from "./NextImageComponent";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const Navbar = dynamic(() => import("@/components/Navbar"), {
   loading: () => <NavSkeleton />,
@@ -13,15 +17,15 @@ const Navbar = dynamic(() => import("@/components/Navbar"), {
 
 const HeaderSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { heroPromotions } = useFetchedHeroPromotion();
+  const { heroPromotions, isPromoLoading } = useFetchedHeroPromotion();
   const activeThemeColor =
     heroPromotions?.[currentSlide]?.themeColor || "#031057";
 
-  const ActiveTextColor = 
-     heroPromotions?.[currentSlide]?.titleColor || "#f7842a";
+  const ActiveTextColor =
+    heroPromotions?.[currentSlide]?.titleColor || "#f7842a";
 
   const activeAppliedColorText =
-  heroPromotions?.[currentSlide]?.appliedTitleColor || []
+    heroPromotions?.[currentSlide]?.appliedTitleColor || [];
 
   const goNext = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % heroPromotions?.length);
@@ -39,179 +43,277 @@ const HeaderSlider = () => {
   }, [goNext]);
 
   return (
-    <div className="relative bg-gray-100">
+    <div className="w-full flex flex-col overflow-hidden lg:min-h-[75vh] xl:min-h-[90vh]">
       {/* Dark wrapper includes Navbar + slider — no white gap, clean rounded bottom */}
-      <div
-        style={{ background: activeThemeColor || "#031057" }}
-        className="
-          relative transition-colors duration-700
-          h-[590px] md:h-[650px]
-          rounded-b-[50px] md:rounded-b-[80px]
-          overflow-hidden
-        "
-      >
+      <div className="relative">
         <Navbar themeColor={activeThemeColor || "#031057"} />
-        {/* Slider track wrapper */}
-        <div
-          className="
-            relative overflow-hidden mt-10
-            h-full
-          "
-        >
-          {/* Track — all slides in a row, moved with translateX */}
-          <div
-            className="flex h-full transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {heroPromotions?.map((slide) => (
+      </div>
+      <div className="w-full h-36 lg:h-44 xl:h-40" />
+      {/* ------------------------------------------------------------------- */}
+      {isPromoLoading ? (
+        <HeroPromotionsSkeleton />
+      ) : (
+        <div className="w-[90%] flex-1 mx-auto hidden xl:grid grid-cols-2 gap-3">
+          <div className="bg-[#031057] w-full h-full flex flex-col gap-5 p-5">
+            <div className="flex-1 relative">
+              {heroPromotions?.[0]?.image?.[0]?.fileUrl && (
+                <SafeNextImage
+                  src={heroPromotions?.[0]?.image?.[0]?.fileUrl}
+                  alt={heroPromotions?.[0]?.title ?? "dummy image"}
+                  className={`object-cover`}
+                />
+              )}
+            </div>
+            <div className="flex-1 w-11/12 mx-auto flex flex-col gap-5 justify-center items-center">
+              {/* content and button  */}
               <div
-                key={slide.id}
                 className="
-                relative min-w-full h-full
-                flex flex-col
+            text-white font-bold
+              lg:text-6xl text-center
               "
               >
-                <div className="flex-1 lg:hidden" />
-                {/* ── Slide content ──
-                  Mobile  : column — text on top, image below
-                  Desktop : row    — text left, image right
-              */}
+                <ColoredTitle
+                  title={heroPromotions?.[0]?.title || ""}
+                  appliedTitleColor={
+                    heroPromotions?.[0]?.appliedTitleColor || []
+                  }
+                  titleColor={heroPromotions?.[0]?.titleColor}
+                />
+              </div>
+              {/* <p className="
+            text-white font-bold
+              lg:text-xl text-center
+              ">{heroPromotions?.[0]?.offer}</p> */}
+              {heroPromotions?.[0]?.path && (
+                <Link
+                  href={heroPromotions?.[0]?.path}
+                  className="text-black bg-white font-semibold mt-4 py-2 px-4"
+                >
+                  Shop Now
+                </Link>
+              )}
+            </div>
+          </div>
+          <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
+            <div className="col-span-full overflow-hidden bg-[#031057] flex p-1">
+              <div className="flex-1 w-11/12 mx-auto flex flex-col justify-center gap-5 items-start p-3">
+                {/* content and button  */}
                 <div
                   className="
-                  flex-1 flex
-                  w-11/12
-                  mx-auto
-                  flex-col lg:flex-row
-                  items-center justify-between
-                  pt-4 pb-14
-                  lg:pl-5
-                  lg:py-0
-                "
+            text-white font-bold
+              lg:text-4xl
+              
+              "
                 >
-                  {/* Text block */}
-                  <div
-                    className="
-                    w-full lg:w-1/3
-                    flex flex-col
-                    items-center text-center
-                    lg:items-start lg:text-left
-                    lg:mt-28
-                    
-                    z-10
-                  "
+                  <ColoredTitle
+                    title={heroPromotions?.[1]?.title || ""}
+                    appliedTitleColor={
+                      heroPromotions?.[1]?.appliedTitleColor || []
+                    }
+                    titleColor={heroPromotions?.[1]?.titleColor}
+                  />
+                </div>
+                {/* <p className="
+            text-white font-bold
+              lg:text-lg
+              ">{heroPromotions?.[1]?.offer}</p> */}
+                {heroPromotions?.[1]?.path && (
+                  <Link
+                    href={heroPromotions?.[1]?.path}
+                    className="text-black bg-white font-semibold mt-3 py-1 px-3"
                   >
-                    <div
-                      className="
-                      text-white font-bold
-                      text-[22px] leading-[28px]
-                      sm:text-[24px] sm:leading-[30px]
-                      md:text-[28px] md:leading-[32px]
-                      lg:text-[52px] lg:leading-[58px]
-                      max-w-sm lg:max-w-lg
-                    "
-                    >
-                      <ColoredTitle 
-                      title={heroPromotions?.[currentSlide]?.title || ""}
-                      appliedTitleColor={activeAppliedColorText}
-                      titleColor={ActiveTextColor}
+                    Shop Now
+                  </Link>
+                )}
+              </div>
+              <div className="flex-1 overflow-hidden relative">
+                {heroPromotions?.[1]?.image?.[0]?.fileUrl && (
+                  <SafeNextImage
+                    src={heroPromotions?.[1]?.image?.[0]?.fileUrl}
+                    alt={heroPromotions?.[1]?.title ?? "dummy image 2"}
+                    className={`w-full h-full object-contain`}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+              <div className="flex-1 relative">
+                {heroPromotions?.[2]?.image?.[0]?.fileUrl && (
+                  <SafeNextImage
+                    src={heroPromotions?.[2]?.image?.[0]?.fileUrl}
+                    alt={heroPromotions?.[2]?.title ?? "dummy image 3"}
+                    className={`w-full h-full object-cover`}
+                  />
+                )}
+              </div>
+              <div className="flex-1 w-11/12 mx-auto flex flex-col gap-3 justify-center items-center">
+                <div
+                  className="
+            text-white font-bold
+              lg:text-xl text-center
+              "
+                >
+                  <ColoredTitle
+                    title={heroPromotions?.[2]?.title || ""}
+                    appliedTitleColor={
+                      heroPromotions?.[2]?.appliedTitleColor || []
+                    }
+                    titleColor={heroPromotions?.[2]?.titleColor}
+                  />
+                </div>
+                {/* <p className="
+            text-white font-bold
+              lg:text-md text-center
+              ">{heroPromotions?.[2]?.offer}</p> */}
+                {heroPromotions?.[2]?.path && (
+                  <Link
+                    href={heroPromotions?.[2]?.path}
+                    className="text-black bg-white font-semibold mt-3 py-1 px-3"
+                  >
+                    Shop Now
+                  </Link>
+                )}
+              </div>
+            </div>
+            <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+              <div className="flex-1 relative">
+                {heroPromotions?.[3]?.image?.[0]?.fileUrl && (
+                  <SafeNextImage
+                    src={heroPromotions?.[3]?.image?.[0]?.fileUrl}
+                    alt={heroPromotions?.[3]?.title ?? "dummy image 3"}
+                    className={`w-full h-full object-cover`}
+                  />
+                )}
+              </div>
+              <div className="flex-1 w-11/12 mx-auto flex flex-col gap-3 justify-center items-center">
+                <div
+                  className="
+            text-white font-bold
+              lg:text-xl text-center
+              "
+                >
+                  <ColoredTitle
+                    title={heroPromotions?.[3]?.title || ""}
+                    appliedTitleColor={
+                      heroPromotions?.[3]?.appliedTitleColor || []
+                    }
+                    titleColor={heroPromotions?.[3]?.titleColor}
+                  />
+                </div>
+                {/* <p className="
+            text-white font-bold
+              lg:text-md text-center
+              ">{heroPromotions?.[3]?.offer}</p> */}
+                {heroPromotions?.[3]?.path && (
+                  <Link
+                    href={heroPromotions?.[3]?.path}
+                    className="text-black bg-white font-semibold mt-3 py-1 px-3"
+                  >
+                    Shop Now
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Slider track wrapper */}
+      <div className="w-[90%] flex-1 overflow-hidden mx-auto xl:hidden">
+        <Swiper
+          key={isPromoLoading ? "data-loading" : "data-loaded"}
+          slidesPerView={1.2}
+          spaceBetween={16}
+          observer={true} // Dynamic load par recalculate karega
+          observeParents={true}
+          resizeObserver={true}
+          loop={true}
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          breakpoints={{
+            640: {
+              slidesPerView: 1.25,
+              spaceBetween: 16,
+            },
+            768: {
+              slidesPerView: 1.25,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 1.25, // 1024px screen par bhi 25% agli slide dikhegi
+              spaceBetween: 24,
+            },
+          }}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper !pb-12"
+        >
+          {Array.isArray(heroPromotions) && heroPromotions.length > 0
+            ? heroPromotions?.map((slide, index) => (
+                <SwiperSlide key={slide.id || index}>
+                  <div
+                    style={{ backgroundColor: slide?.themeColor || "#031057" }}
+                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md"
+                  >
+                    {/* Image Box */}
+                    <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
+                      <SafeNextImage
+                        src={slide?.image?.[0]?.fileUrl}
+                        alt={slide?.title ?? "promotion image"}
+                        className="object-cover"
                       />
                     </div>
-                    <p className="text-white/75 text-sm md:text-base mt-3 max-w-xs md:max-w-md">
-                      {slide.offer}
-                    </p>
-                    <Link
-                      href={slide.path}
-                      className="text-black bg-white font-semibold mt-4 py-1 px-4 rounded-full "
-                    >
-                      Shop Now
-                    </Link>
-                  </div>
 
-                  {/* Image — always visible (mobile + desktop) */}
+                    {/* Text Content */}
+                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center">
+                      <div className="text-white font-bold text-xl md:text-2xl lg:text-4xl">
+                        <ColoredTitle
+                          title={slide?.title || ""}
+                          appliedTitleColor={slide?.appliedTitleColor || []}
+                          titleColor={slide?.titleColor}
+                        />
+                      </div>
+
+                      {slide?.path && (
+                        <Link
+                          href={slide?.path}
+                          className="text-black bg-white font-semibold py-2 px-5 text-sm hover:bg-gray-100 transition"
+                        >
+                          Shop Now
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 4 }).map((_, index) => (
+                <SwiperSlide key={`skeleton-${index}`}>
                   <div
-                    className="
-                    w-full
-                    h-full
-                    flex items-center justify-center
-                    flex-1
-                    mt-3 lg:mt-24
-                  "
+                    style={{ backgroundColor: "#031057" }}
+                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md rounded-2xl"
                   >
-                    <Image
-                      src={slide?.image?.[0]?.fileUrl}
-                      alt={slide.title}
-                      width={700}
-                      height={700}
-                      className="h-full w-auto md:h-[300px] lg:h-[70%] object-contain"
-                      priority
-                    />
+                    {/* Image Box Skeleton */}
+                    <div className="w-full h-48 md:h-64 animate-pulse rounded-xl bg-slate-700/60" />
+
+                    {/* Text & Button Skeleton */}
+                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center w-full">
+                      <div className="w-3/4 h-6 animate-pulse bg-slate-700/60 rounded-md" />
+                      <div className="w-1/2 h-4 animate-pulse bg-slate-700/40 rounded-md mt-1" />
+                      <div className="w-28 h-9 animate-pulse bg-slate-600/60 rounded-md mt-2" />
+                    </div>
                   </div>
-                </div>
-
-                {/* Left arrow — absolute, vertically centered */}
-                <button
-                  onClick={goPrev}
-                  className="
-                  hidden
-                  absolute left-3 sm:left-4 top-1/2 -translate-y-1/2
-                  w-9 h-9 sm:w-10 sm:h-10
-                  rounded-full
-                  bg-white/10 hover:bg-white/25
-                  md:flex items-center justify-center
-                  text-white transition-all duration-200 active:scale-90
-                  z-20
-                "
-                  aria-label="Previous"
-                >
-                  <svg
-                    width={18}
-                    height={18}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="15 18 9 12 15 6" />
-                  </svg>
-                </button>
-
-                {/* Right arrow */}
-                <button
-                  onClick={goNext}
-                  className="
-                  hidden
-                  absolute right-3 sm:right-4 top-1/2 -translate-y-1/2
-                  w-9 h-9 sm:w-10 sm:h-10
-                  rounded-full
-                  bg-white/10 hover:bg-white/25
-                  md:flex items-center justify-center
-                  text-white transition-all duration-200 active:scale-90
-                  z-20
-                "
-                  aria-label="Next"
-                >
-                  <svg
-                    width={18}
-                    height={18}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </button>
-              </div>
-            ))}
-          </div>
-          {/* end slider track */}
-        </div>
-        {/* end dark wrapper */}
+                </SwiperSlide>
+              ))}
+        </Swiper>
       </div>
+
+      {/* Track — all slides in a row, moved with translateX */}
+      {/* ------------------------------------------------------------------- */}
     </div>
   );
 };
@@ -223,15 +325,17 @@ const ColoredTitle = ({ title, appliedTitleColor, titleColor }) => {
 
   const words = title.split(" ");
 
-  const wordsToColor = Array.isArray(appliedTitleColor) ? appliedTitleColor : [];
-  
- return (
+  const wordsToColor = Array.isArray(appliedTitleColor)
+    ? appliedTitleColor
+    : [];
+
+  return (
     <h1>
       {words.map((word, index) => {
         const cleanWord = word.trim();
 
         const shouldColor = wordsToColor.some(
-          (w) => w.toLowerCase() === cleanWord.toLowerCase()
+          (w) => w.toLowerCase() === cleanWord.toLowerCase(),
         );
 
         return (
@@ -247,3 +351,67 @@ const ColoredTitle = ({ title, appliedTitleColor, titleColor }) => {
     </h1>
   );
 };
+
+function HeroPromotionsSkeleton() {
+  return (
+    <div className="w-[90%] flex-1 mx-auto hidden xl:grid grid-cols-2 gap-3 animate-pulse">
+      {/* 1. Left Main Banner Skeleton */}
+      <div className="bg-[#031057] w-full h-full flex flex-col gap-5 p-5">
+        {/* Image Skeleton */}
+        <div className="flex-1 min-h-[220px] bg-white/10 rounded-md" />
+
+        {/* Content Skeleton */}
+        <div className="flex-1 w-11/12 mx-auto flex flex-col gap-4 justify-center items-center">
+          {/* Main Title Skeleton (6xl size match) */}
+          <div className="w-3/4 h-10 bg-white/10 rounded-md" />
+          <div className="w-1/2 h-8 bg-white/10 rounded-md" />
+
+          {/* Button Skeleton */}
+          <div className="w-28 h-10 bg-white/20 rounded mt-4" />
+        </div>
+      </div>
+
+      {/* 2. Right Side Grid Skeleton */}
+      <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
+        {/* Top Horizontal Card Skeleton */}
+        <div className="col-span-full overflow-hidden bg-[#031057] flex p-1">
+          <div className="flex-1 w-11/12 mx-auto flex flex-col justify-center gap-3 items-start p-3">
+            {/* Title Skeleton (4xl size match) */}
+            <div className="w-3/4 h-7 bg-white/10 rounded-md" />
+            <div className="w-1/2 h-5 bg-white/10 rounded-md" />
+
+            {/* Button Skeleton */}
+            <div className="w-24 h-8 bg-white/20 rounded mt-3" />
+          </div>
+
+          {/* Side Image Skeleton */}
+          <div className="flex-1 overflow-hidden relative bg-white/10 rounded-md m-2 min-h-[120px]" />
+        </div>
+
+        {/* Bottom Left Small Card Skeleton */}
+        <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+          {/* Image Skeleton */}
+          <div className="flex-1 min-h-[100px] bg-white/10 rounded-md" />
+
+          {/* Content Skeleton */}
+          <div className="flex-1 w-11/12 mx-auto flex flex-col gap-3 justify-center items-center">
+            <div className="w-4/5 h-5 bg-white/10 rounded-md" />
+            <div className="w-20 h-7 bg-white/20 rounded mt-3" />
+          </div>
+        </div>
+
+        {/* Bottom Right Small Card Skeleton */}
+        <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+          {/* Image Skeleton */}
+          <div className="flex-1 min-h-[100px] bg-white/10 rounded-md" />
+
+          {/* Content Skeleton */}
+          <div className="flex-1 w-11/12 mx-auto flex flex-col gap-3 justify-center items-center">
+            <div className="w-4/5 h-5 bg-white/10 rounded-md" />
+            <div className="w-20 h-7 bg-white/20 rounded mt-3" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

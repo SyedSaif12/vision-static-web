@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import Loader from "@/components/Loading";
 import { baseURL } from "@/redux/utils";
 import ClientProductComponent from "./clientComponent";
 import { stripHtml } from "@/helper/htmlConvertToText";
@@ -13,7 +15,9 @@ export async function generateMetadata({ params }) {
   const product = data?.data;
 
   return {
-    title: `${product?.productTitle} | Buy Online in Pakistan`,
+    title:
+      `${product?.productTitle} | Buy Online in Pakistan` ??
+      `${slug} | Buy Online in Pakistan`,
     description: product?.description?.slice(0, 95) ?? "",
     keywords: [
       product?.products?.category.name,
@@ -35,7 +39,8 @@ export async function generateMetadata({ params }) {
 const page = async ({ params }) => {
   const { slug } = await params;
   const response = await fetch(`${baseURL}products/${slug}`, {
-    next: { revalidate: 60 },
+    // next: { revalidate: 60 },
+    cache: "no-store",
   });
   const data = await response.json();
 
@@ -69,7 +74,16 @@ const page = async ({ params }) => {
         }}
       />
       {/* passing server feteched data for rendring */}
-      <ClientProductComponent product={data?.data} />
+      <Suspense fallback={<Loader />}>
+        {/* <Suspense
+        fallback={
+          <div className="w-screen h-screen absolute top-0 right-0 bottom-0 left-0 bg-red-700">
+            <Loader />
+          </div>
+        }
+      > */}
+        <ClientProductComponent product={data?.data} />
+      </Suspense>
     </>
   );
 };

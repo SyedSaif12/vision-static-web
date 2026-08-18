@@ -11,7 +11,6 @@ const ShopByCategory = () => {
     ? [...data]?.reverse().map((item) => item)
     : [];
 
-  console.log(categories);
 
   return (
     <>

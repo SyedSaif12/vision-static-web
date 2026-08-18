@@ -12,7 +12,7 @@ export default function PopupContactModal() {
         setOpen(true);
         sessionStorage.setItem("popup_shown", "true");
       }
-    }, 10000);
+    }, 25000);
     return () => {
       clearTimeout(timer);
     };

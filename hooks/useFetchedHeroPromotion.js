@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 export function useFetchedHeroPromotion() {
   const URL = process.env.NEXT_PUBLIC_SERVER_LINK;
   const [heroPromotions, setHeroPromotions] = useState(null);
-  const [isPromoLoading, setIsPromoLoading] = useState(null);
+  const [isPromoLoading, setIsPromoLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -25,8 +25,8 @@ export function useFetchedHeroPromotion() {
       } catch (error) {
         console.error("ERROR: ", error);
         return {
-          heroPromotions: null,
-          heroPromotions,
+          isPromoLoading,
+          heroPromotions: heroPromotions || [],
         };
       } finally {
         setIsPromoLoading(false);
@@ -35,7 +35,7 @@ export function useFetchedHeroPromotion() {
   }, [URL]);
 
   return {
-    isPromoLoading: isPromoLoading || [],
-    heroPromotions,
+    isPromoLoading,
+    heroPromotions: heroPromotions || [],
   };
 }

@@ -6,6 +6,7 @@ import {
   fetchChipsAndFilters,
   fetchInitialProductOnServerSide,
 } from "@/lib/fetchProducts";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
   const { mainCategory } = await params;
@@ -33,6 +34,10 @@ const page = async ({ params }) => {
     }),
     fetchChipsAndFilters({ category: mainCategory, chip: false }),
   ]);
+
+  if (!initialData) {
+    notFound();
+  }
 
   const responseData = await categoryData.json();
   const { response = [] } = initialData;

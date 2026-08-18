@@ -18,7 +18,7 @@ function useDebounced(value, delay) {
 export function useSearchQuery({ delay }) {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounced(search, delay);
-  const { isLoading, isFetching, data } = useGetProductsQuery(
+  const { isLoading, isFetching, data, isError } = useGetProductsQuery(
     {
       searchQuery: debouncedSearch.trim(),
       paginate: false,
@@ -36,5 +36,6 @@ export function useSearchQuery({ delay }) {
     isLoading,
     isFetching,
     data,
+    isError,
   };
 }

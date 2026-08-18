@@ -9,15 +9,16 @@ const HeroSection = ({
   steps = [],
   singlePage = false,
 }) => {
-
-  const validSteps = steps?.filter(
-    (step) => step && typeof step.label === "string" && step.label.trim() !== ""
-  ) || [];
+  const validSteps =
+    steps?.filter(
+      (step) =>
+        step && typeof step.label === "string" && step.label.trim() !== "",
+    ) || [];
 
   return (
     <div className="relative bg-gray-100">
       {/*  Navbar placed exactly like */}
-      <Navbar />
+      <Navbar themeColor={"#031057"} />
 
       {/* HERO SECTION */}
       <div

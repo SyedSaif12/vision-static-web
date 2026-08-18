@@ -12,17 +12,17 @@ import { useRouter } from "next/navigation";
 const SearchBar = () => {
   const router = useRouter();
   const [load, setLoad] = useState(false);
-  const { search, setSearch, isLoading, isFetching, data } = useSearchQuery({
-    delay: 500,
-  });
+  const { search, setSearch, isLoading, isFetching, data, isError } =
+    useSearchQuery({
+      delay: 500,
+    });
   const isDataLoading = isLoading || isFetching;
   const searchContainerRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-
       if (
-        searchContainerRef.current && 
+        searchContainerRef.current &&
         !searchContainerRef.current.contains(event.target)
       ) {
         setSearch("");
@@ -30,7 +30,7 @@ const SearchBar = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     // Cleanup function
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -58,8 +58,9 @@ const SearchBar = () => {
   return (
     <>
       <div
-      ref={searchContainerRef}
-      className="w-full lg:flex-1 relative max-w-3xl px-0 lg:px-8">
+        ref={searchContainerRef}
+        className="w-full lg:flex-1 relative max-w-3xl px-0 lg:px-8"
+      >
         <div className="relative w-full">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
             <Searching size={20} />
@@ -125,8 +126,8 @@ const SearchBar = () => {
                           <div className="flex-1 min-w-0">
                             <h1 className="truncate group-hover:text-white text-xs sm:text-sm font-semibold">
                               {item?.productTitle
-                                ?.replaceAll(/-/g, " ")
-                                ?.toLowerCase()
+                                // ?.replaceAll(/-/g, " ")
+                                // ?.toLowerCase()
                                 ?.replace(/^./, (char) => char.toUpperCase())}
                             </h1>
                             <p className="flex-1 text-xs font-semibold">
@@ -150,7 +151,7 @@ const SearchBar = () => {
                         </Link>
                       ),
                   )}
-                {!isFetching && data?.data?.list?.length === 0 && (
+                {!isFetching && (data?.data?.list?.length === 0 || isError) && (
                   <div className="w-full h-full flex items-center justify-center">
                     <h1 className="text-black/30 text-3xl">No Results!</h1>
                   </div>

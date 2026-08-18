@@ -169,10 +169,10 @@ const CheckoutPage = () => {
   // Calculate fees and totals
   const calculations = useMemo(() => {
     const COD_FEE_PERCENTAGE = 0.04; // 4%
-    const SHIPPING_FEE = 200;
-
+    
     // Apply COD fee only if payment is COD and city is NOT Karachi
     const shouldApplyCODFee = watchPayment === "cod" && watchCity !== "Karachi";
+    const SHIPPING_FEE = watchCity !== "Karachi" ? 400 : 200;
     const codFee = shouldApplyCODFee ? subtotal * COD_FEE_PERCENTAGE : 0;
     const total = subtotal + codFee + SHIPPING_FEE;
 
@@ -346,11 +346,12 @@ const CheckoutPage = () => {
                       <div className="relative w-full">
                         <select
                           {...field}
+                          autoComplete="off"
                           className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
                         >
                           <option value="">Select Country</option>
                           {COUNTRY.map((country) => (
-                            <option key={country.value} value={country.value}>
+                            <option key={country.value} autoComplete='off' value={country.value}>
                               {country.label}
                             </option>
                           ))}
@@ -377,6 +378,7 @@ const CheckoutPage = () => {
                     </label>
                     <input
                       {...register("firstName")}
+                      autoComplete="off"
                       placeholder="Enter first name"
                       className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
                     />
@@ -393,6 +395,7 @@ const CheckoutPage = () => {
                     </label>
                     <input
                       {...register("lastName")}
+                      autoComplete="off"
                       placeholder="Enter last name"
                       className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
                     />
@@ -411,6 +414,7 @@ const CheckoutPage = () => {
                   </label>
                   <input
                     {...register("address")}
+                    autoComplete="off"
                     placeholder="Enter your address"
                     className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
                   />
@@ -428,6 +432,7 @@ const CheckoutPage = () => {
                   </label>
                   <input
                     {...register("apartment")}
+                    autoComplete="off"
                     placeholder="Enter your Apartment"
                     className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
                   />
@@ -481,6 +486,7 @@ const CheckoutPage = () => {
                     </label>
                     <input
                       {...register("postalCode")}
+                      autoComplete="off"
                       placeholder="Enter Postal Code"
                       maxLength={5}
                       onChange={(e) => {
@@ -502,6 +508,7 @@ const CheckoutPage = () => {
                     Phone <span className="text-red-500">*</span>
                   </label>
                   <input
+                  autoComplete="off"
                     {...register("phone")}
                     placeholder="03001234567"
                     maxLength={11}
@@ -532,6 +539,7 @@ const CheckoutPage = () => {
                 {/* COD Option */}
                 <label className="flex items-center gap-3 cursor-pointer">
                   <input
+                  autoComplete="off"
                     {...register("payment")}
                     type="radio"
                     value="cod"
@@ -557,18 +565,18 @@ const CheckoutPage = () => {
                       <p className="font-medium">Cash on Delivery (COD)</p>
                       {calculations.shouldApplyCODFee ? (
                         <p className="text-sm text-red-600 font-semibold">
-                          4% COD fee applies
+                          4% Tax fee applies
                         </p>
                       ) : (
                         <p className="text-sm text-green-600 font-semibold">
-                          No COD fee for Karachi
+                          Shipping charges 200.00 applies
                         </p>
                       )}
                     </div>
                     <p className="text-sm mt-2 text-gray-700 font-semibold">
                       {calculations.shouldApplyCODFee
-                        ? "Pay cash when you receive your parcel. A 4% COD processing fee will be added to your total. If you choose bank transfer bank  4% fee will be waived."
-                        : "Pay cash when you receive your parcel. No COD fee for Karachi customers!"}
+                        ? "Pay cash when you receive your parcel. A 4% Tax and COD 400.00 processing fee will be added to your total. If you choose bank transfer bank  4% fee will be waived."
+                        : "Pay cash when you receive your parcel. Shipping charges 200.00 applies Karachi customers!"}
                     </p>
                   </div>
                 )}
@@ -576,6 +584,7 @@ const CheckoutPage = () => {
                 {/* Bank Option */}
                 <label className="flex items-center gap-3 mt-3 cursor-pointer">
                   <input
+                  autoComplete="off"
                     {...register("payment")}
                     type="radio"
                     value="banktransfer"
@@ -748,7 +757,7 @@ const CheckoutPage = () => {
 
                       {watchCity === "karachi" && watchPayment === "cod" && (
                         <p className="text-xs text-green-600 mt-2">
-                          ✓ No COD fee for Karachi deliveries
+                          Shipping charges 200.00 applies
                         </p>
                       )}
                     </div>

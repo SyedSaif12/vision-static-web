@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Menu, X, MapPin, ChevronDown, ShoppingCart } from "lucide-react";
 import visionTechIcon from "@/assets/visiontechicon.png";
 import { useGetCategoriesQuery } from "@/redux/category/categorySlice";
-import Loading from "./Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
 import CartDrawer from "./CartDrawer";
@@ -16,7 +15,7 @@ import { NavSkeleton } from "./skeletons";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
 export default function Navbar({ themeColor = "#030E40" }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { isLoading, currentData } = useGetCategoriesQuery({
     navbar: true,
   });
@@ -62,7 +61,7 @@ export default function Navbar({ themeColor = "#030E40" }) {
 
   return (
     <>
-      <nav className="absolute w-[90%] border-2 rounded-xl border-white/50 mx-auto left-0 right-0 top-6 z-50 shadow-md font-sans">
+      <nav className="absolute w-[90%] border-2 rounded-xl border-white/50 mx-auto left-0 right-0 top-0 z-50 shadow-md font-sans">
         {/* --- TOP BAR: GRADIENT BACKGROUND --- */}
         <div
           className="bg-gradient-to-r rounded-xl text-white"
@@ -86,14 +85,22 @@ export default function Navbar({ themeColor = "#030E40" }) {
               {/* Mobile Toggle Button */}
               <div className="flex gap-2 lg:hidden">
                 <div className="relative">
-                  <div
-                    onClick={() => {
-                      dispatch(onToggle(true));
-                      setCartOpen(true);
-                    }}
-                    className="rounded-full bg-white p-2"
-                  >
-                    <ShoppingCart className="size-4 md:size-6 text-black" />
+                  <div className="flex gap-2">
+                    <Link
+                    href={'/store-locator'}
+                      className="rounded-full bg-white p-2"
+                    >
+                      <MapPin className="size-4 md:size-6 text-black" />
+                    </Link>
+                    <div
+                      onClick={() => {
+                        dispatch(onToggle(true));
+                        setCartOpen(true);
+                      }}
+                      className="rounded-full bg-white p-2"
+                    >
+                      <ShoppingCart className="size-4 md:size-6 text-black" />
+                    </div>
                   </div>
                   <CartDrawer
                     open={cartOpen}
@@ -185,22 +192,20 @@ export default function Navbar({ themeColor = "#030E40" }) {
                         >
                           <Link
                             href={`/${category?.name}`}
-                            className={`flex items-center capitalize gap-1 py-2 hover:text-blue-300 transition-colors ${
-                              activeDropdown === category?.id
+                            className={`flex items-center capitalize gap-1 py-2 hover:text-blue-300 transition-colors ${activeDropdown === category?.id
                                 ? "text-blue-300"
                                 : ""
-                            }`}
+                              }`}
                           >
                             {category?.name?.replace("-", " ")}
                             {category?.subCategories &&
                               category?.subCategories.length > 0 && (
                                 <ChevronDown
                                   size={14}
-                                  className={`transition-transform duration-200 ${
-                                    activeDropdown === category?.id
+                                  className={`transition-transform duration-200 ${activeDropdown === category?.id
                                       ? "rotate-180"
                                       : ""
-                                  }`}
+                                    }`}
                                 />
                               )}
                           </Link>
@@ -225,7 +230,7 @@ export default function Navbar({ themeColor = "#030E40" }) {
         <div
           // className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-[#222222] text-white shadow-2xl border-t border-gray-700 z-40"
           className="hidden w-11/12 mx-auto rounded-br-2xl rounded-bl-2xl lg:block absolute left-0 right-0 bg-gradient-to-br from-[#030E40] via-[#1a1f50] to-[#5C2D00] text-white shadow-2xl border-t border-gray-700 z-40"
-          style={{ top: "calc(2rem + 7.5rem)", zIndex: 50 }}
+          style={{ top: "calc(0.5rem + 7.5rem)", zIndex: 50 }}
           onMouseEnter={() => handleMouseEnter(activeDropdown)}
           onMouseLeave={handleMouseLeave}
         >
@@ -332,9 +337,8 @@ export default function Navbar({ themeColor = "#030E40" }) {
                       category.subCategories.length > 0 && (
                         <ChevronDown
                           size={18}
-                          className={`text-gray-400 transition-transform ${
-                            mobileMenuOpen[category.name] ? "rotate-180" : ""
-                          }`}
+                          className={`text-gray-400 transition-transform ${mobileMenuOpen[category.name] ? "rotate-180" : ""
+                            }`}
                         />
                       )}
                   </button>
@@ -441,9 +445,8 @@ export default function Navbar({ themeColor = "#030E40" }) {
                       category.subCategories.length > 0 && (
                         <ChevronDown
                           size={18}
-                          className={`text-gray-400 transition-transform ${
-                            mobileMenuOpen[category.name] ? "rotate-180" : ""
-                          }`}
+                          className={`text-gray-400 transition-transform ${mobileMenuOpen[category.name] ? "rotate-180" : ""
+                            }`}
                         />
                       )}
                   </button>

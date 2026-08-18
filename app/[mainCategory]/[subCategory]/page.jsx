@@ -4,6 +4,7 @@ import {
 } from "@/lib/fetchProducts";
 import React from "react";
 import ProductsClient from "./_clientComponent/ProductsClient";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params, searchParams }) {
   const { mainCategory, subCategory } = await params;
@@ -45,6 +46,10 @@ const page = async ({ params, searchParams }) => {
       subCategory: subCategory,
     }),
   ]);
+
+  if (!initialData) {
+    notFound();
+  }
 
   const {
     response,

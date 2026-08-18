@@ -45,12 +45,32 @@ const ClientProductComponent = ({ product }) => {
     setCartOpen(true);
   };
 
+  console.log(product);
+
   return (
     <div>
       {/* Hero Section showing subcategory */}
       <HeroSection
         singlePage={true}
         title={product?.products?.subCategory?.name}
+        steps={[
+          {
+            label: "home",
+            path: "/",
+          },
+          {
+            label: product?.products?.category?.name.replaceAll(/-/g, " "),
+            path: `/${product?.products?.category?.name}`,
+          },
+          {
+            label: product?.products?.subCategory?.name.replaceAll(/-/g, " "),
+            path: `/${product?.products?.category?.name}/${product?.products?.subCategory?.name}`,
+          },
+          {
+            label: product?.products?.title,
+            path: `/product/${product?.slug}`,
+          },
+        ]}
       />
 
       <div className="px-6 md:px-16 lg:px-32 py-14 bg-gray-100">
@@ -64,7 +84,7 @@ const ClientProductComponent = ({ product }) => {
                   priority={true}
                   src={mainImage}
                   alt={product?.productTitle}
-                  className="w-full relative h-auto object-cover mix-blend-multiply"
+                  className="w-full relative h-auto object-contain bg-white mix-blend-multiply"
                 />
               </div>
 
@@ -92,10 +112,9 @@ const ClientProductComponent = ({ product }) => {
           {/* DETAILS SECTION */}
           <div className="flex flex-col">
             <h1 className="text-2xl track leading-7 sm:text-3xl font-medium text-gray-800 mb-4">
-              {product?.productTitle
-                ?.replaceAll(/-/g, " ")
-                ?.toLowerCase()
-                ?.replace(/^./, (char) => char.toUpperCase())}
+              {product?.productTitle?.replace(/^./, (char) =>
+                char.toUpperCase(),
+              )}
             </h1>
             <div>
               <Seocontent content={product?.description} />
