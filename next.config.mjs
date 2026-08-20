@@ -9,6 +9,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "wegot-bucket.sfo2.digitaloceanspaces.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: "img.youtube.com",
         pathname: "**",
       },

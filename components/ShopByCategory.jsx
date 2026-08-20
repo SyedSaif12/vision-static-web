@@ -11,7 +11,6 @@ const ShopByCategory = () => {
     ? [...data]?.reverse().map((item) => item)
     : [];
 
-
   return (
     <>
       <div className="pt-10">

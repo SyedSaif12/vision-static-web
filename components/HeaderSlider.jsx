@@ -54,13 +54,13 @@ const HeaderSlider = () => {
         <HeroPromotionsSkeleton />
       ) : (
         <div className="w-[90%] flex-1 mx-auto hidden xl:grid grid-cols-2 gap-3">
-          <div className="bg-[#031057] w-full h-full flex flex-col gap-5 p-5">
+          <div className="bg-[#031057] w-full rounded-lg h-full flex flex-col gap-5 p-5">
             <div className="flex-1 relative">
               {heroPromotions?.[0]?.image?.[0]?.fileUrl && (
                 <SafeNextImage
                   src={heroPromotions?.[0]?.image?.[0]?.fileUrl}
                   alt={heroPromotions?.[0]?.title ?? "dummy image"}
-                  className={`object-cover`}
+                  className={`object-contain`}
                 />
               )}
             </div>
@@ -95,7 +95,7 @@ const HeaderSlider = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
-            <div className="col-span-full overflow-hidden bg-[#031057] flex p-1">
+            <div className="col-span-full overflow-hidden  rounded-lg bg-[#031057] flex p-1">
               <div className="flex-1 w-11/12 mx-auto flex flex-col justify-center gap-5 items-start p-3">
                 {/* content and button  */}
                 <div
@@ -136,13 +136,13 @@ const HeaderSlider = () => {
                 )}
               </div>
             </div>
-            <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+            <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-3 p-5">
               <div className="flex-1 relative">
                 {heroPromotions?.[2]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
                     src={heroPromotions?.[2]?.image?.[0]?.fileUrl}
                     alt={heroPromotions?.[2]?.title ?? "dummy image 3"}
-                    className={`w-full h-full object-cover`}
+                    className={`w-full h-full object-contain`}
                   />
                 )}
               </div>
@@ -175,13 +175,13 @@ const HeaderSlider = () => {
                 )}
               </div>
             </div>
-            <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+            <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-3 p-5">
               <div className="flex-1 relative">
                 {heroPromotions?.[3]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
                     src={heroPromotions?.[3]?.image?.[0]?.fileUrl}
                     alt={heroPromotions?.[3]?.title ?? "dummy image 3"}
-                    className={`w-full h-full object-cover`}
+                    className={`w-full h-full object-contain`}
                   />
                 )}
               </div>
@@ -265,7 +265,7 @@ const HeaderSlider = () => {
                       <SafeNextImage
                         src={slide?.image?.[0]?.fileUrl}
                         alt={slide?.title ?? "promotion image"}
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </div>
 
@@ -356,7 +356,7 @@ function HeroPromotionsSkeleton() {
   return (
     <div className="w-[90%] flex-1 mx-auto hidden xl:grid grid-cols-2 gap-3 animate-pulse">
       {/* 1. Left Main Banner Skeleton */}
-      <div className="bg-[#031057] w-full h-full flex flex-col gap-5 p-5">
+      <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-5 p-5">
         {/* Image Skeleton */}
         <div className="flex-1 min-h-[220px] bg-white/10 rounded-md" />
 
@@ -374,7 +374,7 @@ function HeroPromotionsSkeleton() {
       {/* 2. Right Side Grid Skeleton */}
       <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
         {/* Top Horizontal Card Skeleton */}
-        <div className="col-span-full overflow-hidden bg-[#031057] flex p-1">
+        <div className="col-span-full overflow-hidden  rounded-lg bg-[#031057] flex p-1">
           <div className="flex-1 w-11/12 mx-auto flex flex-col justify-center gap-3 items-start p-3">
             {/* Title Skeleton (4xl size match) */}
             <div className="w-3/4 h-7 bg-white/10 rounded-md" />
@@ -389,7 +389,7 @@ function HeroPromotionsSkeleton() {
         </div>
 
         {/* Bottom Left Small Card Skeleton */}
-        <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+        <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-3 p-5">
           {/* Image Skeleton */}
           <div className="flex-1 min-h-[100px] bg-white/10 rounded-md" />
 
@@ -401,7 +401,7 @@ function HeroPromotionsSkeleton() {
         </div>
 
         {/* Bottom Right Small Card Skeleton */}
-        <div className="bg-[#031057] w-full h-full flex flex-col gap-3 p-5">
+        <div className="bg-[#031057] rounded-lg w-full h-full flex flex-col gap-3 p-5">
           {/* Image Skeleton */}
           <div className="flex-1 min-h-[100px] bg-white/10 rounded-md" />
 

@@ -17,13 +17,13 @@ export default function NavSkeleton() {
 
   return (
     <>
-      <nav className="absolute w-[90%] mx-auto left-0 right-0 top-6 z-50">
+      <nav className="absolute w-[90%] mx-auto left-0 right-0 z-50">
         <div className="bg-gradient-to-r from-[#030E40] to-[#5C2D00] text-white rounded-xl shadow-md">
           {/* ROW 1: Logo, Search, Cart */}
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             {/* Logo */}
             <Link href="/">
-              <div className="w-20 h-8 md:w-32 md:h-20 bg-gray-300/20 animate-pulse rounded" />{" "}
+              <div className="w-20 h-8 md:w-32 md:h-[64px] bg-gray-300/20 animate-pulse rounded" />{" "}
               {/* Placeholder Logo */}
             </Link>
 

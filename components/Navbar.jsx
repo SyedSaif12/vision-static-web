@@ -87,7 +87,7 @@ export default function Navbar({ themeColor = "#030E40" }) {
                 <div className="relative">
                   <div className="flex gap-2">
                     <Link
-                    href={'/store-locator'}
+                      href={"/store-locator"}
                       className="rounded-full bg-white p-2"
                     >
                       <MapPin className="size-4 md:size-6 text-black" />
@@ -192,20 +192,22 @@ export default function Navbar({ themeColor = "#030E40" }) {
                         >
                           <Link
                             href={`/${category?.name}`}
-                            className={`flex items-center capitalize gap-1 py-2 hover:text-blue-300 transition-colors ${activeDropdown === category?.id
+                            className={`flex items-center capitalize gap-1 py-2 hover:text-blue-300 transition-colors ${
+                              activeDropdown === category?.id
                                 ? "text-blue-300"
                                 : ""
-                              }`}
+                            }`}
                           >
                             {category?.name?.replace("-", " ")}
                             {category?.subCategories &&
                               category?.subCategories.length > 0 && (
                                 <ChevronDown
                                   size={14}
-                                  className={`transition-transform duration-200 ${activeDropdown === category?.id
+                                  className={`transition-transform duration-200 ${
+                                    activeDropdown === category?.id
                                       ? "rotate-180"
                                       : ""
-                                    }`}
+                                  }`}
                                 />
                               )}
                           </Link>
@@ -337,8 +339,9 @@ export default function Navbar({ themeColor = "#030E40" }) {
                       category.subCategories.length > 0 && (
                         <ChevronDown
                           size={18}
-                          className={`text-gray-400 transition-transform ${mobileMenuOpen[category.name] ? "rotate-180" : ""
-                            }`}
+                          className={`text-gray-400 transition-transform ${
+                            mobileMenuOpen[category.name] ? "rotate-180" : ""
+                          }`}
                         />
                       )}
                   </button>
@@ -445,8 +448,9 @@ export default function Navbar({ themeColor = "#030E40" }) {
                       category.subCategories.length > 0 && (
                         <ChevronDown
                           size={18}
-                          className={`text-gray-400 transition-transform ${mobileMenuOpen[category.name] ? "rotate-180" : ""
-                            }`}
+                          className={`text-gray-400 transition-transform ${
+                            mobileMenuOpen[category.name] ? "rotate-180" : ""
+                          }`}
                         />
                       )}
                   </button>

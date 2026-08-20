@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import arrowIcon from "@/assets/arrowicn.svg";
 import SafeNextImage from "./NextImageComponent";
 import blankImage from "@/assets/blank_image.jpg";
 import Loader from "@/components/Loading";
+import { useRouter } from "next/navigation";
 
 const BaseCardCategory = ({
   tile,
@@ -14,24 +15,37 @@ const BaseCardCategory = ({
   isCountShow = false,
   isHighlight = true,
 }) => {
-  const [load, setLoad] = useState(false);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const handleNavigation = (e) => {
+    e.preventDefault();
+    startTransition(() => {
+      router.push(url);
+    });
+  };
+  // const [load, setLoad] = useState(false);
 
-  if (load) {
-    return (
-      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
-        <Loader />
-      </div>
-    );
-  }
+  // if (load) {
+  //   return (
+  //     <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
-      <div className="w-full mx-auto pt-3 sm:pt-10">
+      <div className="w-full mx-auto pt-3 sm:pt-10 relative">
         <Link
-          onClick={() => setLoad(true)}
+          onClick={handleNavigation}
           href={url}
-          className="rounded-2xl h-44 sm:h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer flex flex-col bg-white"
+          className={`rounded-2xl h-44 sm:h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer flex flex-col bg-white ${isPending ? "opacity-70 pointer-events-none" : ""}`}
         >
+          {isPending && (
+            <div className="absolute left-0 right-0 bottom-0 top-0 z-50 flex justify-center items-center">
+              <div className="animate-spin rounded-full h-20 w-20 border-[6px] border-t-orange-600 border-gray-300"></div>
+            </div>
+          )}
           <div className="bg-white h-40 relative sm:h-56 flex items-center justify-center overflow-hidden m-2 rounded-lg">
             <SafeNextImage
               src={getCategoryImage(imageUrl)}
