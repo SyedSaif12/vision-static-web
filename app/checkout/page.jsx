@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -26,6 +26,7 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 import { useFetchCityNameList } from "@/hooks/useFetchedCityNameList";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+import Footer from "@/components/Footer";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -42,9 +43,12 @@ const checkoutSchema = yup.object({
     .string()
     .required("Address is required")
     .min(5, "Address must be at least 5 characters"),
-  apartment: yup.string().required("Appartment is required"),
+  apartment: yup.string(),
   city: yup.string().required("City is required"),
-  postalCode: yup.string().matches(/^\d{5}$/, "Postal code must be 5 digits"),
+  postalCode: yup
+    .string()
+    .matches(/^\d{5}$/, "Postal code must be 5 digits")
+    .required("Postal code must be 5 digits"),
   phone: yup
     .string()
     .required("Phone number is required")
@@ -169,7 +173,7 @@ const CheckoutPage = () => {
   // Calculate fees and totals
   const calculations = useMemo(() => {
     const COD_FEE_PERCENTAGE = 0.04; // 4%
-    
+
     // Apply COD fee only if payment is COD and city is NOT Karachi
     const shouldApplyCODFee = watchPayment === "cod" && watchCity !== "Karachi";
     const SHIPPING_FEE = watchCity !== "Karachi" ? 400 : 200;
@@ -326,7 +330,7 @@ const CheckoutPage = () => {
 
       <div className="bg-gray-100 px-4 sm:px-6 md:px-10 lg:px-24 xl:px-32 py-8 md:py-12">
         <FormProvider {...formMethods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form autoComplete="shipping" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* LEFT – SHIPPING */}
               <div className="bg-white p-6 rounded-lg shadow">
@@ -351,7 +355,11 @@ const CheckoutPage = () => {
                         >
                           <option value="">Select Country</option>
                           {COUNTRY.map((country) => (
-                            <option key={country.value} autoComplete='off' value={country.value}>
+                            <option
+                              key={country.value}
+                              autoComplete="off"
+                              value={country.value}
+                            >
                               {country.label}
                             </option>
                           ))}
@@ -469,7 +477,14 @@ const CheckoutPage = () => {
                           }
                           className="w-full rounded-full"
                           classNamePrefix="react-select"
-                          // defaultValue={'karachi'}
+                          components={{
+                            Input: (props) => (
+                              <components.Input
+                                {...props}
+                                autoComplete="new-password"
+                              />
+                            ),
+                          }}
                         />
                       )}
                     />
@@ -485,13 +500,14 @@ const CheckoutPage = () => {
                       Postal Code
                     </label>
                     <input
-                      {...register("postalCode")}
+                      {...register("postalCode", {
+                        onChange: (e) => {
+                          e.target.value = e.target.value.replace(/\D/g, "");
+                        },
+                      })}
                       autoComplete="off"
                       placeholder="Enter Postal Code"
                       maxLength={5}
-                      onChange={(e) => {
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                      }}
                       className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
                     />
                     {errors.postalCode && (
@@ -508,13 +524,14 @@ const CheckoutPage = () => {
                     Phone <span className="text-red-500">*</span>
                   </label>
                   <input
-                  autoComplete="off"
-                    {...register("phone")}
+                    autoComplete="off"
+                    {...register("phone", {
+                      onChange: (e) => {
+                        e.target.value = e.target.value.replace(/\D/g, "");
+                      },
+                    })}
                     placeholder="03001234567"
                     maxLength={11}
-                    onChange={(e) => {
-                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }}
                     className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
                   />
                   {errors.phone && (
@@ -539,7 +556,7 @@ const CheckoutPage = () => {
                 {/* COD Option */}
                 <label className="flex items-center gap-3 cursor-pointer">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     {...register("payment")}
                     type="radio"
                     value="cod"
@@ -584,7 +601,7 @@ const CheckoutPage = () => {
                 {/* Bank Option */}
                 <label className="flex items-center gap-3 mt-3 cursor-pointer">
                   <input
-                  autoComplete="off"
+                    autoComplete="off"
                     {...register("payment")}
                     type="radio"
                     value="banktransfer"
@@ -755,7 +772,7 @@ const CheckoutPage = () => {
                         </p>
                       )}
 
-                      {watchCity === "karachi" && watchPayment === "cod" && (
+                      {watchCity === "Karachi" && watchPayment === "cod" && (
                         <p className="text-xs text-green-600 mt-2">
                           Shipping charges 200.00 applies
                         </p>
@@ -769,6 +786,7 @@ const CheckoutPage = () => {
         </FormProvider>
       </div>
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <Footer />
     </>
   );
 };

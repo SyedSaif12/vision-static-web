@@ -46,7 +46,7 @@ const HeaderSlider = () => {
     <div className="w-full flex flex-col overflow-hidden lg:min-h-[75vh] xl:min-h-[90vh]">
       {/* Dark wrapper includes Navbar + slider — no white gap, clean rounded bottom */}
       <div className="relative">
-        <Navbar themeColor={activeThemeColor || "#031057"} />
+        <Navbar themeColor={"#031057"} />
       </div>
       <div className="w-full h-36 lg:h-44 xl:h-40" />
       {/* ------------------------------------------------------------------- */}
@@ -54,8 +54,13 @@ const HeaderSlider = () => {
         <HeroPromotionsSkeleton />
       ) : (
         <div className="w-[90%] flex-1 mx-auto hidden xl:grid grid-cols-2 gap-3">
-          <div className="bg-[#031057] w-full rounded-lg h-full flex flex-col gap-5 p-5">
-            <div className="flex-1 relative">
+          <div
+            className="w-full rounded-lg h-full flex flex-col gap-5 p-5"
+            style={{
+              backgroundColor: `${heroPromotions?.[0]?.themeColor ?? "#031057"}`,
+            }}
+          >
+            <div className="flex-1 relative basis-[60%] min-h-0 w-full">
               {heroPromotions?.[0]?.image?.[0]?.fileUrl && (
                 <SafeNextImage
                   src={heroPromotions?.[0]?.image?.[0]?.fileUrl}
@@ -66,10 +71,10 @@ const HeaderSlider = () => {
             </div>
             <div className="flex-1 w-11/12 mx-auto flex flex-col gap-5 justify-center items-center">
               {/* content and button  */}
-              <div
+              <h1
                 className="
             text-white font-bold
-              lg:text-6xl text-center
+              lg:text-5xl text-center
               "
               >
                 <ColoredTitle
@@ -79,7 +84,7 @@ const HeaderSlider = () => {
                   }
                   titleColor={heroPromotions?.[0]?.titleColor}
                 />
-              </div>
+              </h1>
               {/* <p className="
             text-white font-bold
               lg:text-xl text-center
@@ -95,13 +100,18 @@ const HeaderSlider = () => {
             </div>
           </div>
           <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
-            <div className="col-span-full overflow-hidden  rounded-lg bg-[#031057] flex p-1">
+            <div
+              className="col-span-full overflow-hidden  rounded-lg flex p-1"
+              style={{
+                backgroundColor: `${heroPromotions?.[1]?.themeColor ?? "#031057"}`,
+              }}
+            >
               <div className="flex-1 w-11/12 mx-auto flex flex-col justify-center gap-5 items-start p-3">
                 {/* content and button  */}
                 <div
                   className="
             text-white font-bold
-              lg:text-4xl
+              lg:text-3xl
               
               "
                 >
@@ -126,7 +136,7 @@ const HeaderSlider = () => {
                   </Link>
                 )}
               </div>
-              <div className="flex-1 overflow-hidden relative">
+              <div className="flex-1 overflow-hidden relative mr-5">
                 {heroPromotions?.[1]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
                     src={heroPromotions?.[1]?.image?.[0]?.fileUrl}
@@ -136,7 +146,12 @@ const HeaderSlider = () => {
                 )}
               </div>
             </div>
-            <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-3 p-5">
+            <div
+              className="rounded-lg w-full h-full flex flex-col gap-3 p-5"
+              style={{
+                backgroundColor: `${heroPromotions?.[2]?.themeColor ?? "#031057"}`,
+              }}
+            >
               <div className="flex-1 relative">
                 {heroPromotions?.[2]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
@@ -150,7 +165,7 @@ const HeaderSlider = () => {
                 <div
                   className="
             text-white font-bold
-              lg:text-xl text-center
+              lg:text-sm text-center
               "
                 >
                   <ColoredTitle
@@ -175,7 +190,12 @@ const HeaderSlider = () => {
                 )}
               </div>
             </div>
-            <div className="bg-[#031057]  rounded-lg w-full h-full flex flex-col gap-3 p-5">
+            <div
+              className="rounded-lg w-full h-full flex flex-col gap-3 p-5"
+              style={{
+                backgroundColor: `${heroPromotions?.[3]?.themeColor ?? "#031057"}`,
+              }}
+            >
               <div className="flex-1 relative">
                 {heroPromotions?.[3]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
@@ -189,7 +209,7 @@ const HeaderSlider = () => {
                 <div
                   className="
             text-white font-bold
-              lg:text-xl text-center
+              lg:text-sm text-center
               "
                 >
                   <ColoredTitle
@@ -330,7 +350,7 @@ const ColoredTitle = ({ title, appliedTitleColor, titleColor }) => {
     : [];
 
   return (
-    <h1>
+    <>
       {words.map((word, index) => {
         const cleanWord = word.trim();
 
@@ -348,7 +368,7 @@ const ColoredTitle = ({ title, appliedTitleColor, titleColor }) => {
           </span>
         );
       })}
-    </h1>
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
+export const revalidate = 72000;
 import { allApiFetched } from "@/lib/api";
 
 export default async function sitemap() {
@@ -36,7 +37,14 @@ export default async function sitemap() {
       priority: 0.8,
     },
   ];
-  const { category, product, categoryWithChips } = await allApiFetched();
+  const { category, subCategory, product, categoryWithChips } =
+    await allApiFetched();
 
-  return [...staticUrls, ...category, ...categoryWithChips, ...product];
+  return [
+    ...staticUrls,
+    ...category,
+    ...subCategory,
+    ...categoryWithChips,
+    ...product,
+  ];
 }
