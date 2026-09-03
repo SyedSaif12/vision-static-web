@@ -45,8 +45,6 @@ const ClientProductComponent = ({ product }) => {
     setCartOpen(true);
   };
 
-  console.log(product);
-
   return (
     <div>
       {/* Hero Section showing subcategory */}

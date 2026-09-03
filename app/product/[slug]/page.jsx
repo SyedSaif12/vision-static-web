@@ -4,6 +4,8 @@ import { baseURL } from "@/redux/utils";
 import ClientProductComponent from "./clientComponent";
 import { stripHtml } from "@/helper/htmlConvertToText";
 import { notFound } from "next/navigation";
+import dayjs from "dayjs";
+import { formatPrice } from "@/helper/formatPrice";
 
 export async function generateMetadata({ params }) {
   // set metadata for SEO optimization
@@ -14,11 +16,12 @@ export async function generateMetadata({ params }) {
   const data = await res.json();
   const product = data?.data;
 
+  const productTitle = product?.productTitle;
+  const currentYear = dayjs().year();
+
   return {
-    title:
-      `${product?.productTitle} | Buy Online in Pakistan` ??
-      `${slug} | Buy Online in Pakistan`,
-    description: product?.description?.slice(0, 95) ?? "",
+    title: `${productTitle} Price in Pakistan. ${currentYear}`,
+    description: `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
     keywords: [
       product?.products?.category.name,
       product?.products?.subCategory.name,
@@ -28,9 +31,8 @@ export async function generateMetadata({ params }) {
       canonical: `/product/${slug}`,
     },
     openGraph: {
-      title: product?.productTitle,
-      description:
-        stripHtml(data?.data?.seoContent)?.slice(0, 160)?.trim() ?? "",
+      title: `${productTitle} Price in Pakistan. ${currentYear} | WeGot`,
+      description: `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
       images: [product?.image?.[0]?.fileUrl],
     },
   };
@@ -43,7 +45,7 @@ const page = async ({ params }) => {
     cache: "no-store",
   });
   const data = await response.json();
-
+  const currentYear = dayjs().year();
   if (!data?.data) {
     return notFound();
   }
@@ -57,7 +59,7 @@ const page = async ({ params }) => {
           __html: JSON.stringify({
             "@context": "https://schema.org/",
             "@type": "Product",
-            name: data?.data?.productTitle,
+            name: `${data?.data?.productTitle} Price in Pakistan. ${currentYear} | WeGot`,
             image: data?.data?.image?.[0]?.fileUrl,
             description: stripHtml(data?.data?.seoContent) ?? "",
             brand: {
@@ -66,7 +68,7 @@ const page = async ({ params }) => {
             },
             offers: {
               "@type": "Offer",
-              price: data?.data?.price ?? "",
+              price: formatPrice(data?.data?.price) ?? "",
               priceCurrency: "PKR",
               availability: "https://schema.org/InStock",
             },
