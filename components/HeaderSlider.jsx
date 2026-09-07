@@ -63,6 +63,9 @@ const HeaderSlider = () => {
             <div className="flex-1 relative basis-[60%] min-h-0 w-full">
               {heroPromotions?.[0]?.image?.[0]?.fileUrl && (
                 <SafeNextImage
+                  priority
+                  fetchPriority="high"
+                  // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                   src={heroPromotions?.[0]?.image?.[0]?.fileUrl}
                   alt={heroPromotions?.[0]?.title ?? "dummy image"}
                   className={`object-contain`}
@@ -139,6 +142,9 @@ const HeaderSlider = () => {
               <div className="flex-1 overflow-hidden relative mr-5">
                 {heroPromotions?.[1]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     src={heroPromotions?.[1]?.image?.[0]?.fileUrl}
                     alt={heroPromotions?.[1]?.title ?? "dummy image 2"}
                     className={`w-full h-full object-contain`}
@@ -155,6 +161,9 @@ const HeaderSlider = () => {
               <div className="flex-1 relative">
                 {heroPromotions?.[2]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     src={heroPromotions?.[2]?.image?.[0]?.fileUrl}
                     alt={heroPromotions?.[2]?.title ?? "dummy image 3"}
                     className={`w-full h-full object-contain`}
@@ -199,6 +208,9 @@ const HeaderSlider = () => {
               <div className="flex-1 relative">
                 {heroPromotions?.[3]?.image?.[0]?.fileUrl && (
                   <SafeNextImage
+                    priority
+                    fetchPriority="high"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                     src={heroPromotions?.[3]?.image?.[0]?.fileUrl}
                     alt={heroPromotions?.[3]?.title ?? "dummy image 3"}
                     className={`w-full h-full object-contain`}
@@ -275,60 +287,63 @@ const HeaderSlider = () => {
         >
           {Array.isArray(heroPromotions) && heroPromotions.length > 0
             ? heroPromotions?.map((slide, index) => (
-                <SwiperSlide key={slide.id || index}>
-                  <div
-                    style={{ backgroundColor: slide?.themeColor || "#031057" }}
-                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md"
-                  >
-                    {/* Image Box */}
-                    <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
-                      <SafeNextImage
-                        src={slide?.image?.[0]?.fileUrl}
-                        alt={slide?.title ?? "promotion image"}
-                        className="object-contain"
+              <SwiperSlide key={slide.id || index}>
+                <div
+                  style={{ backgroundColor: slide?.themeColor || "#031057" }}
+                  className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md"
+                >
+                  {/* Image Box */}
+                  <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
+                    <SafeNextImage
+                      priority
+                      fetchPriority="high"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                      src={slide?.image?.[0]?.fileUrl}
+                      alt={slide?.title ?? "promotion image"}
+                      className="object-contain"
+                    />
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center">
+                    <div className="text-white font-bold text-xl md:text-2xl lg:text-4xl">
+                      <ColoredTitle
+                        title={slide?.title || ""}
+                        appliedTitleColor={slide?.appliedTitleColor || []}
+                        titleColor={slide?.titleColor}
                       />
                     </div>
 
-                    {/* Text Content */}
-                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center">
-                      <div className="text-white font-bold text-xl md:text-2xl lg:text-4xl">
-                        <ColoredTitle
-                          title={slide?.title || ""}
-                          appliedTitleColor={slide?.appliedTitleColor || []}
-                          titleColor={slide?.titleColor}
-                        />
-                      </div>
-
-                      {slide?.path && (
-                        <Link
-                          href={slide?.path}
-                          className="text-black bg-white font-semibold py-2 px-5 text-sm hover:bg-gray-100 transition"
-                        >
-                          Shop Now
-                        </Link>
-                      )}
-                    </div>
+                    {slide?.path && (
+                      <Link
+                        href={slide?.path}
+                        className="text-black bg-white font-semibold py-2 px-5 text-sm hover:bg-gray-100 transition"
+                      >
+                        Shop Now
+                      </Link>
+                    )}
                   </div>
-                </SwiperSlide>
-              ))
+                </div>
+              </SwiperSlide>
+            ))
             : Array.from({ length: 4 }).map((_, index) => (
-                <SwiperSlide key={`skeleton-${index}`}>
-                  <div
-                    style={{ backgroundColor: "#031057" }}
-                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md rounded-2xl"
-                  >
-                    {/* Image Box Skeleton */}
-                    <div className="w-full h-48 md:h-64 animate-pulse rounded-xl bg-slate-700/60" />
+              <SwiperSlide key={`skeleton-${index}`}>
+                <div
+                  style={{ backgroundColor: "#031057" }}
+                  className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md rounded-2xl"
+                >
+                  {/* Image Box Skeleton */}
+                  <div className="w-full h-48 md:h-64 animate-pulse rounded-xl bg-slate-700/60" />
 
-                    {/* Text & Button Skeleton */}
-                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center w-full">
-                      <div className="w-3/4 h-6 animate-pulse bg-slate-700/60 rounded-md" />
-                      <div className="w-1/2 h-4 animate-pulse bg-slate-700/40 rounded-md mt-1" />
-                      <div className="w-28 h-9 animate-pulse bg-slate-600/60 rounded-md mt-2" />
-                    </div>
+                  {/* Text & Button Skeleton */}
+                  <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center w-full">
+                    <div className="w-3/4 h-6 animate-pulse bg-slate-700/60 rounded-md" />
+                    <div className="w-1/2 h-4 animate-pulse bg-slate-700/40 rounded-md mt-1" />
+                    <div className="w-28 h-9 animate-pulse bg-slate-600/60 rounded-md mt-2" />
                   </div>
-                </SwiperSlide>
-              ))}
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
 

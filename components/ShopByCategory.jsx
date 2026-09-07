@@ -11,6 +11,7 @@ const ShopByCategory = () => {
     ? [...data]?.reverse().map((item) => item)
     : [];
 
+    
   return (
     <>
       <div className="pt-10">
@@ -32,8 +33,8 @@ const ShopByCategory = () => {
                   imageUrl={
                     imageUrl
                       ? imageUrl
-                      : category.products?.[0]?.variants?.[0]?.image?.[0]
-                          ?.fileUrl
+                      : category?.products?.[0]?.variants?.[0]?.image?.[0]
+                          ?.fileUrl ?? ""
                   }
                   key={category?.id}
                   url={`/${category?.name}`}
