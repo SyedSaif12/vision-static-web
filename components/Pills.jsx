@@ -8,18 +8,17 @@ export default function Pills({ data, select, setSelect, subCategory }) {
   };
 
   const formatCleanTitle = (title, subCategory) => {
-    if(!title) return
+    if (!title) return;
     let cleanTitle = title.replaceAll(/-/g, " ").trim();
-    if(subCategory) {
+    if (subCategory) {
       const cleanSubCat = subCategory.replaceAll(/-/g, " ").trim();
 
       const regex = new RegExp(`^${cleanSubCat}\\s*`, "i");
 
       cleanTitle = cleanTitle.replace(regex, "");
-
     }
     return cleanTitle.replace(/^./, (char) => char.toUpperCase());
-  }
+  };
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 place-items-center">

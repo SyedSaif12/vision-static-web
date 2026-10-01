@@ -5,7 +5,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "wegot-bucket.sfo2.digitaloceanspaces.com",
-        pathname: "**",
+        pathname: "/**",
       },
       {
         protocol: "https",
@@ -13,7 +13,7 @@ const nextConfig = {
         pathname: "**",
       },
     ],
-    unoptimized: true,
+    // unoptimized: true,
   },
 };
 

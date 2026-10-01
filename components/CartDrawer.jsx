@@ -17,6 +17,7 @@ import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 import SafeNextImage from "./NextImageComponent";
 
 export default function CartDrawer({ open, onClose }) {
+  const { data } = useSelector((state) => state.user)
   const [isClient, setIsClient] = useState(false);
   const [load, setLoad] = useState(false);
   const cartItems = useSelector((state) => state.cart.items);
@@ -46,6 +47,10 @@ export default function CartDrawer({ open, onClose }) {
   };
 
   const proceedToCheckOut = () => {
+    if (!data?.role) {
+      router.push('/accounts/login')
+      return;
+    }
     setTimeout(() => {
       router.push("/checkout");
     }, 0);
@@ -65,9 +70,8 @@ export default function CartDrawer({ open, onClose }) {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-xl z-50 transform transition-transform duration-300 ${
-        open ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-xl z-50 transform transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+        }`}
     >
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b">

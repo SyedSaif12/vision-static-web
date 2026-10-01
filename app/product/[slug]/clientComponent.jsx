@@ -46,7 +46,7 @@ const ClientProductComponent = ({ product }) => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100">
       {/* Hero Section showing subcategory */}
       <HeroSection
         singlePage={true}
@@ -71,7 +71,7 @@ const ClientProductComponent = ({ product }) => {
         ]}
       />
 
-      <div className="px-6 md:px-16 lg:px-32 py-14 bg-gray-100">
+      <div className="w-[90%] mx-auto py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           {/* IMAGE SECTION */}
           <div className="h-full relative px-0 sm:px-6 lg:px-12">

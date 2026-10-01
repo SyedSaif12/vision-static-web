@@ -14,7 +14,6 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "@/redux/cart/cartSlice";
-import { usePostCheckoutMutation } from "@/redux/checkout/checkoutSlice";
 import arrow from "@/assets/arrow.png";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -27,6 +26,7 @@ import Loading from "@/components/Loading";
 import { useFetchCityNameList } from "@/hooks/useFetchedCityNameList";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 import Footer from "@/components/Footer";
+import { placeOrder } from "@/redux/checkout/checkoutSlice";
 
 // Validation Schema
 const checkoutSchema = yup.object({
@@ -110,16 +110,19 @@ const customSelectStyles = {
 const COUNTRY = [{ value: "pakistan", label: "Pakistan" }];
 
 const CheckoutPage = () => {
+  const [hasMounted, setHasMounted] = useState(false);
   const [loader, setLoader] = useState(false);
   const [load, setLoad] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  const { data } = useSelector((state) => state.user)
+
   const cartItems = useSelector((state) => state.cart.items);
+
   const [imageSrc, setImageSrc] = useState(blankImage);
   const subtotal = useSelector(getCartAmount);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [postCheckout] = usePostCheckoutMutation();
   const { isListLoading, cityNameList } = useFetchCityNameList();
 
   const CITIES =
@@ -133,14 +136,14 @@ const CheckoutPage = () => {
   const formMethods = useForm({
     resolver: yupResolver(checkoutSchema),
     defaultValues: {
-      country: "pakistan",
-      firstName: "",
-      lastName: "",
-      address: "",
-      apartment: "",
-      city: "Karachi",
-      postalCode: "",
-      phone: "",
+      country: data?.country ?? "pakistan",
+      firstName: data?.firstName ?? "",
+      lastName: data?.lastName ?? "",
+      address: data?.address ?? "",
+      apartment: data?.apartment ?? "",
+      city: data?.city ?? "Karachi",
+      postalCode: data?.postalCode ?? "",
+      phone: data?.phoneNo ?? "",
       payment: "banktransfer",
     },
   });
@@ -148,10 +151,26 @@ const CheckoutPage = () => {
   const {
     register,
     handleSubmit,
+    reset,
     control,
     watch,
     formState: { errors },
   } = formMethods;
+
+  useEffect(() => {
+    setHasMounted(true);
+    reset({
+      country: data?.country ?? "pakistan",
+      firstName: data?.firstName ?? "",
+      lastName: data?.lastName ?? "",
+      address: data?.address ?? "",
+      apartment: data?.apartment ?? "",
+      city: data?.city ?? "Karachi",
+      postalCode: data?.postalCode ?? "",
+      phone: data?.phoneNo ?? "",
+      payment: "banktransfer",
+    })
+  }, [reset]);
 
   useEffect(() => {
     dispatch(onToggle(true));
@@ -218,13 +237,17 @@ const CheckoutPage = () => {
     };
 
     try {
-      const response = await postCheckout(orderPayload).unwrap();
+      console.log('triger order');
+      
+      const response = await dispatch(placeOrder({ payload: orderPayload })).unwrap()
+      console.log('trigered...');
       toast.success(response.message || "Order Placed Successfully", {
         position: "top-right",
       });
       // Clear cart after successful order
       dispatch(clearCart());
       setLoader(false);
+      
       // Redirect to order confirmation or home page
       router.push("/order-confirmation");
     } catch (error) {
@@ -266,7 +289,7 @@ const CheckoutPage = () => {
         // alert(
         //   `Please fill in ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`
         // );
-        toast(
+        toast.error(
           `Please fill the ${field.replace(/([A-Z])/g, " $1").toLowerCase()}`,
           {
             className: "font-bold",
@@ -283,31 +306,28 @@ const CheckoutPage = () => {
   Country:${formData.country}
   Name: ${formData.firstName} ${formData.lastName}
   Phone: ${formData.phone}
-  Address: ${formData.address}${
-    formData.apartment ? `, ${formData.apartment}` : ""
-  }
+  Address: ${formData.address}${formData.apartment ? `, ${formData.apartment}` : ""
+      }
   City: ${CITIES.find((c) => c.value === formData.city)?.label || formData.city}
   Postal Code: ${formData.postalCode || "N/A"}
 
   *Order Items:*
   ${cartProducts
-    .map(
-      (item) =>
-        `${item.productTitle} x ${item.qty} = PKR ${
-          (item.price || item.oldPrice) * item.qty
-        }`,
-    )
-    .join("\n")}
+        .map(
+          (item) =>
+            `${item.productTitle} x ${item.qty} = PKR ${(item.price || item.oldPrice) * item.qty
+            }`,
+        )
+        .join("\n")}
 
   *Payment:* ${formData.payment === "cod" ? "Cash on Delivery" : "Bank Deposit"}
 
   *Order Summary:*
   Subtotal: PKR ${calculations.subtotal.toFixed(2)}
-  ${
-    calculations.codFee > 0
-      ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
-      : ""
-  }
+  ${calculations.codFee > 0
+        ? `COD Fee (4%): PKR ${calculations.codFee.toFixed(2)}`
+        : ""
+      }
   Shipping: PKR ${calculations.shippingFee}
   *Total: PKR ${calculations.total.toFixed(2)}*
       `.trim();
@@ -325,469 +345,473 @@ const CheckoutPage = () => {
   }
 
   return (
-    <>
-      <HeroSection title="Checkout" />
+    // <AuthGuard>
+      <div className="bg-gray-100">
+        <HeroSection title="Checkout" />
 
-      <div className="bg-gray-100 px-4 sm:px-6 md:px-10 lg:px-24 xl:px-32 py-8 md:py-12">
-        <FormProvider {...formMethods}>
-          <form autoComplete="shipping" onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-              {/* LEFT – SHIPPING */}
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
-                  Shipping Address
-                </h2>
+        <div className="w-[90%] mx-auto py-8 md:py-12">
+          <FormProvider {...formMethods}>
+            <form autoComplete="shipping" onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                {/* LEFT – SHIPPING */}
+                <div className="bg-white p-6 rounded-lg shadow">
+                  <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
+                    Shipping Address
+                  </h2>
 
-                {/* Country */}
-                <div>
-                  <label className="block text-lg font-semibold mb-1 mt-4">
-                    Country / Region <span className="text-red-500">*</span>
-                  </label>
-                  <Controller
-                    name="country"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="relative w-full">
-                        <select
-                          {...field}
-                          autoComplete="off"
-                          className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                        >
-                          <option value="">Select Country</option>
-                          {COUNTRY.map((country) => (
-                            <option
-                              key={country.value}
-                              autoComplete="off"
-                              value={country.value}
-                            >
-                              {country.label}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown
-                          size={18}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
-                        />
-                      </div>
-                    )}
-                  />
-                  {errors.country && (
-                    <p className="text-red-500 text-sm mb-2">
-                      {errors.country.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* First Name & Last Name */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Country */}
                   <div>
                     <label className="block text-lg font-semibold mb-1 mt-4">
-                      First Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      {...register("firstName")}
-                      autoComplete="off"
-                      placeholder="Enter first name"
-                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                    />
-                    {errors.firstName && (
-                      <p className="text-red-500 text-sm mb-2">
-                        {errors.firstName.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-lg font-semibold mb-1 mt-4">
-                      Last Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      {...register("lastName")}
-                      autoComplete="off"
-                      placeholder="Enter last name"
-                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
-                    />
-                    {errors.lastName && (
-                      <p className="text-red-500 text-sm mb-2">
-                        {errors.lastName.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Address */}
-                <div>
-                  <label className="block text-lg mb-1 font-semibold mt-4">
-                    Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    {...register("address")}
-                    autoComplete="off"
-                    placeholder="Enter your address"
-                    className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
-                  />
-                  {errors.address && (
-                    <p className="text-red-500 text-sm mb-2">
-                      {errors.address.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Apartment */}
-                <div>
-                  <label className="block text-lg mb-1 font-semibold mt-4">
-                    Apartment, Suite, etc
-                  </label>
-                  <input
-                    {...register("apartment")}
-                    autoComplete="off"
-                    placeholder="Enter your Apartment"
-                    className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
-                  />
-                  {errors.apartment && (
-                    <p className="text-red-500 text-sm mb-2">
-                      {errors.apartment.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* City & Postal Code */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-lg font-semibold mb-1 mt-4">
-                      City <span className="text-red-500">*</span>
+                      Country / Region <span className="text-red-500">*</span>
                     </label>
                     <Controller
-                      name="city"
+                      name="country"
                       control={control}
                       render={({ field }) => (
-                        <Select
-                          options={CITIES}
-                          isLoading={isListLoading}
-                          instanceId="city-checkout-select"
-                          placeholder="Search City"
-                          value={
-                            CITIES.find(
-                              (option) => option.value === field.value,
-                            ) || null
-                          }
-                          styles={customSelectStyles}
-                          onChange={(selectedOption) =>
-                            field.onChange(selectedOption?.value || "")
-                          }
-                          className="w-full rounded-full"
-                          classNamePrefix="react-select"
-                          components={{
-                            Input: (props) => (
-                              <components.Input
-                                {...props}
-                                autoComplete="new-password"
-                              />
-                            ),
-                          }}
-                        />
+                        <div className="relative w-full">
+                          <select
+                            {...field}
+                            autoComplete="off"
+                            className="appearance-none input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                          >
+                            <option value="">Select Country</option>
+                            {COUNTRY.map((country) => (
+                              <option
+                                key={country.value}
+                                autoComplete="off"
+                                value={country.value}
+                              >
+                                {country.label}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown
+                            size={18}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
+                          />
+                        </div>
                       )}
                     />
-                    {errors.city && (
+                    {errors.country && (
                       <p className="text-red-500 text-sm mb-2">
-                        {errors.city.message}
+                        {errors.country.message}
                       </p>
                     )}
                   </div>
 
+                  {/* First Name & Last Name */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-lg font-semibold mb-1 mt-4">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        {...register("firstName")}
+                        autoComplete="off"
+                        placeholder="Enter first name"
+                        className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                      />
+                      {errors.firstName && (
+                        <p className="text-red-500 text-sm mb-2">
+                          {errors.firstName.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-lg font-semibold mb-1 mt-4">
+                        Last Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        {...register("lastName")}
+                        autoComplete="off"
+                        placeholder="Enter last name"
+                        className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                      />
+                      {errors.lastName && (
+                        <p className="text-red-500 text-sm mb-2">
+                          {errors.lastName.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Address */}
                   <div>
-                    <label className="block text-lg font-semibold mb-1 mt-4">
-                      Postal Code
+                    <label className="block text-lg mb-1 font-semibold mt-4">
+                      Address <span className="text-red-500">*</span>
                     </label>
                     <input
-                      {...register("postalCode", {
+                      {...register("address")}
+                      autoComplete="off"
+                      placeholder="Enter your address"
+                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
+                    />
+                    {errors.address && (
+                      <p className="text-red-500 text-sm mb-2">
+                        {errors.address.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Apartment */}
+                  <div>
+                    <label className="block text-lg mb-1 font-semibold mt-4">
+                      Apartment, Suite, etc
+                    </label>
+                    <input
+                      {...register("apartment")}
+                      autoComplete="off"
+                      placeholder="Enter your Apartment"
+                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
+                    />
+                    {errors.apartment && (
+                      <p className="text-red-500 text-sm mb-2">
+                        {errors.apartment.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* City & Postal Code */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-lg font-semibold mb-1 mt-4">
+                        City <span className="text-red-500">*</span>
+                      </label>
+                      <Controller
+                        name="city"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            options={CITIES}
+                            isLoading={isListLoading}
+                            instanceId="city-checkout-select"
+                            placeholder="Search City"
+                            value={
+                              CITIES.find(
+                                (option) => option.value === field.value,
+                              ) || null
+                            }
+                            styles={customSelectStyles}
+                            onChange={(selectedOption) =>
+                              field.onChange(selectedOption?.value || "")
+                            }
+                            className="w-full rounded-full"
+                            classNamePrefix="react-select"
+                            components={{
+                              Input: (props) => (
+                                <components.Input
+                                  {...props}
+                                  autoComplete="new-password"
+                                />
+                              ),
+                            }}
+                          />
+                        )}
+                      />
+                      {errors.city && (
+                        <p className="text-red-500 text-sm mb-2">
+                          {errors.city.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-lg font-semibold mb-1 mt-4">
+                        Postal Code
+                      </label>
+                      <input
+                        {...register("postalCode", {
+                          onChange: (e) => {
+                            e.target.value = e.target.value.replace(/\D/g, "");
+                          },
+                        })}
+                        autoComplete="off"
+                        placeholder="Enter Postal Code"
+                        maxLength={5}
+                        className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                      />
+                      {errors.postalCode && (
+                        <p className="text-red-500 text-sm mb-2">
+                          {errors.postalCode.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label className="block text-lg mb-1 font-semibold mt-4">
+                      Phone <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      autoComplete="off"
+                      {...register("phone", {
                         onChange: (e) => {
                           e.target.value = e.target.value.replace(/\D/g, "");
                         },
                       })}
-                      autoComplete="off"
-                      placeholder="Enter Postal Code"
-                      maxLength={5}
-                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 mb-1 w-full"
+                      placeholder="03001234567"
+                      maxLength={11}
+                      className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
                     />
-                    {errors.postalCode && (
+                    {errors.phone && (
                       <p className="text-red-500 text-sm mb-2">
-                        {errors.postalCode.message}
+                        {errors.phone.message}
                       </p>
                     )}
                   </div>
-                </div>
 
-                {/* Phone */}
-                <div>
-                  <label className="block text-lg mb-1 font-semibold mt-4">
-                    Phone <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    autoComplete="off"
-                    {...register("phone", {
-                      onChange: (e) => {
-                        e.target.value = e.target.value.replace(/\D/g, "");
-                      },
-                    })}
-                    placeholder="03001234567"
-                    maxLength={11}
-                    className="input border rounded-full bg-[#E8E8E89C] py-2 px-4 w-full mb-1"
-                  />
-                  {errors.phone && (
-                    <p className="text-red-500 text-sm mb-2">
-                      {errors.phone.message}
+                  {/* Payment Section */}
+                  <div>
+                    <h1 className="mt-6 font-semibold text-2xl text-black">
+                      Payment
+                    </h1>
+                    <p className="border-b-2 pb-4 mt-6 text-gray-500 font-semibold">
+                      All transactions are secure and encrypted.
                     </p>
-                  )}
-                </div>
+                  </div>
 
-                {/* Payment Section */}
-                <div>
-                  <h1 className="mt-6 font-semibold text-2xl text-black">
-                    Payment
-                  </h1>
-                  <p className="border-b-2 pb-4 mt-6 text-gray-500 font-semibold">
-                    All transactions are secure and encrypted.
-                  </p>
-                </div>
+                  <h3 className="font-semibold mt-6 mb-2">Payment Method</h3>
 
-                <h3 className="font-semibold mt-6 mb-2">Payment Method</h3>
-
-                {/* COD Option */}
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input
-                    autoComplete="off"
-                    {...register("payment")}
-                    type="radio"
-                    value="cod"
-                    className="hidden"
-                  />
-                  <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "cod"
+                  {/* COD Option */}
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      autoComplete="off"
+                      {...register("payment")}
+                      type="radio"
+                      value="cod"
+                      className="hidden"
+                    />
+                    <span
+                      className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "cod"
                         ? "border-blue-600 bg-blue-600"
                         : "border-gray-400 bg-white"
-                    }`}
-                  >
-                    {watchPayment === "cod" && (
-                      <img src={arrow.src} alt="checked" className="w-3 h-3" />
-                    )}
-                  </span>
-                  <span>Cash on Delivery (COD)</span>
-                </label>
-
-                {watchPayment === "cod" && (
-                  <div className="mt-4 bg-gray-100 p-4 rounded-md border">
-                    <div className="flex justify-between items-center font-semibold">
-                      <p className="font-medium">Cash on Delivery (COD)</p>
-                      {calculations.shouldApplyCODFee ? (
-                        <p className="text-sm text-red-600 font-semibold">
-                          4% Tax fee applies
-                        </p>
-                      ) : (
-                        <p className="text-sm text-green-600 font-semibold">
-                          Shipping charges 200.00 applies
-                        </p>
+                        }`}
+                    >
+                      {watchPayment === "cod" && (
+                        <img src={arrow.src} alt="checked" className="w-3 h-3" />
                       )}
-                    </div>
-                    <p className="text-sm mt-2 text-gray-700 font-semibold">
-                      {calculations.shouldApplyCODFee
-                        ? "Pay cash when you receive your parcel. A 4% Tax and COD 400.00 processing fee will be added to your total. If you choose bank transfer bank  4% fee will be waived."
-                        : "Pay cash when you receive your parcel. Shipping charges 200.00 applies Karachi customers!"}
-                    </p>
-                  </div>
-                )}
-
-                {/* Bank Option */}
-                <label className="flex items-center gap-3 mt-3 cursor-pointer">
-                  <input
-                    autoComplete="off"
-                    {...register("payment")}
-                    type="radio"
-                    value="banktransfer"
-                    className="hidden"
-                  />
-                  <span
-                    className={`w-5 h-5 flex items-center justify-center border rounded ${
-                      watchPayment === "banktransfer"
-                        ? "border-blue-600 bg-blue-600"
-                        : "border-gray-400 bg-white"
-                    }`}
-                  >
-                    {watchPayment === "banktransfer" && (
-                      <img src={arrow.src} alt="checked" className="w-3 h-3" />
-                    )}
-                  </span>
-                  <span>Bank Deposit</span>
-                </label>
-
-                {watchPayment === "banktransfer" && (
-                  <div className="mt-4 bg-gray-100 p-4 rounded-md border">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-medium">Bank Deposit</p>
-                      <p className="text-sm text-green-600">No Extra Charges</p>
-                    </div>
-                    <div className="text-sm text-gray-700 space-y-1 font-semibold">
-                      <p>
-                        <strong>Bank Alfalah</strong>
-                      </p>
-                      <p>Account Title: VISION TECH</p>
-                      <p>Account No: 00311009188805</p>
-                      <p>Branch Code: 0031</p>
-                      <p>IBAN: PK27ALFH0031001009188805</p>
-                      <p className="mt-2">
-                        WhatsApp Deposit Slip to <strong>+92 3260220581</strong>
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="md:flex gap-6">
-                  <button
-                    type="button"
-                    onClick={handleOrder}
-                    className="w-full bg-white text-[#000DAF] py-3 rounded-full mt-6 border-2 border-[#000DAF] hover:bg-[#000DAF] hover:text-white transition-colors"
-                  >
-                    Proceed on WhatsApp
-                  </button>
-                  <button
-                    disabled={loader}
-                    type="submit"
-                    className="w-full bg-[#000DAF] text-white py-3 rounded-full mt-6 hover:bg-[#000DAF]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <span className="flex justify-center gap-4">
-                      Place Order{" "}
-                      {loader && <LoaderCircle className="animate-spin" />}
                     </span>
-                  </button>
+                    <span>Cash on Delivery (COD)</span>
+                  </label>
+
+                  {watchPayment === "cod" && (
+                    <div className="mt-4 bg-gray-100 p-4 rounded-md border">
+                      <div className="flex justify-between items-center font-semibold">
+                        <p className="font-medium">Cash on Delivery (COD)</p>
+                        {calculations.shouldApplyCODFee ? (
+                          <p className="text-sm text-red-600 font-semibold">
+                            4% Tax fee applies
+                          </p>
+                        ) : (
+                          <p className="text-sm text-green-600 font-semibold">
+                            Shipping charges 200.00 applies
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-sm mt-2 text-gray-700 font-semibold">
+                        {calculations.shouldApplyCODFee
+                          ? "Pay cash when you receive your parcel. A 4% Tax and COD 400.00 processing fee will be added to your total. If you choose bank transfer bank  4% fee will be waived."
+                          : "Pay cash when you receive your parcel. Shipping charges 200.00 applies Karachi customers!"}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Bank Option */}
+                  <label className="flex items-center gap-3 mt-3 cursor-pointer">
+                    <input
+                      autoComplete="off"
+                      {...register("payment")}
+                      type="radio"
+                      value="banktransfer"
+                      className="hidden"
+                    />
+                    <span
+                      className={`w-5 h-5 flex items-center justify-center border rounded ${watchPayment === "banktransfer"
+                        ? "border-blue-600 bg-blue-600"
+                        : "border-gray-400 bg-white"
+                        }`}
+                    >
+                      {watchPayment === "banktransfer" && (
+                        <img src={arrow.src} alt="checked" className="w-3 h-3" />
+                      )}
+                    </span>
+                    <span>Bank Deposit</span>
+                  </label>
+
+                  {watchPayment === "banktransfer" && (
+                    <div className="mt-4 bg-gray-100 p-4 rounded-md border">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-medium">Bank Deposit</p>
+                        <p className="text-sm text-green-600">No Extra Charges</p>
+                      </div>
+                      <div className="text-sm text-gray-700 space-y-1 font-semibold">
+                        <p>
+                          <strong>Bank Alfalah</strong>
+                        </p>
+                        <p>Account Title: VISION TECH</p>
+                        <p>Account No: 00311009188805</p>
+                        <p>Branch Code: 0031</p>
+                        <p>IBAN: PK27ALFH0031001009188805</p>
+                        <p className="mt-2">
+                          WhatsApp Deposit Slip to <strong>+92 3260220581</strong>
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div className="md:flex gap-6">
+                    <button
+                      type="button"
+                      onClick={handleOrder}
+                      className="w-full bg-white text-[#000DAF] py-3 rounded-full mt-6 border-2 border-[#000DAF] hover:bg-[#000DAF] hover:text-white transition-colors"
+                    >
+                      Proceed on WhatsApp
+                    </button>
+                    <button
+                      disabled={loader}
+                      type="submit"
+                      className="w-full bg-[#000DAF] text-white py-3 rounded-full mt-6 hover:bg-[#000DAF]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <span className="flex justify-center gap-4">
+                        Place Order{" "}
+                        {loader && <LoaderCircle className="animate-spin" />}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* RIGHT – ORDER SUMMARY */}
+                <div className="p-6 self-start rounded-lg shadow">
+                  <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
+                    Order Summary.
+                  </h2>
+                  <div className="my-4" suppressHydrationWarning>
+                    {Object.entries(cartItems)?.length} items in Cart
+                  </div>
+
+                  {
+                    !hasMounted ? (
+                      <p className="text-gray-500 text-center py-8">Loading cart...</p>
+                    ) : cartProducts.length === 0 ? (
+                      <p className="text-gray-500 text-center py-8">
+                        Your cart is empty
+                      </p>
+                    ) : (
+                      <>
+                        {Array.isArray(cartProducts) &&
+                          cartProducts?.length > 0 &&
+                          cartProducts?.map((item) => (
+                            <div
+                              key={item.id}
+                              className="relative flex flex-col sm:flex-row gap-4 sm:items-center mb-4 border-b pb-4"
+                              suppressHydrationWarning
+                            >
+                              <span
+                                onClick={() => handleRemove(item.id)}
+                                className="absolute hover:cursor-pointer top-0 right-0"
+                              >
+                                <X size={18} />
+                              </span>
+                              <Image
+                                src={item.image[0]?.fileUrl || blankImage}
+                                alt={item.productTitle || "Product"}
+                                width={100}
+                                height={100}
+                                onError={() => setImageSrc(blankImage)}
+                                className="rounded-2xl border border-[#FF8415] sm:w-[100px] sm:h-[100px] object-cover"
+                              />
+                              <div className="flex-1 min-w-10 max-w-[200px]">
+                                <p className="font-medium hover:text-blue-700 hover:underline text-sm line-clamp-2 leading-relaxed">
+                                  <Link
+                                    onClick={() => setLoad(true)}
+                                    href={`/product/${item?.slug}`}
+                                  >
+                                    {item.productTitle}
+                                  </Link>
+                                </p>
+                                <div className="text-sm md:text-md flex items-center gap-1 md:gap-2 text-gray-500">
+                                  {/* Qty: {item.qty} */}
+                                  <button
+                                    onClick={() => handleQuantity(item.id, "dec")}
+                                    className="px-2 py-1 border rounded text-black"
+                                  >
+                                    -
+                                  </button>
+                                  <span className="text-black">{item.qty}</span>
+                                  <button
+                                    onClick={() => handleQuantity(item.id, "inc")}
+                                    className="px-2 py-1 border rounded text-black"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                              <p className="font-semibold sm:ml-auto text-right self-end sm:self-center">
+                                PKR{" "}
+                                {formatPrice(
+                                  (item.price || item.oldPrice) * item.qty,
+                                )}
+                              </p>
+                            </div>
+                          ))}
+
+                        <div className="mt-6 space-y-3">
+                          <div className="flex justify-between font-semibold text-gray-700">
+                            <span>Subtotal</span>
+                            <span>PKR {formatPrice(calculations.subtotal)}</span>
+                          </div>
+
+                          {calculations.codFee > 0 && (
+                            <div className="flex justify-between text-red-600">
+                              <p className="flex flex-col">
+                                <span>COD Fee (4%) </span>
+                                <span className="text-sm">
+                                  If you choose bank transfer bank 4% fee will be
+                                  waived.
+                                </span>
+                              </p>
+                              <span>PKR {formatPrice(calculations.codFee)}</span>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between font-semibold text-gray-700">
+                            <span>Shipping</span>
+                            <span>PKR {calculations.shippingFee.toFixed(2)}</span>
+                          </div>
+
+                          <div className="flex justify-between font-bold text-2xl mt-4 pt-4 border-t-2">
+                            <span>Total</span>
+                            <span className="text-[#000DAF]">
+                              PKR {formatPrice(calculations.total)}
+                            </span>
+                          </div>
+
+                          {calculations.shouldApplyCODFee && (
+                            <p className="text-xs text-gray-500 mt-2">
+                              * Total includes 4% COD processing fee
+                            </p>
+                          )}
+
+                          {watchCity === "Karachi" && watchPayment === "cod" && (
+                            <p className="text-xs text-green-600 mt-2">
+                              Shipping charges 200.00 applies
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    )}
                 </div>
               </div>
-
-              {/* RIGHT – ORDER SUMMARY */}
-              <div className="p-6 self-start rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-4 border-b-2 pb-4">
-                  Order Summary.
-                </h2>
-                <p className="my-4">
-                  {Object.entries(cartItems)?.length} items in Cart
-                </p>
-
-                {cartProducts.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
-                    Your cart is empty
-                  </p>
-                ) : (
-                  <>
-                    {Array.isArray(cartProducts) &&
-                      cartProducts?.length > 0 &&
-                      cartProducts?.map((item) => (
-                        <div
-                          key={item.id}
-                          className="relative flex flex-col sm:flex-row gap-4 sm:items-center mb-4 border-b pb-4"
-                        >
-                          <span
-                            onClick={() => handleRemove(item.id)}
-                            className="absolute hover:cursor-pointer top-0 right-0"
-                          >
-                            <X size={18} />
-                          </span>
-                          <Image
-                            src={item.image[0]?.fileUrl || blankImage}
-                            alt={item.productTitle || "Product"}
-                            width={100}
-                            height={100}
-                            onError={() => setImageSrc(blankImage)}
-                            className="rounded-2xl border border-[#FF8415] sm:w-[100px] sm:h-[100px] object-cover"
-                          />
-                          <div className="flex-1 min-w-10 max-w-[200px]">
-                            <p className="font-medium hover:text-blue-700 hover:underline text-sm line-clamp-2 leading-relaxed">
-                              <Link
-                                onClick={() => setLoad(true)}
-                                href={`/product/${item?.slug}`}
-                              >
-                                {item.productTitle}
-                              </Link>
-                            </p>
-                            <div className="text-sm md:text-md flex items-center gap-1 md:gap-2 text-gray-500">
-                              {/* Qty: {item.qty} */}
-                              <button
-                                onClick={() => handleQuantity(item.id, "dec")}
-                                className="px-2 py-1 border rounded text-black"
-                              >
-                                -
-                              </button>
-                              <span className="text-black">{item.qty}</span>
-                              <button
-                                onClick={() => handleQuantity(item.id, "inc")}
-                                className="px-2 py-1 border rounded text-black"
-                              >
-                                +
-                              </button>
-                            </div>
-                          </div>
-                          <p className="font-semibold sm:ml-auto text-right self-end sm:self-center">
-                            PKR{" "}
-                            {formatPrice(
-                              (item.price || item.oldPrice) * item.qty,
-                            )}
-                          </p>
-                        </div>
-                      ))}
-
-                    <div className="mt-6 space-y-3">
-                      <div className="flex justify-between font-semibold text-gray-700">
-                        <span>Subtotal</span>
-                        <span>PKR {formatPrice(calculations.subtotal)}</span>
-                      </div>
-
-                      {calculations.codFee > 0 && (
-                        <div className="flex justify-between text-red-600">
-                          <p className="flex flex-col">
-                            <span>COD Fee (4%) </span>
-                            <span className="text-sm">
-                              If you choose bank transfer bank 4% fee will be
-                              waived.
-                            </span>
-                          </p>
-                          <span>PKR {formatPrice(calculations.codFee)}</span>
-                        </div>
-                      )}
-
-                      <div className="flex justify-between font-semibold text-gray-700">
-                        <span>Shipping</span>
-                        <span>PKR {calculations.shippingFee.toFixed(2)}</span>
-                      </div>
-
-                      <div className="flex justify-between font-bold text-2xl mt-4 pt-4 border-t-2">
-                        <span>Total</span>
-                        <span className="text-[#000DAF]">
-                          PKR {formatPrice(calculations.total)}
-                        </span>
-                      </div>
-
-                      {calculations.shouldApplyCODFee && (
-                        <p className="text-xs text-gray-500 mt-2">
-                          * Total includes 4% COD processing fee
-                        </p>
-                      )}
-
-                      {watchCity === "Karachi" && watchPayment === "cod" && (
-                        <p className="text-xs text-green-600 mt-2">
-                          Shipping charges 200.00 applies
-                        </p>
-                      )}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </form>
-        </FormProvider>
+            </form>
+          </FormProvider>
+        </div>
+        <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+        <Footer />
       </div>
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
-      <Footer />
-    </>
+    // </AuthGuard>
   );
 };
 

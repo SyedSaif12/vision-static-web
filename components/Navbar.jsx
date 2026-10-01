@@ -1,9 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, MapPin, ChevronDown, ShoppingCart } from "lucide-react";
+import {
+  Menu,
+  X,
+  MapPin,
+  ChevronDown,
+  ShoppingCart,
+  CircleUserRound,
+  LogOut,
+  LoaderCircle,
+} from "lucide-react";
 import visionTechIcon from "@/assets/visiontechicon.png";
 import { useGetCategoriesQuery } from "@/redux/category/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,13 +22,16 @@ import threelines from "../assets/threelines.svg";
 import SearchBar from "./SearchBar";
 import { NavSkeleton } from "./skeletons";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+import { logout } from "@/redux/user/userSlice";
 
 export default function Navbar({ themeColor = "#030E40" }) {
+  const mobileProfileRef = useRef(null);
+  const desktopProfileRef = useRef(null);
   const dispatch = useDispatch();
   const { isLoading, currentData } = useGetCategoriesQuery({
     navbar: true,
   });
-
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
   const [categoryData, setCategoryData] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -28,6 +40,9 @@ export default function Navbar({ themeColor = "#030E40" }) {
   const [cartOpen, setCartOpen] = useState(false);
 
   const cartCount = useSelector(getCartCount);
+  const { data: user, loading: isUserLoading } = useSelector(
+    (state) => state.user,
+  );
 
   const toggleMobileCategory = (categoryId) => {
     setMobileMenuOpen((prev) => ({
@@ -54,8 +69,34 @@ export default function Navbar({ themeColor = "#030E40" }) {
     };
   }, [activeDropdown]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const clickedInsideMobile = mobileProfileRef.current?.contains(
+        event.target,
+      );
+
+      const clickedInsideDesktop = desktopProfileRef.current?.contains(
+        event.target,
+      );
+
+      if (!clickedInsideMobile && !clickedInsideDesktop) {
+        setUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleMouseEnter = (categoryId) => setActiveDropdown(categoryId);
   const handleMouseLeave = () => setActiveDropdown(null);
+
+  function handleLogout() {
+    dispatch(logout());
+  }
 
   if (isLoading) return <NavSkeleton />;
 
@@ -114,6 +155,82 @@ export default function Navbar({ themeColor = "#030E40" }) {
                     </span>
                   )}
                 </div>
+                {/* when user logged in then render this icon  */}
+                {user?.role ? (
+                  <div className="relative" ref={mobileProfileRef}>
+                    <div
+                      onClick={() => {
+                        setUserDropdownOpen((prev) => !prev);
+                      }}
+                      className="cursor-pointer flex justify-center items-center rounded-full bg-[#FF8415] w-8 h-8 md:w-10 md:h-10 p-1"
+                    >
+                      {/* <CircleUserRound className="size-25 text-black" /> */}
+                      <span className="text-white font-bold text-lg">
+                        {user?.firstName?.slice(0, 1).toUpperCase()}
+                      </span>
+                    </div>
+                    {/* Dropdown */}
+                    {userDropdownOpen && (
+                      <div className="absolute right-0 top-full z-50 mt-2 w-36 rounded-lg border bg-white p-3 shadow-lg">
+                        {/* User Name */}
+                        <div className="border-b px-2 pb-3">
+                          <p className="text-sm text-gray-500">Welcome</p>
+
+                          <p className="truncate font-semibold text-black">
+                            {`${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() ||
+                              "User"}
+                          </p>
+                        </div>
+
+                        {/* Logout */}
+                        <button
+                          type="button"
+                          onClick={handleLogout}
+                          className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+                        >
+                          <span className="flex items-center gap-1">
+                            <LogOut className="size-4" />
+                            Logout
+                          </span>
+                          {isUserLoading && (
+                            <LoaderCircle className="size-4 animate-spin" />
+                          )}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="relative" ref={mobileProfileRef}>
+                    <div
+                      onClick={() => {
+                        setUserDropdownOpen((prev) => !prev);
+                      }}
+                      className="cursor-pointer flex justify-center items-center rounded-full bg-white p-2"
+                    >
+                      <CircleUserRound className="size-4 md:size-6 text-black" />
+                    </div>
+                    {/* Dropdown */}
+                    {userDropdownOpen && (
+                      <div className="absolute right-0 top-full z-50 mt-2 w-36 rounded-lg border bg-white p-3 shadow-lg">
+                        {/* User Name */}
+                        <Link
+                          href={`/accounts/login`}
+                          className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-black transition hover:bg-[#FF8415] hover:text-white"
+                        >
+                          LOGIN
+                        </Link>
+
+                        {/* Logout */}
+                        <Link
+                          href={`/accounts/signup`}
+                          className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-black transition hover:bg-[#FF8415] hover:text-white"
+                        >
+                          SIGN UP
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <button
                   onClick={() => setOpenMobile(true)}
                   className="text-white p-1"
@@ -147,6 +264,7 @@ export default function Navbar({ themeColor = "#030E40" }) {
                 >
                   <ShoppingCart className="size-25 text-black" />
                 </div>
+
                 <CartDrawer
                   open={cartOpen}
                   onClose={() => setCartOpen(false)}
@@ -159,6 +277,81 @@ export default function Navbar({ themeColor = "#030E40" }) {
                   </span>
                 )}
               </div>
+              {user?.role ? (
+                <div className="relative" ref={desktopProfileRef}>
+                  <div
+                    onClick={() => {
+                      setUserDropdownOpen((prev) => !prev);
+                    }}
+                    className="cursor-pointer flex justify-center items-center rounded-full bg-[#FF8415] w-10 h-10 p-2"
+                  >
+                    {/* <CircleUserRound className="size-25 text-black" /> */}
+                    <span className="text-white font-bold text-2xl">
+                      {user?.firstName?.slice(0, 1).toUpperCase()}
+                    </span>
+                  </div>
+                  {/* Dropdown */}
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border bg-white p-3 shadow-lg">
+                      {/* User Name */}
+                      <div className="border-b px-2 pb-3">
+                        <p className="text-sm text-gray-500">Welcome</p>
+
+                        <p className="truncate font-semibold text-black">
+                          {`${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() ||
+                            "User"}
+                        </p>
+                      </div>
+
+                      {/* Logout */}
+                      <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+                      >
+                        <span className="flex items-center gap-1">
+                          <LogOut className="size-4" />
+                          Logout
+                        </span>
+                        {isUserLoading && (
+                          <LoaderCircle className="size-4 animate-spin" />
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="relative" ref={desktopProfileRef}>
+                  <div
+                    onClick={() => {
+                      setUserDropdownOpen((prev) => !prev);
+                    }}
+                    className="cursor-pointer flex justify-center items-center rounded-full bg-white w-10 h-10 p-2"
+                  >
+                    <CircleUserRound className="size-25 text-black" />
+                  </div>
+                  {/* Dropdown */}
+                  {userDropdownOpen && (
+                    <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border bg-white p-3 shadow-lg">
+                      {/* User Name */}
+                      <Link
+                        href={`/accounts/login`}
+                        className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-black transition hover:bg-[#FF8415] hover:text-white"
+                      >
+                        LOGIN
+                      </Link>
+
+                      {/* Logout */}
+                      <Link
+                        href={`/accounts/signup`}
+                        className="mt-2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-2 text-left text-sm font-medium text-black transition hover:bg-[#FF8415] hover:text-white"
+                      >
+                        SIGN UP
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 

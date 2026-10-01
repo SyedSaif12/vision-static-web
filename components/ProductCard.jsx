@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import blankImage from "@/assets/blank_image.jpg";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/cart/cartSlice";
@@ -17,17 +17,25 @@ const mapStock = {
 };
 
 const ProductCard = ({ product, openCart }) => {
-
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [clicked, setClicked] = useState(false);
-  const [load, setLoad] = useState(false);
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const productUrl = `/product/${product.slug}`;
+
+  const handleNavigation = (e) => {
+    e.preventDefault();
+    startTransition(() => {
+      router.push(productUrl);
+    });
+  };
 
   const handleAddToCart = () => {
     const addtocartitems = {
       id: product?.id,
-      quantity: count, // Use the count state
+      quantity: count,
       productTitle: product?.productTitle,
       slug: product?.slug,
       oldPrice: product?.oldPrice,
@@ -38,7 +46,7 @@ const ProductCard = ({ product, openCart }) => {
     dispatch(addToCart(addtocartitems));
     setTimeout(() => {
       setClicked(false);
-      dispatch(onToggle(true))
+      dispatch(onToggle(true));
       openCart();
     }, 1000);
   };
@@ -49,10 +57,9 @@ const ProductCard = ({ product, openCart }) => {
   useEffect(() => {
     setImgSrc(getProductImage(product));
   }, [product]);
+
   const specificationsEntire = Object.entries(product?.attributes).filter(
-    (item) => {
-      return item[1] !== "N/A" && item[1] !== "" && item[0] !== "";
-    },
+    (item) => item[1] !== "N/A" && item[1] !== "" && item[0] !== "",
   );
   const specification = specificationsEntire
     .slice(0, 4)
@@ -61,16 +68,15 @@ const ProductCard = ({ product, openCart }) => {
       value,
     }));
 
-  if (load) {
-    return (
-      <div className="w-screen h-screen absolute top-0 left-0 right-0 bottom-0">
-        <Loader />
-      </div>
-    );
-  }
-
   return (
-    <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100">
+    <div className="w-full h-[480px] md:h-[500px] bg-white shadow-sm hover:shadow-md transition rounded-2xl p-3 flex flex-col items-center justify-between cursor-pointer border border-gray-100 relative">
+      {/* Pending overlay — navigation ke dauran pura card cover kare */}
+      {isPending && (
+        <div className="absolute inset-0 z-50 bg-white/60 rounded-2xl flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-[5px] border-t-orange-600 border-gray-300"></div>
+        </div>
+      )}
+
       {/* Product Image with Premium Delivery Badge */}
       <div className="w-full max-h-[449px] min-h-[170px] relative flex items-center justify-center bg-gray-100 rounded-xl overflow-hidden">
         {(product?.isFeatured || !mapStock[product?.status]) && (
@@ -97,10 +103,7 @@ const ProductCard = ({ product, openCart }) => {
 
       <div className="w-11/12 my-3 relative group cursor-pointer">
         <p
-          onClick={() => {
-            setLoad(true);
-            router.push(`/product/${product.slug}`);
-          }}
+          onClick={handleNavigation}
           className="text-sm font-semibold hover:text-blue-500 hover:underline line-clamp-2"
         >
           {product?.productTitle
@@ -109,7 +112,6 @@ const ProductCard = ({ product, openCart }) => {
             ?.replace(/^./, (char) => char.toUpperCase())}
         </p>
 
-        {/* Tooltip */}
         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[250px] bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-normal z-50 pointer-events-none">
           {product?.productTitle
             ?.replaceAll(/-/g, " ")
@@ -148,13 +150,11 @@ const ProductCard = ({ product, openCart }) => {
       <div className="flex flex-col md:flex-row items-center justify-center gap-2 mt-2">
         {product.price > 0 ? (
           <>
-            {/* Old Price sirf tab dikhao jab wo current price se zyada ho */}
             {product.oldPrice > product.price && (
               <p className="text-gray-400 line-through text-[12px]">
                 {currency} {formatPrice(product.oldPrice)}
               </p>
             )}
-
             <p className="text-black font-semibold text-[14px]">
               {currency} {formatPrice(product.price)}
             </p>
@@ -163,12 +163,13 @@ const ProductCard = ({ product, openCart }) => {
           <p className="text-gray-400 text-[13px]">Coming Soon</p>
         )}
       </div>
+
       {product.price > 0 && (
         <div className="w-11/12 flex flex-col sm:flex-row sm:gap-4">
           <Link
-            onClick={() => setLoad(true)}
-            className="mt-2 sm:mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm text-center font-medium p-1 sm:p-2 rounded-full hover:bg-blue-50 transition"
-            href={`/product/${product.slug}`}
+            onClick={handleNavigation}
+            className={`mt-2 sm:mt-3 w-full border border-[#000DAF] text-[#000DAF] text-sm text-center font-medium p-1 sm:p-2 rounded-full hover:bg-blue-50 transition ${isPending ? "opacity-70 pointer-events-none" : ""}`}
+            href={productUrl}
           >
             View
           </Link>
@@ -200,14 +201,11 @@ const ProductCard = ({ product, openCart }) => {
 export default ProductCard;
 
 function getProductImage(product) {
-  // agar image array hai
   if (Array.isArray(product?.image)) {
     const first = product?.image[0]?.fileUrl;
     if (typeof first === "string" && first.startsWith("http")) {
       return encodeURI(first);
     }
   }
-
-  // fallback
   return blankImage;
 }

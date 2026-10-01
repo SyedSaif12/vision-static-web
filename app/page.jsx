@@ -34,7 +34,7 @@ const Home = async () => {
       <HeaderSlider />
 
       <PopupContactModal />
-      <div className="px-6 md:px-16 lg:px-32 bg-gray-100">
+      <div className="bg-gray-100">
         <ShopByCategory />
         <Banner />
         {!!product?.data?.list?.length && (

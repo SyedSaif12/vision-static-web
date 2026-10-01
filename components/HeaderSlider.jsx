@@ -287,63 +287,63 @@ const HeaderSlider = () => {
         >
           {Array.isArray(heroPromotions) && heroPromotions.length > 0
             ? heroPromotions?.map((slide, index) => (
-              <SwiperSlide key={slide.id || index}>
-                <div
-                  style={{ backgroundColor: slide?.themeColor || "#031057" }}
-                  className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md"
-                >
-                  {/* Image Box */}
-                  <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
-                    <SafeNextImage
-                      priority
-                      fetchPriority="high"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-                      src={slide?.image?.[0]?.fileUrl}
-                      alt={slide?.title ?? "promotion image"}
-                      className="object-contain"
-                    />
-                  </div>
-
-                  {/* Text Content */}
-                  <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center">
-                    <div className="text-white font-bold text-xl md:text-2xl lg:text-4xl">
-                      <ColoredTitle
-                        title={slide?.title || ""}
-                        appliedTitleColor={slide?.appliedTitleColor || []}
-                        titleColor={slide?.titleColor}
+                <SwiperSlide key={slide.id || index}>
+                  <div
+                    style={{ backgroundColor: slide?.themeColor || "#031057" }}
+                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md"
+                  >
+                    {/* Image Box */}
+                    <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
+                      <SafeNextImage
+                        priority
+                        fetchPriority="high"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                        src={slide?.image?.[0]?.fileUrl}
+                        alt={slide?.title ?? "promotion image"}
+                        className="object-contain"
                       />
                     </div>
 
-                    {slide?.path && (
-                      <Link
-                        href={slide?.path}
-                        className="text-black bg-white font-semibold py-2 px-5 text-sm hover:bg-gray-100 transition"
-                      >
-                        Shop Now
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))
-            : Array.from({ length: 4 }).map((_, index) => (
-              <SwiperSlide key={`skeleton-${index}`}>
-                <div
-                  style={{ backgroundColor: "#031057" }}
-                  className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md rounded-2xl"
-                >
-                  {/* Image Box Skeleton */}
-                  <div className="w-full h-48 md:h-64 animate-pulse rounded-xl bg-slate-700/60" />
+                    {/* Text Content */}
+                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center">
+                      <div className="text-white font-bold text-xl md:text-2xl lg:text-4xl">
+                        <ColoredTitle
+                          title={slide?.title || ""}
+                          appliedTitleColor={slide?.appliedTitleColor || []}
+                          titleColor={slide?.titleColor}
+                        />
+                      </div>
 
-                  {/* Text & Button Skeleton */}
-                  <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center w-full">
-                    <div className="w-3/4 h-6 animate-pulse bg-slate-700/60 rounded-md" />
-                    <div className="w-1/2 h-4 animate-pulse bg-slate-700/40 rounded-md mt-1" />
-                    <div className="w-28 h-9 animate-pulse bg-slate-600/60 rounded-md mt-2" />
+                      {slide?.path && (
+                        <Link
+                          href={slide?.path}
+                          className="text-black bg-white font-semibold py-2 px-5 text-sm hover:bg-gray-100 transition"
+                        >
+                          Shop Now
+                        </Link>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              ))
+            : Array.from({ length: 4 }).map((_, index) => (
+                <SwiperSlide key={`skeleton-${index}`}>
+                  <div
+                    style={{ backgroundColor: "#031057" }}
+                    className="w-full p-5 flex flex-col justify-between gap-4 h-[420px] md:h-[480px] shadow-md rounded-2xl"
+                  >
+                    {/* Image Box Skeleton */}
+                    <div className="w-full h-48 md:h-64 animate-pulse rounded-xl bg-slate-700/60" />
+
+                    {/* Text & Button Skeleton */}
+                    <div className="flex flex-col gap-3 items-center text-center flex-1 justify-center w-full">
+                      <div className="w-3/4 h-6 animate-pulse bg-slate-700/60 rounded-md" />
+                      <div className="w-1/2 h-4 animate-pulse bg-slate-700/40 rounded-md mt-1" />
+                      <div className="w-28 h-9 animate-pulse bg-slate-600/60 rounded-md mt-2" />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
         </Swiper>
       </div>
 

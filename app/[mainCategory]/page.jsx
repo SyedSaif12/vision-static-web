@@ -63,7 +63,7 @@ const page = async ({ params }) => {
           ]}
         />
         {/* <div className="max-w-11/12 mx-auto pt-10"> */}
-        <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
+        <div className="w-[90%] mx-auto pt-10">
           <h2 className="text-2xl sm:text-3xl capitalize font-semibold">
             Shop by{" "}
             <span className="capitalize">

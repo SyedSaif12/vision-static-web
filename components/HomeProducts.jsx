@@ -37,7 +37,7 @@ const HomeProducts = ({ products }) => {
   }
 
   return (
-    <div className="flex flex-col pt-14 w-full">
+    <div className="flex flex-col pt-14 w-[90%] mx-auto">
       {/* HEADER + VIEW ALL + ARROWS */}
       <div className="flex flex-col sm:flex-row items-center justify-between w-full">
         <div className="w-full h-full flex items-center">

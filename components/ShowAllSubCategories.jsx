@@ -14,7 +14,7 @@ const ShowAllSubCategories = () => {
     }));
 
   return (
-    <div>
+    <div className="w-[90%] mx-auto">
       <h2 className="w-full pt-6 md:pt-8 lg-pt-12 text-2xl sm:text-3xl mt-10 md:mt-14 lg:mt-20 font-semibold">
         Other Categories
       </h2>

@@ -71,7 +71,7 @@ const cardsConfig = [
   },
   {
     title: "Amazon Kindle",
-    query: { category: "kindles", subCategory: "amazon-kindle" },
+    query: { category: "e-book-reader", subCategory: "amazon-kindle" },
   },
 ];
 

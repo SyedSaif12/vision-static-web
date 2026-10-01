@@ -31,7 +31,6 @@ function ReviewCard({ review }) {
     return colors[charCode % colors.length];
   };
 
-  
   return (
     <div className="break-inside-avoid rounded-2xl border bg-white p-4 shadow-sm">
       {/* Header */}
@@ -102,7 +101,7 @@ export default function GoogleReviews() {
   }
 
   return (
-    <div className="w-full py-12 mt-10">
+    <div className="w-[90%] mx-auto py-12 mt-10">
       <div className="w-full h-full flex items-center">
         <h2 className="w-full text-2xl capitalize sm:text-3xl mb-10 font-semibold">
           Customer Reviews

@@ -11,10 +11,9 @@ const ShopByCategory = () => {
     ? [...data]?.reverse().map((item) => item)
     : [];
 
-    
   return (
     <>
-      <div className="pt-10">
+      <div className="w-[90%] mx-auto pt-10">
         <h2 className="text-2xl capitalize sm:text-3xl my-3 font-semibold">
           Shop by Category
         </h2>
@@ -33,8 +32,8 @@ const ShopByCategory = () => {
                   imageUrl={
                     imageUrl
                       ? imageUrl
-                      : category?.products?.[0]?.variants?.[0]?.image?.[0]
-                          ?.fileUrl ?? ""
+                      : (category?.products?.[0]?.variants?.[0]?.image?.[0]
+                          ?.fileUrl ?? "")
                   }
                   key={category?.id}
                   url={`/${category?.name}`}

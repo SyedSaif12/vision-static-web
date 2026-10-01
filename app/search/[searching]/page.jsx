@@ -42,7 +42,7 @@ const page = async ({ params }) => {
               products={response?.data?.list}
               total={response?.total}
             />
-            <div className="w-11/12 lg:w-10/12 mx-auto">
+            <div className="">
               <ShowAllSubCategories />
             </div>
           </Suspense>

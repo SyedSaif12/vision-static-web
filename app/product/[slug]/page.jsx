@@ -15,13 +15,17 @@ export async function generateMetadata({ params }) {
   });
   const data = await res.json();
   const product = data?.data;
+  console.log(product);
+  
 
   const productTitle = product?.productTitle;
+  const metadataTitle = product?.meta_title
+  const metadataDescription = product?.meta_description
   const currentYear = dayjs().year();
 
   return {
-    title: `${productTitle} Price in Pakistan. ${currentYear}`,
-    description: `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
+    title: metadataTitle || `${productTitle} Price in Pakistan. ${currentYear}`,
+    description: metadataDescription || `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
     keywords: [
       product?.products?.category.name,
       product?.products?.subCategory.name,
@@ -31,8 +35,8 @@ export async function generateMetadata({ params }) {
       canonical: `/product/${slug}`,
     },
     openGraph: {
-      title: `${productTitle} Price in Pakistan. ${currentYear} | WeGot`,
-      description: `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
+      title: metadataTitle || `${productTitle} Price in Pakistan. ${currentYear} | WeGot`,
+      description: metadataDescription || `Buy ${productTitle} at Rs ${formatPrice(product?.price)} in Pakistan. COD nationwide. Order online or inspect in Karachi.`,
       images: [product?.image?.[0]?.fileUrl],
     },
   };
@@ -59,9 +63,9 @@ const page = async ({ params }) => {
           __html: JSON.stringify({
             "@context": "https://schema.org/",
             "@type": "Product",
-            name: `${data?.data?.productTitle} Price in Pakistan. ${currentYear} | WeGot`,
+            name: data?.data?.meta_title || `${data?.data?.productTitle} Price in Pakistan. ${currentYear} | WeGot`,
             image: data?.data?.image?.[0]?.fileUrl,
-            description: stripHtml(data?.data?.seoContent) ?? "",
+            description: data?.data?.meta_description || stripHtml(data?.data?.seoContent),
             brand: {
               "@type": "Brand",
               name: data?.data?.products?.subCategory?.name ?? "",

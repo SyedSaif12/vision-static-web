@@ -168,7 +168,7 @@ const ProductsClient = ({
             },
           ]}
         />
-        <div className="w-11/12 md:max-w-7xl mx-auto pt-10">
+        <div className="!w-[90%] !mx-auto pt-10">
           <Pills
             data={chipsData}
             select={select}

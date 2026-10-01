@@ -9,7 +9,24 @@ body {
   padding: 0;
   width: 100%;
 }
+/* Infinite marquee animation */
+.marquee-track {
+  animation: marquee-scroll 50s linear infinite;
+  display: inline-flex;
+}
 
+.marquee-track:hover {
+  animation-play-state: paused; /* hover par ruk jaye */
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 /* Ensure root div covers everything */
 #__next,
 main {

@@ -43,181 +43,183 @@ const Footer = () => {
   });
 
   return (
-    <footer className="bg-black text-gray-300 pt-16 pb-6 px-6 md:px-20 lg:px-32">
-      {/* Footer Links */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-10">
-        {/* Information */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Information</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/about-us"
-              >
-                About Us
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/contact"
-              >
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/return-policy"
-              >
-                Return Policy
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/installment"
-              >
-                Installment Plan
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/order-process"
-              >
-                Order Process
-              </Link>
-            </li>
-            <li>
-              {" "}
-              <Link
-                className="hover:text-blue-500 hover:cursor-pointer"
-                href="/store-locator"
-              >
-                Store Location
-              </Link>
-            </li>
-          </ul>
-        </div>
+    <footer className="bg-black text-gray-300 pt-16 pb-6">
+      <div className="w-[90%] mx-auto">
+        {/* Footer Links */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-10">
+          {/* Information */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Information</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/about-us"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/contact"
+                >
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/return-policy"
+                >
+                  Return Policy
+                </Link>
+              </li>
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/installment"
+                >
+                  Installment Plan
+                </Link>
+              </li>
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/order-process"
+                >
+                  Order Process
+                </Link>
+              </li>
+              <li>
+                {" "}
+                <Link
+                  className="hover:text-blue-500 hover:cursor-pointer"
+                  href="/store-locator"
+                >
+                  Store Location
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-        {/* PC Parts */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Categories</h3>
-          <ul className="space-y-2 text-sm">
-            {Array.isArray(mainCategory) &&
-              mainCategory
-                ?.slice()
-                ?.reverse()
-                ?.slice(0, 7)
-                ?.map((category) => {
+          {/* PC Parts */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Categories</h3>
+            <ul className="space-y-2 text-sm">
+              {Array.isArray(mainCategory) &&
+                mainCategory
+                  ?.slice()
+                  ?.reverse()
+                  ?.slice(0, 7)
+                  ?.map((category) => {
+                    return (
+                      <li key={category?.id}>
+                        <Link
+                          href={category?.route}
+                          className="hover:text-blue-500 capitalize hover:cursor-pointer"
+                        >
+                          {category?.catName}
+                        </Link>
+                      </li>
+                    );
+                  })}
+            </ul>
+          </div>
+
+          {/* Laptops */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Laptops</h3>
+            <ul className="space-y-2 text-sm">
+              {Array.isArray(subCategory) &&
+                subCategory?.map((category) => {
                   return (
                     <li key={category?.id}>
                       <Link
                         href={category?.route}
                         className="hover:text-blue-500 capitalize hover:cursor-pointer"
                       >
-                        {category?.catName}
+                        {category?.subName}
                       </Link>
                     </li>
                   );
                 })}
-          </ul>
-        </div>
+            </ul>
+          </div>
 
-        {/* Laptops */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Laptops</h3>
-          <ul className="space-y-2 text-sm">
-            {Array.isArray(subCategory) &&
-              subCategory?.map((category) => {
-                return (
-                  <li key={category?.id}>
-                    <Link
-                      href={category?.route}
-                      className="hover:text-blue-500 capitalize hover:cursor-pointer"
-                    >
-                      {category?.subName}
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-
-        {/* Address */}
-        <div>
-          <h3 className="text-white font-semibold mb-4">Address</h3>
-          <p className="text-sm leading-relaxed">
-            Address: Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton Near
-            Sohny Sweets, Karachi, Pakistan.
-          </p>
-          <div className="text-sm mt-3 flex flex-col">
-            <p>Phones:</p>{" "}
-            <p className="flex flex-col gap-2">
-              <span className="text-blue-400">03312405800</span>
-              <span className="text-blue-400">03260220581</span>
+          {/* Address */}
+          <div>
+            <h3 className="text-white font-semibold mb-4">Address</h3>
+            <p className="text-sm leading-relaxed">
+              Address: Shop# 29, Ground Floor, SAASI Arcade, Block-7, Clifton
+              Near Sohny Sweets, Karachi, Pakistan.
+            </p>
+            <div className="text-sm mt-3 flex flex-col">
+              <p>Phones:</p>{" "}
+              <p className="flex flex-col gap-2">
+                <span className="text-blue-400">03312405800</span>
+                <span className="text-blue-400">03260220581</span>
+              </p>
+            </div>
+            <p className="text-sm mt-2">
+              We are open: Monday–Saturday: <br />
+              9:00 AM – 5:30 PM
+            </p>
+            <p className="text-sm mt-2">
+              E-mail:{" "}
+              <a href="mailto:contact@wegot.pk" className="text-blue-400">
+                contact@wegot.pk
+              </a>
             </p>
           </div>
-          <p className="text-sm mt-2">
-            We are open: Monday–Saturday: <br />
-            9:00 AM – 5:30 PM
-          </p>
-          <p className="text-sm mt-2">
-            E-mail:{" "}
-            <a href="mailto:contact@wegot.pk" className="text-blue-400">
-              contact@wegot.pk
+        </div>
+
+        {/* Divider */}
+        <hr className="border-gray-700 my-8" />
+
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          {/* Social Icons */}
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.facebook.com/VisionTech.official.pk"
+              target="_blank"
+            >
+              <Image src={facebookIcon} alt="facebook" width={22} height={22} />
             </a>
-          </p>
+            <a
+              href="https://www.instagram.com/visiontech.official.pk/"
+              target="_blank"
+            >
+              <Image src={instaIcon} alt="instagram" width={22} height={22} />
+            </a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Image
+              src={easypaisa}
+              alt="easypaisa"
+              className="bg-white p-2 rounded-lg"
+              width={65}
+              height={45}
+            />
+            <Image
+              src={jazzcash}
+              alt="jazzcash"
+              className="bg-white p-2 rounded-lg"
+              width={55}
+              height={30}
+            />
+          </div>
+
+          {/* Copyright */}
+          <p className="text-xs text-gray-500">Copyright © 2026 WeGot.</p>
         </div>
-      </div>
-
-      {/* Divider */}
-      <hr className="border-gray-700 my-8" />
-
-      {/* Bottom Section */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Social Icons */}
-        <div className="flex items-center gap-4">
-          <a
-            href="https://www.facebook.com/VisionTech.official.pk"
-            target="_blank"
-          >
-            <Image src={facebookIcon} alt="facebook" width={22} height={22} />
-          </a>
-          <a
-            href="https://www.instagram.com/visiontech.official.pk/"
-            target="_blank"
-          >
-            <Image src={instaIcon} alt="instagram" width={22} height={22} />
-          </a>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Image
-            src={easypaisa}
-            alt="easypaisa"
-            className="bg-white p-2 rounded-lg"
-            width={65}
-            height={45}
-          />
-          <Image
-            src={jazzcash}
-            alt="jazzcash"
-            className="bg-white p-2 rounded-lg"
-            width={55}
-            height={30}
-          />
-        </div>
-
-        {/* Copyright */}
-        <p className="text-xs text-gray-500">Copyright © 2026 WeGot.</p>
       </div>
     </footer>
   );

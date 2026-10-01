@@ -59,7 +59,7 @@ export default function Banner() {
   }, [finalImages?.length]);
 
   return (
-    <div className="w-full pt-10">
+    <div className="w-[90%] mx-auto pt-10">
       <div className="max-w-[1480px] mx-auto">
         {/* SLIDER */}
         <div className="h-44 lg:h-52 xl:h-72 relative overflow-hidden rounded-2xl">

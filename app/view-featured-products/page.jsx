@@ -50,7 +50,7 @@ const page = async () => {
       <div className="bg-gray-100">
         <Suspense fallback={<ProductGridSkeleton />}>
           <FeaturedComponent products={responseProduct?.data?.list} />
-          <div className="w-11/12 lg:w-10/12 mx-auto">
+          <div className="">
             <ShowAllSubCategories />
           </div>
         </Suspense>

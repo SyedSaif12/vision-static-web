@@ -30,14 +30,14 @@ export default function StoreLocatorPage() {
   return (
     <>
       <HeroSection
-      singlePage={true}
+        singlePage={true}
         title="Store Locator"
         offer="Visit us today — find your nearest experience center for expert guidance and support."
       />
 
-      <div className="px-4 md:px-16 lg:px-32 bg-gray-100 py-6">
-        <div className="w-full flex justify-center items-start">
-          <div className="w-full max-w-7xl bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 rounded-2xl">
+      <div className="bg-gray-100 py-6">
+        <div className="w-[90%] mx-auto flex justify-center items-start">
+          <div className=" bg-gray-100 grid grid-cols-1 md:grid-cols-3 gap-6 rounded-2xl">
             <div className="md:col-span-1 flex flex-col gap-4 h-auto md:h-[70vh] md:overflow-y-auto pr-0 md:pr-2">
               {stores.map((store) => (
                 <StoreLocatorCard key={store.id} stores={store} />
