@@ -12,8 +12,27 @@ export const popupSlice = createApi({
         body: payload,
       }),
     }),
+    Corporate: builder.mutation({
+      query: (payload) => ({
+        url: "contacts/corporate-procurement",
+        method: "POST",
+        body: payload,
+      }),
+    }),
+
+    warrantyClaim: builder.mutation({
+      query: (payload) => ({
+        url: "contacts/warranty-claim",
+        method: "POST",
+        body: payload,
+      }),
+    }),
   }),
 });
 
 // THIS NAME MUST MATCH EXACTLY
-export const { usePostPopupMutation } = popupSlice;
+export const {
+  usePostPopupMutation,
+  useCorporateMutation,
+  useWarrantyClaimMutation,
+} = popupSlice;

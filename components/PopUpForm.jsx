@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { usePostPopupMutation } from "@/redux/popup/popupSlice";
 import { LoaderCircle } from "lucide-react";
 import toast from "react-hot-toast";
+import PageLoader from "./v2/loader";
 
 // Validation Schema
 const popUpSchema = yup.object({
@@ -91,11 +92,7 @@ export default function PopUpForm({ open, setOpen }) {
 
   return (
     <div className="w-full max-w-6xl bg-white rounded-2xl relative shadow-lg overflow-hidden flex flex-col lg:flex-row">
-      {isLoading && (
-        <div className="w-full absolute flex justify-center items-center h-full">
-          <LoaderCircle size={80} className="animate-spin text-orange-400" />
-        </div>
-      )}
+      {isLoading && <PageLoader />}
 
       {/* LEFT IMAGE */}
       <div className="hidden lg:block w-full lg:w-[40%] h-full">
@@ -163,7 +160,7 @@ export default function PopUpForm({ open, setOpen }) {
                   {...register("phoneNo", {
                     onChange: (e) => {
                       e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }
+                    },
                   })}
                   type="text"
                   maxLength={11}
@@ -205,7 +202,7 @@ export default function PopUpForm({ open, setOpen }) {
                   {...register("minPrice", {
                     onChange: (e) => {
                       e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }
+                    },
                   })}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
@@ -222,10 +219,10 @@ export default function PopUpForm({ open, setOpen }) {
                 </label>
                 <input
                   type="text"
-                   {...register("maxPrice", {
+                  {...register("maxPrice", {
                     onChange: (e) => {
                       e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }
+                    },
                   })}
                   className="w-full border-b border-gray-300 focus:border-black outline-none py-2"
                 />
@@ -241,7 +238,7 @@ export default function PopUpForm({ open, setOpen }) {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-8 py-3 rounded-full"
+                className="bg-primary hover:bg-primary-200 text-white font-medium px-8 py-3 rounded-md"
               >
                 Submit
               </button>

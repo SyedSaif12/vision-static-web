@@ -13,7 +13,7 @@ const WhatsAppContact = () => {
   return (
     <>
       {!toggle && (
-        <div className="fixed bottom-0 left-0 z-[99999] size-24">
+        <div className="fixed bottom-12 md:bottom-0 left-0 z-[99999] size-24">
           <Link href={whatsappLink} target="_blank">
             <Image
               src={whatsAppIcon}

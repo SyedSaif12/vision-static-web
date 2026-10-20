@@ -180,13 +180,13 @@ const BargainDialog = ({ open, onClose, id, productName }) => {
             <div className="flex justify-end gap-4 mt-10">
               <button
                 onClick={onClose}
-                className="px-6 py-2 md:px-10 md:py-3 rounded-full border border-blue-500 text-blue-600 font-medium hover:bg-blue-50 transition"
+                className="px-6 py-2 md:px-10 md:py-3 rounded-md border border-blue-500 text-blue-600 font-medium hover:bg-blue-50 transition"
               >
                 Cancel
               </button>
 
               <button
-                className="px-6 py-2 md:px-10 md:py-3 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition"
+                className="px-6 py-2 md:px-10 md:py-3 rounded-md bg-blue-700 text-white font-medium hover:bg-blue-800 transition"
                 type="submit"
               >
                 {isLoading ? "Submitting..." : "Submit"}

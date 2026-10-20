@@ -1,53 +1,80 @@
-import React from "react";
-import HeaderSlider from "@/components/HeaderSlider";
-import HomeProducts from "@/components/HomeProducts";
-import Banner from "@/components/Banner";
-import NewsLetter from "@/components/NewsLetter";
-import Footer from "@/components/Footer";
-import ShopByCategory from "@/components/ShopByCategory";
-import NewArrival from "@/components/newArrival";
+import React, { Suspense } from "react";
+import dynamic from "next/dynamic";
 import PopupContactModal from "@/components/PopupContactModal";
-import OurBrands from "@/components/OurBrands";
-import PromotionVideo from "@/components/PromotionVideo";
-import { baseURL } from "@/redux/utils";
 import Reviews from "@/components/Reviews";
-import ShowAllSubCategories from "@/components/ShowAllSubCategories";
-
+import {
+  Category,
+  HeroBanner,
+  ProcessCards,
+  ShopConfidence,
+} from "@/components";
+import { NewArrivalsSkeleton } from "@/components/v2/products";
+import { LazyBrandSections } from "@/components/v2/home/lazy-brand-sections";
 export const revalidate = 86400; // 1 day
 
+const Featured = dynamic(() => import("@/components/v2/home/offers/featured"));
+const NewArrivals = dynamic(
+  () => import("@/components/v2/home/offers/new-arrivals"),
+);
+const Deals = dynamic(() => import("@/components/v2/home/offers/deals"));
+const OpenBox = dynamic(() => import("@/components/v2/home/offers/open-box"));
+const ComingSoon = dynamic(
+  () => import("@/components/v2/home/offers/coming-soon"),
+);
+const Refurbished = dynamic(
+  () => import("@/components/v2/refurbished/Refurbished"),
+);
+
 const Home = async () => {
-  let loading = true;
-  const productQuery = await fetch(`${baseURL}products?isFeatured=true`, {
-    next: {
-      tags: ["products"],
-      revalidate: 86400,
-    },
-  });
-  const product = await productQuery.json();
-
-  if (!!product) {
-    loading = false;
-  }
-
   return (
     <>
-      <HeaderSlider />
-
+      {/* hero banner  */}
+      <HeroBanner />
+      {/* process cards  */}
+      <ProcessCards />
+      {/* popup content model for 25 delay in seconds */}
       <PopupContactModal />
-      <div className="bg-gray-100">
-        <ShopByCategory />
-        <Banner />
-        {!!product?.data?.list?.length && (
-          <HomeProducts products={product?.data?.list} />
-        )}
-        <OurBrands />
-        <Reviews />
-        <NewArrival />
-        <PromotionVideo />
-        <ShowAllSubCategories />
-      </div>
-      <NewsLetter className="bg-gray-100 pt-14" />
-      <Footer />
+      {/* all categories section  */}
+      <Category />
+      {/* featured production section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <Featured />
+      </Suspense>
+
+      {/* new arrival product section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <NewArrivals />
+      </Suspense>
+
+      {/* eid deals product section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <Deals />
+      </Suspense>
+
+      {/* open box product section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <OpenBox />
+      </Suspense>
+
+      {/* coming soon product section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <ComingSoon />
+      </Suspense>
+
+      {/* refurbished product section  */}
+      <Suspense fallback={<NewArrivalsSkeleton />}>
+        <Refurbished />
+      </Suspense>
+
+      {/* reviews section  */}
+      <Reviews />
+
+      {/* shop by brand sections  */}
+      {/* <main> */}
+      <LazyBrandSections />
+      {/* </main> */}
+      {/* shop confidence markup  */}
+      <ShopConfidence />
     </>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
-
+import Link from "next/link";
 import React from "react";
-import HeroSection from "@/components/HeroSection";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
@@ -9,10 +8,8 @@ const Page = () => {
 
   return (
     <>
-      <HeroSection singlePage={true} title="Order Confirmation" />
-
-      <div className="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-12">
-        <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center">
+      <div className="bg-gray-100 min-h-[70vh] flex items-center justify-center px-4 py-12">
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full text-center">
           {/* Success Icon */}
           <div className="mb-6">
             <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
@@ -64,7 +61,7 @@ const Page = () => {
           <div className="space-y-3">
             <button
               onClick={() => router.push("/")}
-              className="w-full bg-[#000DAF] text-white py-3 rounded-full hover:bg-[#000DAF]/90 transition-colors"
+              className="w-full bg-primary text-white py-3 rounded-md hover:bg-primary-200 transition-colors"
             >
               Continue Shopping
             </button>
@@ -74,12 +71,12 @@ const Page = () => {
           <div className="mt-6 pt-6 border-t">
             <p className="text-sm text-gray-500">
               Need help? Contact us at{" "}
-              <a
+              <Link
                 href="tel:+923260220581"
-                className="text-[#000DAF] font-semibold"
+                className="text-primary font-semibold"
               >
                 +92 326 0220581
-              </a>
+              </Link>
             </p>
           </div>
         </div>

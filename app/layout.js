@@ -1,11 +1,12 @@
-import { Roboto } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import RootClientLayout from "./(shared_layout)/clientLayout";
-// import WhatsAppContact from "@/components/WhatsAppContact";
+import Navbar from "@/components/v2/navbar/Navbar";
 
-const poppins = Roboto({
+const poppins = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+  weight: ["400", "500", "600", "700", "800"],
+  fallback: ["Arial", "sans-serif", "Amiri", "monospace", "Noto Naskh Arabic"],
 });
 
 export const metadata = {
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
         className={`${poppins.className} antialiased text-gray-700`}
       >
         <div className="overflow-x-clip w-full">
-          <RootClientLayout>{children}</RootClientLayout>
+          <RootClientLayout navbar={<Navbar />}>{children}</RootClientLayout>
         </div>
       </body>
     </html>

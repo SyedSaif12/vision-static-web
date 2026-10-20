@@ -12,7 +12,7 @@ import Link from "next/link";
 // Day.js imports aur setup
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import SafeNextImage from "./NextImageComponent";
+import { BaseImage } from ".";
 dayjs.extend(relativeTime);
 
 function ReviewCard({ review }) {
@@ -37,10 +37,11 @@ function ReviewCard({ review }) {
       <div className="flex items-center gap-3 mb-2">
         <div className="relative w-10 h-10 rounded-full overflow-hidden">
           {review?.image?.length > 0 && review?.image?.[0]?.fileUrl ? (
-            <SafeNextImage
+            <BaseImage
               src={review?.image?.[0]?.fileUrl}
               alt={review?.fullName}
-              className="object-cover"
+              fit="cover"
+              className="w-full h-full"
             />
           ) : (
             <span
@@ -102,9 +103,12 @@ export default function GoogleReviews() {
 
   return (
     <div className="w-[90%] mx-auto py-12 mt-10">
-      <div className="w-full h-full flex items-center">
+      <div className="w-full h-full flex flex-col items-center">
+        <h2 className="w-full text-xs md:text-sm text-primary tracking-wider mb-2 md:mb-5 uppercase font-semibold">
+          Trusted by customers
+        </h2>
         <h2 className="w-full text-2xl capitalize sm:text-3xl mb-10 font-semibold">
-          Customer Reviews
+          What buyers say
         </h2>
       </div>
       <Swiper

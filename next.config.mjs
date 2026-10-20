@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "img.youtube.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+        pathname: "**",
+      },
     ],
     // unoptimized: true,
   },

@@ -7,15 +7,24 @@ import { store } from "@/redux/store";
 import { AppContextProvider } from "@/context/AppContext";
 import Cookies from "js-cookie";
 import ChatBox from "@/components/ChatBox";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import WhatsAppContact from "@/components/WhatsAppContact";
 import { StorageKey } from "@/lib/utils";
 import axios from "axios";
 import dayjs from "dayjs";
 import AuthGuard from "@/components/protectedRoutes/AuthGuard";
+import Footer from "@/components/v2/footer/Footer";
+import { usePathname } from "next/navigation";
+import CartDrawer from "@/components/v2/cart/CartDrawer";
+import { NavbarSkeleton } from "@/components/v2/navbar/Navbar";
 
 // client layout component for initialize redux toolkit & RTK query
-export default function RootClientLayout({ children }) {
+export default function RootClientLayout({ children, navbar }) {
+  const pathname = usePathname();
+  const hideNavbarRoutes = ["/accounts/login", "/accounts/signup"];
+
+  const isHidePath = hideNavbarRoutes.includes(pathname);
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -28,12 +37,16 @@ export default function RootClientLayout({ children }) {
       <AppContextProvider>
         <Toaster />
         <TopNav />
-        <AuthGuard>
-        {children}
-        </AuthGuard>
+        {!isHidePath && (
+          <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
+        )}
+
+        <AuthGuard>{children}</AuthGuard>
         {/* <TawkTo /> */}
         <ChatBox />
         <WhatsAppContact />
+        {!isHidePath && <Footer />}
+        <CartDrawer />
       </AppContextProvider>
     </Provider>
   );
@@ -63,7 +76,8 @@ function AuthInitializer() {
       if (tokensCookie) {
         try {
           const authTokens = JSON.parse(tokensCookie);
-          const isExpired = new Date() > new Date(authTokens?.tokenExpirationDate);
+          const isExpired =
+            new Date() > new Date(authTokens?.tokenExpirationDate);
 
           if (isExpired && authTokens?.refreshToken) {
             const response = await axios.post(`${baseURL}users/refresh`, {
@@ -72,7 +86,9 @@ function AuthInitializer() {
 
             if (response?.data?.data?.tokens) {
               const newTokens = response.data.data.tokens;
-              const expirationTime = dayjs(newTokens?.tokenExpirationDate).toDate();
+              const expirationTime = dayjs(
+                newTokens?.tokenExpirationDate,
+              ).toDate();
 
               Cookies.set(storageKeys.tokens, JSON.stringify(newTokens), {
                 expires: expirationTime,
@@ -80,7 +96,7 @@ function AuthInitializer() {
             }
           }
         } catch (error) {
-          console.debug('Token refresh failed', error);
+          console.debug("Token refresh failed", error);
           // Agar refresh fail ho jaye toh cookies clear kar ke login par bhej sakte hain
           Cookies.remove(storageKeys.tokens);
           Cookies.remove(storageKeys.user);

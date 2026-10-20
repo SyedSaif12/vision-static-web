@@ -1,7 +1,3 @@
-import Footer from "@/components/Footer";
-import HeroSection from "@/components/HeroSection"; // FIXED
-import NewsLetter from "@/components/NewsLetter";
-
 export async function generateMetadata() {
   return {
     title: `Installment Plan | WeGot Pakistan`,
@@ -17,7 +13,6 @@ export default function Instalment() {
   return (
     <main className="min-h-screen bg-gray-100">
       <>
-        <HeroSection singlePage={true} title="Installment Plans at WeGot" />
         <div className="w-11/12 lg:w-10/12 mx-auto mt-10">
           <div>
             <h2 className="text-2xl lg:text-3xl mb-5 font-semibold">
@@ -133,8 +128,6 @@ export default function Instalment() {
             <span className="w-full border-b-[1px] border-black mt-3 mb-10 inline-block" />
           </div>
         </div>
-        <NewsLetter className="bg-gray-100 pt-14" />
-        <Footer />
       </>
     </main>
   );

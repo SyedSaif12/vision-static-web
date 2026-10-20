@@ -1,0 +1,143 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartCount } from "@/redux/cart/cartSlice";
+import { cartToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+import { logout } from "@/redux/user/userSlice";
+// ⚠️ Is file ko apni ORIGINAL navbar file ki jagah rakho taake ye path sahi rahe
+import SearchBar from "../products/_components/search-bar";
+
+import DesktopHeader from "./DesktopHeader";
+import DesktopNav from "./DesktopNav";
+import MobileHeader from "./MobileHeader";
+import MobileDrawer from "./MobileDrawer";
+import MobileBottomNav from "./MobileBottomNav";
+import { getSortedCategories } from "./nav-utils";
+
+export default function ClientNavbar({ categories }) {
+  const dispatch = useDispatch();
+  const pathname = usePathname();
+  const cartCount = useSelector(getCartCount);
+  const { data: user, loading: isUserLoading } = useSelector(
+    (state) => state.user,
+  );
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMount, setIsMount] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null); // "shop" | "support" | "why" | "user" | null
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const closeTimer = useRef(null);
+
+  useEffect(() => {
+    setIsMount(true);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+      setOpenMenu(null);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimeout(closeTimer.current);
+  }, []);
+
+  // Page change hone par mobile drawer band
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  const openHover = (name) => {
+    clearTimeout(closeTimer.current);
+    setOpenMenu(name);
+  };
+
+  const closeHover = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenMenu(null), 150);
+  };
+
+  const closeAll = () => {
+    clearTimeout(closeTimer.current);
+    setOpenMenu(null);
+  };
+
+  const sortedCategories = getSortedCategories(categories);
+
+  const handleLogout = () => dispatch(logout());
+  const handleCartOpen = () => dispatch(cartToggle(true));
+
+  return (
+    <>
+      <header
+        className={`fixed inset-x-0 z-50 text-white bg-primary transition-[top] duration-200 ${
+          isScrolled ? "top-0" : "top-[36px]"
+        }`}
+      >
+        {/* DESKTOP / TABLET (md+) — pehle jaisa */}
+        <div className="hidden md:block">
+          <DesktopHeader
+            searchSlot={<SearchBar className="hidden flex-1 md:block" />}
+            user={user}
+            isMount={isMount}
+            isUserLoading={isUserLoading}
+            cartCount={cartCount}
+            openMenu={openMenu}
+            openHover={openHover}
+            closeHover={closeHover}
+            onLogout={handleLogout}
+            onCartClick={handleCartOpen}
+          />
+          <DesktopNav
+            sortedCategories={sortedCategories}
+            openMenu={openMenu}
+            setOpenMenu={setOpenMenu}
+            openHover={openHover}
+            closeHover={closeHover}
+            closeAll={closeAll}
+          />
+        </div>
+
+        {/* MOBILE (< md) */}
+        <div className="md:hidden">
+          <MobileHeader
+            searchSlot={<SearchBar placeholder="Search laptops, phones..." />}
+            isMount={isMount}
+            cartCount={cartCount}
+            user={user}
+            onMenuClick={() => setMobileOpen(true)}
+            onCartClick={handleCartOpen}
+          />
+        </div>
+      </header>
+
+      {/* Mobile side drawer */}
+      <MobileDrawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        sortedCategories={sortedCategories}
+        user={user}
+        isMount={isMount}
+        isUserLoading={isUserLoading}
+        onLogout={handleLogout}
+      />
+
+      {/* Mobile bottom navigation (hamesha screen ke neeche) */}
+      <MobileBottomNav
+        isMount={isMount}
+        cartCount={cartCount}
+        user={user}
+        onCartClick={handleCartOpen}
+      />
+
+      {/* Fixed navbar ke neeche content na chhupe */}
+      <div className="h-[148px] md:h-[157px]" aria-hidden="true" />
+    </>
+  );
+}

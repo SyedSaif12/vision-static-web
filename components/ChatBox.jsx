@@ -68,7 +68,7 @@ export default function ChatBox() {
       {/* 3. Tumhara Apna Custom Button UI */}
       {!toggle && (
         <button
-          className="fixed bottom-0 right-0 z-[9999] w-16 h-16 flex justify-center items-center bg-[#1AA94E] m-5 rounded-full cursor-pointer hover:scale-110 transition-transform duration-200"
+          className="fixed bottom-12 md:bottom-0 right-0 z-[9999] w-16 h-16 flex justify-center items-center bg-[#1AA94E] m-5 rounded-full cursor-pointer hover:scale-110 transition-transform duration-200"
           onClick={handleChatClick}
           title="Start Chat"
         >
