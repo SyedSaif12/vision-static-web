@@ -10,6 +10,7 @@ import {
   LoaderCircle,
   LogOut,
 } from "lucide-react";
+import { BaseImage } from "@/components";
 
 /* DESKTOP / TABLET — TOP NAVBAR (pehle jaisa hi, koi change nahi) */
 export default function DesktopHeader({
@@ -28,12 +29,14 @@ export default function DesktopHeader({
     <div className="relative w-11/12 mx-auto z-30 border-b border-white/20">
       <div className="flex min-h-[88px] items-center gap-5">
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex shrink-0 items-center gap-1 text-2xl font-extrabold tracking-tight"
-        >
-          WEGOT
-          <Tag size={29} strokeWidth={3} className="fill-gold text-gold" />
+        <Link href="/" className="flex shrink-0 items-center gap-1 w-20 h-20">
+          <BaseImage
+            src={"/images/logo-wegot.png"}
+            alt={"wegot logo png"}
+            fit="contain"
+            className="w-full h-full"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
         </Link>
 
         {/* Search */}

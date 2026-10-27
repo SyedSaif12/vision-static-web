@@ -27,6 +27,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link
+          rel="icon"
+          href="/images/favicon-light.ico"
+          media="(prefers-color-scheme: dark)"
+        />
+        <link
+          rel="icon"
+          href="/images/favicon-dark.ico"
+          media="(prefers-color-scheme: light)"
+        />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

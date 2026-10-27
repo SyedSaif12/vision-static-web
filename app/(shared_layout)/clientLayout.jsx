@@ -21,7 +21,7 @@ import { NavbarSkeleton } from "@/components/v2/navbar/Navbar";
 // client layout component for initialize redux toolkit & RTK query
 export default function RootClientLayout({ children, navbar }) {
   const pathname = usePathname();
-  const hideNavbarRoutes = ["/accounts/login", "/accounts/signup"];
+  const hideNavbarRoutes = ["/accounts/login", "/checkout", "/accounts/signup"];
 
   const isHidePath = hideNavbarRoutes.includes(pathname);
 
@@ -36,15 +36,15 @@ export default function RootClientLayout({ children, navbar }) {
       <AuthInitializer />
       <AppContextProvider>
         <Toaster />
-        <TopNav />
+        {!isHidePath && <TopNav />}
         {!isHidePath && (
           <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
         )}
 
         <AuthGuard>{children}</AuthGuard>
         {/* <TawkTo /> */}
-        <ChatBox />
-        <WhatsAppContact />
+        {!isHidePath && <ChatBox />}
+        {!isHidePath && <WhatsAppContact />}
         {!isHidePath && <Footer />}
         <CartDrawer />
       </AppContextProvider>

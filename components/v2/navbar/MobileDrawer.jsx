@@ -267,7 +267,8 @@ export default function MobileDrawer({
 
         <div className="shrink-0 border-t p-3">
           <Link
-            href="/support-services/contact-us"
+            href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
+            target="_blank"
             onClick={onClose}
             className="flex items-center justify-center gap-2 rounded-full bg-green px-5 py-3 font-semibold text-white"
           >

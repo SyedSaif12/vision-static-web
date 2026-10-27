@@ -30,6 +30,7 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
+import { BaseImage } from "@/components";
 
 const STEP_PROGRESS = {
   email: 50,
@@ -124,14 +125,13 @@ export default function Page() {
       {/* BRAND SIDE */}
       <aside className="relative hidden flex-col justify-between overflow-hidden bg-gradient-to-br from-brand-700 via-brand to-[#031057] px-14 py-12 text-white md:flex">
         <div className="pointer-events-none absolute -bottom-52 -right-40 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,.12),transparent_62%)]" />
-        <Link
-          href="/"
-          className="z-10 inline-flex items-center font-heading text-2xl font-extrabold tracking-tight text-white"
-        >
-          <Image
-            src={visionTechIcon}
-            alt="WeGot"
-            className="w-28 lg:w-40 object-contain"
+        <Link href="/" className="z-10 inline-flex items-center w-28 h-28">
+          <BaseImage
+            src={"/images/logo-wegot.png"}
+            alt={"wegot logo png"}
+            fit="contain"
+            className="w-full h-full"
+            sizes="(max-width: 768px) 100vw, 33vw"
           />
         </Link>
         <div className="z-10 max-w-[420px]">
@@ -157,14 +157,13 @@ export default function Page() {
       {/* FORM SIDE */}
       <main className="relative flex flex-col items-center justify-start bg-white px-6 pb-10 pt-8 md:justify-center md:pt-10">
         <div className="mb-6 flex w-full max-w-[430px] items-center justify-between md:hidden">
-          <Link
-            href="/"
-            className="z-10 inline-flex items-center font-heading text-2xl font-extrabold tracking-tight text-white"
-          >
-            <Image
-              src={visionTechIcon}
-              alt="WeGot"
-              className="w-28 lg:w-40 object-contain"
+          <Link href="/" className="z-10 inline-flex items-center w-16 h-16">
+            <BaseImage
+              src={"/images/logo-wegot-dark.png"}
+              alt={"wegot logo png"}
+              fit="contain"
+              className="w-full h-full"
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
           </Link>
           <Link href="/" className="text-[13px] text-muted">

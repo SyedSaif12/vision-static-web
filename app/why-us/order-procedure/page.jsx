@@ -417,13 +417,13 @@ export default function OrderProcedurePage() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a
-                href="/shop"
+                href="/products"
                 className="inline-flex min-h-11 items-center justify-center rounded-xl bg-gold px-5 py-3 text-sm font-bold text-ink shadow-[0_7px_16px_rgba(255,207,36,0.28)] transition hover:-translate-y-0.5 hover:bg-gold-600 focus:outline-none focus:ring-4 focus:ring-gold/30"
               >
                 Start shopping
               </a>
               <a
-                href="https://wa.me/923000000000"
+                href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-green px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:brightness-95 focus:outline-none focus:ring-4 focus:ring-green/20"

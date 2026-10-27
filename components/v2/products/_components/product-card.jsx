@@ -42,7 +42,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
       <Link href={href} className="relative block aspect-[4/3] bg-slate-100">
         <BaseImage
           src={product?.image}
-          alt={product?.name}
+          alt={product?.alt}
           fit="contain"
           priority={priority}
           sizes="(min-width:1280px) 25vw, (min-width:640px) 40vw, 100vw"

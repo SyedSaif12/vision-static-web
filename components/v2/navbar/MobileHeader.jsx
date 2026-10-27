@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Menu, ShoppingCart, Tag, UserRound } from "lucide-react";
+import { BaseImage } from "@/components";
 
 /* MOBILE (< md) — compact top header: menu + logo + account + cart, neeche search */
 export default function MobileHeader({
@@ -24,12 +25,14 @@ export default function MobileHeader({
             <Menu size={26} />
           </button>
 
-          <Link
-            href="/"
-            className="flex items-center gap-1 text-xl font-extrabold tracking-tight"
-          >
-            WEGOT
-            <Tag size={24} strokeWidth={3} className="fill-gold text-gold" />
+          <Link href="/" className="flex items-center gap-1 w-16 h-16">
+            <BaseImage
+              src={"/images/logo-wegot.png"}
+              alt={"wegot logo png"}
+              fit="contain"
+              className="w-full h-full"
+              sizes="(max-width: 768px) 100vw, 33vw"
+            />
           </Link>
         </div>
 

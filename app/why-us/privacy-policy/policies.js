@@ -136,7 +136,11 @@ export const privacyPolicy = {
           href: "https://wa.me/923260220581",
           variant: "whatsapp",
         },
-        { label: "Contact us", href: "/contact", variant: "outline" },
+        {
+          label: "Contact us",
+          href: "/support-services/contact-us",
+          variant: "outline",
+        },
       ],
     },
   ],
@@ -214,7 +218,11 @@ export const returnPolicy = {
           href: "https://wa.me/923260220581",
           variant: "whatsapp",
         },
-        { label: "Contact us", href: "/contact", variant: "outline" },
+        {
+          label: "Contact us",
+          href: "/support-services/contact-us",
+          variant: "outline",
+        },
       ],
     },
     {
@@ -239,7 +247,7 @@ export const returnPolicy = {
       actions: [
         {
           label: "Start a warranty claim",
-          href: "/warranty-claim",
+          href: "/support-services/warranty-claim",
           variant: "outline",
         },
       ],

@@ -5,8 +5,10 @@ import Link from "next/link";
 import { Play, Store } from "lucide-react";
 import { BaseImage } from "@/components";
 
+// const DEFAULT_VIDEO_URL =
+//   "https://www.youtube.com/embed/54Ej0JdngZI?si=jrXQfgO0BSwGZcX8";
 const DEFAULT_VIDEO_URL =
-  "https://www.youtube.com/embed/54Ej0JdngZI?si=jrXQfgO0BSwGZcX8";
+  "https://www.youtube.com/embed/9jo51nJrO0k?si=ghjfoW2TAYxEwqcB";
 
 const cardsData = [
   {

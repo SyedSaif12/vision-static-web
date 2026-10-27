@@ -32,7 +32,7 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
 
         <BaseImage
           src={current?.fileUrl}
-          alt={`${title}${hasMany ? ` - image ${active + 1} of ${list.length}` : ""}`}
+          alt={current?.alt ?? `${title}${hasMany ? ` - image ${active + 1} of ${list.length}` : ""}`}
           className="h-full w-full"
           imgClassName="p-6"
           fit="contain"
@@ -58,7 +58,7 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
                 >
                   <BaseImage
                     src={img.fileUrl}
-                    alt=""
+                    alt={img?.alt ?? ''}
                     className="h-full w-full"
                     imgClassName="p-1.5"
                     fit="contain"

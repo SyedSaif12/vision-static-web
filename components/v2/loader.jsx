@@ -1,5 +1,4 @@
 "use client";
-import { BaseImage } from "..";
 
 const BLUE = "#1a56db";
 const ORANGE = "#ffcf24";
@@ -127,23 +126,12 @@ export default function PageLoader({ label = "Loading..." }) {
         {/* Static logo */}
         <div className="relative z-[1] h-[76px] w-[92%] shrink-0 sm:h-[90px]">
           <img
-            src="/images/wegot-logo.png"
+            src="/images/logo-wegot-dark.png"
             alt="WeGot"
             loading="eager"
             fetchPriority="high"
             className="w-full h-full object-contain"
           />
-          {/* <BaseImage
-            src="/images/wegot-logo.png"
-            alt="WeGot"
-            className="w-full h-full"
-            // className="relative z-[1] h-[76px] w-[92%] shrink-0 sm:h-[90px]"
-            imgClassName="!object-contain"
-            fit="contain"
-            sizes="(max-width: 640px) 92vw, 350px"
-            showSkeleton={false}
-            fallbackClassName="bg-transparent"
-          /> */}
         </div>
       </div>
     </div>

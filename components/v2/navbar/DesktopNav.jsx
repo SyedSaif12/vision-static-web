@@ -37,7 +37,7 @@ export default function DesktopNav({
             </button>
 
             {openMenu === "shop" && (
-              <div className="absolute left-0 top-full z-40 max-h-[calc(100dvh-100px)] w-full overflow-y-auto rounded-b-3xl border border-brand-50 bg-white text-ink shadow-2xl">
+              <div className="absolute top-full z-40 max-h-[calc(100dvh-200px)] w-[91%] mx-auto overflow-y-auto overscroll-contain rounded-b-3xl border border-brand-50 bg-white text-ink shadow-2xl">
                 <div className="px-5 py-6 md:px-8">
                   <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-brand-50 pb-4">
                     <div className="flex flex-wrap items-center gap-4">
@@ -60,12 +60,12 @@ export default function DesktopNav({
                     {sortedCategories.map((category) => (
                       <section
                         key={category.id}
-                        className="mb-7 inline-block w-full break-inside-avoid align-top"
+                        className="mb-7 inline-block w-full border border-transparent hover:border-gray-300 p-2 rounded-lg break-inside-avoid align-top"
                       >
                         <Link
                           href={getCategoryHref(category.name)}
                           onClick={closeAll}
-                          className="mb-3 block break-words text-[15px] font-bold capitalize hover:text-brand"
+                          className="mb-3 block hover:translate-x-4 transition-transform duration-300 break-words text-[15px] font-bold capitalize hover:text-brand"
                         >
                           {category.name?.replaceAll("-", " ")}
                         </Link>
@@ -81,7 +81,7 @@ export default function DesktopNav({
                                     subCategory.name,
                                   )}
                                   onClick={closeAll}
-                                  className="block break-words text-sm capitalize text-faint transition-colors hover:text-brand"
+                                  className="block break-words text-sm hover:translate-x-3 duration-300 capitalize text-faint transition-all hover:text-brand"
                                 >
                                   {subCategory.name}
                                 </Link>
@@ -189,7 +189,9 @@ export default function DesktopNav({
           </div>
 
           <Link
-            href="/support-services/contact-us"
+            // href="/support-services/contact-us"
+            href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
+            target="_blank"
             className="flex shrink-0 items-center gap-2 rounded-full bg-green px-5 py-3 font-semibold text-white hover:bg-green/80"
           >
             <MessageCircle size={18} />

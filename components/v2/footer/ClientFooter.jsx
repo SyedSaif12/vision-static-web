@@ -3,20 +3,22 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { MapPin, Phone, MessageCircle, Clock, Plus, Minus } from "lucide-react";
+import { BaseImage } from "@/components";
 
 /* ---------- Logo (apna logo component ho to isay replace kar do) ---------- */
 const Logo = () => (
   <Link
     href="/"
     aria-label="WeGot home"
-    className="inline-flex items-center gap-1.5"
+    className="inline-flex items-center w-24 h-24"
   >
-    <span className="font-heading text-2xl font-extrabold tracking-tight text-ink">
-      WEGOT
-    </span>
-    <span className="relative h-5 w-7 rounded-l-md rounded-r-sm bg-gold">
-      <span className="absolute left-1.5 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-brand" />
-    </span>
+    <BaseImage
+      src={"/images/logo-wegot-dark.png"}
+      alt={"wegot logo image"}
+      fit="contain"
+      className="w-full h-full"
+      sizes="(max-width: 768px) 100vw, 33vw"
+    />
   </Link>
 );
 

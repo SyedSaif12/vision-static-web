@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
 import { cartToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 import { logout } from "@/redux/user/userSlice";
-// ⚠️ Is file ko apni ORIGINAL navbar file ki jagah rakho taake ye path sahi rahe
 import SearchBar from "../products/_components/search-bar";
 
 import DesktopHeader from "./DesktopHeader";
@@ -29,6 +28,7 @@ export default function ClientNavbar({ categories }) {
   const [openMenu, setOpenMenu] = useState(null); // "shop" | "support" | "why" | "user" | null
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeTimer = useRef(null);
+  const isHoveringMenu = useRef(false);
 
   useEffect(() => {
     setIsMount(true);
@@ -37,7 +37,7 @@ export default function ClientNavbar({ categories }) {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
-      setOpenMenu(null);
+      if (!isHoveringMenu.current) setOpenMenu(null);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -55,16 +55,19 @@ export default function ClientNavbar({ categories }) {
 
   const openHover = (name) => {
     clearTimeout(closeTimer.current);
+    isHoveringMenu.current = true;
     setOpenMenu(name);
   };
 
   const closeHover = () => {
     clearTimeout(closeTimer.current);
+    isHoveringMenu.current = false;
     closeTimer.current = setTimeout(() => setOpenMenu(null), 150);
   };
 
   const closeAll = () => {
     clearTimeout(closeTimer.current);
+    isHoveringMenu.current = false;
     setOpenMenu(null);
   };
 

@@ -30,9 +30,9 @@ export function BrandSection({
           >
             Shop {section.heading} {category}
           </h2>
-          {section.description && (
+          {section?.mainDesc && (
             <p className="mt-3 text-base text-slate-600">
-              {section.description}
+              {section.mainDesc}
             </p>
           )}
         </div>

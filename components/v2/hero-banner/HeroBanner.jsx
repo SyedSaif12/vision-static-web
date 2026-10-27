@@ -49,12 +49,13 @@ const HeroBanner = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
 
-              <button
-                type="button"
+              <Link
+                href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
+                target="_blank"
                 className="inline-flex h-12 items-center justify-center rounded-xl border border-white/40 bg-white/10 px-6 font-poppins text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:h-14"
               >
                 Talk to an expert
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -66,78 +67,89 @@ const HeroBanner = () => {
             */}
             <div className="grid grid-cols-4 grid-rows-[118px_82px_82px] gap-1 sm:grid-rows-[150px_104px_104px] sm:gap-2 md:gap-3 lg:h-full lg:grid-rows-4">
               {/* Laptops */}
-              <div
+              <Link
+                href={"/products?category=laptops"}
                 className={`${tileBase} col-span-2 col-start-1 row-span-1 row-start-1 lg:row-span-2`}
               >
                 <Laptop className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Laptops &amp; PCs</span>
-              </div>
+              </Link>
 
               {/* Mobiles */}
-              <div
+              <Link
+                href={"/products?category=mobiles"}
                 className={`${tileBase} col-span-1 col-start-3 row-span-1 row-start-1 lg:row-span-2`}
               >
                 <Smartphone className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Mobiles</span>
-              </div>
+              </Link>
 
               {/* Appliances */}
-              <div
+              <Link
+                href={"/products?subCategory=dyson"}
                 className={`${tileBase} col-span-1 col-start-4 row-span-1 row-start-1 lg:row-span-2`}
               >
                 <Refrigerator className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Appliances</span>
-              </div>
+              </Link>
 
               {/* Gaming */}
-              <div
+              <Link
+                href={"/products?category=gaming-console"}
                 className={`${tileBase} col-span-1 col-start-1 row-span-1 row-start-2 lg:row-start-3`}
               >
                 <Gamepad2 className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Gaming</span>
-              </div>
+              </Link>
 
               {/* Audio */}
-              <div
+              <Link
+                href={"/products?category=air-pods"}
                 className={`${tileBase} col-span-1 col-start-2 row-span-1 row-start-2 lg:row-start-3`}
               >
                 <Headphones className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Audio</span>
-              </div>
+              </Link>
 
               {/* Accessories */}
-              <div
+              <Link
+                href={"/products?category=accessories"}
                 className={`${tileBase} col-span-2 col-start-3 row-span-1 row-start-2 lg:row-start-3`}
               >
                 <Mouse className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Accessories</span>
-              </div>
+              </Link>
 
               {/* Wearables */}
-              <div
+              <Link
+                href={"/products?category=watches"}
                 className={`${tileBase} col-span-1 col-start-1 row-span-1 row-start-3 lg:row-start-4`}
               >
                 <Watch className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Wearables</span>
-              </div>
+              </Link>
 
               {/* Cameras */}
-              <div
+              <Link
+                href={"/products?category=camera"}
                 className={`${tileBase} col-span-1 col-start-2 row-span-1 row-start-3 lg:row-start-4`}
               >
                 <Camera className={iconCls} strokeWidth={1} />
                 <span className={labelCls}>Cameras</span>
-              </div>
+              </Link>
 
               {/* 40+ */}
-              <div className="col-span-2 col-start-3 row-span-1 row-start-3 flex min-h-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-gold to-[#ffe27a] px-3 text-center lg:row-start-4">
+              <Link
+                href={"/categories"}
+                className="col-span-2 col-start-3 row-span-1 row-start-3 flex min-h-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-r from-gold to-[#ffe27a] px-3 text-center lg:row-start-4"
+              >
                 <span className="font-heading text-2xl font-extrabold text-ink sm:text-3xl xl:text-4xl">
                   40+
                 </span>
                 <span className="mt-1 text-[11px] font-semibold leading-tight text-ink sm:text-xs">
                   categories &amp; growing
                 </span>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

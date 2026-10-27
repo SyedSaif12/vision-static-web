@@ -2,6 +2,11 @@
 export const revalidate = 72000;
 import { allApiFetched } from "@/lib/api";
 
+const normalizeSitemapUrl = (item) => ({
+  ...item,
+  url: new URL(item.url).href.replace(/&/g, "&amp;"),
+});
+
 export default async function sitemap() {
   const public_url = process.env.NEXT_PUBLIC_URL;
   const newData = new Date().toISOString();
@@ -37,14 +42,22 @@ export default async function sitemap() {
       priority: 0.8,
     },
   ];
-  const { category, subCategory, product, categoryWithChips } =
-    await allApiFetched();
+  const {
+    staticListings,
+    category,
+    subCategory,
+    categoryWithSubCategory,
+    categoryWithChips,
+    product,
+  } = await allApiFetched();
 
   return [
     ...staticUrls,
-    ...category,
-    ...subCategory,
-    ...categoryWithChips,
-    ...product,
+    ...staticListings.map(normalizeSitemapUrl),
+    ...category.map(normalizeSitemapUrl),
+    ...subCategory.map(normalizeSitemapUrl),
+    ...categoryWithSubCategory.map(normalizeSitemapUrl),
+    ...categoryWithChips.map(normalizeSitemapUrl),
+    ...product.map(normalizeSitemapUrl),
   ];
 }

@@ -48,6 +48,11 @@ const user = JSON.parse(Cookies.get(storageKeys.user) ?? "{}");
   }
 })();
 
+// Keeps the user cookie in sync with redux after any address change.
+const persistUser = (state) => {
+  if (state.data) Cookies.set(storageKeys.user, JSON.stringify(state.data));
+};
+
 // Update user
 export const updateUser = createAsyncThunk(
   "user/update",
@@ -72,6 +77,48 @@ export const logout = createAsyncThunk("user/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(message);
   }
 });
+
+// Update user
+export const createAddress = createAsyncThunk(
+  "user/new-address",
+  async ({ payload }, thunkAPI) => {
+    try {
+      return await userService.newAddress(payload);
+    } catch (error) {
+      console.debug(error);
+      const message = errorHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+// Edit address
+export const updateAddress = createAsyncThunk(
+  "user/update-address",
+  async ({ id, payload }, thunkAPI) => {
+    try {
+      return await userService.updateAddress(id, payload);
+    } catch (error) {
+      console.debug(error);
+      const message = errorHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
+
+// Delete address
+export const deleteAddress = createAsyncThunk(
+  "user/delete-address",
+  async ({ id }, thunkAPI) => {
+    try {
+      return await userService.deleteAddress(id);
+    } catch (error) {
+      console.debug(error);
+      const message = errorHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  },
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -104,6 +151,73 @@ const userSlice = createSlice({
         state.data = action.payload?.data;
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createAddress.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createAddress.fulfilled, (state, action) => {
+        const newAddress = action.payload?.data;
+
+        if (state.data && newAddress?.id) {
+          const existingAddresses = state.data.userAddress ?? [];
+
+          // id guard: never insert the same address twice
+          const alreadyExists = existingAddresses.some(
+            (address) => address.id === newAddress.id,
+          );
+
+          if (!alreadyExists) {
+            state.data.userAddress = [...existingAddresses, newAddress];
+          }
+          persistUser(state);
+        }
+
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(createAddress.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(updateAddress.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateAddress.fulfilled, (state, action) => {
+        const updated = action.payload?.data;
+
+        if (state.data && updated?.id) {
+          state.data.userAddress = (state.data.userAddress ?? []).map(
+            (address) => (address.id === updated.id ? updated : address),
+          );
+          persistUser(state);
+        }
+
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateAddress.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteAddress.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteAddress.fulfilled, (state, action) => {
+        const removedId = action.meta.arg.id; // API may not echo the id back
+
+        if (state.data) {
+          state.data.userAddress = (state.data.userAddress ?? []).filter(
+            (address) => address.id !== removedId,
+          );
+          persistUser(state);
+        }
+
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
