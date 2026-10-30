@@ -11,19 +11,28 @@ const mapStock = {
   in_order: true,
 };
 
-const CartButton = ({ product, disabled, quantity = 1, className = '' }) => {
+const CartButton = ({
+  product,
+  disabled,
+  quantity = 1,
+  className = "",
+  btnClassName = "",
+}) => {
   const cartCount = useSelector(getCartCount);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
   const handleAddToCart = () => {
     const addtocartitems = {
       id: product?.id,
-      quantity:  Math.max(1, Number(quantity) || 1),
+      quantity: Math.max(1, Number(quantity) || 1),
       productTitle: product?.name,
+      attributes: product?.specs,
       slug: product?.slug,
       oldPrice: product?.oldPrice,
       price: product?.price,
       image: product?.image,
+      warranty: product?.warranty,
+      tag: product?.tag,
     };
 
     dispatch(addToCart(addtocartitems));
@@ -44,11 +53,11 @@ const CartButton = ({ product, disabled, quantity = 1, className = '' }) => {
           setClicked(true);
           handleAddToCart();
         }}
-        className={`w-full rounded-lg ${clicked || disabled ? "cursor-not-allowed" : "cursor-pointer"} bg-amber-400 px-4 py-2.5 text-sm font-bold text-slate-900 transition-colors hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2`}
+        className={`${btnClassName} w-full rounded-lg ${clicked || disabled ? "cursor-not-allowed" : "cursor-pointer"} bg-gold px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-gold-600 focus-visible:outline-2 focus-visible:outline-offset-2`}
       >
         {clicked ? (
           <span className="flex items-center justify-center gap-2">
-            Added to cart
+            Adding
             <Loader2 size={18} className="animate-spin" />
           </span>
         ) : (

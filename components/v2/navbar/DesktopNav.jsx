@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ChevronDown, MessageCircle } from "lucide-react";
 import { getCategoryHref, getSubCategoryHref } from "@/lib/utils";
-import { supportLinks, whyLinks } from "./nav-config";
+import { supportLinks, dealsLink, whyLinks } from "./nav-config";
 
 /* DESKTOP / TABLET — SECOND NAVBAR (Shop mega menu, Support, Why Us) */
 export default function DesktopNav({
@@ -16,14 +16,14 @@ export default function DesktopNav({
 }) {
   return (
     <nav className="relative z-20 bg-primary">
-      <div className="flex w-11/12 mx-auto min-h-[69px] items-center justify-between gap-3 border-b border-white/20">
+      <div className="flex w-11/12 mx-auto h-[57.6px] items-center justify-between gap-3 border-b border-white/20">
         <div className="flex items-center gap-2">
           {/* ===== SHOP (full-width mega menu) ===== */}
           <div onMouseEnter={() => openHover("shop")} onMouseLeave={closeHover}>
             <button
               onClick={() => setOpenMenu(openMenu === "shop" ? null : "shop")}
               aria-expanded={openMenu === "shop"}
-              className={`flex shrink-0 items-center gap-2 rounded-full border border-surface/50 px-5 py-3 text-sm font-semibold transition ${
+              className={`flex shrink-0 items-center gap-2 rounded-full border border-surface/50 px-3 py-2 text-menu font-semibold transition ${
                 openMenu === "shop" ? "bg-surface/20" : "hover:bg-surface/10"
               }`}
             >
@@ -95,17 +95,43 @@ export default function DesktopNav({
               </div>
             )}
           </div>
-
-          <Link
-            href="/products?tag=deals"
-            className="hidden rounded-full border border-surface/40 px-5 py-3 text-sm font-semibold hover:bg-surface/10 sm:block"
+          {/* ===== All Deals ===== */}
+          <div
+            className="relative hidden xl:block"
+            onMouseEnter={() => openHover("deals")}
+            onMouseLeave={closeHover}
           >
-            Deals
-          </Link>
+            <span className="flex items-center gap-2 rounded-full border border-surface/40 px-3 py-2 text-menu font-semibold hover:bg-surface/10">
+              Deals
+              <ChevronDown
+                size={15}
+                className={`transition-transform ${
+                  openMenu === "deals" ? "rotate-180" : ""
+                }`}
+              />
+            </span>
+
+            {openMenu === "deals" && (
+              <div className="absolute left-0 top-full z-40 w-60 pt-2">
+                <div className="rounded-2xl bg-white p-2 text-ink shadow-2xl">
+                  {dealsLink.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeAll}
+                      className="block rounded-lg px-4 py-2.5 text-sm hover:bg-slate-100"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           <Link
             href="/products?tag=refurbished"
-            className="hidden rounded-full border border-surface/40 px-5 py-3 text-sm font-semibold hover:bg-surface/10 md:block"
+            className="hidden rounded-full border border-surface/40 px-3 py-2 text-menu font-semibold hover:bg-surface/10 md:block"
           >
             Refurbished
           </Link>
@@ -116,7 +142,7 @@ export default function DesktopNav({
             onMouseEnter={() => openHover("support")}
             onMouseLeave={closeHover}
           >
-            <span className="flex items-center gap-2 rounded-full border border-surface/40 px-5 py-3 text-sm font-semibold hover:bg-surface/10">
+            <span className="flex items-center gap-2 rounded-full border border-surface/40 px-3 py-2 text-menu font-semibold hover:bg-surface/10">
               Support & Services
               <ChevronDown
                 size={15}
@@ -147,7 +173,10 @@ export default function DesktopNav({
 
         {/* Right-side navigation */}
         <div className="hidden items-center gap-7 text-sm lg:flex">
-          <Link href="/instalment-plan" className="hover:text-brand-50">
+          <Link
+            href="/instalment-plan"
+            className="hover:text-brand-50 text-menu font-light"
+          >
             Instalment Plan
           </Link>
 
@@ -159,7 +188,7 @@ export default function DesktopNav({
           >
             <Link
               href="/why-us/why-wegot"
-              className="flex items-center gap-1 hover:text-brand-50"
+              className="flex items-center gap-1 text-menu font-light hover:text-brand-50"
             >
               Why Us
               <ChevronDown
@@ -192,9 +221,9 @@ export default function DesktopNav({
             // href="/support-services/contact-us"
             href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
             target="_blank"
-            className="flex shrink-0 items-center gap-2 rounded-full bg-green px-5 py-3 font-semibold text-white hover:bg-green/80"
+            className="flex shrink-0 items-center gap-2 rounded-full bg-green px-3 py-2 text-menu font-semibold text-white hover:bg-green/80"
           >
-            <MessageCircle size={18} />
+            <MessageCircle size={14} />
             Shop with Expert
           </Link>
         </div>

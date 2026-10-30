@@ -98,8 +98,8 @@ export default function ProcessCards() {
   };
 
   return (
-    <section className="w-full bg-surface py-8 sm:py-12">
-      <div className="mx-auto grid w-11/12 grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-5">
+    <section className="w-11/12 mx-auto rounded-lg bg-surface px-4 py-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-5">
         {cardsData.map((card) => {
           const isPlaying = Boolean(playingCards[card.id]);
           const videoId = getYouTubeVideoId(card.youtubeUrl);
@@ -134,7 +134,7 @@ export default function ProcessCards() {
 
               {/* Video card */}
               {card.type === "video" ? (
-                <div className="relative h-28 w-full overflow-hidden rounded-xl sm:h-36 sm:rounded-2xl md:h-40 lg:h-44">
+                <div className="relative h-28 w-full overflow-hidden rounded-sm sm:h-36 sm:rounded-2xl md:h-40 lg:h-44">
                   {isPlaying && videoSrc ? (
                     <iframe
                       className="absolute inset-0 h-full w-full"
@@ -182,7 +182,7 @@ export default function ProcessCards() {
                 <Link
                   href={card.storeUrl}
                   aria-label="Visit store locator"
-                  className="flex h-28 w-full items-center justify-center rounded-xl bg-green-100 transition-colors hover:bg-green-200 sm:h-36 sm:rounded-2xl md:h-40 lg:h-44"
+                  className="flex h-28 w-full items-center justify-center rounded-sm bg-green-100 transition-colors hover:bg-green-200 sm:h-36 sm:rounded-2xl md:h-40 lg:h-44"
                 >
                   <Store
                     strokeWidth={1}

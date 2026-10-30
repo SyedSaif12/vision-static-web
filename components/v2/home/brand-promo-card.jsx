@@ -14,7 +14,9 @@ export function BrandPromoCard({ section }) {
       <div>
         <h3 className="text-3xl font-bold tracking-tight">{section.heading}</h3>
         {section.description && (
-          <p className={`mt-3 text-base ${dark ? "text-white/80" : "text-slate-700"}`}>
+          <p
+            className={`mt-3 text-menu ${dark ? "text-white/80" : "text-slate-700"}`}
+          >
             {section.description}
           </p>
         )}

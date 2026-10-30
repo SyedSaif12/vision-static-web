@@ -21,7 +21,6 @@ export function ProductCard({ product, priority = false, tag = {} }) {
 
   return (
     <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
-
       {isTag ? (
         <span
           style={{ backgroundColor: tag.color }}
@@ -62,7 +61,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
           {/* productTitle bohot lamba hota hai -> 2 lines par clamp, full title hover/tooltip me */}
           <h3
             title={product?.name}
-            className="mt-0.5 line-clamp-2 text-base font-semibold text-slate-900"
+            className="mt-0.5 line-clamp-1 text-input font-bold text-slate-900"
           >
             <Link
               href={href}
@@ -79,7 +78,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
               <li
                 key={s + idx}
                 title={s}
-                className="max-w-full truncate rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700"
+                className="max-w-full truncate rounded-md bg-slate-100 px-1 py-0.5 text-xs text-slate-700"
               >
                 {s}
               </li>
@@ -87,12 +86,12 @@ export function ProductCard({ product, priority = false, tag = {} }) {
           </ul>
         )}
 
-        <div className="space-y-0.5 text-xs">
+        {/* <div className="space-y-0.5 text-xs">
           {product?.warranty && (
             <p className="text-slate-600">{product?.warranty}</p>
           )}
           <p className={`font-medium ${stock?.cls}`}>{stock?.text}</p>
-        </div>
+        </div> */}
         <div className="mt-auto pt-2">
           {product?.oldPrice || product?.price ? (
             <>
@@ -110,10 +109,25 @@ export function ProductCard({ product, priority = false, tag = {} }) {
           )}
         </div>
 
-        <div className="relative z-10">
+        <div className="relative flex w-full gap-2 items-center justify-center z-10">
           {product?.oldPrice || product?.price ? (
             // <AddToCartButton productId={product?.id} disabled={!canBuy} />
-            <CartButton product={product} disabled={!canBuy} />
+            <>
+              <Link
+                className="text-primary border border-primary sm:w-20 px-2 sm:px-4 py-1.5 sm:py-1.5 flex items-center justify-center text-xs sm:text-sm font-bold rounded-full"
+                href={href}
+              >
+                View
+              </Link>
+              <CartButton
+                className="!w-36 !sm:w-40"
+                btnClassName={
+                  "!bg-primary !px-2 !py-2 !text-xs !sm:px-4 !sm:py-2 !sm:text-sm !text-white !hover:bg-primary-200 !rounded-full"
+                }
+                product={product}
+                disabled={!canBuy}
+              />
+            </>
           ) : (
             <button
               type="button"

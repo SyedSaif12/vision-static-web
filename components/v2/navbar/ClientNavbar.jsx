@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getCartCount } from "@/redux/cart/cartSlice";
-import { cartToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+import { cartToggle, onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 import { logout } from "@/redux/user/userSlice";
 import SearchBar from "../products/_components/search-bar";
-
 import DesktopHeader from "./DesktopHeader";
 import DesktopNav from "./DesktopNav";
 import MobileHeader from "./MobileHeader";
@@ -16,6 +15,7 @@ import MobileBottomNav from "./MobileBottomNav";
 import { getSortedCategories } from "./nav-utils";
 
 export default function ClientNavbar({ categories }) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const pathname = usePathname();
   const cartCount = useSelector(getCartCount);
@@ -65,6 +65,16 @@ export default function ClientNavbar({ categories }) {
     closeTimer.current = setTimeout(() => setOpenMenu(null), 150);
   };
 
+  const handleMobileMenuClose = () => {
+    setMobileOpen(false);
+    dispatch(onToggle(false));
+  };
+
+  const handleMobileMenuOpen = () => {
+    setMobileOpen(true);
+    dispatch(onToggle(true));
+  };
+
   const closeAll = () => {
     clearTimeout(closeTimer.current);
     isHoveringMenu.current = false;
@@ -74,12 +84,14 @@ export default function ClientNavbar({ categories }) {
   const sortedCategories = getSortedCategories(categories);
 
   const handleLogout = () => dispatch(logout());
-  const handleCartOpen = () => dispatch(cartToggle(true));
+  const handleCartOpen = () => {
+    router.push("/cart");
+  };
 
   return (
     <>
       <header
-        className={`fixed inset-x-0 z-50 text-white bg-primary transition-[top] duration-200 ${
+        className={`fixed inset-x-0 z-50 text-white bg-primary transition-[top] duration-[50ms] ${
           isScrolled ? "top-0" : "top-[36px]"
         }`}
       >
@@ -114,7 +126,7 @@ export default function ClientNavbar({ categories }) {
             isMount={isMount}
             cartCount={cartCount}
             user={user}
-            onMenuClick={() => setMobileOpen(true)}
+            onMenuClick={handleMobileMenuOpen}
             onCartClick={handleCartOpen}
           />
         </div>
@@ -123,7 +135,7 @@ export default function ClientNavbar({ categories }) {
       {/* Mobile side drawer */}
       <MobileDrawer
         open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
+        onClose={handleMobileMenuClose}
         sortedCategories={sortedCategories}
         user={user}
         isMount={isMount}
@@ -140,7 +152,7 @@ export default function ClientNavbar({ categories }) {
       />
 
       {/* Fixed navbar ke neeche content na chhupe */}
-      <div className="h-[148px] md:h-[157px]" aria-hidden="true" />
+      <div className="h-[148px] md:h-[125px]" aria-hidden="true" />
     </>
   );
 }

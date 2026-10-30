@@ -27,9 +27,12 @@ export default function DesktopHeader({
 }) {
   return (
     <div className="relative w-11/12 mx-auto z-30 border-b border-white/20">
-      <div className="flex min-h-[88px] items-center gap-5">
+      <div className="flex h-[72px] items-center gap-5">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-1 w-20 h-20">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-1 w-[75px] h-[48px]"
+        >
           <BaseImage
             src={"/images/logo-wegot.png"}
             alt={"wegot logo png"}
@@ -48,9 +51,11 @@ export default function DesktopHeader({
             href="/corporate-procurement"
             className="flex items-center gap-3"
           >
-            <BriefcaseBusiness size={25} />
-            <span className="text-sm leading-5">
-              <small className="block text-brand-50">Corporate</small>
+            <BriefcaseBusiness size={18} />
+            <span className="text-badge">
+              <small className="block font-extralight text-brand-50">
+                Corporate
+              </small>
               Procurement
             </span>
           </Link>
@@ -59,9 +64,11 @@ export default function DesktopHeader({
             href="/why-us/why-wegot#store"
             className="flex items-center gap-3"
           >
-            <MapPin size={25} />
-            <span className="text-sm leading-5">
-              <small className="block text-brand-50">Visit</small>
+            <MapPin size={18} />
+            <span className="text-badge">
+              <small className="block font-extralight text-brand-50">
+                Visit
+              </small>
               Store
             </span>
           </Link>
@@ -101,26 +108,28 @@ export default function DesktopHeader({
             </div>
           ) : (
             <Link href="/accounts/login" className="flex items-center gap-3">
-              <UserRound size={25} />
-              <span className="text-sm leading-5">
-                <small className="block text-brand-50">Sign in</small>
+              <UserRound size={18} />
+              <span className="text-badge">
+                <small className="block font-extralight text-brand-50">
+                  Sign in
+                </small>
                 Account
               </span>
             </Link>
           )}
 
           <button onClick={onCartClick} className="flex items-center gap-2">
-            <ShoppingCart size={27} />
-            <span className="text-sm leading-5">
-              <small className="block relative text-brand-50">
-                <strong
-                  suppressHydrationWarning
-                  className="absolute bg-gold-600 -left-4 text-xs text-black px-1 rounded-full "
-                >
-                  {isMount ? cartCount : 0}
-                </strong>{" "}
+            <ShoppingCart size={18} />
+            <span className="text-badge relative">
+              <small className="block relative font-extralight text-brand-50">
                 Your
               </small>
+              <small
+                suppressHydrationWarning
+                className="absolute bg-gold-600 -left-4 -top-1 text-black px-1 rounded-full "
+              >
+                {isMount ? cartCount : 0}
+              </small>{" "}
               Cart
             </span>
           </button>

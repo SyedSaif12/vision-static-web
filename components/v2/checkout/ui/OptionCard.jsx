@@ -29,7 +29,7 @@ export default function OptionCard({
         disabled && "bg-gray-50",
       )}
     >
-      <div className="flex items-center">
+      <div className="flex flex-col md:flex-row items-center">
         <label
           className={cx(
             "flex min-w-0 flex-1 items-center gap-3 p-4 sm:gap-4",
@@ -54,7 +54,9 @@ export default function OptionCard({
               disabled && "border-gray-200",
             )}
           >
-            {checked && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
+            {checked && (
+              <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+            )}
           </span>
 
           {Icon && (
@@ -79,13 +81,15 @@ export default function OptionCard({
               {title}
             </span>
             {description && (
-              <span className="mt-0.5 block text-sm text-gray-600">
+              <span className="mt-0.5 block text-xs text-gray-600">
                 {description}
               </span>
             )}
           </span>
 
-          {badge && <span className="shrink-0 self-start sm:self-center">{badge}</span>}
+          {badge && (
+            <span className="shrink-0 self-start sm:self-center">{badge}</span>
+          )}
         </label>
         {actions}
       </div>

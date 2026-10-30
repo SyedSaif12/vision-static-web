@@ -22,18 +22,16 @@ export function BrandSection({
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
           <p className="text-xs font-bold tracking-[0.2em] text-blue-700 uppercase">
-            {section.category.name}
+            {section.heading} products
           </p>
           <h2
             id={headingId}
             className="mt-3 text-3xl font-bold tracking-tight text-slate-900"
           >
-            Shop {section.heading} {category}
+            Shop {section.heading} Price in Pakistan
           </h2>
           {section?.mainDesc && (
-            <p className="mt-3 text-base text-slate-600">
-              {section.mainDesc}
-            </p>
+            <p className="mt-3 text-base text-slate-600">{section.mainDesc}</p>
           )}
         </div>
 
@@ -41,11 +39,11 @@ export function BrandSection({
           href={brandHref(section)}
           className="shrink-0 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-blue-700 hover:border-blue-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
         >
-          All {section.heading} {category} <span aria-hidden>›</span>
+          All {section.heading} Products <span aria-hidden>›</span>
         </Link>
       </header>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
+      <div className="mt-6 grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)]">
         <BrandPromoCard section={section} />
         <ProductScroller
           products={products}

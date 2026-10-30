@@ -131,10 +131,13 @@ export default function SearchBar({
   const showPanel = open && canSearch;
 
   return (
-    <div ref={wrapRef} className={`relative min-w-0 ${className}`}>
+    <div
+      ref={wrapRef}
+      className={`relative max-w-[622px] h-[48px] sm:h-[54px] pt-1 ${className}`}
+    >
       <form
         onSubmit={onSubmit}
-        className="flex items-center rounded-2xl bg-white p-1.5 pl-5"
+        className="flex items-center rounded-lg sm:rounded-xl bg-white p-1 sm:p-1.5 pl-5"
       >
         <input
           ref={inputRef}
@@ -150,13 +153,13 @@ export default function SearchBar({
           role="combobox"
           aria-expanded={showPanel}
           aria-controls="search-suggestions"
-          className="min-w-0 flex-1 bg-transparent py-2 text-sm text-ink outline-none placeholder:text-faint"
+          className="min-w-0 flex-1 bg-transparent sm:py-2 text-sm text-ink outline-none placeholder:text-faint"
         />
         <button
           type={showClear ? "button" : "submit"}
           onClick={showClear ? clear : undefined}
           aria-label="Search"
-          className="flex h-11 w-12 shrink-0 items-center justify-center rounded-xl bg-gold text-black hover:bg-gold"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gold text-black hover:bg-gold"
         >
           <ConditionalComponent
             condition={loading}
@@ -165,7 +168,7 @@ export default function SearchBar({
               <ConditionalComponent
                 condition={results?.products?.length > 0}
                 ifComponent={<X size={23} onClick={() => setTerm("")} />}
-                elseComponent={<Search size={23} />}
+                elseComponent={<Search size={18} />}
               />
             }
           />

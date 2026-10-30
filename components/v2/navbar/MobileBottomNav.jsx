@@ -29,7 +29,7 @@ export default function MobileBottomNav({
   ];
 
   const base =
-    "relative flex flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors";
+    "relative flex flex-1 flex-col items-center justify-center gap-0.5 text-menu font-medium transition-colors";
 
   return (
     <nav
@@ -51,10 +51,10 @@ export default function MobileBottomNav({
                   aria-label="Open cart"
                 >
                   <span className="relative">
-                    <Icon size={24} />
+                    <Icon size={20} />
                     <span
                       suppressHydrationWarning
-                      className="absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red px-1 text-[11px] font-bold text-white"
+                      className="absolute -right-2.5 -top-2 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red px-1 text-[11px] font-bold text-white"
                     >
                       {isMount ? cartCount : 0}
                     </span>
@@ -67,7 +67,7 @@ export default function MobileBottomNav({
                   className={`${base} ${color}`}
                   aria-current={active ? "page" : undefined}
                 >
-                  <Icon size={24} strokeWidth={active ? 2.5 : 2} />
+                  <Icon size={20} strokeWidth={active ? 2.5 : 2} />
                   {label}
                 </Link>
               )}

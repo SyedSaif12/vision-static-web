@@ -1,9 +1,6 @@
 import { ProductCard } from "../products/_components/product-card";
 
-export function ProductScroller({
-  products,
-  label,
-}) {
+export function ProductScroller({ products, label }) {
   return (
     <div
       role="region"
@@ -13,7 +10,7 @@ export function ProductScroller({
     >
       <ul className="flex gap-4">
         {products.map((p) => (
-          <li key={p.id} className="w-[250px] shrink-0 snap-start sm:w-[270px]">
+          <li key={p.id} className="w-[220px] shrink-0 snap-start">
             <ProductCard product={p} />
           </li>
         ))}

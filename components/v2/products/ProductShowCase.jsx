@@ -29,7 +29,7 @@ const ProductShowcase = ({
   const isDarkBg = textColor === "#ffffff";
 
   return (
-    <section className={`w-11/12 mx-auto py-6 lg:py-10 ${className}`}>
+    <section className={`w-11/12 mx-auto py-6 lg:py-8 ${className}`}>
       <div className="">
         {/* Top right pill (desktop) */}
         <div className="mb-3 hidden justify-end lg:flex">
@@ -41,7 +41,7 @@ const ProductShowcase = ({
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-[minmax(260px,288px)_minmax(0,1fr)]">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-[minmax(223px,223px)_minmax(0,1fr)]">
           {/* ================= INTRO CARD ================= */}
           <div
             className="relative flex items-center justify-between gap-3 overflow-hidden rounded-2xl p-4 sm:p-6 lg:flex-col lg:items-start lg:justify-center lg:gap-0 lg:p-7"
@@ -60,17 +60,17 @@ const ProductShowcase = ({
             <div className="relative">
               {eyebrow && (
                 <p
-                  className="text-[10px] font-bold uppercase tracking-[0.2em] sm:text-xs"
+                  className="text-eyebrow"
                   style={{ color: isDarkBg ? "#ffcf24" : "#8a6a00" }}
                 >
                   {eyebrow}
                 </p>
               )}
-              <h2 className="mt-1 font-heading text-xl font-extrabold leading-tight sm:text-2xl lg:mt-3 lg:text-[32px]">
+              <h2 className="mt-1 font-heading text-xl font-extrabold leading-tight sm:text-2xl lg:mt-3 lg:text-3xl">
                 {title}
               </h2>
               {description && (
-                <p className="mt-4 hidden max-w-[240px] text-base leading-7 opacity-90 lg:block">
+                <p className="mt-4 hidden max-w-[240px] text-input leading-tight opacity-90 lg:block">
                   {description}
                 </p>
               )}
@@ -78,7 +78,7 @@ const ProductShowcase = ({
 
             <Link
               href={ctaHref}
-              className="relative inline-flex h-10 shrink-0 items-center justify-center rounded-xl bg-gold px-4 font-heading text-xs font-bold text-ink shadow-md transition hover:bg-gold-600 sm:h-11 sm:text-sm lg:mt-6 lg:h-12 lg:px-5"
+              className="relative inline-flex h-8 shrink-0 items-center justify-center rounded-xl bg-gold px-4 font-heading text-xs font-bold text-ink shadow-md transition hover:bg-gold-600 sm:h-11 sm:text-sm lg:mt-6 lg:h-10 lg:px-5"
             >
               {ctaLabel}
             </Link>

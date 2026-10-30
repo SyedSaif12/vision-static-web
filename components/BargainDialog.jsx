@@ -18,8 +18,6 @@ const schema = Yup.object({
   customerOffer: Yup.string().required("Price is required"),
 });
 
-// comment
-
 const BargainDialog = ({ open, onClose, id, productName }) => {
   const [submitBargain, { isLoading }] = usePostBargainMutation();
 

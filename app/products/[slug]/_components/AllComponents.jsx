@@ -2,12 +2,13 @@ import Link from "next/link";
 import { formatPrice, humanize } from "@/lib/utils";
 
 export const BUYING_GUIDES = {
-    title: "Product buying guide",
-    text: "A short guide from the WeGot team to help you choose the right one.",
-    url: "https://www.youtube.com/@wegotpk",
+  title: "Product buying guide",
+  text: "A short guide from the WeGot team to help you choose the right one.",
+  url: "https://www.youtube.com/@wegotpk",
 };
 
-export const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_ADMIN_NUMBER || "923260220581";
+export const WHATSAPP_NUMBER =
+  process.env.NEXT_PUBLIC_ADMIN_NUMBER || "923260220581";
 
 export const STOCK = {
   in_stock: {
@@ -156,15 +157,15 @@ export function PriceBlock({ product, banks }) {
 export function StockBadge({ status, isComingSoon }) {
   const s = isComingSoon
     ? {
-      label: "Coming soon",
-      cls: "bg-gold-50 text-gold-700",
-      dot: "bg-gold-600",
-    }
+        label: "Coming soon",
+        cls: "bg-gold-50 text-gold-700",
+        dot: "bg-gold-600",
+      }
     : (STOCK[status] ?? {
-      label: humanize(status),
-      cls: "bg-light-200 text-muted",
-      dot: "bg-faint",
-    });
+        label: humanize(status),
+        cls: "bg-light-200 text-muted",
+        dot: "bg-faint",
+      });
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${s.cls}`}
@@ -249,12 +250,21 @@ export function DeliveryInfo() {
   );
 }
 
-export function SectionTabs({ hasSpecs, hasOverview, hasExpertReview,  hasFaqs }) {
+export function SectionTabs({
+  hasSpecs,
+  hasOverview,
+  hasExpertReview,
+  hasFaqs,
+  hasWhatsInTheBox,
+}) {
   const tabs = [
     hasSpecs && { href: "#specifications", label: "Specifications" },
     hasOverview && { href: "#overview", label: "Overview" },
     hasExpertReview && { href: "#expert-review", label: "Expert Review" },
-    hasWhatsInTheBox && { href: "#whats-in-the-box", label: "Whats In The Box" },
+    hasWhatsInTheBox && {
+      href: "#whats-in-the-box",
+      label: "Whats In The Box",
+    },
     hasFaqs && { href: "#faqs", label: "FAQs" },
     { href: "#buying-guide", label: "Buying guide" },
   ].filter(Boolean);
@@ -342,11 +352,7 @@ export function SeoContent({ html, id = "overview" }) {
   // Backend trusted hai. Agar CMS se editors likhte hain to yahan sanitize-html laga lena.
   const cleaned = html.replace(/\$class_name_str/g, "");
   return (
-    <section
-      id={id}
-      aria-label="Product overview"
-      className="scroll-mt-16"
-    >
+    <section id={id} aria-label="Product overview" className="scroll-mt-16">
       <div
         className="prose prose-sm max-w-none rounded-2xl border border-light-100 bg-white p-5 prose-headings:font-heading prose-headings:text-ink prose-a:text-primary prose-strong:text-ink sm:p-7"
         dangerouslySetInnerHTML={{ __html: cleaned }}

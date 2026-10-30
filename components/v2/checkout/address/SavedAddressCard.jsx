@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 const iconButton =
   "rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40";
 
+const btn = "px-5 py-1 rounded-md text-white";
 export default function SavedAddressCard({
   address,
   checked,
@@ -64,9 +65,8 @@ export default function SavedAddressCard({
       }
       description={
         <>
-          <span className="block">
-            {address.fullName} · {formatPhone(address.phone)}
-          </span>
+          <span className="block">{address.fullName}</span>
+          <span className="block">{formatPhone(address.phone)}</span>
           <span className="block">
             {[address.fullAddress, address.area].filter(Boolean).join(", ")},{" "}
             <strong className="font-semibold text-gray-900">
@@ -91,7 +91,12 @@ export default function SavedAddressCard({
               aria-label={`Edit ${label} address`}
               className={`${iconButton} hover:text-gray-700`}
             >
-              <Pencil size={16} aria-hidden="true" />
+              <span className={`${btn} md:hidden bg-primary`}>edit</span>
+              <Pencil
+                className="hidden md:block"
+                size={16}
+                aria-hidden="true"
+              />
             </button>
             <button
               type="button"
@@ -100,7 +105,12 @@ export default function SavedAddressCard({
               aria-label={`Remove ${label} address`}
               className={`${iconButton} hover:text-red-600`}
             >
-              <Trash2 size={16} aria-hidden="true" />
+              <span className={`${btn} md:hidden bg-red`}>delete</span>
+              <Trash2
+                className="hidden md:block"
+                size={16}
+                aria-hidden="true"
+              />
             </button>
           </div>
         )

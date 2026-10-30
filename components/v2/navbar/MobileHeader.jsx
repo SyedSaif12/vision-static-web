@@ -15,17 +15,17 @@ export default function MobileHeader({
 }) {
   return (
     <div className="border-b border-white/20 px-4 pb-3 pt-2">
-      <div className="flex h-12 items-center justify-between">
+      <div className="flex h-10 items-center justify-between">
         <div className="flex items-center gap-1">
           <button
             onClick={onMenuClick}
             aria-label="Open menu"
             className="-ml-2 rounded-lg p-2 active:bg-white/10"
           >
-            <Menu size={26} />
+            <Menu size={24} />
           </button>
 
-          <Link href="/" className="flex items-center gap-1 w-16 h-16">
+          <Link href="/" className="flex items-center gap-1 w-14 h-14">
             <BaseImage
               src={"/images/logo-wegot.png"}
               alt={"wegot logo png"}
@@ -44,7 +44,7 @@ export default function MobileHeader({
             aria-label="Account"
             className="rounded-lg p-2 active:bg-white/10"
           >
-            <UserRound size={24} />
+            <UserRound size={22} />
           </Link>
 
           <button
@@ -52,7 +52,7 @@ export default function MobileHeader({
             aria-label="Cart"
             className="relative rounded-lg p-2 active:bg-white/10"
           >
-            <ShoppingCart size={24} />
+            <ShoppingCart size={22} />
             <span
               suppressHydrationWarning
               className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gold-600 px-1 text-[11px] font-bold text-black"

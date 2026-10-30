@@ -5,6 +5,12 @@ export const supportLinks = [
   { label: "Warranty Claim", href: "/support-services/warranty-claim" },
 ];
 
+export const dealsLink = [
+  { label: "Featured Products", href: "/products?isFeatured=true" },
+  { label: "Deals", href: "/products?tag=deals" },
+  { label: "Open Box Deals", href: "/products?tag=open-box" },
+];
+
 export const whyLinks = [
   { label: "Why WeGot", href: "/why-us/why-wegot" },
   { label: "Privacy Policy", href: "/why-us/privacy-policy" },
