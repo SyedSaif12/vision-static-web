@@ -10,7 +10,7 @@ const Logo = () => (
   <Link
     href="/"
     aria-label="WeGot home"
-    className="inline-flex items-center w-24 h-24"
+    className="inline-flex items-center w-[84px] h-[50px]"
   >
     <BaseImage
       src={"/images/logo-wegot-dark.png"}

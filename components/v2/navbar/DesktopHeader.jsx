@@ -85,7 +85,7 @@ export default function DesktopHeader({
               </h1>
 
               {openMenu === "user" && (
-                <div className="absolute hover:cursor-pointer left-0 top-full z-50 w-44 pt-2">
+                <div className="absolute hover:cursor-pointer right-0 top-full z-50 w-44 pt-2">
                   <div className="rounded-lg bg-white py-2 px-4 !z-[9999] text-ink shadow-2xl">
                     <h3 className="capitalize font-semibold text-muted my-3 border-b border-muted">
                       {user?.firstName} {user?.lastName}

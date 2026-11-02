@@ -34,18 +34,23 @@ export async function Results({ query }) {
 
   return (
     <section aria-label="Product results" className="min-w-0">
+      <SortSelect
+        options={sortOptions}
+        value={sortOptions[Math.max(currentSort, 0)].href}
+      />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-slate-600">
           <strong className="text-slate-900">{result.total}</strong>{" "}
           {result.total === 1 ? "product" : "products"}
         </p>
         <SortSelect
+          hidden={true}
           options={sortOptions}
           value={sortOptions[Math.max(currentSort, 0)].href}
         />
       </div>
 
-      <ActiveFilters query={query} />
+      {/* <ActiveFilters query={query} /> */}
 
       {result.products.length ? (
         <>
@@ -65,8 +70,7 @@ export async function Results({ query }) {
             No Products Found!
           </h2>
           <p className="mt-1 text-sm text-slate-600">
-           Try reducing the number of filters, or clear all the filters.
-
+            Try reducing the number of filters, or clear all the filters.
           </p>
           {hasActiveFilters(query) && (
             <Link

@@ -91,7 +91,7 @@ export default function ClientNavbar({ categories }) {
   return (
     <>
       <header
-        className={`fixed inset-x-0 z-50 text-white bg-primary transition-[top] duration-[50ms] ${
+        className={`fixed inset-x-0 z-50 text-white bg-primary transition-[top] duration-75 ${
           isScrolled ? "top-0" : "top-[36px]"
         }`}
       >
@@ -101,8 +101,8 @@ export default function ClientNavbar({ categories }) {
             searchSlot={<SearchBar className="hidden flex-1 md:block" />}
             user={user}
             isMount={isMount}
-            isUserLoading={isUserLoading}
             cartCount={cartCount}
+            isUserLoading={isUserLoading}
             openMenu={openMenu}
             openHover={openHover}
             closeHover={closeHover}
@@ -126,6 +126,11 @@ export default function ClientNavbar({ categories }) {
             isMount={isMount}
             cartCount={cartCount}
             user={user}
+            isUserLoading={isUserLoading}
+            openMenu={openMenu}
+            openHover={openHover}
+            closeHover={closeHover}
+            onLogout={handleLogout}
             onMenuClick={handleMobileMenuOpen}
             onCartClick={handleCartOpen}
           />
@@ -152,7 +157,7 @@ export default function ClientNavbar({ categories }) {
       />
 
       {/* Fixed navbar ke neeche content na chhupe */}
-      <div className="h-[148px] md:h-[125px]" aria-hidden="true" />
+      <div className="h-[125px] md:h-[125px]" aria-hidden="true" />
     </>
   );
 }

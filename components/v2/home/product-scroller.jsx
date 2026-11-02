@@ -10,7 +10,7 @@ export function ProductScroller({ products, label }) {
     >
       <ul className="flex gap-4">
         {products.map((p) => (
-          <li key={p.id} className="w-[220px] shrink-0 snap-start">
+          <li key={p.id} className="w-[170px] md:w-[220px] shrink-0 snap-start">
             <ProductCard product={p} />
           </li>
         ))}

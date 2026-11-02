@@ -17,6 +17,7 @@ import Footer from "@/components/v2/footer/Footer";
 import { usePathname } from "next/navigation";
 import CartDrawer from "@/components/v2/cart/CartDrawer";
 import { NavbarSkeleton } from "@/components/v2/navbar/Navbar";
+import MobileNavRow from "@/components/v2/navbar/MobileNavRow";
 
 // client layout component for initialize redux toolkit & RTK query
 export default function RootClientLayout({ children, navbar }) {
@@ -38,7 +39,10 @@ export default function RootClientLayout({ children, navbar }) {
         <Toaster />
         {!isHidePath && <TopNav />}
         {!isHidePath && (
-          <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
+          <>
+            <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
+            <MobileNavRow />
+          </>
         )}
 
         <AuthGuard>{children}</AuthGuard>

@@ -1,10 +1,46 @@
 import Link from "next/link";
 import { formatPrice, humanize } from "@/lib/utils";
+import sanitizeHtml from "sanitize-html";
+
+// Rich text editor jo tags banata hai, sirf wahi allow hain
+const SANITIZE_OPTIONS = {
+  allowedTags: [
+    "p",
+    "br",
+    "strong",
+    "b",
+    "em",
+    "i",
+    "u",
+    "s",
+    "ul",
+    "ol",
+    "li",
+    "h2",
+    "h3",
+    "h4",
+    "a",
+    "blockquote",
+    "span",
+  ],
+  allowedAttributes: {
+    a: ["href", "target", "rel"],
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  // Har link safe rahe
+  transformTags: {
+    a: sanitizeHtml.simpleTransform("a", {
+      target: "_blank",
+      rel: "noopener noreferrer nofollow",
+    }),
+  },
+};
 
 export const BUYING_GUIDES = {
   title: "Product buying guide",
   text: "A short guide from the WeGot team to help you choose the right one.",
-  url: "https://www.youtube.com/@wegotpk",
+  // url: "https://www.youtube.com/@wegotpk",
+  url: "https://www.youtube.com/embed/54Ej0JdngZI?si=vhZx6QiMXfhbbFhv",
 };
 
 export const WHATSAPP_NUMBER =
@@ -110,6 +146,28 @@ export function Breadcrumb({ product }) {
         ))}
       </ol>
     </nav>
+  );
+}
+
+export function ProductDescription({ html, className = "" }) {
+  if (!html || typeof html !== "string") return null;
+
+  const clean = sanitizeHtml(html, SANITIZE_OPTIONS).trim();
+  if (!clean) return null;
+
+  return (
+    <div
+      className={`
+        prose prose-sm mt-3 max-w-none text-ink-50
+        prose-p:my-2
+        prose-ul:my-2 prose-ol:my-2
+        prose-li:my-0.5 prose-li:marker:text-primary
+        prose-strong:text-ink
+        prose-a:text-primary
+        ${className}
+      `}
+      dangerouslySetInnerHTML={{ __html: clean }}
+    />
   );
 }
 
@@ -250,45 +308,6 @@ export function DeliveryInfo() {
   );
 }
 
-export function SectionTabs({
-  hasSpecs,
-  hasOverview,
-  hasExpertReview,
-  hasFaqs,
-  hasWhatsInTheBox,
-}) {
-  const tabs = [
-    hasSpecs && { href: "#specifications", label: "Specifications" },
-    hasOverview && { href: "#overview", label: "Overview" },
-    hasExpertReview && { href: "#expert-review", label: "Expert Review" },
-    hasWhatsInTheBox && {
-      href: "#whats-in-the-box",
-      label: "Whats In The Box",
-    },
-    hasFaqs && { href: "#faqs", label: "FAQs" },
-    { href: "#buying-guide", label: "Buying guide" },
-  ].filter(Boolean);
-  return (
-    <nav
-      aria-label="Product sections"
-      className="sticky top-0 z-20 -mx-4 overflow-x-auto border-b border-light-100 bg-surface/95 px-4 backdrop-blur sm:mx-0 sm:px-0"
-    >
-      <ul className="flex gap-6 whitespace-nowrap">
-        {tabs.map((t) => (
-          <li key={t.href}>
-            <a
-              href={t.href}
-              className="inline-block border-b-2 border-transparent py-3 text-sm font-semibold text-muted transition hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:text-primary"
-            >
-              {t.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
 export function SpecsTable({ title, specs }) {
   if (!specs.length) return null;
   return (
@@ -389,53 +408,6 @@ export function FaqSection({ items }) {
           </details>
         ))}
       </div>
-    </section>
-  );
-}
-
-// Category-wise guide: iframe load nahi hoti (performance), click par YouTube khulta hai
-export function BuyingGuide({ guide = BUYING_GUIDES }) {
-  if (!Object.entries(guide).length > 0) return null;
-  return (
-    <section
-      id="buying-guide"
-      aria-labelledby="guide-title"
-      className="scroll-mt-16"
-    >
-      <div className="flex items-center justify-between gap-4">
-        <h2
-          id="guide-title"
-          className="font-heading text-xl font-bold text-ink"
-        >
-          {guide.title}
-        </h2>
-        <a
-          href={guide.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full border border-light-100 bg-white px-4 py-1.5 text-xs font-semibold text-primary hover:bg-brand-50"
-        >
-          Watch on YouTube
-        </a>
-      </div>
-      <a
-        href={guide.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Watch the ${guide.title} on YouTube`}
-        className="group relative mt-4 flex aspect-video items-center overflow-hidden rounded-2xl bg-gradient-to-br from-primary-200 via-primary-100 to-ink p-6 sm:p-12"
-      >
-        <div className="max-w-md">
-          <p className="text-xs font-semibold text-gold">WeGot video</p>
-          <p className="mt-1 font-heading text-2xl font-extrabold text-white sm:text-4xl">
-            {guide.title}
-          </p>
-          <p className="mt-2 text-sm text-white/70">{guide.text}</p>
-        </div>
-        <span className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-red text-white shadow-lg transition group-hover:scale-105 sm:left-2/3">
-          <Icon path={ICONS.play} className="ml-1 h-7 w-7 fill-white" />
-        </span>
-      </a>
     </section>
   );
 }

@@ -69,7 +69,7 @@ function Highlights({ items = [] }) {
           key={h.title}
           className="rounded-2xl border border-light-100 bg-white p-4"
         >
-          <h2 className="font-heading text-lg lg:text-3xl font-extrabold text-primary">
+          <h2 className="font-heading text-lg lg:text-section-title font-extrabold text-primary">
             {h.title}
           </h2>
           <p className="mt-1 text-sm lg:text-base text-ink-50">{h.text}</p>
@@ -95,7 +95,7 @@ function Sidebar({ sections }) {
             <li key={s.id} className="shrink-0">
               <a
                 href={`#${s.id}`}
-                className="block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-base font-semibold text-ink-50 transition-colors hover:bg-brand-50 hover:text-primary lg:whitespace-normal"
+                className="block whitespace-nowrap rounded-lg px-2.5 py-1.5 text-label font-semibold text-ink-50 transition-colors hover:bg-brand-50 hover:text-primary lg:whitespace-normal"
               >
                 {s.navLabel ?? s.title}
               </a>
@@ -194,7 +194,7 @@ export default function PolicyPage({ data, stickyTop = "7rem" }) {
         <Breadcrumbs items={breadcrumbs} />
 
         <header className="mt-4">
-          <h1 className="font-heading text-3xl font-extrabold text-ink sm:text-4xl">
+          <h1 className="font-heading text-3xl font-extrabold text-ink">
             {title}
           </h1>
           {subtitle && <p className="mt-2 text-sm text-muted">{subtitle}</p>}

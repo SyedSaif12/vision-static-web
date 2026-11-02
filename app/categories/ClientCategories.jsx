@@ -6,13 +6,15 @@ const ClientCategories = ({ category }) => {
   return (
     <article
       className="
-        mb-5
+      my-1
+        md:mb-5
         break-inside-avoid
         overflow-hidden
         rounded-2xl
         border
         border-light-100
-        bg-background
+        bg-white
+        hover:drop-shadow-md
         shadow-sm
         transition-all
         duration-300
@@ -26,7 +28,7 @@ const ClientCategories = ({ category }) => {
           href={getCategoryHref(category.name)}
           className="
             inline-block
-            text-xl
+            text-price
             font-semibold
             text-ink
             transition-colors
@@ -54,7 +56,7 @@ const ClientCategories = ({ category }) => {
               rounded-lg
               px-2
               py-2
-              text-base
+              text-label
               font-medium
               text-muted
               transition-all

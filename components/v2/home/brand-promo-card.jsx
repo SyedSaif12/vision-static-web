@@ -9,13 +9,15 @@ export function BrandPromoCard({ section }) {
   return (
     <div
       style={{ backgroundColor: bg }}
-      className={`flex flex-col justify-evenly gap-6 rounded-2xl p-6 ${dark ? "text-white" : "text-slate-900"}`}
+      className={`flex md:flex-col justify-between items-center md:justify-evenly gap-6 rounded-2xl p-3 md:p-6 ${dark ? "text-white" : "text-slate-900"}`}
     >
       <div>
-        <h3 className="text-3xl font-bold tracking-tight">{section.heading}</h3>
+        <h3 className="text-xl md:text-3xl font-bold tracking-tight">
+          {section.heading}
+        </h3>
         {section.description && (
           <p
-            className={`mt-3 text-menu ${dark ? "text-white/80" : "text-slate-700"}`}
+            className={`hidden md:block mt-3 text-menu ${dark ? "text-white/80" : "text-slate-700"}`}
           >
             {section.description}
           </p>
@@ -23,7 +25,7 @@ export function BrandPromoCard({ section }) {
       </div>
 
       {section.checkBoxText.length > 0 && (
-        <ul className=" space-y-3 text-sm">
+        <ul className="hidden md:block space-y-3 text-sm">
           {section.checkBoxText.map((text) => (
             <li key={text} className="flex items-start gap-3">
               <svg
@@ -44,7 +46,7 @@ export function BrandPromoCard({ section }) {
 
       <Link
         href={brandHref(section)}
-        className="w-fit rounded-xl bg-amber-400 px-6 py-3 text-sm font-bold text-slate-900 transition-colors hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        className="w-fit rounded-xl bg-amber-400 px-4 md:px-6 py-2 md:py-3 text-sm font-bold text-slate-900 transition-colors hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       >
         Shop {section.heading}
       </Link>

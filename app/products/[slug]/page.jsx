@@ -1,10 +1,35 @@
 import { notFound } from "next/navigation";
 import ProductActions from "./ProductActions";
 import ProductGallery from "./ProductGallery";
-import { getInstallmentPlan, getSingleProduct } from "@/lib/product-query/fetch-api";
-import { formatPrice, humanize, stripHtml, getTags, getBankPlans, getSpecs, parseFaq, jsonLd } from "@/lib/utils";
+import {
+  getInstallmentPlan,
+  getSingleProduct,
+} from "@/lib/product-query/fetch-api";
+import {
+  formatPrice,
+  humanize,
+  stripHtml,
+  getTags,
+  getBankPlans,
+  getSpecs,
+  parseFaq,
+  jsonLd,
+} from "@/lib/utils";
 import InstalmentTable from "./InstalmentTable";
-import { STOCK, BuyingGuide, FaqSection, SeoContent, SectionTabs, SpecsTable, DeliveryInfo, WhatsAppCta, WhatYouGet, StockBadge, PriceBlock, Breadcrumb, BUYING_GUIDES } from './_components/AllComponents'
+import {
+  STOCK,
+  FaqSection,
+  SeoContent,
+  SpecsTable,
+  DeliveryInfo,
+  WhatsAppCta,
+  StockBadge,
+  PriceBlock,
+  Breadcrumb,
+  BUYING_GUIDES,
+  ProductDescription,
+} from "./_components/AllComponents";
+import { SectionTabs, BuyingGuide } from "./_components/SectionTabs";
 const SITE_URL = (
   process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
 ).replace(/\/$/, "");
@@ -29,8 +54,8 @@ export async function generateMetadata({ params }) {
   const url = `${SITE_URL}/products/${product.slug}`;
   const image = product.image?.[0]?.fileUrl;
   const title = `${product.productTitle} Price in Pakistan | WeGot`;
-  const metaTitle = product?.meta_title
-  const metaDescription = product?.meta_description
+  const metaTitle = product?.meta_title;
+  const metaDescription = product?.meta_description;
   // description backend se nahi li: usme purani price likhi hai (699,999 vs 714,999)
   const description = `Buy ${product.productTitle} at ${formatPrice(
     product.price,
@@ -114,14 +139,14 @@ function StructuredData({ product, faqItems }) {
 
   const faqLd = faqItems.length
     ? {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: faqItems.map((f) => ({
-        "@type": "Question",
-        name: f.q,
-        acceptedAnswer: { "@type": "Answer", text: f.text },
-      })),
-    }
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.text },
+        })),
+      }
     : null;
 
   return (
@@ -146,11 +171,12 @@ export default async function ProductPage({ params }) {
 
   const results = await Promise.allSettled([
     getSingleProduct(slug),
-    getInstallmentPlan()
-  ])
+    getInstallmentPlan(),
+  ]);
 
-  const [productResult, instalmentResult] = results
-  const product = productResult.status === 'fulfilled' ? productResult.value : null
+  const [productResult, instalmentResult] = results;
+  const product =
+    productResult.status === "fulfilled" ? productResult.value : null;
   const instalmentBanks = getBankPlans(
     instalmentResult.status === "fulfilled" ? instalmentResult.value : {},
   );
@@ -167,7 +193,7 @@ export default async function ProductPage({ params }) {
   const hasWhatsInTheBox = !!stripHtml(product?.hasWhatsInTheBox);
   const hasFaqs = faqItems.length > 0;
   const unavailable = product.status === "out_of_stock" || product.isComingSoon;
-  
+
   return (
     <main className="bg-surface pb-16">
       <StructuredData product={product} faqItems={faqItems} />
@@ -194,6 +220,8 @@ export default async function ProductPage({ params }) {
               {product.productTitle}
             </h1>
 
+            <ProductDescription html={product?.description} />
+
             <hr className="my-4 border-light-100" />
 
             <PriceBlock product={product} banks={instalmentBanks} />
@@ -219,10 +247,13 @@ export default async function ProductPage({ params }) {
             </div>
 
             <div className="mt-5 space-y-4">
-              <WhatYouGet warranty={product.attributes?.warranty} />
+              {/* <WhatYouGet warranty={product.attributes?.warranty} /> */}
               <DeliveryInfo />
               {instalmentBanks.length > 0 && (
-                <InstalmentTable price={product.price} banks={instalmentBanks} />
+                <InstalmentTable
+                  price={product.price}
+                  banks={instalmentBanks}
+                />
               )}
             </div>
           </div>
@@ -230,11 +261,13 @@ export default async function ProductPage({ params }) {
 
         {/* Details */}
         <div className="mt-10">
-          <SectionTabs hasSpecs={hasSpecs}
+          <SectionTabs
+            hasSpecs={hasSpecs}
             hasOverview={hasOverview}
             hasExpertReview={hasExpertReview}
             hasWhatsInTheBox={hasWhatsInTheBox}
-            hasFaqs={hasFaqs} />
+            hasFaqs={hasFaqs}
+          />
           <div className="mt-8 space-y-12">
             <SpecsTable title={product.productTitle} specs={specs} />
             <SeoContent html={product.seoContent} />

@@ -13,47 +13,65 @@ export async function BrandBar({ query }) {
   const active = query.subCategory?.toLowerCase();
 
   return (
-    <nav aria-label="Brands" className="mt-6 flex flex-wrap items-center gap-3">
-      <span className="mr-2 text-xs font-semibold tracking-wide text-slate-400">Brands</span>
-
-      <Link
-        href={hrefFor(selectBrand(query, undefined))}
-        aria-current={!active ? "page" : undefined}
-        className={`${chip} ${!active ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
+    <nav aria-label="Brands" className="flex items-center gap-3">
+      <span className="mr-2 hidden md:block text-xs font-semibold tracking-wide text-slate-400">
+        Brands
+      </span>
+      <div
+        className="
+                flex gap-3 sm:gap-4 overflow-x-auto overscroll-x-contain pb-4 pt-1 snap-x snap-mandatory
+                [scrollbar-width:none]
+                [&::-webkit-scrollbar]:h-1.5
+                [&::-webkit-scrollbar-track]:none
+                [&::-webkit-scrollbar-track]:none
+                [&::-webkit-scrollbar-thumb]:none
+                [&::-webkit-scrollbar-thumb]:none
+              "
       >
-        All
-      </Link>
-
-      {brands.map((b) => {
-        const selected = active === b.label.toLowerCase();
-        const disabled = b.count === 0 && !selected;
-        const content = (
-          <>
-            {b.label}
-            {/* <span className={`text-xs font-normal ${selected ? "text-blue-100" : "text-slate-400"}`}>
+        <div className="snap-start">
+          <Link
+            href={hrefFor(selectBrand(query, undefined))}
+            aria-current={!active ? "page" : undefined}
+            className={`${chip} ${!active ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
+          >
+            All
+          </Link>
+        </div>
+        {brands.map((b) => {
+          const selected = active === b.label.toLowerCase();
+          const disabled = b.count === 0 && !selected;
+          const content = (
+            <>
+              {b.label}
+              {/* <span className={`text-xs font-normal ${selected ? "text-blue-100" : "text-slate-400"}`}>
               {b.count}
             </span> */}
-          </>
-        );
-
-        if (disabled) {
-          return (
-            <span key={b.id ?? b.label} aria-disabled className={`${chip} cursor-not-allowed border-slate-100 bg-slate-50 text-slate-400`}>
-              {content}
-            </span>
+            </>
           );
-        }
-        return (
-          <Link
-            key={b.id ?? b.label}
-            href={hrefFor(selectBrand(query, selected ? undefined : b.label))}
-            aria-current={selected ? "page" : undefined}
-            className={`${chip} ${selected ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
-          >
-            {content}
-          </Link>
-        );
-      })}
+
+          // if (disabled) {
+          //   return (
+          //     <span key={b.id ?? b.label} aria-disabled className={`${chip} cursor-not-allowed border-slate-100 bg-slate-50 text-slate-400`}>
+          //       {content}
+          //     </span>
+          //   );
+          // }
+          return (
+            <div key={b.id ?? b.label} className="snap-start">
+              <Link
+                // key={b.id ?? b.label}
+                href={hrefFor(
+                  selectBrand(query, selected ? undefined : b.label),
+                )}
+                aria-current={selected ? "page" : undefined}
+                className={`${chip} ${selected ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
+              >
+                {content}
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </nav>
   );
 }

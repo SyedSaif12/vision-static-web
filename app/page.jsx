@@ -29,6 +29,7 @@ const Home = async () => {
   return (
     <>
       {/* hero banner  */}
+      <hr className="mt-2.5 md:hidden" />
       <HeroBanner />
       {/* process cards  */}
       <ProcessCards />

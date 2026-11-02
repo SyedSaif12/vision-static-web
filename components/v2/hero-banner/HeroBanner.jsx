@@ -20,7 +20,7 @@ const labelCls =
 
 const HeroBanner = () => {
   return (
-    <section className="w-11/12 mx-auto py-5">
+    <section className="w-11/12 mx-auto pb-5 pt-2.5 md:py-5">
       <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-brand-700 to-brand px-5 py-8 sm:px-8 sm:py-10 lg:h-[calc(100vh-220px)] lg:max-h-[431.6px] lg:min-h-[431.6px] lg:px-12 lg:py-10 xl:px-16">
         <div className="grid grid-cols-1 items-center gap-8 lg:h-full lg:grid-cols-2 lg:gap-10 xl:gap-14">
           {/* ================= LEFT ================= */}
@@ -40,19 +40,19 @@ const HeroBanner = () => {
               Browse the whole range in one trusted place.
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-3 md:mt-7 flex flex-row justify-center md:justify-start gap-2 md:gap-3">
               <Link
                 href={`/products`}
-                className="inline-flex h-12 items-center justify-center rounded-xl bg-gold px-6 font-poppins text-sm font-bold text-ink shadow-lg transition hover:bg-gold-600 sm:h-14"
+                className="inline-flex h-10 items-center justify-center rounded-xl bg-gold px-4 md:px-6 text-xs md:text-sm font-bold text-ink shadow-lg transition hover:bg-gold-600 sm:h-14"
               >
                 Shop all products
-                <ArrowRight className="ml-2 h-4 w-4" />
+                {/* <ArrowRight className="ml-2 h-4 w-4" /> */}
               </Link>
 
               <Link
                 href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
                 target="_blank"
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-white/40 bg-white/10 px-6 font-poppins text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:h-14"
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-white/40 bg-white/10 px-4 md:px-6 text-xs md:text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:h-14"
               >
                 Talk to an expert
               </Link>

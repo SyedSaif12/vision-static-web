@@ -99,14 +99,9 @@ const ProductShowcase = ({
             {items.map((product) => (
               <div
                 key={product.id}
-                className="w-[172px] shrink-0 snap-start xs:w-[180px] sm:w-[210px] lg:w-[224px]"
+                className="w-[170px] shrink-0 snap-start xs:w-[180px] sm:w-[210px] lg:w-[224px]"
               >
                 <ProductCard tag={tag} product={product} />
-                {/* <ProductCard 
-                  product={product}
-                  onAddToCart={onAddToCart}
-                  onToggleWishlist={onToggleWishlist}
-                /> */}
               </div>
             ))}
           </div>

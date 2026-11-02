@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { ChevronLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
-import Loading from "@/components/Loading";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 
 import CheckoutFooter from "./CheckoutFooter";
@@ -26,6 +25,7 @@ import { buildOrderPayload } from "./lib/orderPayload";
 import { buildWhatsAppMessage, openWhatsAppOrder } from "./lib/whatsapp";
 import { primaryButton } from "./ui/styles";
 import { logout } from "@/redux/user/userSlice";
+import PageLoader from "../loader";
 
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -100,7 +100,7 @@ export default function CheckoutPage() {
     }
   };
 
-  if (!cart.hasMounted || isPlaced) return <Loading />;
+  if (!cart.hasMounted || isPlaced) return <PageLoader />;
 
   return (
     <div className="min-h-screen bg-gray-50">

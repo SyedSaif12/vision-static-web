@@ -12,6 +12,7 @@ import { parseQuery, queryKey } from "@/lib/product-query/query";
 import { PillsBar } from "@/components/v2/products/_components/pills-bar";
 import { notFound } from "next/navigation";
 import { getFilters } from "@/lib/product-query/fetch-api";
+import { TagFilters } from "@/components/v2/products/_components/tag-filters";
 
 export async function generateMetadata({ searchParams }) {
   const q = parseQuery(await searchParams);
@@ -35,6 +36,10 @@ export default async function ProductsPage({ searchParams }) {
   return (
     <main className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-8">
       <PageHeader query={query} />
+
+      <Suspense fallback={<BrandBarSkeleton />}>
+        <TagFilters query={query} />
+      </Suspense>
 
       <Suspense fallback={<BrandBarSkeleton />}>
         <BrandBar query={query} />

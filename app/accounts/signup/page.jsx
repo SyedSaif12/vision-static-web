@@ -534,7 +534,7 @@ function StepEmail({ onBack, onUseNumber, onNext, isLoading }) {
 
   return (
     <section className="animate-[fade_.3s_ease]">
-      <BackRow onBack={onBack} />
+      {/* <BackRow onBack={onBack} /> */}
       <h1 className="mb-2 text-[26px] font-bold">Create your account</h1>
       <p className="mb-6 text-[14.5px] text-muted">
         No problem. Enter your email and we will send the code there instead.
