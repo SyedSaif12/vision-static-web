@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatPrice } from "@/lib/utils";
+import { capitalizeTitle, formatPrice } from "@/lib/utils";
 import { BaseImage } from "@/components";
 import CartButton from "../../cart/CartButton";
 import { CursorTooltip } from "./cursor-tooltip";
@@ -73,7 +73,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
                 href={href}
                 className="after:absolute after:inset-0 after:content-['']"
               >
-                {product?.name}
+                {capitalizeTitle(product?.name)}
               </Link>
             </h3>
           </div>

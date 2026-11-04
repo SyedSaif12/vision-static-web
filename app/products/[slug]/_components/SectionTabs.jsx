@@ -1,7 +1,7 @@
 "use client";
 import { BaseImage } from "@/components";
 import { Play } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BUYING_GUIDES } from "./AllComponents";
 
 export function SectionTabs({
@@ -11,65 +11,81 @@ export function SectionTabs({
   hasFaqs,
   hasWhatsInTheBox,
 }) {
-  const tabs = [
-    hasSpecs && { href: "#specifications", label: "Specifications" },
-    hasOverview && { href: "#overview", label: "Overview" },
-    hasExpertReview && { href: "#expert-review", label: "Expert Review" },
-    hasWhatsInTheBox && {
-      href: "#whats-in-the-box",
-      label: "Whats In The Box",
-    },
-    hasFaqs && { href: "#faqs", label: "FAQs" },
-    { href: "#buying-guide", label: "Buying guide" },
-  ].filter(Boolean);
-
-  const [activeTab, setActiveTab] = useState(
-    tabs[0]?.href || "#specifications",
+  const tabs = useMemo(
+    () =>
+      [
+        hasSpecs && {
+          href: "#specifications",
+          label: "Specifications",
+        },
+        hasOverview && {
+          href: "#overview",
+          label: "Overview",
+        },
+        hasExpertReview && {
+          href: "#expert-review",
+          label: "Expert Review",
+        },
+        hasWhatsInTheBox && {
+          href: "#whats-in-the-box",
+          label: "Whats In The Box",
+        },
+        hasFaqs && {
+          href: "#faqs",
+          label: "FAQs",
+        },
+        {
+          href: "#buying-guide",
+          label: "Buying guide",
+        },
+      ].filter(Boolean),
+    [
+      hasSpecs,
+      hasOverview,
+      hasExpertReview,
+      hasFaqs,
+      hasWhatsInTheBox,
+    ],
   );
 
+  const [currentHash, setCurrentHash] = useState("");
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveTab(`#${entry.target.id}`);
-          }
-        });
-      },
-      {
-        rootMargin: "-20% 0px -60% 0px",
-        threshold: 0,
-      },
-    );
+    const syncHash = () => {
+      setCurrentHash(window.location.hash);
+    };
 
-    tabs.forEach((tab) => {
-      const element = document.querySelector(tab.href);
-      if (element) observer.observe(element);
-    });
+    syncHash();
 
-    return () => observer.disconnect();
-  }, [tabs]);
+    window.addEventListener("hashchange", syncHash);
+
+    return () => {
+      window.removeEventListener("hashchange", syncHash);
+    };
+  }, []);
 
   return (
     <nav
       aria-label="Product sections"
-      className="sticky top-0 z-20 -mx-4 overflow-x-auto border-b border-light-100 bg-surface/95 px-4 backdrop-blur sm:mx-0 sm:px-0"
+      className="sticky top-[110px] md:top-[130px] z-20 -mx-2 overflow-x-auto border-b border-light-100 bg-surface/95 px-4 backdrop-blur sm:mx-0 sm:px-0"
     >
       <ul className="flex gap-6 whitespace-nowrap">
-        {tabs.map((t) => {
-          const isActive = activeTab === t.href;
+        {tabs.map((tab) => {
+          const isActive =
+            currentHash === tab.href ||
+            (!currentHash && tab.href === tabs[0]?.href);
+
           return (
-            <li key={t.href}>
+            <li key={tab.href}>
               <a
-                href={t.href}
-                onClick={() => setActiveTab(t.href)}
+                href={tab.href}
                 className={`inline-block border-b-2 py-3 text-sm font-bold transition focus-visible:outline-none ${
                   isActive
                     ? "border-primary text-primary"
                     : "border-transparent text-muted hover:border-primary hover:text-primary focus-visible:text-primary"
                 }`}
               >
-                {t.label}
+                {tab.label}
               </a>
             </li>
           );
@@ -78,7 +94,6 @@ export function SectionTabs({
     </nav>
   );
 }
-
 // Category-wise guide: iframe load nahi hoti (performance), click par YouTube khulta hai
 export function BuyingGuide({ guide = BUYING_GUIDES }) {
   const [isPlaying, setIsPlaying] = useState(false);

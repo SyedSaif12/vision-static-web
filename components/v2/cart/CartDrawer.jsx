@@ -79,7 +79,7 @@ export default function CartDrawer() {
           const { product, quantity } = item;
 
           if (!product) return null;
-
+          
           return (
             <div key={id} className="flex gap-4 items-center border-b pb-4">
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg">

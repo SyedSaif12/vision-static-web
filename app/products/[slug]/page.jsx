@@ -4,6 +4,7 @@ import ProductGallery from "./ProductGallery";
 import {
   getInstallmentPlan,
   getSingleProduct,
+  normalizeProduct,
 } from "@/lib/product-query/fetch-api";
 import {
   formatPrice,
@@ -14,6 +15,7 @@ import {
   getSpecs,
   parseFaq,
   jsonLd,
+  capitalizeTitle,
 } from "@/lib/utils";
 import InstalmentTable from "./InstalmentTable";
 import {
@@ -181,7 +183,7 @@ export default async function ProductPage({ params }) {
     instalmentResult.status === "fulfilled" ? instalmentResult.value : {},
   );
   if (!product) notFound();
-
+  const rawProduct = normalizeProduct(product)
   const tags = getTags(product);
   const specs = getSpecs(product.attributes);
   const faqItems = parseFaq(product.faq);
@@ -202,25 +204,27 @@ export default async function ProductPage({ params }) {
         <Breadcrumb product={product} />
 
         {/* Hero */}
-        <div className="mt-4 grid gap-6 lg:grid-cols-2">
-          <ProductGallery
-            key={product.slug}
-            images={product.image}
-            title={product.productTitle}
-            tags={tags}
-          />
+        <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-2">
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+            <ProductGallery
+              key={product.slug}
+              images={product.image}
+              title={product.productTitle}
+              tags={tags}
+            />
+          </div>
 
-          <div className="rounded-2xl border border-light-100 bg-white p-5 sm:p-7">
+          <div className="rounded-2xl border min-w-0 border-light-100 bg-white p-5 sm:p-7">
             {brand && (
               <p className="text-sm font-medium text-muted">
                 {humanize(brand)}
               </p>
             )}
             <h1 className="mt-1 font-heading text-xl font-extrabold leading-snug text-ink sm:text-2xl">
-              {product.productTitle}
+              {capitalizeTitle(product.productTitle)}
             </h1>
 
-            <ProductDescription html={product?.description} />
+            <ProductDescription html={capitalizeTitle(product?.description)} />
 
             <hr className="my-4 border-light-100" />
 
@@ -236,11 +240,15 @@ export default async function ProductPage({ params }) {
               <ProductActions
                 disabled={unavailable}
                 product={{
-                  id: product.productId,
-                  slug: product.slug,
-                  title: product.productTitle,
-                  price: product.price,
-                  image: product.image?.[0]?.fileUrl ?? null,
+                  id: rawProduct.id,
+                  slug: rawProduct.slug,
+                  name: rawProduct.name,
+                  specs: rawProduct.specs,
+                  oldPrice: rawProduct.oldPrice,
+                  price: rawProduct.price,
+                  tag: rawProduct.tag,
+                  warranty: rawProduct.warranty,
+                  image: rawProduct.image ?? null, 
                 }}
               />
               <WhatsAppCta title={product.productTitle} />

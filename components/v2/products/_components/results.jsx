@@ -2,42 +2,31 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getProducts } from "@/lib/product-query/fetch-api";
 import {
-  SORT_OPTIONS,
   clearAll,
   hasActiveFilters,
   hrefFor,
-  withPatch,
+  selectedSortOptions,
 } from "@/lib/product-query/query";
-import { ActiveFilters } from "./active-filters";
+// import { ActiveFilters } from "./active-filters";
 import { Pagination } from "./pagination";
 import { ProductGrid } from "./product-grid";
 import { SortSelect } from "./sort-select";
 
 export async function Results({ query }) {
   const result = await getProducts(query);
+  const sorting = selectedSortOptions(query)
 
   // ?page=99 jaisa out-of-range URL -> aakhri valid page par bhej do
   if (result.total > 0 && query.page > result.totalPages) {
     redirect(hrefFor({ ...query, page: result.totalPages }));
   }
 
-  const sortOptions = SORT_OPTIONS.map((o) => ({
-    label: o.label,
-    href: hrefFor(withPatch(query, { orderBy: o.orderBy, order: o.order })),
-  }));
-  const currentSort = SORT_OPTIONS.findIndex(
-    (o) => o.orderBy === query.orderBy && o.order === query.order,
-  );
 
   const from = (result.page - 1) * result.limit + 1;
   const to = Math.min(result.page * result.limit, result.total);
 
   return (
     <section aria-label="Product results" className="min-w-0">
-      <SortSelect
-        options={sortOptions}
-        value={sortOptions[Math.max(currentSort, 0)].href}
-      />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-slate-600">
           <strong className="text-slate-900">{result.total}</strong>{" "}
@@ -45,8 +34,8 @@ export async function Results({ query }) {
         </p>
         <SortSelect
           hidden={true}
-          options={sortOptions}
-          value={sortOptions[Math.max(currentSort, 0)].href}
+          options={sorting.sortOptions}
+          value={sorting.sortOptions[Math.max(sorting.currentSort, 0)].href}
         />
       </div>
 

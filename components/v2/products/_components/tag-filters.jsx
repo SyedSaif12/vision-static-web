@@ -23,7 +23,7 @@ export async function TagFilters({ query }) {
         className="
                  flex min-w-0 flex-1 flex-nowrap items-center gap-3
           overflow-x-auto overscroll-x-contain
-          pb-3 pt-1
+          pt-1
           snap-x snap-mandatory
           [scrollbar-width:none]
           [&::-webkit-scrollbar]:hidden

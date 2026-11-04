@@ -23,8 +23,8 @@ function countByChip(chips, products) {
 }
 
 export async function PillsBar({ query }) {
-  if (!query.subCategory) return null;
-  const activeTag = Boolean(query?.tag)
+  if (!query.category || !query.subCategory) return null;
+  const activeTag = Boolean(query?.tag);
 
   const currentSubCategory = { ...query };
   delete currentSubCategory.name;
@@ -43,7 +43,7 @@ export async function PillsBar({ query }) {
   const active = query.name?.toLowerCase();
 
   return (
-    <nav aria-label="Models" className=" flex min-w-0 items-center gap-3">
+    <nav aria-label="Models" className="mt-3 flex min-w-0 items-center gap-3">
       <span className="mr-2 hidden shrink-0 text-xs font-semibold tracking-wide text-slate-400 md:block">
         Models
       </span>
@@ -62,10 +62,11 @@ export async function PillsBar({ query }) {
         <Link
           href={hrefFor(selectProductPills(query, undefined))}
           aria-current={!active ? "page" : undefined}
-          className={`${chip} snap-start ${!active
-            ? "border-blue-700 bg-blue-700 text-white"
-            : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"
-            }`}
+          className={`${chip} snap-start ${
+            !active
+              ? "border-blue-700 bg-blue-700 text-white"
+              : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"
+          }`}
         >
           All
         </Link>
@@ -81,24 +82,22 @@ export async function PillsBar({ query }) {
                 selectProductPills(query, selected ? undefined : b.label),
               )}
               aria-current={selected ? "page" : undefined}
-              className={`${chip} snap-start ${selected
-                ? "border-blue-700 bg-blue-700 text-white"
-                : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"
-                }`}
+              className={`${chip} snap-start ${
+                selected
+                  ? "border-blue-700 bg-blue-700 text-white"
+                  : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"
+              }`}
             >
               <span>{b.label}</span>
-              {
-                !activeTag ? (
-                  <span className="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                    ({b.count})
-                  </span>
-                ) : (
-                  <span className="shrink-0 whitespace-nowrap text-xs text-slate-400">
-                    ({b.count})
-                  </span>
-                )
-              }
-
+              {!activeTag ? (
+                <span className="shrink-0 whitespace-nowrap text-xs text-slate-400">
+                  ({b.count})
+                </span>
+              ) : (
+                <span className="shrink-0 whitespace-nowrap text-xs text-slate-400">
+                  ({b.count})
+                </span>
+              )}
             </Link>
           );
         })}

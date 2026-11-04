@@ -9,7 +9,7 @@ export function BrandPromoCard({ section }) {
   return (
     <div
       style={{ backgroundColor: bg }}
-      className={`flex md:flex-col justify-between items-center md:justify-evenly gap-6 rounded-2xl p-3 md:p-6 ${dark ? "text-white" : "text-slate-900"}`}
+      className={`flex md:flex-col justify-between items-start md:justify-evenly gap-6 rounded-2xl p-3 md:p-4 ${dark ? "text-white" : "text-slate-900"}`}
     >
       <div>
         <h3 className="text-xl md:text-3xl font-bold tracking-tight">

@@ -14,7 +14,7 @@ export function SortSelect({ options, value, hidden = false }) {
 
   return (
     <label
-      className={`${hidden ? "hidden md:flex" : "md:hidden flex"} items-center gap-2 text-sm text-slate-500`}
+      className={`${hidden ? "hidden lg:flex" : "lg:hidden flex"} items-center gap-2 text-sm text-slate-500`}
     >
       <span className="hidden md:block">Sort by</span>
       <div className="relative">

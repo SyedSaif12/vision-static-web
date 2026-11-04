@@ -8,14 +8,13 @@ import { useState } from "react";
  * Ek image ho to thumbnails nahi dikhte, ek se zyada ho to click par main image replace hoti hai.
  */
 export default function ProductGallery({ images = [], title, tags = [] }) {
-    
   const list = images.filter((i) => i?.fileUrl);
   const [active, setActive] = useState(0);
   const current = list[active];
   const hasMany = list.length > 1;
 
   return (
-    <div className="rounded-2xl border border-light-100 bg-white p-3 sm:p-4">
+    <div className="rounded-2xl min-w-0 border border-light-100 bg-white p-3 sm:p-4">
       <div className="relative aspect-square overflow-hidden rounded-xl bg-light-50">
         {tags.length > 0 && (
           <ul className="absolute left-3 top-3 z-10 flex flex-wrap gap-2">
@@ -32,7 +31,10 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
 
         <BaseImage
           src={current?.fileUrl}
-          alt={current?.alt ?? `${title}${hasMany ? ` - image ${active + 1} of ${list.length}` : ""}`}
+          alt={
+            current?.alt ??
+            `${title}${hasMany ? ` - image ${active + 1} of ${list.length}` : ""}`
+          }
           className="h-full w-full"
           imgClassName="p-6"
           fit="contain"
@@ -42,7 +44,10 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
       </div>
 
       {hasMany && (
-        <ul className="mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="Product images">
+        <ul
+          className="mt-3 flex gap-2 overflow-x-auto pb-1"
+          aria-label="Product images"
+        >
           {list.map((img, i) => {
             const selected = i === active;
             return (
@@ -53,12 +58,14 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
                   aria-label={`Show image ${i + 1}`}
                   aria-pressed={selected}
                   className={`block h-16 w-16 overflow-hidden rounded-lg border-2 bg-light-50 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:h-20 sm:w-20 ${
-                    selected ? "border-primary" : "border-light-100 hover:border-faint"
+                    selected
+                      ? "border-primary"
+                      : "border-light-100 hover:border-faint"
                   }`}
                 >
                   <BaseImage
                     src={img.fileUrl}
-                    alt={img?.alt ?? ''}
+                    alt={img?.alt ?? ""}
                     className="h-full w-full"
                     imgClassName="p-1.5"
                     fit="contain"
@@ -72,7 +79,8 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
       )}
 
       <p className="mt-3 text-center text-xs text-faint">
-        Photos show this model. Serial number of your unit is shared before dispatch.
+        Photos show this model. Serial number of your unit is shared before
+        dispatch.
       </p>
     </div>
   );

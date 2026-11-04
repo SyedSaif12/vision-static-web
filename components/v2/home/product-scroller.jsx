@@ -1,6 +1,7 @@
 import { ProductCard } from "../products/_components/product-card";
 
 export function ProductScroller({ products, label }) {
+  
   return (
     <div
       role="region"

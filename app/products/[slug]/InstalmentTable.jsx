@@ -4,7 +4,6 @@ import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
 
 export default function InstalmentTable({ price, banks }) {
-    
   const [activeKey, setActiveKey] = useState(banks[0]?.key);
   const active = banks.find((b) => b.key === activeKey) ?? banks[0];
 
@@ -67,8 +66,10 @@ export default function InstalmentTable({ price, banks }) {
           </p>
 
           <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[320px] text-left text-sm">
-              <caption className="sr-only">{active.label} instalment plans</caption>
+            <table className="w-full text-left text-sm">
+              <caption className="sr-only">
+                {active.label} instalment plans
+              </caption>
               <thead>
                 <tr className="text-xs text-muted">
                   <th className="py-2 font-medium">Months</th>

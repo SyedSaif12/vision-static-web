@@ -41,7 +41,7 @@ export default function RootClientLayout({ children, navbar }) {
         {!isHidePath && (
           <>
             <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
-            <MobileNavRow />
+            {/* <MobileNavRow /> */}
           </>
         )}
 

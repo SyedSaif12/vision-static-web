@@ -13,6 +13,8 @@ import { PillsBar } from "@/components/v2/products/_components/pills-bar";
 import { notFound } from "next/navigation";
 import { getFilters } from "@/lib/product-query/fetch-api";
 import { TagFilters } from "@/components/v2/products/_components/tag-filters";
+import { CategoryBar } from "@/components/v2/products/_components/category-bar";
+import { MobileFilters, MobileFiltersSkeleton } from "@/components/v2/products/_components/mobile-filters";
 
 export async function generateMetadata({ searchParams }) {
   const q = parseQuery(await searchParams);
@@ -42,6 +44,10 @@ export default async function ProductsPage({ searchParams }) {
       </Suspense>
 
       <Suspense fallback={<BrandBarSkeleton />}>
+        <CategoryBar query={query} />
+      </Suspense>
+
+      <Suspense fallback={<BrandBarSkeleton />}>
         <BrandBar query={query} />
       </Suspense>
 
@@ -50,6 +56,12 @@ export default async function ProductsPage({ searchParams }) {
           <PillsBar query={query} />
         </Suspense>
       )}
+
+      <div className="mt-6 lg:hidden">
+        <Suspense fallback={<MobileFiltersSkeleton />}>
+          <MobileFilters query={query} />
+        </Suspense>
+      </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
         <aside className="hidden lg:block">

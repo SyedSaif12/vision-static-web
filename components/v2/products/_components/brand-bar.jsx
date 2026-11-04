@@ -3,29 +3,33 @@ import { getFilters } from "@/lib/product-query/fetch-api";
 import { hrefFor, selectBrand } from "@/lib/product-query/query";
 
 const chip =
-  "inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold capitalize transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
+  "inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl border px-4 py-2 text-sm font-semibold capitalize transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
 
 export async function BrandBar({ query }) {
-  const { filters } = await getFilters(query.category, query.subCategory);
-  const brands = filters.brands ?? [];
-  if (!brands.length) return null;
+  const { brands } = await getFilters(query.category, query.subCategory);
 
   const active = query.subCategory?.toLowerCase();
+  // sirf subCategory wale case me backend bas wahi selected brand bhejta hai;
+  // agar kisi wajah se list me na ho tab bhi selected brand dikhao
+  const list =
+    active && !brands.some((b) => b.label.toLowerCase() === active)
+      ? [{ label: query.subCategory }, ...brands]
+      : brands;
+  if (!list.length) return null;
 
   return (
-    <nav aria-label="Brands" className="flex items-center gap-3">
-      <span className="mr-2 hidden md:block text-xs font-semibold tracking-wide text-slate-400">
+    <nav aria-label="Brands" className="mt-3 flex flex-wrap items-center gap-3">
+      <span className="mr-2 hidden shrink-0 md:block text-xs font-semibold tracking-wide text-slate-400">
         Brands
       </span>
       <div
         className="
-                flex gap-3 sm:gap-4 overflow-x-auto overscroll-x-contain pb-4 pt-1 snap-x snap-mandatory
-                [scrollbar-width:none]
-                [&::-webkit-scrollbar]:h-1.5
-                [&::-webkit-scrollbar-track]:none
-                [&::-webkit-scrollbar-track]:none
-                [&::-webkit-scrollbar-thumb]:none
-                [&::-webkit-scrollbar-thumb]:none
+                 flex min-w-0 flex-1 flex-nowrap items-center gap-3
+          overflow-x-auto overscroll-x-contain
+          pt-1
+          snap-x snap-mandatory
+          [scrollbar-width:none]
+          [&::-webkit-scrollbar]:hidden
               "
       >
         <div className="snap-start">
@@ -37,36 +41,19 @@ export async function BrandBar({ query }) {
             All
           </Link>
         </div>
-        {brands.map((b) => {
+        {list.map((b) => {
           const selected = active === b.label.toLowerCase();
-          const disabled = b.count === 0 && !selected;
-          const content = (
-            <>
-              {b.label}
-              {/* <span className={`text-xs font-normal ${selected ? "text-blue-100" : "text-slate-400"}`}>
-              {b.count}
-            </span> */}
-            </>
-          );
-
-          // if (disabled) {
-          //   return (
-          //     <span key={b.id ?? b.label} aria-disabled className={`${chip} cursor-not-allowed border-slate-100 bg-slate-50 text-slate-400`}>
-          //       {content}
-          //     </span>
-          //   );
-          // }
           return (
             <div key={b.id ?? b.label} className="snap-start">
               <Link
-                // key={b.id ?? b.label}
+              
                 href={hrefFor(
                   selectBrand(query, selected ? undefined : b.label),
                 )}
                 aria-current={selected ? "page" : undefined}
                 className={`${chip} ${selected ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
               >
-                {content}
+                {b.label}
               </Link>
             </div>
           );
