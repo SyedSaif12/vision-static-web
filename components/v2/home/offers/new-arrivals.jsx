@@ -8,7 +8,7 @@ const NewArrivals = async () => {
   const newArrival = await getCollectionProducts("new-arrivals", 1);
   return (
     <>
-      {newArrival?.products?.length && (
+      {!!newArrival?.products?.length && (
         <ProductShowcase
           eyebrow={"JUST LANDED"}
           title={"New arrivals"}

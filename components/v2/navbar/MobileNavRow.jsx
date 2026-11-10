@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import BottomSheet from "./BottomSheet";
@@ -9,6 +9,7 @@ import ShopSheetContent from "./ShopSheetContent";
 import DealsSheetContent from "./DealsSheetContent";
 import { useDispatch } from "react-redux";
 import { onToggle } from "@/redux/golbal-toggle/globalToggleSlice";
+import { APP_EVENTS } from "@/lib/events";
 const SHEETS = {
   shop: {
     title: "Shop by category",
@@ -33,6 +34,19 @@ export default function MobileNavRow() {
     dispatch(onToggle(false));
     setOpenSheet(null);
   };
+
+  useEffect(() => {
+    const handleOpenDeals = () => {
+      open({ sheet: "deals" });
+    };
+
+    window.addEventListener(APP_EVENTS.OPEN_DEALS_SHEET, handleOpenDeals);
+
+    return () => {
+      window.removeEventListener(APP_EVENTS.OPEN_DEALS_SHEET, handleOpenDeals);
+    };
+  }, []);
+
   const active = openSheet ? SHEETS[openSheet] : null;
 
   return (
@@ -42,7 +56,7 @@ export default function MobileNavRow() {
         <div
           ref={ref}
           {...handlers}
-          className="flex gap-3 overflow-x-auto overscroll-x-contain px-4 pt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-3 overflow-x-auto overscroll-x-contain px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           style={{ cursor: "grab", touchAction: "pan-x" }}
         >
           {mobileNavItems.map((item) => {

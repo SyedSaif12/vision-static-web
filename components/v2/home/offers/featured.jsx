@@ -9,7 +9,7 @@ const Featured = async () => {
   return (
     <>
       {/* <Suspense fallback={<NewArrivalsSkeleton />}> */}
-      {featured?.products?.length && (
+      {!!featured?.products?.length && (
         <ProductShowcase
           eyebrow={"HANDEDPICKED"}
           title={"Featured products"}

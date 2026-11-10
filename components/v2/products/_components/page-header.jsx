@@ -1,6 +1,7 @@
+import { buildBreadcrumbs } from "@/lib/product-query/breadcrumbs";
 import { getDeals } from "@/lib/product-query/fetch-api";
-import { PRODUCTS_PATH } from "@/lib/product-query/query";
 import Link from "next/link";
+import { Fragment } from "react";
 
 const mappedQuery = {
   isFeatured: "Featured",
@@ -17,28 +18,48 @@ const prettify = (label) => label.replace(/-/g, " ");
 
 export function PageHeader({ query }) {
   const activeFilterKey = Object.keys(mappedQuery).find(
-    (key) =>
-      query[key] === "true" ||
-      query[key] === true ||
-      query.tag === key
+    (key) => query[key] === "true" || query[key] === true || query.tag === key,
   );
 
-  const filterLabel = activeFilterKey
-    ? mappedQuery[activeFilterKey]
-    : null;
+  const filterLabel = activeFilterKey ? mappedQuery[activeFilterKey] : null;
 
-  const heroData = activeFilterKey
-    ? PAGE_HEADER_CONFIG[activeFilterKey]
-    : null;
+  const crumbs = buildBreadcrumbs(query, filterLabel);
+
+  const heroData = activeFilterKey ? PAGE_HEADER_CONFIG[activeFilterKey] : null;
 
   const title = query.category ?? "All products";
   const brand = query?.subCategory ?? "";
   const pills = query?.name ?? "";
 
   return (
-    <header className="pt-6">
+    <header className="">
       {/* Breadcrumb */}
       <nav
+        aria-label="Breadcrumb"
+        className="text-xs text-slate-500 md:text-sm lg:text-base"
+      >
+        {crumbs.map((crumb, i) => {
+          const isLast = i === crumbs.length - 1;
+          return (
+            <Fragment key={`${crumb.label}-${i}`}>
+              {i > 0 && <span className="mx-1.5">/</span>}
+              {isLast ? (
+                <span aria-current="page" className="capitalize text-slate-800">
+                  {crumb.label}
+                </span>
+              ) : (
+                <Link
+                  href={crumb.href}
+                  className="capitalize hover:text-blue-700"
+                >
+                  {crumb.label}
+                </Link>
+              )}
+            </Fragment>
+          );
+        })}
+      </nav>
+      {/* <nav
         aria-label="Breadcrumb"
         className="text-xs text-slate-500 md:text-sm lg:text-base"
       >
@@ -87,7 +108,7 @@ export function PageHeader({ query }) {
             </span>
           </>
         )}
-      </nav>
+      </nav> */}
 
       {/* Dynamic Hero */}
       {heroData ? (
@@ -95,8 +116,8 @@ export function PageHeader({ query }) {
       ) : (
         /* Default Page Heading */
         <h1 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 capitalize">
-          {!pills && prettify(brand)} {prettify(pills)} {prettify(title)}{" "}
-           price in Pakistan
+          {!pills && prettify(brand)} {prettify(pills)} {prettify(title)} price
+          in Pakistan
         </h1>
       )}
     </header>
@@ -104,25 +125,29 @@ export function PageHeader({ query }) {
 }
 
 export async function PageHeroBanner({ data }) {
-  
   if (!data) return null;
-  
-  let { title, label, description, eyebrow, color, blendColor, cards = [] } = data;
 
-  if (label === 'Deals') {
-    const dealsData = await getDeals()
-      if (dealsData) {
+  let {
+    title,
+    label,
+    description,
+    eyebrow,
+    color,
+    blendColor,
+    cards = [],
+  } = data;
+
+  if (label === "Deals") {
+    const dealsData = await getDeals();
+    if (dealsData) {
       title = dealsData.heading ?? title;
       description = dealsData.description ?? description;
       eyebrow = dealsData.eyeBrow ?? eyebrow;
       cards = dealsData?.cards ?? [];
     }
-    
   }
 
-  const visibleCards = cards.filter(
-    (card) => card.title || card.description
-  );
+  const visibleCards = cards.filter((card) => card.title || card.description);
 
   return (
     <section
@@ -140,7 +165,6 @@ export async function PageHeroBanner({ data }) {
       }}
     >
       <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_1.4fr]">
-
         {/* Left Content */}
         <div>
           {eyebrow && (
@@ -183,7 +207,6 @@ export async function PageHeroBanner({ data }) {
             ))}
           </div>
         )}
-
       </div>
     </section>
   );
@@ -242,8 +265,7 @@ export const PAGE_HEADER_CONFIG = {
   isComingSoon: {
     label: "Coming Soon",
     title: "Coming Soon",
-    description:
-      "Get ready for the latest products and exciting new arrivals.",
+    description: "Get ready for the latest products and exciting new arrivals.",
 
     color: "#143D9B",
     blendColor: "#4367DE",
@@ -270,8 +292,7 @@ export const PAGE_HEADER_CONFIG = {
     cards: [
       {
         title: "Box opened",
-        description:
-          "Opened for display, or returned unused within 7 days.",
+        description: "Opened for display, or returned unused within 7 days.",
       },
       {
         title: "Checked",

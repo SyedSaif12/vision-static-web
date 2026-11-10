@@ -53,7 +53,7 @@ const CartButton = ({
           setClicked(true);
           handleAddToCart();
         }}
-        className={`${btnClassName} w-full rounded-lg ${clicked || disabled ? "cursor-not-allowed" : "cursor-pointer"} bg-gold px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-gold-600 focus-visible:outline-2 focus-visible:outline-offset-2`}
+        className={`${btnClassName} w-full rounded-lg ${clicked || disabled ? "cursor-not-allowed bg-gold/50 hover:bg-gold/50 text-ink/50" : "cursor-pointer"} bg-gold px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-gold-600 focus-visible:outline-2 focus-visible:outline-offset-2`}
       >
         {clicked ? (
           <span className="flex items-center justify-center gap-2">

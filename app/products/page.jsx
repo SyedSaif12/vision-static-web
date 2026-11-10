@@ -14,7 +14,10 @@ import { notFound } from "next/navigation";
 import { getFilters } from "@/lib/product-query/fetch-api";
 import { TagFilters } from "@/components/v2/products/_components/tag-filters";
 import { CategoryBar } from "@/components/v2/products/_components/category-bar";
-import { MobileFilters, MobileFiltersSkeleton } from "@/components/v2/products/_components/mobile-filters";
+import {
+  MobileFilters,
+  MobileFiltersSkeleton,
+} from "@/components/v2/products/_components/mobile-filters";
 
 export async function generateMetadata({ searchParams }) {
   const q = parseQuery(await searchParams);
@@ -36,7 +39,8 @@ export default async function ProductsPage({ searchParams }) {
   if (missing) notFound();
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-8">
+    // <main className="mx-auto max-w-[1400px] px-4 pb-16 sm:px-8">
+    <main className="mx-auto w-11/12 mt-3 pt-3 pb-16 border-t border-t-gray-300 md:border-t-0">
       <PageHeader query={query} />
 
       <Suspense fallback={<BrandBarSkeleton />}>

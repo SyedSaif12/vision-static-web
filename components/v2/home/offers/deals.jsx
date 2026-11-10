@@ -18,7 +18,7 @@ const Deals = async () => {
 
   return (
     <>
-      {eidDeals?.products?.length && (
+      {!!eidDeals?.products?.length && (
         <ProductShowcase
           eyebrow={deals?.eyeBrow ?? "LIMITED TIME"}
           title={deals?.heading ?? "Eid deals"}

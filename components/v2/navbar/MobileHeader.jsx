@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   LoaderCircle,
   LogOut,
+  MapPin,
   Menu,
   ShoppingCart,
   Tag,
@@ -49,6 +50,13 @@ export default function MobileHeader({
         </div>
 
         <div className="flex items-center gap-1">
+          <Link
+            href={"/why-us/why-wegot#store"}
+            aria-label="Account"
+            className="rounded-lg p-2 active:bg-white/10"
+          >
+            <MapPin size={22} />
+          </Link>
           {isMount && user?.role ? (
             <div
               className="relative"
@@ -59,7 +67,6 @@ export default function MobileHeader({
                 {!!user?.firstName && user?.firstName?.slice(0, 1)}
                 {!!user?.lastName && user?.lastName?.slice(0, 1)}
               </h1>
-
               {openMenu === "user" && (
                 <div className="absolute hover:cursor-pointer right-0 top-full z-50 w-32 pt-2">
                   <div className="rounded-lg bg-white py-2 px-4 !z-[9999] text-ink shadow-2xl">

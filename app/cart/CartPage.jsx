@@ -263,11 +263,13 @@ export default function CartPage() {
   };
 
   if (!mounted) {
-    return <div className="min-h-[400px] bg-surface" />;
+    return (
+      <div className="min-h-[400px] bg-surface mt-3 border-t border-t-gray-300" />
+    );
   }
 
   return (
-    <main className="min-h-[60vh] bg-surface py-6 sm:py-8">
+    <main className="min-h-[60vh] bg-surface py-3 sm:py-8 mt-3 border-t md:border-t-0 border-t-gray-300">
       <div className="mx-auto w-[92%] max-w-7xl">
         <nav className="mb-5 text-sm text-muted" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-primary">

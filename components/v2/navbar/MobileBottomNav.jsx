@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, LayoutGrid, Tag, ShoppingCart, UserRound } from "lucide-react";
 import { BOTTOM_NAV_HEIGHT } from "./nav-config";
+import { APP_EVENTS, emitEvent } from "@/lib/events";
 
 /* MOBILE (< md) — screen ke bottom par hamesha fixed navigation bar */
 export default function MobileBottomNav({
@@ -23,7 +24,7 @@ export default function MobileBottomNav({
   const items = [
     { label: "Home", href: "/", icon: Home },
     { label: "Categories", href: "/categories", icon: LayoutGrid },
-    { label: "Deals", href: "/products?tag=deals", icon: Tag },
+    { label: "Deals", icon: Tag, isDeals: true },
     { label: "Cart", icon: ShoppingCart, isCart: true },
     { label: "Account", href: accountHref, icon: UserRound },
   ];
@@ -38,7 +39,7 @@ export default function MobileBottomNav({
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="flex" style={{ height: BOTTOM_NAV_HEIGHT }}>
-        {items.map(({ label, href, icon: Icon, isCart }) => {
+        {items.map(({ label, href, icon: Icon, isCart, isDeals }) => {
           const active = !isCart && isActive(href);
           const color = active ? "text-brand" : "text-faint";
 
@@ -59,6 +60,16 @@ export default function MobileBottomNav({
                       {isMount ? cartCount : 0}
                     </span>
                   </span>
+                  {label}
+                </button>
+              ) : isDeals ? (
+                <button
+                  type="button"
+                  onClick={() => emitEvent(APP_EVENTS.OPEN_DEALS_SHEET)}
+                  className={`${base} ${color}`}
+                  aria-label="Open deals"
+                >
+                  <Icon size={20} />
                   {label}
                 </button>
               ) : (

@@ -6,7 +6,7 @@ const ComingSoon = async () => {
   const comingSoon = await getCollectionProducts("coming-soon", 1);
   return (
     <>
-      {comingSoon?.products?.length && (
+      {!!comingSoon?.products?.length && (
         <ProductShowcase
           eyebrow={"COMING SOON"}
           title={"Upcoming Products"}

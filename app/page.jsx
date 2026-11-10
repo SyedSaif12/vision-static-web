@@ -10,7 +10,8 @@ import {
 } from "@/components";
 import { NewArrivalsSkeleton } from "@/components/v2/products";
 import { LazyBrandSections } from "@/components/v2/home/lazy-brand-sections";
-import MobileNavRow from "@/components/v2/navbar/MobileNavRow";
+import ReadyToShop from "@/components/v2/ReadyToShop";
+// import MobileNavRow from "@/components/v2/navbar/MobileNavRow";
 export const revalidate = 86400; // 1 day
 
 const Featured = dynamic(() => import("@/components/v2/home/offers/featured"));
@@ -29,13 +30,15 @@ const Refurbished = dynamic(
 const Home = async () => {
   return (
     <>
-     <MobileNavRow />
+      {/* <MobileNavRow /> */}
       {/* hero banner  */}
       <hr className="mt-2.5 md:hidden" />
       <HeroBanner />
       {/* process cards  */}
       <ProcessCards />
       {/* popup content model for 25 delay in seconds */}
+      {/* ready to shop section  */}
+      <ReadyToShop />
       <PopupContactModal />
       {/* all categories section  */}
       <Category />

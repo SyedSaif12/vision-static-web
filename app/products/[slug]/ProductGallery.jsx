@@ -39,7 +39,7 @@ export default function ProductGallery({ images = [], title, tags = [] }) {
           imgClassName="p-6"
           fit="contain"
           sizes="(min-width: 1024px) 560px, 100vw"
-          priority
+          priority={true}
         />
       </div>
 

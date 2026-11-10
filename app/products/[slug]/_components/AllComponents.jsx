@@ -186,12 +186,18 @@ export function PriceBlock({ product, banks }) {
     <div>
       <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
         <p className="font-heading text-3xl font-extrabold text-ink sm:text-4xl">
-          {formatPrice(price, "Rs ")}
+          {!!price ? (
+            formatPrice(price, "Rs ")
+          ) : (
+            <span className="text-lg sm:text-2xl">
+              Pricing will be announced soon! <br /> Stay tuned
+            </span>
+          )}
         </p>
-        {hasDiscount && (
+        {!!hasDiscount && (
           <>
             <p className="pb-1 text-base text-faint line-through">
-              {formatPrice(oldPrice, "Rs ")}
+              {!!oldPrice && formatPrice(oldPrice, "Rs ")}
             </p>
             <span className="mb-1 rounded-md bg-red/10 px-2 py-0.5 text-xs font-bold text-red">
               {off}% off
@@ -199,7 +205,7 @@ export function PriceBlock({ product, banks }) {
           </>
         )}
       </div>
-      {monthly && (
+      {!!monthly && (
         <p className="mt-1.5 text-sm text-green">
           or about {formatPrice(monthly, "Rs ")} a month on credit card
           instalments ·{" "}

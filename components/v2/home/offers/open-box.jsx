@@ -6,7 +6,7 @@ const OpenBox = async () => {
   const openBox = await getCollectionProducts("open-box", 1);
   return (
     <>
-      {openBox?.products?.length && (
+      {!!openBox?.products?.length && (
         <ProductShowcase
           eyebrow={"NEW · LIMITED STOCK"}
           title={"Open Box Deals"}

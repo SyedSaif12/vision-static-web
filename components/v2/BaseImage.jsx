@@ -30,12 +30,14 @@ const BaseImage = ({
 }) => {
   const [failed, setFailed] = useState(!src);
   const [loaded, setLoaded] = useState(false);
+  const [unopt, setUnopt] = useState(false);
   const imgRef = useRef(null);
 
   // src badle to state reset
   useEffect(() => {
     setFailed(!src);
     setLoaded(false);
+    setUnopt(false);
   }, [src]);
 
   // Hydration se pehle error ho chuka ho to onError miss ho jata hai, isliye check
@@ -67,7 +69,7 @@ const BaseImage = ({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {showSkeleton && !loaded && (
-        <div className="absolute inset-0 animate-pulse bg-light-200" />
+        <div className="absolute inset-0 animate-pulse bg-gray-300" />
       )}
 
       <Image
@@ -76,6 +78,7 @@ const BaseImage = ({
         alt={alt}
         fill
         sizes={sizes}
+        unoptimized={unopt}
         className={`${fitClass[fit]} transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
         } ${imgClassName}`}
@@ -84,8 +87,12 @@ const BaseImage = ({
           onLoad?.(e);
         }}
         onError={(e) => {
-          setFailed(true);
-          onError?.(e);
+          if (!unopt) {
+            setUnopt(true);
+          } else {
+            setFailed(true);
+            onError?.(e);
+          }
         }}
         {...rest}
       />

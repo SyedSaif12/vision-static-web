@@ -28,7 +28,10 @@ export default function ProductActions({ product, disabled = false }) {
           >
             −
           </button>
-          <span className="min-w-6 text-center text-sm font-semibold text-ink" aria-live="polite">
+          <span
+            className="min-w-6 text-center text-sm font-semibold text-ink"
+            aria-live="polite"
+          >
             {qty}
           </span>
           <button
@@ -51,12 +54,15 @@ export default function ProductActions({ product, disabled = false }) {
         />
       </div>
 
-      <div className="h-12 flex-1 lg:flex-grow-0 xl:flex-1 flex rounded-xl focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50" >
-
+      <div className="h-12 flex-1 lg:flex-grow-0 xl:flex-1 flex rounded-xl focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
         <button
           type="button"
-          onClick={() => setOpenDialog(true)}
-          className={`w-full rounded-lg cursor-pointer px-4 py-2.5 bg-primary hover:bg-primary-200 text-white text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2`}
+          disabled={disabled}
+          onClick={() => {
+            if (disabled) return;
+            setOpenDialog(true);
+          }}
+          className={`w-full ${disabled && "hover:cursor-not-allowed bg-primary/50 hover:bg-primary/50"} rounded-lg cursor-pointer px-4 py-2.5 bg-primary hover:bg-primary-200 text-white text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2`}
         >
           Bargain
         </button>

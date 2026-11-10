@@ -183,7 +183,7 @@ export default async function ProductPage({ params }) {
     instalmentResult.status === "fulfilled" ? instalmentResult.value : {},
   );
   if (!product) notFound();
-  const rawProduct = normalizeProduct(product)
+  const rawProduct = normalizeProduct(product);
   const tags = getTags(product);
   const specs = getSpecs(product.attributes);
   const faqItems = parseFaq(product.faq);
@@ -197,7 +197,7 @@ export default async function ProductPage({ params }) {
   const unavailable = product.status === "out_of_stock" || product.isComingSoon;
 
   return (
-    <main className="bg-surface pb-16">
+    <main className="bg-surface pb-16 mt-3 border-t md:border-t-0 border-t-gray-300">
       <StructuredData product={product} faqItems={faqItems} />
 
       <div className="mx-auto w-11/12 pt-5">
@@ -248,10 +248,10 @@ export default async function ProductPage({ params }) {
                   price: rawProduct.price,
                   tag: rawProduct.tag,
                   warranty: rawProduct.warranty,
-                  image: rawProduct.image ?? null, 
+                  image: rawProduct.image ?? null,
                 }}
               />
-              <WhatsAppCta title={product.productTitle} />
+              {!unavailable && <WhatsAppCta title={product.productTitle} />}
             </div>
 
             <div className="mt-5 space-y-4">
