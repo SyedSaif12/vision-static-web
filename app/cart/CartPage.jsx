@@ -20,8 +20,8 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "@/redux/cart/cartSlice";
+import { getMaxOrderQuantity, clampOrderQuantity, MAX_ITEM_QTY } from "@/lib/product-stock";
 
-const MAX_ITEM_QTY = 10;
 const SHIPPING_FEE = 200;
 
 function CartItem({ item, onRemove, onQuantity }) {
@@ -110,7 +110,10 @@ function CartItem({ item, onRemove, onQuantity }) {
             <button
               type="button"
               aria-label={`Decrease ${title} quantity`}
-              disabled={item.qty <= 1}
+              disabled={
+                getMaxOrderQuantity(item.stockQuantity) === 0 ||
+                item.qty <= 1
+              }
               onClick={() => onQuantity(item.id, -1)}
               className="flex h-8 w-7 items-center justify-center text-ink transition hover:bg-light disabled:cursor-not-allowed disabled:opacity-40 sm:h-9 sm:w-9"
             >
@@ -127,13 +130,25 @@ function CartItem({ item, onRemove, onQuantity }) {
             <button
               type="button"
               aria-label={`Increase ${title} quantity`}
-              disabled={item.qty >= MAX_ITEM_QTY}
+              disabled={
+                getMaxOrderQuantity(item.stockQuantity) === 0 ||
+                item.qty >= getMaxOrderQuantity(item.stockQuantity)
+              }
               onClick={() => onQuantity(item.id, 1)}
               className="flex h-8 w-7 items-center justify-center text-ink transition hover:bg-light disabled:cursor-not-allowed disabled:opacity-40 sm:h-9 sm:w-9"
             >
               <Plus size={14} />
             </button>
           </div>
+          {item.stockQuantity != null && (
+            <p className="mt-1 text-xs hidden md:block text-red">
+              {item.stockQuantity <= 0
+                ? "Out of stock"
+                : item.stockQuantity <= 5
+                  ? `Only ${item.stockQuantity} left in stock`
+                  : ""}
+            </p>
+          )}
 
           <button
             type="button"
@@ -189,9 +204,8 @@ function OrderSummary({ subtotal, itemCount }) {
         href="/checkout"
         aria-disabled={itemCount === 0}
         tabIndex={itemCount === 0 ? -1 : undefined}
-        className={`mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gold px-4 py-3 text-center text-button font-extrabold text-ink shadow-sm transition hover:bg-gold-600 ${
-          itemCount === 0 ? "pointer-events-none opacity-50" : ""
-        }`}
+        className={`mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gold px-4 py-3 text-center text-button font-extrabold text-ink shadow-sm transition hover:bg-gold-600 ${itemCount === 0 ? "pointer-events-none opacity-50" : ""
+          }`}
       >
         <LockKeyhole size={16} />
         Proceed to checkout
@@ -250,12 +264,28 @@ export default function CartPage() {
   const itemCount = products.reduce((sum, item) => sum + item.qty, 0);
 
   const changeQuantity = (id, delta) => {
-    const current = cartItems?.[id]?.quantity ?? 0;
+    const item = cartItems?.[id];
+
+    if (!item?.product) return;
+
+    const current = item.quantity ?? 1;
+    const stockQuantity = item.product.stockQuantity;
+
+    const maxQty = getMaxOrderQuantity(stockQuantity);
+
+    if (maxQty === 0) return;
+
     const next = current + delta;
+    const safeQty = clampOrderQuantity(next, stockQuantity);
 
-    if (next < 1 || next > MAX_ITEM_QTY) return;
+    if (safeQty === current) return;
 
-    dispatch(updateCartQuantity({ itemId: id, quantity: next }));
+    dispatch(
+      updateCartQuantity({
+        itemId: id,
+        quantity: safeQty,
+      }),
+    );
   };
 
   const removeItem = (id) => {

@@ -2,13 +2,16 @@ import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { BaseImage } from "@/components";
 import { formatPrice } from "@/lib/utils";
-import { MAX_ITEM_QTY, ROUTES } from "../lib/constants";
+import { ROUTES } from "../lib/constants";
 import { getUnitPrice } from "../lib/pricing";
+import { getMaxOrderQuantity, MAX_ITEM_QTY } from "@/lib/product-stock";
 
 const qtyButton =
   "flex h-7 w-7 items-center justify-center rounded-md border border-gray-300 text-gray-700 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40";
 
 export default function OrderSummaryItem({ item, onRemove, onQuantity }) {
+  const maxQty = getMaxOrderQuantity(item.stockQuantity);
+const isOutOfStock = maxQty === 0;
   const title = item.productTitle || "Product";
 
   return (
@@ -37,7 +40,7 @@ export default function OrderSummaryItem({ item, onRemove, onQuantity }) {
           <button
             type="button"
             className={qtyButton}
-            disabled={item.qty <= 1}
+            disabled={isOutOfStock || item.qty <= 1}
             onClick={() => onQuantity(item.id, -1)}
             aria-label={`Decrease quantity of ${title}`}
           >
@@ -49,7 +52,7 @@ export default function OrderSummaryItem({ item, onRemove, onQuantity }) {
           <button
             type="button"
             className={qtyButton}
-            disabled={item.qty >= MAX_ITEM_QTY}
+            disabled={isOutOfStock || item.qty >= maxQty}
             onClick={() => onQuantity(item.id, 1)}
             aria-label={`Increase quantity of ${title}`}
           >

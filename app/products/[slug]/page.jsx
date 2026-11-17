@@ -141,14 +141,14 @@ function StructuredData({ product, faqItems }) {
 
   const faqLd = faqItems.length
     ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqItems.map((f) => ({
-          "@type": "Question",
-          name: f.q,
-          acceptedAnswer: { "@type": "Answer", text: f.text },
-        })),
-      }
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.text },
+      })),
+    }
     : null;
 
   return (
@@ -194,7 +194,18 @@ export default async function ProductPage({ params }) {
   const hasExpertReview = !!stripHtml(product?.expertReview);
   const hasWhatsInTheBox = !!stripHtml(product?.hasWhatsInTheBox);
   const hasFaqs = faqItems.length > 0;
-  const unavailable = product.status === "out_of_stock" || product.isComingSoon;
+  const unavailable = product.status === "out_stock" || product.isComingSoon;
+  const remainingStock =
+    product.stockQuantity == null
+      ? null
+      : Number(product.stockQuantity);
+
+  const showLowStock =
+    !unavailable &&
+    remainingStock !== null &&
+    Number.isFinite(remainingStock) &&
+    remainingStock > 0 &&
+    remainingStock <= 10;
 
   return (
     <main className="bg-surface pb-16 mt-3 border-t md:border-t-0 border-t-gray-300">
@@ -234,6 +245,20 @@ export default async function ProductPage({ params }) {
                 status={product.status}
                 isComingSoon={product.isComingSoon}
               />
+              {showLowStock && (
+                <p
+                  role="status"
+                  className="mt-2 flex items-center gap-2 text-sm font-semibold text-red-600"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-50" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-red-600" />
+                  </span>
+
+                  Only {remainingStock}{" "}
+                  {remainingStock === 1 ? "item" : "items"} left — Order soon!
+                </p>
+              )}
             </div>
 
             <div className="mt-5 space-y-3">
@@ -249,6 +274,7 @@ export default async function ProductPage({ params }) {
                   tag: rawProduct.tag,
                   warranty: rawProduct.warranty,
                   image: rawProduct.image ?? null,
+                  stockQuantity: rawProduct.stockQuantity ?? null
                 }}
               />
               {!unavailable && <WhatsAppCta title={product.productTitle} />}

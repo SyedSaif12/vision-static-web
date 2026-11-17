@@ -112,7 +112,7 @@ const RefurbishedShowCase = ({
               </button>
 
               <Link
-                href={ctaHref}
+                href={`/refurb-technology`}
                 className="inline-flex items-center gap-1 text-xs font-bold text-white opacity-90 transition hover:opacity-100 hover:underline underline-offset-4"
               >
                 How we certify ›

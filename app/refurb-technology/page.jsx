@@ -1,5 +1,6 @@
 "use client";
 import { BookOpen, RefreshCcw, Shield, Video, Zap } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const statsData = [
@@ -243,18 +244,18 @@ function RefurbishedPage() {
                 video of your exact unit before it ships.
               </p>
               <div className="flex flex-wrap items-center gap-4 mb-8">
-                <a
-                  href="#stock"
+                <Link
+                  href="/products?tag=refurbished"
                   className="bg-gold-600 text-ink px-6 py-3 rounded-lg font-medium hover:bg-gold transition shadow-sm text-sm"
                 >
                   Shop refurbished
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#procedure"
                   className="bg-light-50 text-ink border border-light-200 px-6 py-3 rounded-lg font-medium hover:bg-light-100 transition text-sm"
                 >
                   See every test
-                </a>
+                </Link>
               </div>
 
               <div className="flex flex-wrap gap-4 text-xs font-medium text-ink-50 pt-2 border-t border-light-100">
@@ -313,12 +314,12 @@ function RefurbishedPage() {
               </strong>{" "}
               They look after both our refurb technology and laptop repairs, so
               every used device is checked by the same people who fix them.{" "}
-              <a
+              <Link
                 href="#repairs"
                 className="text-brand font-medium hover:underline"
               >
                 See our repair services →
-              </a>
+              </Link>
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -563,20 +564,20 @@ function RefurbishedPage() {
             you on video before it ships. That is the Aitebaar Squad promise.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#stock"
+            <Link
+              href="/products?tag=refurbished"
               className="bg-brand text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-600 transition shadow-sm text-sm"
             >
               Shop refurbished
-            </a>
-            <a
-              href="https://wa.me/"
+            </Link>
+            <Link
+              href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
               target="_blank"
               rel="noreferrer"
               className="bg-green text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition text-sm"
             >
               Ask on WhatsApp
-            </a>
+            </Link>
           </div>
         </div>
       </section>

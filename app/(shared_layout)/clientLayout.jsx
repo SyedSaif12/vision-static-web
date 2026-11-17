@@ -23,7 +23,7 @@ import MobileNavRow from "@/components/v2/navbar/MobileNavRow";
 export default function RootClientLayout({ children, navbar }) {
   const pathname = usePathname();
   const hideNavbarRoutes = ["/accounts/login", "/checkout", "/accounts/signup"];
-
+  const isProfile = pathname === "/profile" || pathname.startsWith("/profile/");
   const isHidePath = hideNavbarRoutes.includes(pathname);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function RootClientLayout({ children, navbar }) {
         {!isHidePath && (
           <>
             <Suspense fallback={<NavbarSkeleton />}>{navbar}</Suspense>
-            <MobileNavRow />
+            {!isProfile && <MobileNavRow />}
           </>
         )}
 

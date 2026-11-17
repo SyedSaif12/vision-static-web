@@ -10,8 +10,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { onToggle, cartToggle } from "@/redux/golbal-toggle/globalToggleSlice";
 import { BaseImage } from "@/components";
-import { X } from "lucide-react";
+import { ShoppingCart, Trash2Icon, X } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { clampOrderQuantity, getMaxOrderQuantity } from "@/lib/product-stock";
 
 export default function CartDrawer() {
   const { data } = useSelector((state) => state.user);
@@ -30,13 +31,41 @@ export default function CartDrawer() {
   };
 
   const handleQuantity = (id, type) => {
-    const currentQty = cartItems[id]?.quantity || 0;
-    if (type === "inc") {
-      if (currentQty >= 10) return;
-      dispatch(updateCartQuantity({ itemId: id, quantity: currentQty + 1 }));
-    } else if (type === "dec" && currentQty > 1) {
-      dispatch(updateCartQuantity({ itemId: id, quantity: currentQty - 1 }));
-    }
+    const item = cartItems[id];
+    if (!item?.product) return;
+
+    const currentQty = item.quantity || 1;
+    const stockQuantity = item.product.stockQuantity;
+
+    const maxQty = getMaxOrderQuantity(stockQuantity);
+
+    if (maxQty === 0) return;
+
+    const nextQty =
+      type === "inc"
+        ? currentQty + 1
+        : currentQty - 1;
+
+    const safeQty = clampOrderQuantity(
+      nextQty,
+      stockQuantity
+    );
+
+    if (safeQty === currentQty) return;
+
+    dispatch(
+      updateCartQuantity({
+        itemId: id,
+        quantity: safeQty,
+      })
+    );
+  };
+
+  const handleViewCart = () => {
+    dispatch(cartToggle(false));
+    setTimeout(() => {
+      router.push("/cart");
+    }, 0);
   };
 
   const proceedToCheckOut = () => {
@@ -52,9 +81,8 @@ export default function CartDrawer() {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-xl z-[99999] transform transition-transform duration-300 ${
-        openCart ? "translate-x-0" : "translate-x-full"
-      }`}
+      className={`fixed top-0 right-0 h-full w-full sm:w-[450px] bg-white shadow-xl z-[99999] transform transition-transform duration-300 ${openCart ? "translate-x-0" : "translate-x-full"
+        }`}
     >
       {/* Header */}
       <div className="flex justify-between items-center p-5 border-b">
@@ -79,7 +107,17 @@ export default function CartDrawer() {
           const { product, quantity } = item;
 
           if (!product) return null;
-          
+
+          const maxQty = getMaxOrderQuantity(
+            product.stockQuantity
+          );
+
+          const isOutOfStock = maxQty === 0;
+
+          const safeQty = isOutOfStock
+            ? quantity
+            : clampOrderQuantity(quantity, product.stockQuantity);
+
           return (
             <div key={id} className="flex gap-4 items-center border-b pb-4">
               <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg">
@@ -111,24 +149,35 @@ export default function CartDrawer() {
                 <div className="flex items-center gap-3 mt-2">
                   <button
                     onClick={() => handleQuantity(id, "dec")}
+                    disabled={isOutOfStock || safeQty <= 1}
                     className="px-2 py-1 border rounded text-black"
                   >
                     -
                   </button>
-                  <span className="text-black">{quantity}</span>
+                  <span className="text-black">{safeQty}</span>
                   <button
                     onClick={() => handleQuantity(id, "inc")}
+                    disabled={isOutOfStock || safeQty >= maxQty}
                     className="px-2 py-1 border rounded text-black"
                   >
                     +
                   </button>
                   <button
                     onClick={() => handleRemove(id)}
-                    className="text-red-600 underline text-sm"
+                    className="text-red-600 ml-auto hover:bg-red w-10 h-10 flex justify-center items-center hover:text-white transition-colors duration-150 rounded-full"
                   >
-                    Remove
+                  <Trash2Icon className="w-5 h-5" />
                   </button>
                 </div>
+                {isOutOfStock ? (
+                  <p className="mt-2 text-xs font-semibold text-red-600">
+                    Out of stock
+                  </p>
+                ) : maxQty < 10 ? (
+                  <p className="mt-2 text-xs text-red-600">
+                    Only {maxQty} left in stock
+                  </p>
+                ) : null}
               </div>
             </div>
           );
@@ -144,12 +193,22 @@ export default function CartDrawer() {
           </span>
         </div>
         <div className="flex flex-col items-center gap-2">
+          <div className="w-full flex gap-2">
+
+          <button
+            className="w-full text-xs sm:text-base flex justify-center items-center gap-2 bg-primary text-white py-3 rounded-lg font-bold px-2"
+            onClick={handleViewCart}
+            >
+            <ShoppingCart className="w-5 h-5" />
+            View Cart
+          </button>
           <button
             className="w-full text-xs sm:text-base bg-gold text-ink py-3 rounded-lg font-bold px-2"
             onClick={proceedToCheckOut}
-          >
-            Proceed to Checkout
+            >
+            Checkout
           </button>
+            </div>
           <button
             onClick={() => {
               dispatch(onToggle(false));

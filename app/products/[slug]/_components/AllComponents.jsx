@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { formatPrice, humanize } from "@/lib/utils";
 import sanitizeHtml from "sanitize-html";
+import { hrefFor } from "@/lib/product-query/query";
 
 // Rich text editor jo tags banata hai, sirf wahi allow hain
 const SANITIZE_OPTIONS = {
@@ -101,27 +102,51 @@ export const ICONS = {
   play: "M8 5v14l11-7z",
 };
 
+
+
 export function Breadcrumb({ product }) {
   const category = product.products?.category?.name;
   const brand = product.products?.subCategory?.name;
   const titleName = product.products?.title;
 
-  // TODO: apne asli category/brand routes yahan set karo
+  const base = {
+    page: 1,
+    limit: 12,
+    filters: {},
+  };
+
   const items = [
-    { name: "Home", href: "/" },
+    {
+      name: "Home",
+      href: "/",
+    },
     category && {
       name: humanize(category),
-      href: `/products?category=${category}`,
+      href: hrefFor({
+        ...base,
+        category,
+      }),
     },
     brand && {
       name: humanize(brand),
-      href: `/products?category=${category}&subCategory=${brand}`,
+      href: hrefFor({
+        ...base,
+        category,
+        subCategory: brand,
+      }),
     },
     titleName && {
       name: humanize(titleName),
-      href: `/products?category=${category}&subCategory=${brand}&name=${product.products?.title}`,
+      href: hrefFor({
+        ...base,
+        category,
+        subCategory: brand,
+        name: titleName,
+      }),
     },
-    { name: `${humanize(product?.productTitle).slice(0, 40)}...` },
+    {
+      name: `${humanize(product?.productTitle).slice(0, 40)}...`,
+    },
   ].filter(Boolean);
 
   return (
@@ -131,23 +156,33 @@ export function Breadcrumb({ product }) {
     >
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => (
-          <li key={item.name} className="flex items-center gap-1.5">
+          <li
+            key={`${item.name}-${i}`}
+            className="flex items-center gap-1.5"
+          >
             {item.href ? (
               <Link href={item.href} className="hover:text-primary">
                 {item.name}
               </Link>
             ) : (
-              <span aria-current="page" className="font-medium text-ink">
+              <span
+                aria-current="page"
+                className="font-medium text-ink"
+              >
                 {item.name}
               </span>
             )}
-            {i < items.length - 1 && <span aria-hidden="true">/</span>}
+
+            {i < items.length - 1 && (
+              <span aria-hidden="true">/</span>
+            )}
           </li>
         ))}
       </ol>
     </nav>
   );
 }
+
 
 export function ProductDescription({ html, className = "" }) {
   if (!html || typeof html !== "string") return null;
@@ -221,15 +256,15 @@ export function PriceBlock({ product, banks }) {
 export function StockBadge({ status, isComingSoon }) {
   const s = isComingSoon
     ? {
-        label: "Coming soon",
-        cls: "bg-gold-50 text-gold-700",
-        dot: "bg-gold-600",
-      }
+      label: "Coming soon",
+      cls: "bg-gold-50 text-gold-700",
+      dot: "bg-gold-600",
+    }
     : (STOCK[status] ?? {
-        label: humanize(status),
-        cls: "bg-light-200 text-muted",
-        dot: "bg-faint",
-      });
+      label: humanize(status),
+      cls: "bg-light-200 text-muted",
+      dot: "bg-faint",
+    });
   return (
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${s.cls}`}

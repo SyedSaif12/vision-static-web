@@ -12,7 +12,9 @@ export function ProductCard({ product, priority = false, tag = {} }) {
   const href = `/products/${product.slug}`;
   const canBuy = product.stock === "in_stock";
   const hasPrice = Boolean(product?.oldPrice || product?.price);
-
+  const hasManagedStock = product.stockQuantity != null;
+  const isSoldOut =
+    hasManagedStock && product.stockQuantity <= 0;
   // Tooltip ka content: poora name + specs
   const tooltipContent = (
     <>
@@ -117,12 +119,51 @@ export function ProductCard({ product, priority = false, tag = {} }) {
                 >
                   View
                 </Link>
-                <CartButton
+
+                {isSoldOut ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-28 sm:w-36 md:w-40 bg-gold !px-0.5 md:!px-2 py-2 !text-[10px] sm:!text-xs sm:!px-4 sm:!py-2 md:!text-sm !rounded-full font-bold cursor-not-allowed"
+                  >
+                    Sold Out
+                  </button>
+                ) : (
+                  <CartButton
+                    className="!w-28 sm:!w-36 md:!w-40"
+                    btnClassName="!bg-primary !px-0.5 md:!px-2 py-2 !text-[10px] sm:!text-xs sm:!px-4 sm:!py-2 md:!text-sm !text-white hover:!bg-primary-200 !rounded-full"
+                    product={product}
+                    disabled={!canBuy}
+                  />
+                )}
+              </>
+            ) : (
+              <button
+                type="button"
+                className="w-full rounded-lg px-4 py-2.5 text-sm font-bold uppercase text-primary"
+              >
+                Coming Soon
+              </button>
+            )}
+          </div>
+          {/* <div className="relative z-10 flex w-full items-center justify-center gap-2">
+            {hasPrice ? (
+              <>
+                <Link
+                  className="flex items-center justify-center rounded-full border border-primary px-2 py-1.5 text-[10px] font-bold text-primary sm:w-20 sm:px-4 sm:text-xs md:text-sm"
+                  href={href}
+                >
+                  View
+                </Link>
+                {
+                  !isSoldOut && <button className="w-28 sm:w-36 md:w-40 bg-gold !px-0.5 md:!px-2 py-2 !text-[10px] sm:!text-xs sm:!px-4 sm:!py-2 md:!text-sm !rounded-full font-bold">Sold Out</button>
+                }
+                {isSoldOut && <CartButton
                   className="!w-28 sm:!w-36 md:!w-40"
                   btnClassName="!bg-primary !px-0.5 md:!px-2 py-2 !text-[10px] sm:!text-xs sm:!px-4 sm:!py-2 md:!text-sm !text-white hover:!bg-primary-200 !rounded-full"
                   product={product}
                   disabled={!canBuy}
-                />
+                />}
               </>
             ) : (
               <button
@@ -132,7 +173,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
                 Coming Soon
               </button>
             )}
-          </div>
+          </div> */}
         </div>
       </article>
     </CursorTooltip>

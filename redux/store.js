@@ -7,13 +7,16 @@ import { popupSlice } from "./popup/popupSlice";
 import { reviewSlice } from "./review/reviewSlice";
 import globalToggleSlice from "./golbal-toggle/globalToggleSlice";
 import { authApi } from "./auth/authSlice";
-
+import overviewSlice from './profile/overview/overviewSlice'
+import complaintSlice from './profile/complaint/complaintSlice'
 export const store = configureStore({
   reducer: {
     user: userReducer,
     cart: cartReducer,
     toggle: globalToggleSlice,
     orders: orderSlice,
+    complaint: complaintSlice,
+    overview: overviewSlice,
     [bargainSlice.reducerPath]: bargainSlice.reducer,
     [popupSlice.reducerPath]: popupSlice.reducer,
     [reviewSlice.reducerPath]: reviewSlice.reducer,

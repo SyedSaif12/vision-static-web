@@ -48,6 +48,9 @@ export const toAddressPayload = (a) => ({
   fullAddress: a.fullAddress,
   landmark: a.landmark ?? "",
   email: a.email ?? "",
+  ...(a.isDefault !== undefined && {
+    isDefault: !!a.isDefault,
+  }),
 });
 
 /** Saved address → react-hook-form defaults (null-safe, base label for the chips). */

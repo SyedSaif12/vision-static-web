@@ -43,10 +43,40 @@ export function useAddressBook() {
       const label = getUniqueLabel(fields.label, addresses);
       const result = await run(
         dispatch(
-          createAddress({ payload: toAddressPayload({ ...fields, label }) }),
+          createAddress({
+            payload: toAddressPayload({
+              ...fields,
+              label,
+              isDefault: addresses.length === 0,
+            }),
+          }),
         ),
         "Could not save the address.",
       );
+      return result.data;
+    },
+    [addresses, dispatch],
+  );
+
+  const setDefault = useCallback(
+    async (id) => {
+      const current = addresses.find((a) => a.id === id);
+
+      if (!current || current.isDefault) return current;
+
+      const result = await run(
+        dispatch(
+          updateAddress({
+            id,
+            payload: toAddressPayload({
+              ...current,
+              isDefault: true,
+            }),
+          }),
+        ),
+        "Could not set the default address.",
+      );
+
       return result.data;
     },
     [addresses, dispatch],
@@ -76,10 +106,44 @@ export function useAddressBook() {
   );
 
   const remove = useCallback(
-    (id) =>
-      run(dispatch(deleteAddress({ id })), "Could not remove the address."),
-    [dispatch],
+    async (id) => {
+      const removed = addresses.find((a) => a.id === id);
+      await run(
+        dispatch(deleteAddress({ id })),
+        "Could not remove the address.",
+      );
+
+      if (removed?.isDefault) {
+        const next = addresses.find((a) => a.id !== id);
+        if (next) {
+          try {
+            await dispatch(
+              updateAddress({
+                id: next.id,
+                payload: toAddressPayload({ ...next, isDefault: true }),
+              }),
+            ).unwrap();
+          } catch {
+            // best effort – the deletion itself already succeeded
+          }
+        }
+      }
+    },
+    [addresses, dispatch],
   );
 
-  return { addresses, isReady: true, add, update, remove };
+  const hasDuplicate = useCallback(
+    (fields) => addresses.some((a) => isSameAddress(a, fields)),
+    [addresses],
+  );
+
+  return {
+    addresses,
+    isReady: true,
+    add,
+    update,
+    remove,
+    setDefault,
+    hasDuplicate,
+  };
 }

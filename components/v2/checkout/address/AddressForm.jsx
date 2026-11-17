@@ -20,6 +20,9 @@ const stripNonDigits = (e) => {
 export default function AddressForm({
   formId = NEW_ADDRESS_FORM_ID,
   mode = "create", // "create" | "edit"
+  showActions = mode === "edit",
+  showSaveToggle = mode !== "edit",
+  submitLabel = "Save changes",
   defaultValues,
   onSubmit,
   onCancel,
@@ -204,8 +207,7 @@ export default function AddressForm({
             </label>
           ))}
         </fieldset>
-
-        {!isEdit && (
+        {showSaveToggle && (
           <label className="flex cursor-pointer items-center gap-2 text-sm text-gray-600">
             <input
               type="checkbox"
@@ -216,15 +218,14 @@ export default function AddressForm({
           </label>
         )}
       </div>
-
-      {isEdit && (
+      {showActions && (
         <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row">
           <button
             type="submit"
             disabled={isSubmitting}
             className={`${primaryButton} sm:w-auto`}
           >
-            {isSubmitting ? "Saving…" : "Save changes"}
+            {isSubmitting ? "Saving…" : submitLabel}
           </button>
           <button
             type="button"

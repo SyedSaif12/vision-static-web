@@ -90,9 +90,18 @@ export default function DesktopHeader({
                     <h3 className="capitalize font-semibold text-muted my-3 border-b border-muted">
                       {user?.firstName} {user?.lastName}
                     </h3>
+                    <Link
+                    href={'/profile/overview'}
+                      className="flex hover:bg-primary w-full justify-start hover:text-white transition-colors duration-150 py-1 px-2 rounded-md items-center gap-3"
+                    >
+                      <span className="flex items-center gap-1">
+                        <UserRound className="size-4" />
+                        Profile
+                      </span>
+                    </Link>
                     <button
                       onClick={onLogout}
-                      className="text-red flex justify-center items-center gap-3"
+                      className="text-red flex hover:bg-red w-full justify-start hover:text-white transition-colors duration-150 py-1 px-2 rounded-md items-center gap-3"
                     >
                       <span className="flex items-center gap-1">
                         <LogOut className="size-4" />

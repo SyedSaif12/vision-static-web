@@ -16,6 +16,7 @@ import {
   Store,
   UserRound,
 } from "lucide-react";
+import Link from "next/link";
 
 const sourceCards = [
   {
@@ -239,25 +240,25 @@ export default function WhyWeGotPage() {
               </div>
 
               <div className="mt-7 flex flex-wrap gap-3">
-                <a
-                  href="#ready"
+                <Link
+                  href="/categories"
                   className="inline-flex items-center justify-center rounded-xl bg-gold px-6 py-3.5 text-base font-bold text-ink shadow-[0_10px_24px_rgba(255,207,36,.24)] transition hover:-translate-y-0.5 hover:bg-gold-600"
                 >
                   Start shopping
-                </a>
-                <a
-                  href="#order-process"
+                </Link>
+                <Link
+                  href="https://api.whatsapp.com/send/?phone=923260220581&text=Hi+WeGot%2C+I+want+to+shop+with+an+expert.&type=phone_number&app_absent=0"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-green px-6 py-3.5 text-base font-bold text-white transition hover:brightness-95"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Talk to an expert
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#store"
                   className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-6 py-3.5 text-base font-bold text-ink transition hover:border-brand hover:text-brand"
                 >
                   Visit our store
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -782,19 +783,19 @@ export default function WhyWeGotPage() {
               Whatever makes you comfortable, that is the right way to start.
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <a
-                href="#"
+              <Link
+                href="/categories"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3.5 text-sm font-bold text-ink shadow-[0_10px_24px_rgba(255,207,36,.26)] hover:bg-gold-600"
               >
                 Start shopping
                 <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
+              </Link>
+              <Link
                 href="#store"
                 className="inline-flex items-center justify-center rounded-xl border border-white/35 bg-white/5 px-6 py-3.5 text-sm font-bold text-white hover:bg-white/10"
               >
                 Visit our store
-              </a>
+              </Link>
             </div>
           </div>
         </div>

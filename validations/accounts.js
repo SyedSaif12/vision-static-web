@@ -25,15 +25,10 @@ export const otpSchema = yup.object({
 });
 
 export const profileSchema = yup.object({
-  // country: yup.string(),
   firstName: yup.string().min(2, "First name must be at least 2 characters"),
   lastName: yup.string(),
-  // address: yup.string().min(5, "Address must be at least 5 characters"),
-  // apartment: yup.string(),
-  // city: yup.string(),
-  // postalCode: yup
-  //     .string()
-  //     .test("postal-format", "Postal code must be 5 digits", (v) => !v || /^\d{5}$/.test(v)),
+  email: yup.string().email("Enter a valid email").nullable(),
+  language: yup.string().nullable(),
   phoneNo: yup
     .string()
     .test(

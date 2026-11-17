@@ -7,6 +7,7 @@ import { supportLinks, dealsLink, whyLinks } from "./nav-config";
 
 /* DESKTOP / TABLET — SECOND NAVBAR (Shop mega menu, Support, Why Us) */
 export default function DesktopNav({
+  isShow,
   sortedCategories,
   openMenu,
   setOpenMenu,
@@ -15,7 +16,9 @@ export default function DesktopNav({
   closeAll,
 }) {
   return (
-    <nav className="relative z-20 bg-primary">
+    <nav
+      className={`${isShow ? "hidden 2xl:block" : ""} relative z-20 bg-primary`}
+    >
       <div className="flex w-11/12 mx-auto h-[57.6px] items-center justify-between gap-3 border-b border-white/20">
         <div className="flex items-center gap-2">
           {/* ===== SHOP (full-width mega menu) ===== */}

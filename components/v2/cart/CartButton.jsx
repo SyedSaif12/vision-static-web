@@ -29,6 +29,7 @@ const CartButton = ({
       attributes: product?.specs,
       slug: product?.slug,
       oldPrice: product?.oldPrice,
+      stockQuantity: product?.stockQuantity,
       price: product?.price,
       image: product?.image,
       warranty: product?.warranty,

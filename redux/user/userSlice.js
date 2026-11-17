@@ -169,7 +169,13 @@ const userSlice = createSlice({
           );
 
           if (!alreadyExists) {
-            state.data.userAddress = [...existingAddresses, newAddress];
+            const base = newAddress.isDefault
+              ? existingAddresses.map((a) => ({
+                  ...a,
+                  isDefault: false,
+                }))
+              : existingAddresses;
+            state.data.userAddress = [...base, newAddress];
           }
           persistUser(state);
         }

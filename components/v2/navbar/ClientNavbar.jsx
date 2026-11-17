@@ -22,6 +22,7 @@ export default function ClientNavbar({ categories }) {
   const { data: user, loading: isUserLoading } = useSelector(
     (state) => state.user,
   );
+  const isProfile = pathname === "/profile" || pathname.startsWith("/profile/");
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMount, setIsMount] = useState(false);
@@ -110,6 +111,7 @@ export default function ClientNavbar({ categories }) {
             onCartClick={handleCartOpen}
           />
           <DesktopNav
+            isShow={isProfile}
             sortedCategories={sortedCategories}
             openMenu={openMenu}
             setOpenMenu={setOpenMenu}
@@ -149,15 +151,21 @@ export default function ClientNavbar({ categories }) {
       />
 
       {/* Mobile bottom navigation (hamesha screen ke neeche) */}
-      <MobileBottomNav
-        isMount={isMount}
-        cartCount={cartCount}
-        user={user}
-        onCartClick={handleCartOpen}
-      />
+      {!isProfile && (
+        <MobileBottomNav
+          isMount={isMount}
+          cartCount={cartCount}
+          user={user}
+          onCartClick={handleCartOpen}
+        />
+      )}
 
       {/* Fixed navbar ke neeche content na chhupe */}
-      <div className="h-[125px] md:h-[125px]" aria-hidden="true" />
+      <div
+        className={`${isProfile ? "h-[110px] md:h-[70px]" : "h-[125px]"} 2xl:h-[125px]`}
+        aria-hidden="true"
+      />
+      {/* <div className="h-[125px] md:h-[125px]" aria-hidden="true" /> */}
     </>
   );
 }

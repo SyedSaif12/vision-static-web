@@ -28,7 +28,6 @@ export async function PillsBar({ query }) {
 
   const currentSubCategory = { ...query };
   delete currentSubCategory.name;
-  console.log(currentSubCategory);
 
   const { chips: allChips, products } = await getProducts(currentSubCategory);
   let chips = allChips;
