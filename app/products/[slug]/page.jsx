@@ -32,6 +32,7 @@ import {
   ProductDescription,
 } from "./_components/AllComponents";
 import { SectionTabs, BuyingGuide } from "./_components/SectionTabs";
+import StatusAction from "./_components/StatusAction";
 const SITE_URL = (
   process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
 ).replace(/\/$/, "");
@@ -127,7 +128,9 @@ function StructuredData({ product, faqItems }) {
     "@type": "BreadcrumbList",
     itemListElement: [
       { name: "Home", item: SITE_URL },
-      category && { name: humanize(category), item: `${SITE_URL}/${category}` },
+      category && {
+        name: humanize(category), item: `${SITE_URL}/products?category=${encodeURIComponent(category)}`
+      },
       { name: product.productTitle, item: url },
     ]
       .filter(Boolean)
@@ -171,19 +174,12 @@ function StructuredData({ product, faqItems }) {
 export default async function ProductPage({ params }) {
   const { slug } = await params;
 
-  const results = await Promise.allSettled([
+  const [product, instalmentBanks] = await Promise.all([
     getSingleProduct(slug),
-    getInstallmentPlan(),
+    getInstallmentPlan().catch(() => ({})),
   ]);
 
-  const [productResult, instalmentResult] = results;
-  const product =
-    productResult.status === "fulfilled" ? productResult.value : null;
-  const instalmentBanks = getBankPlans(
-    instalmentResult.status === "fulfilled" ? instalmentResult.value : {},
-  );
   if (!product) notFound();
-  const rawProduct = normalizeProduct(product);
   const tags = getTags(product);
   const specs = getSpecs(product.attributes);
   const faqItems = parseFaq(product.faq);
@@ -196,9 +192,7 @@ export default async function ProductPage({ params }) {
   const hasFaqs = faqItems.length > 0;
   const unavailable = product.status === "out_stock" || product.isComingSoon;
   const remainingStock =
-    product.stockQuantity == null
-      ? null
-      : Number(product.stockQuantity);
+    product.stockQuantity == null ? null : Number(product.stockQuantity);
 
   const showLowStock =
     !unavailable &&
@@ -239,8 +233,16 @@ export default async function ProductPage({ params }) {
 
             <hr className="my-4 border-light-100" />
 
-            <PriceBlock product={product} banks={instalmentBanks} />
-            <div className="mt-3">
+            <StatusAction
+              product={product}
+              banks={instalmentBanks}
+              showLowStock={showLowStock}
+              remainingStock={remainingStock}
+              unavailable={unavailable}
+            />
+
+            {/* <PriceBlock product={product} banks={instalmentBanks} /> */}
+            {/* <div className="mt-3">
               <StockBadge
                 status={product.status}
                 isComingSoon={product.isComingSoon}
@@ -254,14 +256,13 @@ export default async function ProductPage({ params }) {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-50" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-red-600" />
                   </span>
-
                   Only {remainingStock}{" "}
                   {remainingStock === 1 ? "item" : "items"} left — Order soon!
                 </p>
               )}
-            </div>
+            </div> */}
 
-            <div className="mt-5 space-y-3">
+            {/* <div className="mt-5 space-y-3">
               <ProductActions
                 disabled={unavailable}
                 product={{
@@ -278,7 +279,7 @@ export default async function ProductPage({ params }) {
                 }}
               />
               {!unavailable && <WhatsAppCta title={product.productTitle} />}
-            </div>
+            </div> */}
 
             <div className="mt-5 space-y-4">
               {/* <WhatYouGet warranty={product.attributes?.warranty} /> */}

@@ -173,7 +173,7 @@ export default function MobileDrawer({
             Deals
           </Link>
           <Link
-            href="/products?tag=refurbished"
+            href="/products?type=refurbished"
             onClick={onClose}
             className={linkCls}
           >

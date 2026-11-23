@@ -12,7 +12,10 @@ export function BrandBarSkeleton() {
 
 export function FiltersSkeleton() {
   return (
-    <div className="space-y-5 rounded-2xl border border-slate-200 p-5" aria-hidden>
+    <div
+      className="space-y-5 rounded-2xl border border-slate-200 p-5"
+      aria-hidden
+    >
       <div className={`${bar} h-5 w-20`} />
       <div className={`${bar} h-10 w-full`} />
       {Array.from({ length: 4 }).map((_, i) => (
@@ -26,9 +29,12 @@ export function ResultsSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading products">
       <div className={`${bar} h-9 w-full`} />
-      <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <ul className="mt-5 grid gap-2 md:gap-4 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 6 }).map((_, i) => (
-          <li key={i} className="overflow-hidden rounded-2xl border border-slate-200">
+          <li
+            key={i}
+            className="overflow-hidden rounded-2xl border border-slate-200"
+          >
             <div className={`${bar} aspect-[4/3] rounded-none`} />
             <div className="space-y-3 p-4">
               <div className={`${bar} h-3 w-16`} />

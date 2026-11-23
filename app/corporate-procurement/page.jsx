@@ -5,6 +5,13 @@ import {
   Icon,
   SectionHeading,
 } from "./clientPage";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Corporate Procurement & Bulk IT Solutions",
+  description: "Bulk laptops, office hardware, and enterprise IT procurement services across Pakistan from WeGot.",
+  path: "/corporate-procurement",
+});
 
 const benefits = [
   {

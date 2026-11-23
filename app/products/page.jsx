@@ -8,7 +8,7 @@ import {
   FiltersSkeleton,
   ResultsSkeleton,
 } from "@/components/v2/products";
-import { parseQuery, queryKey } from "@/lib/product-query/query";
+import { canonicalHref, parseQuery, queryKey } from "@/lib/product-query/query";
 import { PillsBar } from "@/components/v2/products/_components/pills-bar";
 import { notFound } from "next/navigation";
 import { getFilters } from "@/lib/product-query/fetch-api";
@@ -19,12 +19,54 @@ import {
   MobileFiltersSkeleton,
 } from "@/components/v2/products/_components/mobile-filters";
 
+const isFilteredVariant = (q) =>
+  Boolean(
+    q.searchQuery ||
+    q.minPrice !== undefined ||
+    q.maxPrice !== undefined ||
+    q.orderBy ||
+    q.order ||
+    q.type ||
+    q.tag ||
+    Object.keys(q.filters || {}).length,
+  );
+
 export async function generateMetadata({ searchParams }) {
   const q = parseQuery(await searchParams);
-  const title = [q.subCategory, q.category ?? "Products"]
-    .filter(Boolean)
-    .join(" ");
-  return { title: `${title} price in Pakistan` };
+  const canonical = canonicalHref(q);
+  const subject =
+    q.name ||
+    [q.subCategory, q.category].filter(Boolean).join(" ") ||
+    "Electronics";
+
+  const formatTitle = (value) =>
+    value.replace(/\b\w/g, (char) => char.toUpperCase());
+
+  const formattedSubject = formatTitle(subject);
+  const title = `${formattedSubject} Price in Pakistan`;
+  const description = `Browse ${formattedSubject} prices in Pakistan at WeGot. Compare specs, check availability, and order with cash on delivery.`;
+  const noIndex = isFilteredVariant(q);
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      type: "website",
+      url: canonical,
+      title,
+      description,
+      siteName: "WeGot",
+      locale: "en_PK",
+    },
+    ...(noIndex && {
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }),
+  };
 }
 
 export default async function ProductsPage({ searchParams }) {

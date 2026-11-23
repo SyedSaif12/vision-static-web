@@ -8,12 +8,17 @@ import { addToCart, getCartCount } from "@/redux/cart/cartSlice";
 const mapStock = {
   in_stock: true,
   out_stock: false,
+  on_order: true,
   in_order: true,
+  coming_soon: true,
+  discontinue: false,
 };
 
 const CartButton = ({
   product,
   disabled,
+  status = "in_stock",
+  label = "Add to cart",
   quantity = 1,
   className = "",
   btnClassName = "",
@@ -21,6 +26,11 @@ const CartButton = ({
   const cartCount = useSelector(getCartCount);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
+
+  const isStatusAllowed =
+    status in mapStock ? mapStock[status] : status === "in_stock";
+  const isBtnDisabled = clicked || disabled || !isStatusAllowed;
+
   const handleAddToCart = () => {
     const addtocartitems = {
       id: product?.id,
@@ -47,14 +57,18 @@ const CartButton = ({
   return (
     <div className={className}>
       <button
-        disabled={clicked || disabled}
+        disabled={isBtnDisabled}
         type="button"
         onClick={(e) => {
           e.preventDefault();
           setClicked(true);
           handleAddToCart();
         }}
-        className={`${btnClassName} w-full rounded-lg ${clicked || disabled ? "cursor-not-allowed bg-gold/50 hover:bg-gold/50 text-ink/50" : "cursor-pointer"} bg-gold px-4 py-2 text-sm font-bold text-ink transition-colors hover:bg-gold-600 focus-visible:outline-2 focus-visible:outline-offset-2`}
+        className={`${btnClassName} w-full rounded-lg ${
+          isBtnDisabled
+            ? "cursor-not-allowed bg-gold/50 hover:bg-gold/50 text-ink/50"
+            : "cursor-pointer bg-gold hover:bg-gold-600 text-ink"
+        } px-4 py-2 text-sm font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2`}
       >
         {clicked ? (
           <span className="flex items-center justify-center gap-2">
@@ -62,7 +76,7 @@ const CartButton = ({
             <Loader2 size={18} className="animate-spin" />
           </span>
         ) : (
-          "Add to cart"
+          label
         )}
       </button>
     </div>

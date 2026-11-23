@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { RotateCcw, Home, SearchX } from "lucide-react";
+import { useEffect } from "react";
 
-export default function ProductsError({
-  error,
-  reset,
-}) {
+export default function ProductsError({ error, reset }) {
+  useEffect(() => {
+    console.error("Products Page Error:", error);
+  }, [error]);
+
   return (
     <main className="min-h-[calc(100vh-240px)] w-full">
       <div className="mx-auto flex min-h-[calc(100vh-240px)] w-11/12 items-center justify-center py-16">
@@ -15,10 +17,7 @@ export default function ProductsError({
           <div className="rounded-3xl border border-light-100 bg-white px-6 py-10 text-center shadow-sm sm:px-10 sm:py-14">
             {/* Icon */}
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-25">
-              <SearchX
-                className="h-8 w-8 text-brand"
-                strokeWidth={1.7}
-              />
+              <SearchX className="h-8 w-8 text-brand" strokeWidth={1.7} />
             </div>
 
             {/* Small Label */}
@@ -28,23 +27,14 @@ export default function ProductsError({
 
             {/* Heading */}
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Products not found
+              Unable to Load Products
             </h1>
 
             {/* Description */}
             <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted">
-              We couldn&apos;t load the products right now. Please try
-              again or go back to the homepage and continue shopping.
+              We couldn&apos;t load the products right now. Please try again or
+              go back to the homepage and continue shopping.
             </p>
-
-            {/* Error message */}
-            {error?.message && (
-              <div className="mx-auto mt-5 max-w-lg rounded-xl border border-light-100 bg-surface px-4 py-3">
-                <p className="break-words text-xs leading-5 text-faint">
-                  {error.message}
-                </p>
-              </div>
-            )}
 
             {/* Actions */}
             <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">

@@ -15,7 +15,7 @@ const OpenBox = async () => {
             "Box opened, product unused. Checked by Aitebaar Squad and sold with warranty, for less"
           }
           bgColor={"#1a56db"}
-          ctaHref={`/products?tag=open-box`}
+          ctaHref={`/products?type=open-box`}
           products={openBox?.products}
         />
       )}

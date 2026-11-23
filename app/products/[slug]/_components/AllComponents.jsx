@@ -54,7 +54,7 @@ export const STOCK = {
     cls: "bg-green/10 text-green",
     dot: "bg-green",
   },
-  out_of_stock: {
+  out_stock: {
     label: "Out of stock",
     schema: "https://schema.org/OutOfStock",
     cls: "bg-red/10 text-red",
@@ -67,6 +67,263 @@ export const STOCK = {
     dot: "bg-gold-600",
   },
 };
+
+export const PRODUCT_STATUS = {
+  IN_STOCK: "in_stock",
+  OUT_STOCK: "out_stock",
+  ON_ORDER: "on_order",
+  DISCONTINUE: "discontinue",
+  COMING_SOON: "coming_soon",
+};
+
+// Colors matched to your 5 status states (badge, callout box, dot, price style)
+export const STATUS_COLOR_SCHEME = {
+  [PRODUCT_STATUS.IN_STOCK]: {
+    badgeBg: "bg-emerald-50",
+    badgeText: "text-emerald-700",
+    badgeBorder: "border-emerald-200",
+    dotColor: "bg-emerald-500",
+    boxBg: "bg-emerald-50/70",
+    boxBorder: "border-emerald-200",
+    boxText: "text-emerald-950",
+    priceClass: "text-slate-900",
+  },
+  [PRODUCT_STATUS.OUT_STOCK]: {
+    badgeBg: "bg-rose-50",
+    badgeText: "text-rose-700",
+    badgeBorder: "border-rose-200",
+    dotColor: "bg-rose-500",
+    boxBg: "bg-rose-50/80",
+    boxBorder: "border-rose-100",
+    boxText: "text-rose-950",
+    priceClass: "text-slate-900",
+  },
+  [PRODUCT_STATUS.ON_ORDER]: {
+    badgeBg: "bg-amber-50",
+    badgeText: "text-amber-800",
+    badgeBorder: "border-amber-200",
+    dotColor: "bg-amber-500",
+    boxBg: "bg-amber-50/80",
+    boxBorder: "border-amber-200",
+    boxText: "text-amber-950",
+    priceClass: "text-slate-900",
+  },
+  [PRODUCT_STATUS.COMING_SOON]: {
+    badgeBg: "bg-blue-50",
+    badgeText: "text-blue-700",
+    badgeBorder: "border-blue-200",
+    dotColor: "bg-blue-600",
+    boxBg: "bg-slate-50",
+    boxBorder: "border-blue-100",
+    boxText: "text-slate-900",
+    priceClass: "text-slate-900",
+  },
+  [PRODUCT_STATUS.DISCONTINUE]: {
+    badgeBg: "bg-slate-100",
+    badgeText: "text-slate-600",
+    badgeBorder: "border-slate-200",
+    dotColor: "bg-slate-500",
+    boxBg: "bg-slate-50",
+    boxBorder: "border-slate-200",
+    boxText: "text-slate-900",
+    priceClass: "text-slate-400 line-through",
+  },
+};
+
+const BASE_STATUS_RULES = {
+  [PRODUCT_STATUS.IN_STOCK]: {
+    label: "In stock",
+    priceNote: "",
+    noticeTitle: "",
+    noticeDescription: "",
+    isAvailable: true,
+    isUnavailable: false,
+    isInStock: true,
+    isOutOfStock: false,
+    isOnOrder: false,
+    isComingSoon: false,
+    isDiscontinued: false,
+    canBuyDirectly: true,
+    canAddToCart: true,
+    canBargain: true,
+    canPreOrder: false,
+    canPlaceOnOrderRequest: false,
+    showNotifyForm: false,
+    showWhatsAppCta: true,
+    whatsappLabel: "WhatsApp us now",
+    showSimilarInStockCta: false,
+  },
+  [PRODUCT_STATUS.OUT_STOCK]: {
+    label: "Out of stock",
+    priceNote: "",
+    noticeTitle: "Out of stock right now",
+    noticeDescription: "Get a message when it is back.",
+    isAvailable: false,
+    isUnavailable: true,
+    isInStock: false,
+    isOutOfStock: true,
+    isOnOrder: false,
+    isComingSoon: false,
+    isDiscontinued: false,
+    canBuyDirectly: false,
+    canAddToCart: false,
+    canBargain: false,
+    canPreOrder: false,
+    canPlaceOnOrderRequest: false,
+    showNotifyForm: true,
+    notifyButtonLabel: "Notify me when it is back",
+    showWhatsAppCta: true,
+    whatsappLabel: "Ask on WhatsApp when it will be back",
+    showSimilarInStockCta: false,
+  },
+  [PRODUCT_STATUS.ON_ORDER]: {
+    label: "On order",
+    priceNote: "price confirmed on call",
+    noticeTitle: "On order · usually 1 to 3 working days",
+    noticeDescription:
+      "We get this from a distributor. Some items with no distributor in Pakistan can take longer. Our team will call you to confirm price and delivery time.",
+    isAvailable: true,
+    isUnavailable: false,
+    isInStock: false,
+    isOutOfStock: false,
+    isOnOrder: true,
+    isComingSoon: false,
+    isDiscontinued: false,
+    canBuyDirectly: true,
+    canAddToCart: true,
+    canBargain: true,
+    canPreOrder: false,
+    canPlaceOnOrderRequest: true,
+    showNotifyForm: false,
+    showWhatsAppCta: true,
+    whatsappLabel: "WhatsApp us now",
+    showSimilarInStockCta: false,
+  },
+  [PRODUCT_STATUS.COMING_SOON]: {
+    label: "Coming soon",
+    priceNote: "expected price",
+    noticeTitle: "Expected arrival",
+    noticeDescription:
+      "Date and price are expected, not confirmed, and can change.",
+    isAvailable: false,
+    isUnavailable: true,
+    isInStock: false,
+    isOutOfStock: false,
+    isOnOrder: false,
+    isComingSoon: false,
+    isDiscontinued: false,
+    canBuyDirectly: true,
+    canAddToCart: true,
+    canBargain: false,
+    canPreOrder: true,
+    canPlaceOnOrderRequest: false,
+    showNotifyForm: true,
+    notifyButtonLabel: "Notify me when it arrives",
+    showWhatsAppCta: true,
+    whatsappLabel: "WhatsApp us",
+    showSimilarInStockCta: false,
+  },
+  [PRODUCT_STATUS.DISCONTINUE]: {
+    label: "Discontinued",
+    priceNote: "Was",
+    noticeTitle: "This product is discontinued",
+    noticeDescription: "It is no longer sold. We keep this page for reference.",
+    isAvailable: false,
+    isUnavailable: true,
+    isInStock: false,
+    isOutOfStock: false,
+    isOnOrder: false,
+    isComingSoon: false,
+    isDiscontinued: true,
+    canBuyDirectly: false,
+    canAddToCart: false,
+    canBargain: false,
+    canPreOrder: false,
+    canPlaceOnOrderRequest: false,
+    showNotifyForm: false,
+    showWhatsAppCta: false,
+    whatsappLabel: "",
+    showSimilarInStockCta: true,
+  },
+};
+
+export function normalizeStatus(status, isComingSoon = false) {
+  if (isComingSoon) return PRODUCT_STATUS.COMING_SOON;
+
+  const normalized = String(status || "")
+    .trim()
+    .toLowerCase();
+
+  if (normalized === "discontinued") return PRODUCT_STATUS.DISCONTINUE;
+  if (Object.values(PRODUCT_STATUS).includes(normalized)) {
+    return normalized;
+  }
+
+  return PRODUCT_STATUS.IN_STOCK;
+}
+
+/**
+ * Main resolver function:
+ * Pass `status` (or full `product` + helpers) and get booleans, color scheme, and section flags.
+ */
+export function getProductStatusConfig(statusInput, options = {}) {
+  const {
+    product = {},
+    isComingSoon = Boolean(product?.isComingSoon),
+    remainingStock: rawRemainingStock,
+    tags = [],
+    specs = [],
+    faqItems = [],
+    stripHtml = (html = "") =>
+      String(html)
+        .replace(/<[^>]*>/g, "")
+        .trim(),
+  } = options;
+
+  const status = normalizeStatus(statusInput ?? product?.status, isComingSoon);
+  const colors =
+    STATUS_COLOR_SCHEME[status] || STATUS_COLOR_SCHEME[PRODUCT_STATUS.IN_STOCK];
+  const rules =
+    BASE_STATUS_RULES[status] || BASE_STATUS_RULES[PRODUCT_STATUS.IN_STOCK];
+
+  const remainingStock =
+    rawRemainingStock !== undefined
+      ? rawRemainingStock
+      : product?.stockQuantity == null
+        ? null
+        : Number(product.stockQuantity);
+
+  const showLowStock =
+    rules.isInStock &&
+    !rules.isUnavailable &&
+    remainingStock !== null &&
+    Number.isFinite(remainingStock) &&
+    remainingStock > 0 &&
+    remainingStock <= 10;
+
+  const brand =
+    product?.attributes?.brand || product?.products?.subCategory?.name || "";
+
+  const sections = {
+    hasTags: Array.isArray(tags) && tags.length > 0,
+    hasSpecs: Array.isArray(specs) && specs.length > 0,
+    hasOverview: Boolean(stripHtml(product?.seoContent)),
+    hasExpertReview: Boolean(stripHtml(product?.expertReview)),
+    hasWhatsInTheBox: Boolean(stripHtml(product?.hasWhatsInTheBox)),
+    hasFaqs: Array.isArray(faqItems) && faqItems.length > 0,
+  };
+
+  return {
+    status,
+    colors,
+    ...rules,
+    unavailable: rules.isUnavailable,
+    remainingStock,
+    showLowStock,
+    brand,
+    sections,
+  };
+}
 
 /* -------------------------------------------------------------------------- */
 /*  Small UI components                                                        */
@@ -101,8 +358,6 @@ export const ICONS = {
   chevron: "M6 9l6 6 6-6",
   play: "M8 5v14l11-7z",
 };
-
-
 
 export function Breadcrumb({ product }) {
   const category = product.products?.category?.name;
@@ -156,33 +411,24 @@ export function Breadcrumb({ product }) {
     >
       <ol className="flex flex-wrap items-center gap-1.5">
         {items.map((item, i) => (
-          <li
-            key={`${item.name}-${i}`}
-            className="flex items-center gap-1.5"
-          >
+          <li key={`${item.name}-${i}`} className="flex items-center gap-1.5">
             {item.href ? (
               <Link href={item.href} className="hover:text-primary">
                 {item.name}
               </Link>
             ) : (
-              <span
-                aria-current="page"
-                className="font-medium text-ink"
-              >
+              <span aria-current="page" className="font-medium text-ink">
                 {item.name}
               </span>
             )}
 
-            {i < items.length - 1 && (
-              <span aria-hidden="true">/</span>
-            )}
+            {i < items.length - 1 && <span aria-hidden="true">/</span>}
           </li>
         ))}
       </ol>
     </nav>
   );
 }
-
 
 export function ProductDescription({ html, className = "" }) {
   if (!html || typeof html !== "string") return null;
@@ -206,30 +452,51 @@ export function ProductDescription({ html, className = "" }) {
   );
 }
 
-export function PriceBlock({ product, banks }) {
-  const { price, oldPrice } = product;
+export function PriceBlock({ product, banks, priceClassName, priceNote }) {
+  const { price, oldPrice, status, isComingSoon } = product;
   const hasDiscount = oldPrice && oldPrice > price;
   const off = hasDiscount
     ? Math.round(((oldPrice - price) / oldPrice) * 100)
     : 0;
-  const plan = banks[0]?.plans.at(-1);
+  const plan = banks?.[0]?.plans?.at(-1);
   const monthly = plan
     ? Math.round((price * (1 + plan.markup / 100)) / plan.months)
     : null;
 
+  const isDiscontinued = status === "discontinue" || status === "discontinued";
+  const resolvedPriceClass =
+    priceClassName || (isDiscontinued ? "text-faint line-through" : "text-ink");
+
+  const displayAmount = isDiscontinued && !price && oldPrice ? oldPrice : price;
+
   return (
     <div>
-      <div className="flex flex-wrap items-end gap-x-3 gap-y-1">
-        <p className="font-heading text-3xl font-extrabold text-ink sm:text-4xl">
-          {!!price ? (
-            formatPrice(price, "Rs ")
-          ) : (
-            <span className="text-lg sm:text-2xl">
-              Pricing will be announced soon! <br /> Stay tuned
-            </span>
-          )}
+      {isDiscontinued && !!displayAmount && (
+        <p className="mb-1 text-sm font-medium text-faint line-through">
+          Was {formatPrice(displayAmount, "Rs ")}
         </p>
-        {!!hasDiscount && (
+      )}
+
+      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+        {!isDiscontinued && (
+          <p
+            className={`font-heading text-3xl font-extrabold sm:text-4xl ${resolvedPriceClass}`}
+          >
+            {!!displayAmount ? (
+              formatPrice(displayAmount, "Rs ")
+            ) : (
+              <span className="text-lg sm:text-2xl">
+                Pricing will be announced soon! <br /> Stay tuned
+              </span>
+            )}
+          </p>
+        )}
+
+        {!!priceNote && !isDiscontinued && (
+          <span className="text-xs font-medium text-muted">{priceNote}</span>
+        )}
+
+        {!isDiscontinued && !!hasDiscount && (
           <>
             <p className="pb-1 text-base text-faint line-through">
               {!!oldPrice && formatPrice(oldPrice, "Rs ")}
@@ -240,7 +507,8 @@ export function PriceBlock({ product, banks }) {
           </>
         )}
       </div>
-      {!!monthly && (
+
+      {!isDiscontinued && !isComingSoon && !!monthly && (
         <p className="mt-1.5 text-sm text-green">
           or about {formatPrice(monthly, "Rs ")} a month on credit card
           instalments ·{" "}
@@ -253,24 +521,93 @@ export function PriceBlock({ product, banks }) {
   );
 }
 
-export function StockBadge({ status, isComingSoon }) {
-  const s = isComingSoon
-    ? {
+export function StockBadge({ status, isComingSoon, badgeStyle }) {
+  const FALLBACK_STOCK = {
+    in_stock: {
+      label: "In stock",
+      cls: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+      dot: "bg-emerald-500",
+    },
+    out_stock: {
+      label: "Out of stock",
+      cls: "bg-rose-50 text-rose-700 border border-rose-200",
+      dot: "bg-rose-500",
+    },
+    on_order: {
+      label: "On order",
+      cls: "bg-amber-50 text-amber-800 border border-amber-200",
+      dot: "bg-amber-500",
+    },
+    coming_soon: {
       label: "Coming soon",
-      cls: "bg-gold-50 text-gold-700",
-      dot: "bg-gold-600",
-    }
-    : (STOCK[status] ?? {
-      label: humanize(status),
-      cls: "bg-light-200 text-muted",
-      dot: "bg-faint",
-    });
+      cls: "bg-blue-50 text-blue-700 border border-blue-200",
+      dot: "bg-blue-600",
+    },
+    discontinue: {
+      label: "Discontinued",
+      cls: "bg-slate-100 text-slate-600 border border-slate-200",
+      dot: "bg-slate-500",
+    },
+  };
+
+  function formatStatusLabel(status, isComingSoon) {
+    if (isComingSoon) return "Coming soon";
+    if (status && FALLBACK_STOCK[status]) return FALLBACK_STOCK[status].label;
+    return humanize(status || "in_stock");
+  }
+  const normalizedKey = isComingSoon ? "coming_soon" : status;
+  const fallback = FALLBACK_STOCK[normalizedKey] ?? {
+    label: humanize(status),
+    cls: "bg-light-200 text-muted",
+    dot: "bg-faint",
+  };
+
+  const label = badgeStyle?.label ?? formatStatusLabel(status, isComingSoon);
+  const badgeClasses = badgeStyle
+    ? `${badgeStyle.bgColor || ""} ${badgeStyle.textColor || ""} ${badgeStyle.borderColor || ""}`.trim()
+    : fallback.cls;
+  const dotClass = badgeStyle?.dotColor || fallback.dot;
+
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${s.cls}`}
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${badgeClasses}`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} />
-      {s.label}
+      <span className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />
+      {label}
+    </span>
+  );
+}
+
+export function TypeBadge({ type }) {
+  const TYPE = {
+    refurbished: {
+      label: "Refurbished",
+      cls: "bg-green/10 text-green",
+      dot: "bg-green",
+    },
+    used: {
+      label: "Used",
+      cls: "bg-light-200 text-muted",
+      dot: "bg-faint",
+    },
+    "brand-new": {
+      label: "Brand New",
+      cls: "bg-blue-50 text-blue-600",
+      dot: "bg-blue-600",
+    },
+    "open-box": {
+      label: "Open Box",
+      cls: "bg-orange-50 text-orange-800",
+      dot: "bg-orange-800",
+    },
+  };
+  const s = TYPE[type];
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${s?.cls}`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${s?.dot}`} />
+      {s?.label}
     </span>
   );
 }
@@ -299,7 +636,7 @@ export function WhatYouGet({ warranty }) {
   );
 }
 
-export function WhatsAppCta({ title }) {
+export function WhatsAppCta({ title, label }) {
   const text = encodeURIComponent(`Hi WeGot, I want to ask about: ${title}`);
   return (
     <a
@@ -309,7 +646,7 @@ export function WhatsAppCta({ title }) {
       className="flex h-12 items-center justify-center gap-2 rounded-xl border border-green/40 bg-white text-sm font-semibold text-green transition hover:bg-green/5"
     >
       <Icon path={ICONS.whatsapp} className="h-4 w-4" />
-      Ask about this product on WhatsApp
+      {label ?? " Ask about this product on WhatsApp"}
     </a>
   );
 }

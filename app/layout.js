@@ -18,9 +18,6 @@ export const metadata = {
   },
   description:
     "WeGot – Buy laptops, Apple products, and PC components online in Pakistan at best prices.",
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({ children }) {

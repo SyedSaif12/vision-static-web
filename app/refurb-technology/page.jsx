@@ -1,7 +1,14 @@
 "use client";
+import { createPageMetadata } from "@/lib/seo";
 import { BookOpen, RefreshCcw, Shield, Video, Zap } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+
+export const metadata = createPageMetadata({
+  title: "Certified Refurbished Technology in Pakistan",
+  description: "Tested and certified refurbished laptops and tech devices with warranty and nationwide delivery at WeGot.",
+  path: "/refurb-technology",
+});
 
 const statsData = [
   {
@@ -245,7 +252,7 @@ function RefurbishedPage() {
               </p>
               <div className="flex flex-wrap items-center gap-4 mb-8">
                 <Link
-                  href="/products?tag=refurbished"
+                  href="/products?type=refurbished"
                   className="bg-gold-600 text-ink px-6 py-3 rounded-lg font-medium hover:bg-gold transition shadow-sm text-sm"
                 >
                   Shop refurbished
@@ -565,7 +572,7 @@ function RefurbishedPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/products?tag=refurbished"
+              href="/products?type=refurbished"
               className="bg-brand text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-600 transition shadow-sm text-sm"
             >
               Shop refurbished

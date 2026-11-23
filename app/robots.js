@@ -1,6 +1,9 @@
 export const dynamic = "force-static";
+
 export default function robots() {
-  const public_url = process.env.NEXT_PUBLIC_URL;
+  const publicUrl = (
+    process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
+  ).replace(/\/+$/, "");
   return {
     rules: [
       {
@@ -8,9 +11,18 @@ export default function robots() {
         allow: [
           "/", // allow for all public routes
         ],
-        disallow: ["/checkout/", "/installment/", "/order-confirmation/"],
+        disallow: [
+          "/api/",
+          "/accounts/",
+          "/profile/",
+          "/cart/",
+          "/checkout/",
+          "/installment/",
+          "/instalment-plan/",
+          "/order-confirmation/",
+        ],
       },
     ],
-    sitemap: `${public_url}/sitemap.xml`,
+    sitemap: `${publicUrl}/sitemap.xml`,
   };
 }

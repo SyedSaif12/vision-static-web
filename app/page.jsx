@@ -11,6 +11,7 @@ import {
 import { NewArrivalsSkeleton } from "@/components/v2/products";
 import { LazyBrandSections } from "@/components/v2/home/lazy-brand-sections";
 import ReadyToShop from "@/components/v2/ReadyToShop";
+import SectionErrorBoundary from "@/components/SectionErrorBoundary";
 // import MobileNavRow from "@/components/v2/navbar/MobileNavRow";
 export const revalidate = 86400; // 1 day
 
@@ -26,6 +27,12 @@ const ComingSoon = dynamic(
 const Refurbished = dynamic(
   () => import("@/components/v2/refurbished/Refurbished"),
 );
+
+export const metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 const Home = async () => {
   return (
@@ -43,41 +50,55 @@ const Home = async () => {
       {/* all categories section  */}
       <Category />
       {/* featured production section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <Featured />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <Featured />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* new arrival product section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <NewArrivals />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <NewArrivals />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* eid deals product section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <Deals />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <Deals />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* open box product section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <OpenBox />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <OpenBox />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* coming soon product section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <ComingSoon />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <ComingSoon />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* refurbished product section  */}
-      <Suspense fallback={<NewArrivalsSkeleton />}>
-        <Refurbished />
-      </Suspense>
+      <SectionErrorBoundary>
+        <Suspense fallback={<NewArrivalsSkeleton />}>
+          <Refurbished />
+        </Suspense>
+      </SectionErrorBoundary>
 
       {/* reviews section  */}
       <Reviews />
 
       {/* shop by brand sections  */}
       {/* <main> */}
-      <LazyBrandSections />
+      <SectionErrorBoundary>
+        <LazyBrandSections />
+      </SectionErrorBoundary>
       {/* </main> */}
       {/* shop confidence markup  */}
       <ShopConfidence />

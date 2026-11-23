@@ -13,13 +13,13 @@ export default function NotFound() {
             </h1>
             {/* Heading */}
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-faint sm:text-3xl">
-              No Products Found
+              Product Not Found
             </h2>
 
             {/* Description */}
             <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted">
-              Your search did not match and products <br />
-              Please try again.
+              The product you're looking for doesn't exist <br />
+              or may have been removed.
             </p>
 
             {/* Actions */}

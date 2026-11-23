@@ -3,6 +3,28 @@ import ClientCategories from "./ClientCategories";
 import { Breadcrumbs } from "@/components";
 import { getNavbar } from "@/lib/api";
 
+export const metadata = {
+  title: "All Categories",
+  description:
+    "Browse all electronics categories and top brands available at WeGot in Pakistan, including laptops, tablets, smartphones, and accessories.",
+  alternates: {
+    canonical: "/categories",
+  },
+  openGraph: {
+    type: "website",
+    url: "/categories",
+    title: "All Categories",
+    description:
+      "Browse all electronics categories and top brands available at WeGot in Pakistan.",
+    siteName: "WeGot",
+    locale: "en_PK",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 const Page = async () => {
   const data = await getNavbar();
   const categories =

@@ -20,7 +20,7 @@ const linkGroups = [
       { label: "Gaming", href: "/products?category=gaming-console" },
       { label: "Apple", href: "/products?category=apple" },
       { label: "Accessories", href: "/products?category=accessories" },
-      { label: "Refurbished", href: "/products?tag=refurbished" },
+      { label: "Refurbished", href: "/products?type=refurbished" },
     ],
   },
   {

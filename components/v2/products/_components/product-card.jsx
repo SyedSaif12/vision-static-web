@@ -4,17 +4,49 @@ import { BaseImage } from "@/components";
 import CartButton from "../../cart/CartButton";
 import { CursorTooltip } from "./cursor-tooltip";
 
+const STOCK_META = {
+  in_stock: {
+    label: "In Stock",
+    className: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    dotClassName: "bg-emerald-500",
+  },
+  out_stock: {
+    label: "Out of Stock",
+    className: "bg-red-50 text-red-700 border-red-200",
+    dotClassName: "bg-red-500",
+  },
+  on_order: {
+    label: "On Order",
+    className: "bg-amber-50 text-amber-800 border-amber-200",
+    dotClassName: "bg-amber-500",
+  },
+  discontinue: {
+    label: "Discontinued",
+    className: "bg-slate-100 text-slate-600 border-slate-200",
+    dotClassName: "bg-slate-400",
+  },
+  coming_soon: {
+    label: "Coming Soon",
+    className: "bg-blue-50 text-blue-700 border-blue-200",
+    dotClassName: "bg-blue-500",
+  },
+};
+
 export function ProductCard({ product, priority = false, tag = {} }) {
   const isTag =
     typeof tag === "object" && tag !== null && Object.keys(tag).length > 0;
 
   const saving = product?.oldPrice ? product?.oldPrice - product?.price : 0;
   const href = `/products/${product.slug}`;
-  const canBuy = product.stock === "in_stock";
-  const hasPrice = Boolean(product?.oldPrice || product?.price);
+  const stockStatus = product?.stock;
+  const isComingSoon =
+    Boolean(product?.isComingSoon) || stockStatus === "coming_soon";
+  const effectiveStockKey = isComingSoon ? "coming_soon" : stockStatus;
+  const stockMeta = STOCK_META[effectiveStockKey];
   const hasManagedStock = product.stockQuantity != null;
-  const isSoldOut =
-    hasManagedStock && product.stockQuantity <= 0;
+  const isSoldOut = hasManagedStock && product.stockQuantity <= 0;
+  const canBuy = product.stock === "in_stock" && !isSoldOut;
+  const hasPrice = Boolean(product?.oldPrice || product?.price);
   // Tooltip ka content: poora name + specs
   const tooltipContent = (
     <>
@@ -29,16 +61,16 @@ export function ProductCard({ product, priority = false, tag = {} }) {
         {isTag ? (
           <span
             style={{ backgroundColor: tag.color }}
-            className="absolute right-3 top-3 z-10 rounded-md px-2 py-0.5 text-[9px] font-bold capitalize text-white sm:py-1 sm:text-[11px]"
+            className="absolute left-3 top-3 z-10 rounded-md px-2 py-0.5 text-[9px] font-bold capitalize text-white sm:py-1 sm:text-[11px]"
           >
             {tag.name}
           </span>
         ) : product?.tag?.length > 0 ? (
-          <span className="absolute right-3 top-3 z-10 rounded-md bg-primary px-2 py-0.5 text-[9px] font-bold uppercase text-white sm:py-1 sm:text-[11px]">
+          <span className="absolute left-3 top-3 z-10 rounded-md bg-primary px-2 py-0.5 text-[9px] font-bold uppercase text-white sm:py-1 sm:text-[11px]">
             {product.tag}
           </span>
-        ) : saving > 0 ? (
-          <span className="absolute right-3 top-3 z-10 rounded-md bg-red-600 px-2 py-0.5 text-[9px] font-bold text-white sm:py-1 sm:text-[11px]">
+        ) : !(product?.tag?.length > 0) && saving > 0 ? (
+          <span className="absolute left-3 top-3 z-10 rounded-md bg-red-600 px-2 py-0.5 text-[9px] font-bold text-white sm:py-1 sm:text-[11px]">
             Save {formatPrice(saving)}
           </span>
         ) : null}
@@ -92,10 +124,23 @@ export function ProductCard({ product, priority = false, tag = {} }) {
               ))}
             </ul>
           )}
+          {/* Stock Status Tag below specs */}
+          {stockMeta && (
+            <div>
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold ${stockMeta.className}`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${stockMeta.dotClassName}`}
+                />
+                {stockMeta.label}
+              </span>
+            </div>
+          )}
 
           {/* Price */}
           <div className="mt-auto pt-2">
-            {hasPrice && (
+            {(hasPrice || !isComingSoon) && (
               <>
                 {product?.oldPrice && (
                   <p className="text-xs text-slate-400 line-through">
@@ -108,10 +153,54 @@ export function ProductCard({ product, priority = false, tag = {} }) {
               </>
             )}
           </div>
-
-          {/* Buttons (z-10 => overlay link ke upar, clickable rahte hain) */}
+          {/* Buttons */}
           <div className="relative z-10 flex w-full items-center justify-center gap-2">
-            {hasPrice ? (
+            {isComingSoon || !hasPrice ? (
+              <Link
+                href={href}
+                className="w-full rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-center text-xs font-bold uppercase text-blue-700 transition-colors hover:bg-blue-100 sm:text-sm"
+              >
+                Coming Soon
+              </Link>
+            ) : stockStatus === "discontinue" ? (
+              <Link
+                href={href}
+                className="w-full rounded-full border border-slate-300 bg-slate-100 px-4 py-2 text-center text-xs font-bold text-slate-600 sm:text-sm"
+              >
+                View Details
+              </Link>
+            ) : (
+              <>
+                <Link
+                  className="flex items-center justify-center rounded-full border border-primary px-2 py-1.5 text-[10px] font-bold text-primary sm:w-20 sm:px-4 sm:text-xs md:text-sm"
+                  href={href}
+                >
+                  View
+                </Link>
+
+                {isSoldOut || stockStatus === "out_stock" ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-28 cursor-not-allowed !rounded-full bg-gold !px-0.5 py-2 !text-[10px] font-bold sm:!w-36 sm:!px-4 sm:!py-2 sm:!text-xs md:!w-40 md:!px-2 md:!text-sm"
+                  >
+                    Sold Out
+                  </button>
+                ) : (
+                  <CartButton
+                    className="!w-28 sm:!w-36 md:!w-40"
+                    btnClassName="!bg-primary !px-0.5 md:!px-2 py-2 !text-[10px] sm:!text-xs sm:!px-4 sm:!py-2 md:!text-sm !text-white hover:!bg-primary-200 !rounded-full"
+                    product={product}
+                    disabled={!canBuy && stockStatus !== "on_order"}
+                  />
+                )}
+              </>
+            )}
+          </div>
+          {/* ---------------- OLD BUTTONS ------------------- */}
+          {/* Buttons (z-10 => overlay link ke upar, clickable rahte hain) */}
+          {/* <div className="relative z-10 flex w-full items-center justify-center gap-2">
+            {isComingSoon || !hasPrice ? (
               <>
                 <Link
                   className="flex items-center justify-center rounded-full border border-primary px-2 py-1.5 text-[10px] font-bold text-primary sm:w-20 sm:px-4 sm:text-xs md:text-sm"
@@ -145,7 +234,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
                 Coming Soon
               </button>
             )}
-          </div>
+          </div> */}
           {/* <div className="relative z-10 flex w-full items-center justify-center gap-2">
             {hasPrice ? (
               <>
@@ -174,6 +263,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
               </button>
             )}
           </div> */}
+          {/* ---------------- OLD BUTTONS ------------------- */}
         </div>
       </article>
     </CursorTooltip>

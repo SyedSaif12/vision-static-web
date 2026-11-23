@@ -30,7 +30,7 @@ const RefurbishedShowCase = ({
   description = "Every used device is fully tested by Aitebaar Squad to one clear standard, and backed by warranty. The savings of used, without the guesswork.",
   bgColor = "#1053d4", // Default Vibrant Blue from Image
   ctaLabel = "View all refurbished",
-  ctaHref = "/products?tag=refurbished",
+  ctaHref = "/products?type=refurbished",
   products = [],
   features = DEFAULT_FEATURES,
   maxItems = 12,

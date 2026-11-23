@@ -63,7 +63,7 @@ export const categories = [
   },
   {
     title: "Refurbished",
-    url: "/products?tag=refurbished",
+    url: "/products?type=refurbished",
     image: "/images/lap-black.jpg",
   },
 ];
@@ -82,7 +82,7 @@ export const mobileNavItems = [
     id: "refurbished",
     label: "Refurbished",
     type: "link",
-    href: "/products?tag=refurbished",
+    href: "/products?type=refurbished",
   },
   {
     id: "laptops",
@@ -126,7 +126,7 @@ export const dealsLink = [
   {
     label: "Open Box Deals",
     sub: "Box opened, product unused",
-    href: "/products?tag=open-box",
+    href: "/products?type=open-box",
     icon: "box",
   },
 ];

@@ -1,3 +1,4 @@
+import { createPageMetadata } from "@/lib/seo";
 import {
   ArrowRight,
   Check,
@@ -17,6 +18,12 @@ import {
   UserRound,
 } from "lucide-react";
 import Link from "next/link";
+
+export const metadata = createPageMetadata({
+  title: "Why WeGot | Genuine Tech & Trusted Service",
+  description: "Discover why thousands of customers trust WeGot for authentic electronics, transparent pricing, and reliable support in Pakistan.",
+  path: "/why-us/why-wegot",
+});
 
 const sourceCards = [
   {

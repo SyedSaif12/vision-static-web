@@ -59,17 +59,26 @@ const MainSection = ({ children }) => {
     return null;
   }
   return (
-    <div className="mx-auto 2xl:flex 2xl:items-start 2xl:gap-4 2xl:py-6">
+    <div className="mx-auto lg:flex lg:items-start lg:gap-4 lg:py-6">
+    {/* <div className="mx-auto 2xl:flex 2xl:items-start 2xl:gap-4 2xl:py-6"> */}
       {/* ===== Sidebar / Tab bar ===== */}
       <aside
         className={`
           sticky ${isScrolled ? "top-[105px] md:top-[65px]" : "top-[125px] md:top-[60px]"} z-40
-          2xl:top-[125px] 2xl:w-72 2xl:shrink-0 2xl:bg-transparent
+          lg:top-[125px] lg:w-60 2xl:w-72 lg:shrink-0 lg:bg-transparent
         `}
       >
-        <nav className="flex flex-col gap-2 p-2 2xl:gap-1 2xl:p-3">
+      {/* <aside
+        className={`
+          sticky ${isScrolled ? "top-[105px] md:top-[65px]" : "top-[125px] md:top-[60px]"} z-40
+          2xl:top-[125px] 2xl:w-72 2xl:shrink-0 2xl:bg-transparent
+        `}
+      > */}
+        <nav className="flex flex-col gap-2 p-2 lg:gap-1 lg:py-4">
+        {/* <nav className="flex flex-col gap-2 p-2 2xl:gap-1 2xl:p-3"> */}
           {/* Profile card: sirf 2xl par */}
-          <div className="hidden flex-col items-center gap-1 rounded-2xl bg-white p-5 drop-shadow-md 2xl:flex">
+          <div className="hidden flex-col items-center gap-1 rounded-2xl bg-white p-5 drop-shadow-md lg:flex">
+          {/* <div className="hidden flex-col items-center gap-1 rounded-2xl bg-white p-5 drop-shadow-md 2xl:flex"> */}
             <div className="flex h-16 w-16 uppercase items-center justify-center rounded-full bg-primary text-xl font-bold text-white">
               {user?.firstName?.slice(0, 1) ?? ""}
               {!user?.lastName
@@ -84,7 +93,8 @@ const MainSection = ({ children }) => {
             </p>
           </div>
 
-          <div className="flex w-full justify-between rounded-2xl bg-white p-2 drop-shadow-md 2xl:flex-col">
+          <div className="flex w-full justify-between rounded-2xl bg-white p-2 drop-shadow-md lg:flex-col">
+          {/* <div className="flex w-full justify-between rounded-2xl bg-white p-2 drop-shadow-md 2xl:flex-col"> */}
             {links.map((item) => {
               const isActive =
                 (!item.isLogout && pathname === item.href) ||
@@ -124,7 +134,8 @@ const MainSection = ({ children }) => {
       </aside>
 
       {/* ===== Main content ===== */}
-      <main className="min-w-0 flex-1 pt-6 2xl:px-0 2xl:pt-0">
+      <main className="min-w-0 flex-1 pt-6 lg:px-0 lg:pt-0">
+      {/* <main className="min-w-0 flex-1 pt-6 2xl:px-0 2xl:pt-0"> */}
         {children}
       </main>
     </div>

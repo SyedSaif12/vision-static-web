@@ -133,7 +133,7 @@ export default function DesktopNav({
           </div>
 
           <Link
-            href="/products?tag=refurbished"
+            href="/products?type=refurbished"
             className="hidden rounded-full border border-surface/40 px-3 py-2 text-menu font-semibold hover:bg-surface/10 md:block"
           >
             Refurbished
