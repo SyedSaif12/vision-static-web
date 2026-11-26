@@ -193,11 +193,7 @@ export default function MobileDrawer({
               ))}
             </div>
           )}
-          <Link
-            href="/products?type=refurbished"
-            onClick={onClose}
-            className={linkCls}
-          >
+          <Link href="/refurb-technology" onClick={onClose} className={linkCls}>
             Refurbished
           </Link>
           <Link href="/instalment-plan" onClick={onClose} className={linkCls}>
