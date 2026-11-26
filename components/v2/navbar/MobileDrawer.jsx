@@ -13,7 +13,7 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import { getCategoryHref, getSubCategoryHref } from "@/lib/utils";
-import { supportLinks, whyLinks } from "./nav-config";
+import { supportLinks, dealsLink, whyLinks } from "./nav-config";
 
 const linkCls =
   "flex items-center gap-3 rounded-lg px-3 py-3 font-semibold active:bg-slate-100";
@@ -31,6 +31,7 @@ export default function MobileDrawer({
   const [shopOpen, setShopOpen] = useState(false);
   const [openCat, setOpenCat] = useState(null);
   const [supportOpen, setSupportOpen] = useState(false);
+  const [dealsOpen, setDealsOpen] = useState(false);
   const [whyOpen, setWhyOpen] = useState(false);
 
   // Drawer khula ho to background scroll lock
@@ -97,7 +98,7 @@ export default function MobileDrawer({
             onClick={() => setShopOpen(!shopOpen)}
             className="flex w-full items-center justify-between rounded-lg px-3 py-3 font-semibold active:bg-slate-100"
           >
-            Shop by category
+            Shop
             <ChevronDown
               size={18}
               className={`transition-transform ${shopOpen ? "rotate-180" : ""}`}
@@ -165,13 +166,33 @@ export default function MobileDrawer({
             </div>
           )}
 
-          <Link
-            href="/products?tag=deals"
-            onClick={onClose}
-            className={linkCls}
+          {/* deals */}
+          <button
+            onClick={() => setDealsOpen(!dealsOpen)}
+            className="flex w-full items-center justify-between rounded-lg px-3 py-3 font-semibold active:bg-slate-100"
           >
             Deals
-          </Link>
+            <ChevronDown
+              size={18}
+              className={`transition-transform ${
+                dealsOpen ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          {dealsOpen && (
+            <div className="space-y-1 pl-6">
+              {dealsLink.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className="block py-2 text-sm text-faint"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          )}
           <Link
             href="/products?type=refurbished"
             onClick={onClose}
@@ -181,6 +202,9 @@ export default function MobileDrawer({
           </Link>
           <Link href="/instalment-plan" onClick={onClose} className={linkCls}>
             Instalment Plan
+          </Link>
+          <Link href="/blogs" onClick={onClose} className={linkCls}>
+            Blogs
           </Link>
 
           {/* Support & Services */}

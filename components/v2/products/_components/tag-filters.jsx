@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { hrefFor, selectedTagFilter, selectedTypeFilter } from "@/lib/product-query/query";
+import {
+  hrefFor,
+  selectedTagFilter,
+  selectedTypeFilter,
+} from "@/lib/product-query/query";
+import { BaseLink } from "@/components/BaseLink";
 
 const chip =
   "inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl border px-4 py-2 text-sm font-semibold capitalize transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
@@ -30,13 +35,13 @@ export async function TagFilters({ query }) {
               "
       >
         <div className="snap-start">
-          <Link
+          <BaseLink
             href={hrefFor(selectedTypeFilter(query, undefined))}
             aria-current={!active ? "page" : undefined}
             className={`${chip} ${!active ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
           >
             All
-          </Link>
+          </BaseLink>
         </div>
         {filteredTags.map((b) => {
           const selected = active === b.type.toLowerCase();
@@ -44,7 +49,7 @@ export async function TagFilters({ query }) {
 
           return (
             <div key={b.id ?? b.label} className="snap-start">
-              <Link
+              <BaseLink
                 href={hrefFor(
                   selectedTypeFilter(query, selected ? undefined : b.type),
                 )}
@@ -52,7 +57,7 @@ export async function TagFilters({ query }) {
                 className={`${chip} ${selected ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300"}`}
               >
                 {content}
-              </Link>
+              </BaseLink>
             </div>
           );
         })}

@@ -1,6 +1,6 @@
 export async function generateMetadata() {
   return {
-    title: `Installment Plan | WeGot Pakistan`,
+    title: `Installment Plan`,
     description:
       "WeGot is a Pakistani tech company built for the people of Pakistan. We started with a simple belief: everyone deserves access to reliable technology at a fair price,",
     alternates: {

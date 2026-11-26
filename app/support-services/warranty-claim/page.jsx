@@ -4,7 +4,7 @@ import WarrantyForm from "./ClientPage";
 import FaqAccordion from "./FaqAccordion";
 
 export const metadata = {
-  title: "Warranty Claim | WeGot",
+  title: "Warranty Claim",
   description:
     "Bought from WeGot and something went wrong? Learn about local and international warranty and claim in three simple steps.",
 };

@@ -20,7 +20,7 @@ const STOCK_META = {
     className: "bg-amber-50 text-amber-800 border-amber-200",
     dotClassName: "bg-amber-500",
   },
-  discontinue: {
+  discontinued: {
     label: "Discontinued",
     className: "bg-slate-100 text-slate-600 border-slate-200",
     dotClassName: "bg-slate-400",
@@ -162,7 +162,7 @@ export function ProductCard({ product, priority = false, tag = {} }) {
               >
                 Coming Soon
               </Link>
-            ) : stockStatus === "discontinue" ? (
+            ) : stockStatus === "discontinued" ? (
               <Link
                 href={href}
                 className="w-full rounded-full border border-slate-300 bg-slate-100 px-4 py-2 text-center text-xs font-bold text-slate-600 sm:text-sm"

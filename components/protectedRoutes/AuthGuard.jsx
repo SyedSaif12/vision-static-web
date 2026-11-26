@@ -8,8 +8,6 @@ import { StorageKey } from "@/lib/utils";
 const PROTECTED_ROUTES = [
   "/checkout",
   "/order-confirmation",
-  "/account/orders",
-  "/account/profile",
 ];
 const GUEST_ONLY_ROUTES = ["/accounts/login", "/accounts/signup"];
 

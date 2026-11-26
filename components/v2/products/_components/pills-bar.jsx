@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getProducts } from "@/lib/product-query/fetch-api";
 import { hrefFor, selectProductPills } from "@/lib/product-query/query";
+import { BaseLink } from "@/components/BaseLink";
 
 const chip =
   "inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-xl border px-4 py-3 text-sm font-semibold capitalize transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700";
@@ -58,7 +59,7 @@ export async function PillsBar({ query }) {
         "
       >
         {/* All */}
-        <Link
+        <BaseLink
           href={hrefFor(selectProductPills(query, undefined))}
           aria-current={!active ? "page" : undefined}
           className={`${chip} snap-start ${
@@ -68,18 +69,20 @@ export async function PillsBar({ query }) {
           }`}
         >
           All
-        </Link>
+        </BaseLink>
 
         {/* Models */}
         {chips.map((b) => {
           const selected = active === b.label.toLowerCase();
 
           return (
-            <Link
+            <BaseLink
               key={b.id ?? b.label}
               href={hrefFor(
                 selectProductPills(query, selected ? undefined : b.label),
               )}
+              // active={selected}
+              // loadingClassName="!border-blue-700 !bg-blue-700 !text-white"
               aria-current={selected ? "page" : undefined}
               className={`${chip} snap-start ${
                 selected
@@ -97,7 +100,7 @@ export async function PillsBar({ query }) {
                   ({b.count})
                 </span>
               )}
-            </Link>
+            </BaseLink>
           );
         })}
       </div>

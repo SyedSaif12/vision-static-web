@@ -72,7 +72,7 @@ export const PRODUCT_STATUS = {
   IN_STOCK: "in_stock",
   OUT_STOCK: "out_stock",
   ON_ORDER: "on_order",
-  DISCONTINUE: "discontinue",
+  DISCONTINUE: "discontinued",
   COMING_SOON: "coming_soon",
 };
 
@@ -254,7 +254,7 @@ export function normalizeStatus(status, isComingSoon = false) {
     .trim()
     .toLowerCase();
 
-  if (normalized === "discontinued") return PRODUCT_STATUS.DISCONTINUE;
+  if (normalized === "discontinue") return PRODUCT_STATUS.DISCONTINUE; // legacy
   if (Object.values(PRODUCT_STATUS).includes(normalized)) {
     return normalized;
   }
@@ -543,7 +543,7 @@ export function StockBadge({ status, isComingSoon, badgeStyle }) {
       cls: "bg-blue-50 text-blue-700 border border-blue-200",
       dot: "bg-blue-600",
     },
-    discontinue: {
+    discontinued: {
       label: "Discontinued",
       cls: "bg-slate-100 text-slate-600 border border-slate-200",
       dot: "bg-slate-500",

@@ -193,11 +193,10 @@ export default function ProductActions({
             type="button"
             disabled={isDisabled}
             onClick={() => setOpenDialog(true)}
-            className={`w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${
-              isDisabled
-                ? "bg-primary/50 hover:cursor-not-allowed hover:bg-primary/50"
-                : ""
-            }`}
+            className={`w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${isDisabled
+              ? "bg-primary/50 hover:cursor-not-allowed hover:bg-primary/50"
+              : ""
+              }`}
           >
             Bargain
           </button>
@@ -265,11 +264,10 @@ export default function ProductActions({
           type="button"
           disabled={isDisabled}
           onClick={() => setOpenDialog(true)}
-          className={`w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${
-            isDisabled
-              ? "bg-primary/50 hover:cursor-not-allowed hover:bg-primary/50"
-              : ""
-          }`}
+          className={`w-full cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-primary-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${isDisabled
+            ? "bg-primary/50 hover:cursor-not-allowed hover:bg-primary/50"
+            : ""
+            }`}
         >
           Bargain
         </button>

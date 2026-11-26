@@ -20,7 +20,7 @@
 
 export const privacyPolicy = {
   metadata: {
-    title: "Privacy Policy | WeGot",
+    title: "Privacy Policy",
     description:
       "What we collect, why we need it, and who sees it. In plain words.",
   },
@@ -150,7 +150,7 @@ export const privacyPolicy = {
 
 export const returnPolicy = {
   metadata: {
-    title: "Return Policy | WeGot",
+    title: "Return Policy",
     description: "Simple rules, checked before your parcel leaves our store.",
   },
   title: "Return Policy",

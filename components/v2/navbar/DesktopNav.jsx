@@ -182,6 +182,12 @@ export default function DesktopNav({
           >
             Instalment Plan
           </Link>
+          <Link
+            href="/blogs"
+            className="hover:text-brand-50 text-menu font-light"
+          >
+            Blogs
+          </Link>
 
           {/* ===== WHY US ===== */}
           <div

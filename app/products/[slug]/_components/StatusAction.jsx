@@ -1,4 +1,6 @@
+'use client'
 import React from "react";
+
 import {
   getProductStatusConfig,
   PriceBlock,
@@ -9,6 +11,7 @@ import {
 import ProductActions from "../ProductActions";
 import { normalizeProduct } from "@/lib/utils";
 import dayjs from "dayjs";
+import { useRouter } from "next/navigation";
 
 const StatusAction = ({
   product,
@@ -18,7 +21,7 @@ const StatusAction = ({
   unavailable: externalUnavailable,
 }) => {
   const rawProduct = normalizeProduct(product);
-
+  const router = useRouter()
   const state = getProductStatusConfig(product?.status || rawProduct.stock, {
     product,
     remainingStock: externalRemainingStock,
@@ -28,6 +31,10 @@ const StatusAction = ({
   const showLowStock = externalLowStock ?? state.showLowStock;
   const remainingStock = externalRemainingStock ?? state.remainingStock;
   const { colors } = state;
+
+  function handleSimilarProduct(productPayload) {
+    router.push(`/products?category=${productPayload.category}&subCategory=${productPayload.brand}`)
+  }
 
   return (
     <div>
@@ -95,9 +102,12 @@ const StatusAction = ({
         <ProductActions
           disabled={unavailable}
           statusConfig={state}
+          onSeeSimilar={handleSimilarProduct}
           product={{
             id: rawProduct.id,
             slug: rawProduct.slug,
+            brand: product?.products?.subCategory?.name,
+            category: product?.products?.category?.name,
             name: rawProduct.name,
             specs: rawProduct.specs,
             oldPrice: rawProduct.oldPrice,

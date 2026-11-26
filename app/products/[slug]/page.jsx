@@ -49,14 +49,14 @@ export async function generateMetadata({ params }) {
 
   if (!product) {
     return {
-      title: "Product not found | WeGot",
+      title: "Product not found",
       robots: { index: false, follow: false },
     };
   }
 
   const url = `${SITE_URL}/products/${product.slug}`;
   const image = product.image?.[0]?.fileUrl;
-  const title = `${product.productTitle} Price in Pakistan | WeGot`;
+  const title = `${product.productTitle} Price in Pakistan`;
   const metaTitle = product?.meta_title;
   const metaDescription = product?.meta_description;
   // description backend se nahi li: usme purani price likhi hai (699,999 vs 714,999)

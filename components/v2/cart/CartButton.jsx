@@ -11,7 +11,7 @@ const mapStock = {
   on_order: true,
   in_order: true,
   coming_soon: true,
-  discontinue: false,
+  discontinued: false,
 };
 
 const CartButton = ({

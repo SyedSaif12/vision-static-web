@@ -16,7 +16,7 @@ import SectionHeading from "./_components/SectionHeading";
 // Bank rates kabhi kabhi badlte hain, is liye har ghante fresh data
 export const revalidate = 3600;
 
-const TITLE = "Credit Card Instalment Plans in Pakistan | WeGot";
+const TITLE = "Credit Card Instalment Plans in Pakistan";
 const DESCRIPTION =
   "Buy laptops, phones and appliances on easy credit card instalments. Compare HBL, UBL, Meezan and more, and see your exact monthly payment with WeGot.";
 

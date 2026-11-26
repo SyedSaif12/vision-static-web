@@ -8,7 +8,10 @@ import { PriceFilter } from "./price-filter";
  * openCount: pehle itne groups khule (mobile par 2, desktop par sab).
  */
 export async function FilterPanel({ query, openCount = Infinity }) {
-  const { filters, price } = await getFilters(query.category, query.subCategory);
+  const { filters, price } = await getFilters(
+    query.category,
+    query.subCategory,
+  );
   const groups = Object.entries(filters);
 
   return (
@@ -28,8 +31,8 @@ export async function FilterPanel({ query, openCount = Infinity }) {
       {!groups.length && (
         <p className="text-sm text-muted">
           {query.category
-            ? "Is category ke liye filters available nahi hain."
-            : "Zyada filters dekhne ke liye pehle category select karo."}
+            ? "No filters are available for this category."
+            : "Please select a category first to see available filters."}
         </p>
       )}
     </div>
